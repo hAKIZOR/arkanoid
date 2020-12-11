@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="menu_principale" translatable="false">" Menú principal"</string>
+    <string name="gioca" translatable="false">Jugar</string>
+    <string name="impostazioni" translatable="false">" Ajustes"</string>
+</resources>

@@ -5,6 +5,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import java.util.ArrayList;
@@ -99,8 +100,9 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
             ball.changeDirection("left");
         } else if (ball.getY() + ball.getySpeed() <= 150) {
             ball.changeDirection("up");
-        } else if (ball.getY() + ball.getySpeed() >= sizeY - 200) {
-            if(ball.getX() < paddle.getX() + 200 && ball.getX() > paddle.getX()){
+        } else if (ball.getY()+ 45 + ball.getySpeed() >= sizeY - 200) {
+            if((ball.getX() < paddle.getX() + 200 && ball.getX() > paddle.getX())||(ball.getX()+48 < paddle.getX() + 200 && ball.getX()+48 > paddle.getX())){
+                Log.e("pos",""+ball.getY()+"");
                 ball.changeDirection("down");
             } else {checkLives();}
 

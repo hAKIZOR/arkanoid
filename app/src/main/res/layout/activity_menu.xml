@@ -6,25 +6,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textView_menu"
-        android:layout_width="112dp"
-        android:layout_height="30dp"
-        android:layout_marginBottom="48dp"
-        android:text="Menu Principale"
-        app:layout_constraintBottom_toTopOf="@+id/button_gioca"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.444"
-        app:layout_constraintStart_toStartOf="parent" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/button_gioca"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="moveToGame"
-        android:text="Gioca"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.461"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="319dp" />
+        <TextView
+            android:id="@+id/textView_menu"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginBottom="48dp"
+            android:text="@string/menu_principale"
+            android:textAlignment="center" />
+
+        <Button
+            android:id="@+id/button_gioca"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/gioca" />
+
+        <Button
+            android:id="@+id/button_settings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/impostazioni" />
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
