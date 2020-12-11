@@ -100,7 +100,10 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         } else if (ball.getY() + ball.getySpeed() <= 150) {
             ball.changeDirection("up");
         } else if (ball.getY() + ball.getySpeed() >= sizeY - 200) {
-            checkLives();
+            if(ball.getX() < paddle.getX() + 200 && ball.getX() > paddle.getX()){
+                ball.changeDirection("down");
+            } else {checkLives();}
+
         }
     }
 
@@ -127,7 +130,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         if (start) {
             win();
             checkBoards();
-            ball.hitPaddle(paddle.getX(), paddle.getY());
+            //ball.hitPaddle(paddle.getX(), paddle.getY());
             for (int i = 0; i < brickList.size(); i++) {
                 Brick b = brickList.get(i);
                 if (ball.hitBrick(b.getX(), b.getY())) {

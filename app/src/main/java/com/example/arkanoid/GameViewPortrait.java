@@ -63,7 +63,7 @@ public class GameViewPortrait extends Game{
 
     // impostare lo sfondo
     private void setBackground(Context context) {
-        background = Bitmap.createBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.background_score));
+        background = Bitmap.createBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.sfondo));
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         display = wm.getDefaultDisplay();
         size = new Point();
@@ -72,10 +72,10 @@ public class GameViewPortrait extends Game{
 
     protected void onDraw(Canvas canvas) {
         // crea uno sfondo solo una volta
-        if (stretch == null) {
+        /*if (stretch == null) {
             stretch = Bitmap.createScaledBitmap(background, size.x, size.y, false);
-        }
-        canvas.drawBitmap(stretch, 0, 0, paint);
+        }*/
+        canvas.drawBitmap(background, 0, 0, paint);
 
         // disegna la pallina
         paint.setColor(Color.RED);
