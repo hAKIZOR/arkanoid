@@ -6,12 +6,20 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import java.util.ArrayList;
 
+import androidx.core.view.GestureDetectorCompat;
 
-public class Game extends View implements SensorEventListener, View.OnTouchListener {
+
+public class Game extends View implements SensorEventListener, View.OnTouchListener, GestureDetector.OnGestureListener{
+    private static final String DEBUG_STRING = "Gesture";
+
+    private static final int SYSTEM_CONTROL_CHOISED = 0; // sistema di controllo scelto nei settings
+    private static final int SYSTEM_CONTROL_SENSOR = 0; // sistema di controllo con movimento sensore
+    private static final int SYSTEM_CONTROL_SCROLL = 1; // sistema di controllo con sliding
 
     private static final int DIMENSION = 90;
     private int lifes;
@@ -28,6 +36,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
     private Sensor accelerometer;
     private int sens;
 
+    private GestureDetectorCompat gestureDetector;
 
 
     public Sensor getAccelerometer() {
@@ -46,8 +55,22 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
     public Game(Context context, int lifes, int score) {
         super(context);
         //crea un accelerometro e un SensorManager
-        sManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
-        accelerometer = sManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        switch (SYSTEM_CONTROL_CHOISED){
+            case SYSTEM_CONTROL_SENSOR:
+                sManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
+                accelerometer = sManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+                gestureDetector = null;
+                break;
+            case SYSTEM_CONTROL_SCROLL:
+                gestureDetector = new GestureDetectorCompat(context,this);
+                sManager = null;
+                accelerometer = null;
+                break;
+        }
+
+
+
+
         //impostare contesto
         this.context = context;
 
@@ -56,6 +79,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         this.score = score;
         brickList = new ArrayList<Brick>();
         levels = new ArrayList<Level>();
+
 
         //avviare un GameOver per scoprire se la partita è in piedi e se il giocatore non l'ha persa
         start = false;
@@ -81,6 +105,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
             list.add(3);
         }
         levels.add(level = new Level(list,1,"Secondo Livello"));
+
 
         // fine caricamento da DB ----------------------------------------------
 
@@ -174,11 +199,10 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
 
 
 
-    public void pauseGame() { sManager.unregisterListener(this);
-    }
+    public void pauseGame() { if(sManager!= null) sManager.unregisterListener(this); }
 
     public void resumeGame() {
-        sManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_GAME);
+        if(sManager!= null) sManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_GAME);
     }
 
     //cambiare accelerometro
@@ -204,7 +228,53 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         }
         return false;
     }
+    @Override
+    public boolean onDown(MotionEvent e) {
+        Log.d(DEBUG_STRING, "onDown"+ e.getX() + " " + e.getY());
 
+        return false;
+    }
+
+    @Override
+    public void onShowPress(MotionEvent e) {
+        Log.d(DEBUG_STRING, "onShowPress"+ e.getX() + " " + e.getY());
+
+
+    }
+
+    @Override
+    public boolean onSingleTapUp(MotionEvent e) {
+        Log.d(DEBUG_STRING, "onSingleTapUp"+ e.getX() + " " + e.getY());
+
+        return false;
+    }
+
+    public GestureDetectorCompat getGestureDetector() {
+        return gestureDetector;
+    }
+
+    @Override
+    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+        Log.d(DEBUG_STRING, "onScroll"+ e1.getX() + " " + e1.getY()
+                + " " + e2.getX() + " " + e2.getY()
+                + "  " + String.valueOf(distanceX) + "  " + String.valueOf(distanceY));
+
+        paddle.setX(e2.getX());
+        return false;
+    }
+
+    @Override
+    public void onLongPress(MotionEvent e) {
+        Log.d(DEBUG_STRING, "onLongPress"+ e.getX() + " " + e.getY());
+    }
+
+    @Override
+    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+        Log.d(DEBUG_STRING, "onFling"+ e1.getX() + " " + e1.getY()
+                + " " + e2.getX() + " " + e2.getY()
+                + "  " + String.valueOf(velocityX) + "  " + String.valueOf(velocityY));
+        return false;
+    }
     public void setBrickList(ArrayList<Brick> brickList) { this.brickList = brickList; }
 
     public ArrayList<Brick> getBrickList() { return brickList; }
@@ -296,4 +366,5 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
     public int getSens() { return sens; }
 
     public void setSens(int sens) { this.sens = sens; }
+
 }
