@@ -1,4 +1,4 @@
-package com.example.arkanoid;
+package com.example.arkanoid.gameClasses;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package com.example.arkanoid;
+package com.example.arkanoid.gameClasses;
 
 import android.annotation.SuppressLint;
 import android.content.pm.ActivityInfo;
@@ -6,7 +6,6 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 

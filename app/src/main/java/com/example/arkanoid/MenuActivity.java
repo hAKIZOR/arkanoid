@@ -7,6 +7,8 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.arkanoid.gameClasses.MainActivity;
+
 public class MenuActivity extends AppCompatActivity {
     public static final String TAG = "MenuActivity = ";
 

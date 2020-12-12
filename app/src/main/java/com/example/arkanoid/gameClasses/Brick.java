@@ -1,9 +1,11 @@
-package com.example.arkanoid;
+package com.example.arkanoid.gameClasses;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.View;
+
+import com.example.arkanoid.R;
 
 public class Brick extends View {
 

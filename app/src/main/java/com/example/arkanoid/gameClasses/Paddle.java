@@ -1,4 +1,4 @@
-package com.example.arkanoid;
+package com.example.arkanoid.gameClasses;
 
 public class Paddle {
     private float x;

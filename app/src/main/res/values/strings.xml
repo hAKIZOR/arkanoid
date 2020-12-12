@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">arkanoid</string>
+    <string name="app_name" translatable="false">arkanoid</string>
     <string name="menu_principale">Menu Principale</string>
     <string name="arcade">Arcade</string>
     <string name="impostazioni">Impostazioni</string>

@@ -1,4 +1,4 @@
-package com.example.arkanoid;
+package com.example.arkanoid.gameClasses;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -10,9 +10,10 @@ import android.graphics.Point;
 import android.graphics.RectF;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
-import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
+
+import com.example.arkanoid.R;
 
 
 public class GameViewLandscape extends Game{

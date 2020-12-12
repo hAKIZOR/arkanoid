@@ -1,7 +1,6 @@
-package com.example.arkanoid;
+package com.example.arkanoid.gameClasses;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -14,6 +13,8 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.view.Display;
 import android.view.WindowManager;
+
+import com.example.arkanoid.R;
 
 
 public class GameViewPortrait extends Game{

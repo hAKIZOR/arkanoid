@@ -1,4 +1,4 @@
-package com.example.arkanoid;
+package com.example.arkanoid.gameClasses;
 
 import android.content.Context;
 import android.hardware.Sensor;
@@ -17,7 +17,7 @@ import androidx.core.view.GestureDetectorCompat;
 public class Game extends View implements SensorEventListener, View.OnTouchListener, GestureDetector.OnGestureListener{
     private static final String DEBUG_STRING = "Gesture";
 
-    private static final int SYSTEM_CONTROL_CHOISED = 0; // sistema di controllo scelto nei settings
+    private static final int SYSTEM_CONTROL_CHOISED = 1; // sistema di controllo scelto nei settings
     private static final int SYSTEM_CONTROL_SENSOR = 0; // sistema di controllo con movimento sensore
     private static final int SYSTEM_CONTROL_SCROLL = 1; // sistema di controllo con sliding
 
