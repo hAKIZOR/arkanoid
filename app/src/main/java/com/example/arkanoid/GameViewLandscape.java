@@ -10,6 +10,7 @@ import android.graphics.Point;
 import android.graphics.RectF;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
+import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 
@@ -29,11 +30,10 @@ public class GameViewLandscape extends Game{
     private Game game;
 
 
-
     public GameViewLandscape(Context context, int lifes, int score){
         super(context, lifes, score);
         paint = new Paint();
-
+        setSens(4); // <-- setta la sensitività dell'accellerometro
         setBackground(context);
 
         setSizeX(size.x);
@@ -62,7 +62,7 @@ public class GameViewLandscape extends Game{
 
     // impostare lo sfondo
     private void setBackground(Context context) {
-        background = Bitmap.createBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.background_score));
+        background = Bitmap.createBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.bg_game_land));
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         display = wm.getDefaultDisplay();
         size = new Point();
@@ -71,10 +71,10 @@ public class GameViewLandscape extends Game{
 
     protected void onDraw(Canvas canvas) {
         // crea uno sfondo solo una volta
-        /*if (stretch == null) {
+        if (stretch == null) {
             stretch = Bitmap.createScaledBitmap(background, size.x, size.y, false);
-        }*/
-        canvas.drawBitmap(background, 0, 0, paint);
+        }
+        canvas.drawBitmap(stretch, 0, 0, paint);
 
         // disegna la pallina
         paint.setColor(Color.RED);
@@ -115,7 +115,7 @@ public class GameViewLandscape extends Game{
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-            getPaddle().setX(getPaddle().getX() - event.values[1] - event.values[1]);
+            getPaddle().setX(getPaddle().getX() - (event.values[1]*getSens()));
 
             if (getPaddle().getX() + event.values[1] > size.y + 720) {
                 getPaddle().setX(size.y + 720);

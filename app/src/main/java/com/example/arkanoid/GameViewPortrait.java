@@ -35,7 +35,7 @@ public class GameViewPortrait extends Game{
         super(context, lifes, score);
         paint = new Paint();
         setBackground(context);
-
+        setSens(2); // <-- setta la sensitività dell'accellerometro
         setSizeX(size.x);
         setSizeY(size.y);
 
@@ -112,7 +112,7 @@ public class GameViewPortrait extends Game{
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-            getPaddle().setX(getPaddle().getX() - event.values[0] - event.values[0]);
+            getPaddle().setX(getPaddle().getX() - (event.values[0] * getSens()));
 
             if (getPaddle().getX() + event.values[0] > size.x - 240) {
                 getPaddle().setX(size.x - 240);

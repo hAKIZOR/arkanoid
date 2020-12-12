@@ -26,6 +26,13 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
 
     private SensorManager sManager;
     private Sensor accelerometer;
+    private int sens;
+
+
+
+    public Sensor getAccelerometer() {
+        return accelerometer;
+    }
 
     private Context context;
     private Ball ball;
@@ -285,4 +292,8 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
     public void setLevels(ArrayList<Level> levels) {
         this.levels = levels;
     }
+
+    public int getSens() { return sens; }
+
+    public void setSens(int sens) { this.sens = sens; }
 }
