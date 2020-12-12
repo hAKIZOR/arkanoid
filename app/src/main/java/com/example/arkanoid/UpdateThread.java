@@ -4,7 +4,6 @@ import android.os.Handler;
 
 public class UpdateThread extends Thread {
     Handler updateHandler;
-
     public UpdateThread(Handler uh) {
         super();
         updateHandler = uh;

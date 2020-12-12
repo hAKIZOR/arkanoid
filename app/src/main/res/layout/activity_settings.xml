@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="416dp"
+        android:layout_height="126dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.572"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.435">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="311dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/play_prented"
+                android:text="@string/imposta_lingua"
+                android:textAlignment="inherit" />
+
+            <RadioGroup
+                android:id="@+id/groupLanguage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radioEsp"
+                    android:layout_width="73dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/play_prented"
+                    android:text="@string/esp" />
+
+                <RadioButton
+                    android:id="@+id/radioIta"
+                    android:layout_width="74dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/play_prented"
+                    android:text="@string/ita" />
+
+                <RadioButton
+                    android:id="@+id/radioEng"
+                    android:layout_width="81dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/play_prented"
+                    android:text="@string/eng" />
+
+            </RadioGroup>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/button_save"
+            android:layout_width="match_parent"
+            android:layout_height="66dp"
+            android:fontFamily="@font/play_prented"
+            android:text="@string/salva" />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

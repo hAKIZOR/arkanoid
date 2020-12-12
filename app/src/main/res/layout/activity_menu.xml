@@ -9,26 +9,46 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="66dp"
+        tools:layout_editor_absoluteY="43dp">
 
         <TextView
             android:id="@+id/textView_menu"
             android:layout_width="match_parent"
             android:layout_height="30dp"
+            android:fontFamily="@font/play_prented"
             android:layout_marginBottom="48dp"
             android:text="@string/menu_principale"
             android:textAlignment="center" />
 
         <Button
-            android:id="@+id/button_gioca"
+            android:id="@+id/button_arcade"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/gioca" />
+            android:fontFamily="@font/play_prented"
+            android:text="@string/arcade" />
+
+        <Button
+            android:id="@+id/button_editor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/play_prented"
+            android:text="@string/editor_livelli" />
+
+        <Button
+            android:id="@+id/button_leaderboard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/play_prented"
+            android:text="@string/classifica" />
 
         <Button
             android:id="@+id/button_settings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/play_prented"
             android:text="@string/impostazioni" />
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

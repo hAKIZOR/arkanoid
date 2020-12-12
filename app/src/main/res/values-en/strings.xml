@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="menu_principale" translatable="false">Main Menu</string>
-    <string name="gioca" translatable="false">Play</string>
     <string name="impostazioni" translatable="false">Settings</string>
+    <string name="arcade">Arcade</string>
+    <string name="editor_livelli">Levels Editor</string>
+    <string name="classifica">Leaderboard</string>
+    <string name="imposta_lingua">Set language</string>
+    <string name="salva">Save</string>
 </resources>

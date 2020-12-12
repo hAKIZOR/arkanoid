@@ -4,6 +4,11 @@ import android.annotation.SuppressLint;
 import android.content.pm.ActivityInfo;
 import android.content.pm.ConfigurationInfo;
 import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -54,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
     }
+
 
     protected void onPause() {
         super.onPause();

@@ -1,6 +1,7 @@
 package com.example.arkanoid;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -30,11 +31,9 @@ public class GameViewPortrait extends Game{
     private Game game;
 
 
-
     public GameViewPortrait(Context context,int lifes, int score){
         super(context, lifes, score);
         paint = new Paint();
-
         setBackground(context);
 
         setSizeX(size.x);
@@ -76,7 +75,6 @@ public class GameViewPortrait extends Game{
             stretch = Bitmap.createScaledBitmap(background, size.x, size.y, false);
         }*/
         canvas.drawBitmap(background, 0, 0, paint);
-
         // disegna la pallina
         paint.setColor(Color.RED);
         canvas.drawBitmap(redBall, getBall().getX(), getBall().getY(), paint);
@@ -94,8 +92,6 @@ public class GameViewPortrait extends Game{
                 Brick b = getBrickList().get(i);
                 r = new RectF(b.getX(), b.getY(), b.getX() + 120, b.getY()+ 80);
                 canvas.drawBitmap(b.getBrick(), null, r, paint);
-
-
         }
 
         // disegna testo
@@ -129,5 +125,4 @@ public class GameViewPortrait extends Game{
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
     }
-
 }
