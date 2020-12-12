@@ -1,47 +1,59 @@
 package com.example.arkanoid;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-
 import androidx.appcompat.app.AppCompatActivity;
 
-public class MenuActivity extends AppCompatActivity {
-    public static final String TAG = "MenuActivity = ";
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+public class SplashActivity extends AppCompatActivity {
+
+    //
+    private Animation topAnim,bottomAnim;
+    private ImageView logo;
+    private TextView name_app,developed,credits;
+    private static int SPLASH_SCREEN_TIME=3000;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_menu);
+        setContentView(R.layout.activity_splash);
         getSupportActionBar().hide();
 
-        Button button = (Button) findViewById(R.id.button_arcade);
-        Button button2 = (Button) findViewById(R.id.button_settings);
+        //Animations
+        topAnim= AnimationUtils.loadAnimation(SplashActivity.this,R.anim.top_animation);
 
+        bottomAnim= AnimationUtils.loadAnimation(SplashActivity.this,R.anim.bottom_animation);
 
-        button.setOnClickListener(new View.OnClickListener() {
+        //Hooks
+        logo = findViewById(R.id.logo);
+        name_app = findViewById(R.id.name_app);
+        developed=findViewById(R.id.developed);
+        credits = findViewById(R.id.credits);
+
+        logo.setAnimation(topAnim);
+        name_app.setAnimation(bottomAnim);
+        developed.setAnimation(bottomAnim);
+        credits.setAnimation(bottomAnim);
+
+        new Handler().postDelayed(new Runnable() {
             @Override
-            public void onClick(View v) {
-                Intent myIntent = new Intent(MenuActivity.this, MainActivity.class);
-                MenuActivity.this.startActivity(myIntent);
+            public void run() {
+                Intent myIntent = new Intent(SplashActivity.this, MenuActivity.class);
+                startActivity(myIntent);
+                finish();
             }
-        });
+        },SPLASH_SCREEN_TIME);
 
-        button2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent myIntent = new Intent(MenuActivity.this, SettingsActivity.class);
-                MenuActivity.this.startActivity(myIntent);
-            }
-        });
+
 
     }
-
-    protected void onPause() { super.onPause(); }
-
-    protected void onResume() { super.onResume(); }
-
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
@@ -72,6 +84,4 @@ public class MenuActivity extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
     }
-
-
 }

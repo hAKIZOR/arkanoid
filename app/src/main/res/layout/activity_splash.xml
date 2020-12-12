@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SplashActivity"
+    android:background="@color/cardview_dark_background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:src="@drawable/logo" />
+
+        <TextView
+            android:id="@+id/name_app"
+            android:layout_width="match_parent"
+            android:layout_height="153dp"
+            android:layout_marginTop="50dp"
+            android:fontFamily="@font/play_prented"
+            android:text="Arkanoid"
+            android:textAlignment="center"
+            android:textColor="@android:color/secondary_text_dark"
+            android:textColorLink="@color/white"
+            android:textSize="50sp" />
+
+        <TextView
+            android:id="@+id/developed"
+            android:layout_width="match_parent"
+            android:layout_height="37dp"
+            android:fontFamily="@font/play_prented"
+            android:text="@string/developed"
+            android:textAlignment="center"
+            android:textColor="@android:color/secondary_text_dark"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/credits"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/play_prented"
+            android:text="Luca Ciscutti\nDavide Bancone\nDomenico Laiso\nJavier Diaz"
+            android:textAlignment="center"
+            android:textColor="@android:color/secondary_text_dark"
+            android:textSize="24sp" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
