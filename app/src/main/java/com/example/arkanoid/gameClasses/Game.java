@@ -138,7 +138,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         } else if (ball.getY() + ball.getySpeed() <= 150) {
             ball.changeDirection("up");
         } else if ((ball.getY()+ 45 + ball.getySpeed() >= sizeY - 200)&&(ball.getY()+ 45 + ball.getySpeed() <= sizeY - 185) ){
-            if ((ball.getX() < paddle.getX() + 200 && ball.getX() > paddle.getX()) || (ball.getX() + 48 < paddle.getX() + 200 && ball.getX() + 48 > paddle.getX())) {
+            if ((ball.getX() < paddle.getX() + paddle.getWidth() && ball.getX() > paddle.getX()) || (ball.getX() + 48 < paddle.getX() + paddle.getWidth() && ball.getX() + 48 > paddle.getX())) {
                  Log.e("pos",""+ball.getY()+"");
                 Log.e("pos2", "" + paddle.getY() + "");
                 Log.e("sizeY",""+sizeY+"");
@@ -157,24 +157,41 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         }
     }
 
+    // controllo collisione powerup paddle
+    private void checkGetPowerUp(PowerUp powerUp) {
+        if ((powerUp.getY()+ 45 + powerUp.getySpeed() >= sizeY - 200)&&(powerUp.getY()+ 45 + powerUp.getySpeed() <= sizeY - 185) ){
+            if ((powerUp.getX() < paddle.getX() + paddle.getWidth() && powerUp.getX() > paddle.getX()) || (powerUp.getX() + 48 < paddle.getX() + paddle.getWidth() && powerUp.getX() + 48 > paddle.getX())) {
+                powerUpEffect(powerUp);
+                this.powerUps.remove(powerUp);
+            }
+        }else if((powerUp.getY() + powerUp.getySpeed() >= sizeY - 70)&&(powerUp.getY() + powerUp.getySpeed() <= sizeY - 50)){
+
+
+            this.powerUps.remove(powerUp);
+
+        }
+    }
     // controlla lo stato del gioco. se le mie vite o se il gioco è finito
     public void checkLives() {
-        Log.e("call","chiamata");
 
         if (lifes == 1) {
             gameOver = true;
             start = false;
             numberLevel=0;
             invalidate();
-        } else {
+        } else{
             lifes--;
+
+            powerUps.clear();
             ball.setX(sizeX / 2);
             ball.setY(sizeY - 280);
             ball.createSpeed();
             ball.increaseSpeed(level.getNumberLevel());
             start = false;
         }
+        paddle.resetPaddle();
     }
+
 
 
     // ogni passaggio controlla se c'è una collisione, una perdita o una vittoria, ecc.
@@ -195,6 +212,10 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
                     score = score + 80;
                 }
             }
+            for (int y= 0; y < powerUps.size(); y++) {
+                checkGetPowerUp(powerUps.get(y));
+            }
+
             ball.move();
             for (int j = 0; j < powerUps.size(); j++) {
                 powerUps.get(j).move();
@@ -213,6 +234,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         ball.setX(sizeX / 2);
         ball.setY(sizeY - 280);
         ball.createSpeed();
+        powerUps.clear();
         brickList = new ArrayList<Brick>();
         generateBricks(context, levels.get(numberLevel));
     }
@@ -221,6 +243,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
     private void win() {
         if (brickList.isEmpty()) {
             ++numberLevel;
+
             resetLevel();
             ball.increaseSpeed(numberLevel);
             start = false;
@@ -405,5 +428,42 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
 
     public void setPowerUps(ArrayList<PowerUp> powerUps) {
         this.powerUps = powerUps;
+    }
+
+    public void powerUpEffect(PowerUp powerUp){
+        switch(powerUp.getTypePower()){
+            case 1:
+                    lifes++;
+                    break;
+            case 2:
+                    checkLivesAfterEffects();
+                    break;
+            case 3:
+                    if(paddle.getWidth() < paddle.getMaxWidth()) {
+                        paddle.setWidth(paddle.getWidth() + 50);
+                    }
+                    break;
+            case 4:
+                if(paddle.getWidth() > paddle.getMinWidth()) {
+                    paddle.setWidth(paddle.getWidth() - 50);
+                }
+                break;
+        }
+    }
+
+    // controlla lo stato del gioco. se le mie vite o se il gioco è finito
+    public void checkLivesAfterEffects() {
+
+        if (lifes == 1) {
+            gameOver = true;
+            start = false;
+            numberLevel=0;
+            paddle.resetPaddle();
+            invalidate();
+        } else {
+            lifes--;
+        }
+
+
     }
 }

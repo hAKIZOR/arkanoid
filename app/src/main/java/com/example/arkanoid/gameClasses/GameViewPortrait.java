@@ -83,7 +83,7 @@ public class GameViewPortrait extends Game{
 
         // disegna la barra
         paint.setColor(Color.WHITE);
-        r = new RectF(getPaddle().getX(), getPaddle().getY(), getPaddle().getX() + 200, getPaddle().getY() + 40);
+        r = new RectF(getPaddle().getX(), getPaddle().getY(), getPaddle().getX() + getPaddle().getWidth(), getPaddle().getY() + getPaddle().getHeight());
         canvas.drawBitmap(paddle_p, null, r, paint);
 
         // disegna mattoni
@@ -102,7 +102,6 @@ public class GameViewPortrait extends Game{
             PowerUp p = getPowerUps().get(j);
             r = new RectF(p.getX(), p.getY(), p.getX(), p.getY());
             canvas.drawBitmap(p.getPower(), p.getX(), p.getY(), paint);
-            Log.e("pu", p.getX()+"");
         }
 
         // disegna testo
@@ -125,8 +124,8 @@ public class GameViewPortrait extends Game{
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
             getPaddle().setX(getPaddle().getX() - (event.values[0] * getSens()));
 
-            if (getPaddle().getX() + event.values[0] > size.x - 240) {
-                getPaddle().setX(size.x - 240);
+            if (getPaddle().getX() + event.values[0] > size.x - getPaddle().getWidth()) {
+                getPaddle().setX(size.x - getPaddle().getWidth());
             } else if (getPaddle().getX() - event.values[0] <= 20) {
                 getPaddle().setX(20);
             }

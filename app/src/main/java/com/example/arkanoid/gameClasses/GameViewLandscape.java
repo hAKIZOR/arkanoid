@@ -84,7 +84,7 @@ public class GameViewLandscape extends Game{
 
         // disegna la barra
         paint.setColor(Color.WHITE);
-        r = new RectF(getPaddle().getX(), getPaddle().getY(), getPaddle().getX() + 200, getPaddle().getY() + 40);
+        r = new RectF(getPaddle().getX(), getPaddle().getY(), getPaddle().getX() + getPaddle().getWidth(), getPaddle().getY() + getPaddle().getHeight());
         canvas.drawBitmap(paddle_p, null, r, paint);
 
         // disegna mattoni
@@ -127,8 +127,8 @@ public class GameViewLandscape extends Game{
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
             getPaddle().setX(getPaddle().getX() - (event.values[1]*getSens()));
 
-            if (getPaddle().getX() + event.values[1] > size.y + 720) {
-                getPaddle().setX(size.y + 720);
+            if (getPaddle().getX() + event.values[1] > size.y + 520 + getPaddle().getWidth()) {
+                getPaddle().setX(size.y + 520 + getPaddle().getWidth());
             } else if (getPaddle().getX() - event.values[1] <= 20) {
                 getPaddle().setX(20);
             }

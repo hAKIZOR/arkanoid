@@ -18,13 +18,15 @@ public class PowerUp extends View {
     private float ySpeed;
     private static final int max = 1;
     private static final int min = 0;
+    private int typePower;
 
     public PowerUp(Context context, float x, float y) {
         super(context);
         this.x = x;
         this.y = y;
         xSpeed = 0;
-        ySpeed = 10;
+        ySpeed = 15;
+
         skin(randomSkin());
     }
 
@@ -33,11 +35,18 @@ public class PowerUp extends View {
         switch (a) {
             case 0:
                 power = null;
-                Log.e("pu","0");
                 break;
             case 1:
-                power = BitmapFactory.decodeResource(getResources(), R.drawable.hp_up); //<-- MATTONE INVISIBILE
-                Log.e("pu","1");
+                power = BitmapFactory.decodeResource(getResources(), R.drawable.hp_up); //<-- hp+1
+                break;
+            case 2:
+                power = BitmapFactory.decodeResource(getResources(), R.drawable.hp_down); //<-- hp-1
+                break;
+            case 3:
+                power = BitmapFactory.decodeResource(getResources(), R.drawable.paddle_up); //<-- paddle aumenta larghezza
+                break;
+            case 4:
+                power = BitmapFactory.decodeResource(getResources(), R.drawable.paddle_down); //<-- paddle aumenta larghezza
                 break;
         }
     }
@@ -45,9 +54,20 @@ public class PowerUp extends View {
     public int randomSkin(){
         Random random = new Random();
         int randomN = random.nextInt(100);
-        if (randomN < 20){ // 20%
-            return 1;
-        }else return 0;
+        if (randomN < 5){ // 5%
+            this.typePower=1;
+            return typePower;
+        }else if (randomN < 10){ // 5%
+            this.typePower=2;
+            return typePower;
+        }else if (randomN < 15){ // 5%
+            this.typePower=3;
+            return typePower;
+        }else if (randomN < 100){ // 5%
+            this.typePower=4;
+            return typePower;
+        }else {this.typePower=0;
+            return typePower;}
 
     }
 
@@ -90,5 +110,9 @@ public class PowerUp extends View {
 
     public void setySpeed(float ySpeed) {
         this.ySpeed = ySpeed;
+    }
+
+    public int getTypePower() {
+        return typePower;
     }
 }
