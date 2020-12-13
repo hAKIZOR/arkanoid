@@ -132,17 +132,30 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
             ball.changeDirection("left");
         } else if (ball.getY() + ball.getySpeed() <= 150) {
             ball.changeDirection("up");
-        } else if (ball.getY()+ 45 + ball.getySpeed() >= sizeY - 200) {
-            if((ball.getX() < paddle.getX() + 200 && ball.getX() > paddle.getX())||(ball.getX()+48 < paddle.getX() + 200 && ball.getX()+48 > paddle.getX())){
-                Log.e("pos",""+ball.getY()+"");
+        } else if ((ball.getY()+ 45 + ball.getySpeed() >= sizeY - 200)&&(ball.getY()+ 45 + ball.getySpeed() <= sizeY - 185) ){
+            if ((ball.getX() < paddle.getX() + 200 && ball.getX() > paddle.getX()) || (ball.getX() + 48 < paddle.getX() + 200 && ball.getX() + 48 > paddle.getX())) {
+                 Log.e("pos",""+ball.getY()+"");
+                Log.e("pos2", "" + paddle.getY() + "");
+                Log.e("sizeY",""+sizeY+"");
                 ball.changeDirection("down");
-            } else {checkLives();}
+            } /*else {
+
+                checkLives();
+            }*/
+
+        }else if((ball.getY() + ball.getySpeed() >= sizeY - 70)&&(ball.getY() + ball.getySpeed() <= sizeY - 50)){
+            Log.e("pos",""+ball.getY()+"");
+            Log.e("pos2",""+paddle.getY()+"");
+
+            checkLives();
 
         }
     }
 
     // controlla lo stato del gioco. se le mie vite o se il gioco è finito
     public void checkLives() {
+        Log.e("call","chiamata");
+
         if (lifes == 1) {
             gameOver = true;
             start = false;
