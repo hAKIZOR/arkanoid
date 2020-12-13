@@ -1,21 +1,35 @@
 package com.example.arkanoid;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Switch;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.arkanoid.gameClasses.Game;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Locale;
 
 public class SettingsActivity extends AppCompatActivity {
+    private static final String FILE_NAME = "config.txt";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,6 +37,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         Button button = (Button) findViewById(R.id.button_save);
         RadioGroup group = (RadioGroup) findViewById(R.id.groupLanguage);
+        Switch switchControl = (Switch) findViewById(R.id.switchControl);
 
 
         button.setOnClickListener(new View.OnClickListener() {
@@ -46,7 +61,6 @@ public class SettingsActivity extends AppCompatActivity {
                             setAppLocale("es");
                         System.out.println("ES");
                         break;
-
                 }
                 Intent refresh = new Intent(SettingsActivity.this, MenuActivity.class);
                 finish();
@@ -58,7 +72,6 @@ public class SettingsActivity extends AppCompatActivity {
 
 
     }
-
 
 
     public void setAppLocale(String localeCode) {

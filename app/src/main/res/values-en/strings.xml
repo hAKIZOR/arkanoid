@@ -8,4 +8,7 @@
     <string name="imposta_lingua">Set language</string>
     <string name="salva">Save</string>
     <string name="developed">Developed by</string>
+    <string name="imposta_sistema_di_controllo">Set control system</string>
+    <string name="scorri_con_il_dito">" swipe with your finger"</string>
+    <string name="muovi_il_telefono">Move the phone</string>
 </resources>

@@ -11,4 +11,7 @@
     <string name="esp" translatable="false">ESP</string>
     <string name="salva">Salva</string>
     <string name="developed">Sviluppato da</string>
+    <string name="imposta_sistema_di_controllo">Imposta sistema di controllo</string>
+    <string name="scorri_con_il_dito">scorri con il dito</string>
+    <string name="muovi_il_telefono">muovi il telefono</string>
 </resources>

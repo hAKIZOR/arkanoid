@@ -8,4 +8,7 @@
     <string name="imposta_lingua">" Elegir lenguaje"</string>
     <string name="salva">Salvar</string>
     <string name="developed">Desarrollado por</string>
+    <string name="imposta_sistema_di_controllo">" configura sistema de control"</string>
+    <string name="scorri_con_il_dito">"desliza tu dedo "</string>
+    <string name="muovi_il_telefono">" mover el teléfono"</string>
 </resources>

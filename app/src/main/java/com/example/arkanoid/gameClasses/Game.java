@@ -17,7 +17,9 @@ import androidx.core.view.GestureDetectorCompat;
 public class Game extends View implements SensorEventListener, View.OnTouchListener, GestureDetector.OnGestureListener{
     private static final String DEBUG_STRING = "Gesture";
 
-    private static final int SYSTEM_CONTROL_CHOISED = 1; // sistema di controllo scelto nei settings
+
+
+    public static int SYSTEM_CONTROL_CHOISED=0; // sistema di controllo scelto nei settings
     private static final int SYSTEM_CONTROL_SENSOR = 0; // sistema di controllo con movimento sensore
     private static final int SYSTEM_CONTROL_SCROLL = 1; // sistema di controllo con sliding
 
@@ -28,6 +30,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
     private Level level;
     private ArrayList<Level> levels;
     private ArrayList<Brick> brickList;
+    private ArrayList<PowerUp> powerUps;
 
     private boolean start;
     private boolean gameOver;
@@ -46,6 +49,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
     private Context context;
     private Ball ball;
     private Paddle paddle;
+    private PowerUp powerUp;
 
     private int sizeX;
     private int sizeY;
@@ -79,6 +83,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         this.score = score;
         brickList = new ArrayList<Brick>();
         levels = new ArrayList<Level>();
+        powerUps= new ArrayList<PowerUp>();
 
 
         //avviare un GameOver per scoprire se la partita è in piedi e se il giocatore non l'ha persa
@@ -181,15 +186,27 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
             for (int i = 0; i < brickList.size(); i++) {
                 Brick b = brickList.get(i);
                 if (ball.hitBrick(b.getX(), b.getY())) {
+
+                    if(generatePowerUp(b.getX(),b.getY()).getPower()!=null) {
+                        powerUps.add(this.powerUp);
+                    }
                     brickList.remove(i);
+
                     score = score + 80;
                 }
             }
             ball.move();
+            for (int j = 0; j < powerUps.size(); j++) {
+                powerUps.get(j).move();
+            }
         }
     }
 
-
+    // crea random powerUp dopo la rottura del mattone
+    public PowerUp generatePowerUp(float x , float y){
+        this.powerUp = new PowerUp(context,x,y);
+        return powerUp;
+    }
 
     //imposta il gioco per iniziare
     public void resetLevel() {
@@ -380,4 +397,13 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
 
     public void setSens(int sens) { this.sens = sens; }
 
+    public static void setSystemControlChoised(int systemControlChoised) { SYSTEM_CONTROL_CHOISED = systemControlChoised;}
+
+    public ArrayList<PowerUp> getPowerUps() {
+        return powerUps;
+    }
+
+    public void setPowerUps(ArrayList<PowerUp> powerUps) {
+        this.powerUps = powerUps;
+    }
 }

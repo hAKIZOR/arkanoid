@@ -11,6 +11,7 @@ import android.graphics.RectF;
 
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
+import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 
@@ -93,6 +94,15 @@ public class GameViewPortrait extends Game{
                 Brick b = getBrickList().get(i);
                 r = new RectF(b.getX(), b.getY(), b.getX() + 120, b.getY()+ 80);
                 canvas.drawBitmap(b.getBrick(), null, r, paint);
+        }
+
+        //disegna powerUp
+        paint.setColor(Color.GREEN);
+        for(int j = 0; j < getPowerUps().size(); j++){
+            PowerUp p = getPowerUps().get(j);
+            r = new RectF(p.getX(), p.getY(), p.getX(), p.getY());
+            canvas.drawBitmap(p.getPower(), p.getX(), p.getY(), paint);
+            Log.e("pu", p.getX()+"");
         }
 
         // disegna testo

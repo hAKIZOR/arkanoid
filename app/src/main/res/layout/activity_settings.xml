@@ -7,8 +7,8 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:layout_width="416dp"
-        android:layout_height="126dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,12 +24,12 @@
 
             <TextView
                 android:id="@+id/textView"
-                android:layout_width="311dp"
-                android:layout_height="wrap_content"
+                android:layout_width="349dp"
+                android:layout_height="30dp"
                 android:layout_weight="1"
                 android:fontFamily="@font/play_prented"
                 android:text="@string/imposta_lingua"
-                android:textAlignment="inherit" />
+                android:textAlignment="textStart" />
 
             <RadioGroup
                 android:id="@+id/groupLanguage"
@@ -63,10 +63,51 @@
 
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/play_prented"
+            android:text="@string/imposta_sistema_di_controllo"
+            android:textAlignment="center" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/play_prented"
+                android:text="@string/scorri_con_il_dito"
+                android:textAlignment="center" />
+
+            <Switch
+                android:id="@+id/switchControl"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:checked="false"
+                android:showText="false"
+                tools:checked="false" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/play_prented"
+                android:text="@string/muovi_il_telefono"
+                android:textAlignment="center" />
+
+        </LinearLayout>
+
         <Button
             android:id="@+id/button_save"
             android:layout_width="match_parent"
-            android:layout_height="66dp"
+            android:layout_height="wrap_content"
             android:fontFamily="@font/play_prented"
             android:text="@string/salva" />
 
