@@ -1,31 +1,24 @@
 package com.example.arkanoid;
 
-public class Settings {
+import java.io.Serializable;
 
-    private boolean music;
-    private boolean control;
+public class Settings implements Serializable {
+    private int controlMode;
     private String language;
+    private int audio;
 
-    public Settings(boolean music, boolean control, String language) {
-        this.music = music;
-        this.control = control;
+    public Settings(int controlMode,String language,int audio) {
+        this.controlMode = controlMode;
         this.language = language;
+        this.audio = audio;
     }
 
-    public boolean isMusic() {
-        return music;
+    public int getControlMode() {
+        return controlMode;
     }
 
-    public void setMusic(boolean music) {
-        this.music = music;
-    }
-
-    public boolean isControl() {
-        return control;
-    }
-
-    public void setControl(boolean control) {
-        this.control = control;
+    public void setControlMode(int controlMode) {
+        this.controlMode = controlMode;
     }
 
     public String getLanguage() {
@@ -36,4 +29,20 @@ public class Settings {
         this.language = language;
     }
 
+    public int getAudio() {
+        return audio;
+    }
+
+    public void setAudio(int audio) {
+        this.audio = audio;
+    }
+
+    @Override
+    public String toString() {
+        return "Settings{" +
+                "controlMode=" + String.valueOf(controlMode) +
+                ", language='" + language + '\'' +
+                ", audio=" + String.valueOf(audio) +
+                '}';
+    }
 }

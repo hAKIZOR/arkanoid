@@ -9,19 +9,22 @@ import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+
+import com.example.arkanoid.Settings;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
 import androidx.core.view.GestureDetectorCompat;
 
 
 public class Game extends View implements SensorEventListener, View.OnTouchListener, GestureDetector.OnGestureListener{
-    private static final String DEBUG_STRING = "Gesture";
-
-
-
-    public static int SYSTEM_CONTROL_CHOISED=0; // sistema di controllo scelto nei settings
-    private static final int SYSTEM_CONTROL_SENSOR = 0; // sistema di controllo con movimento sensore
-    private static final int SYSTEM_CONTROL_SCROLL = 1; // sistema di controllo con sliding
+    private static final String DEBUG_STRING = "Game";
+    private static final int SYSTEM_CONTROL_SENSOR = 1; // sistema di controllo con movimento sensore
+    private static final int SYSTEM_CONTROL_SCROLL = 0; // sistema di controllo con sliding
+    private static final String FILE_NAME = "config.txt";
 
     private static final int DIMENSION = 90;
     private int lifes;
@@ -58,26 +61,11 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
 
     public Game(Context context, int lifes, int score) {
         super(context);
-        //crea un accelerometro e un SensorManager
-        switch (SYSTEM_CONTROL_CHOISED){
-            case SYSTEM_CONTROL_SENSOR:
-                sManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
-                accelerometer = sManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-                gestureDetector = null;
-                break;
-            case SYSTEM_CONTROL_SCROLL:
-                gestureDetector = new GestureDetectorCompat(context,this);
-                sManager = null;
-                accelerometer = null;
-                break;
-        }
-
-
-
 
         //impostare contesto
         this.context = context;
 
+        loadControlSystemFromFile();
         //impostare vite, punteggi e livelli
         this.lifes = lifes;
         this.score = score;
@@ -113,6 +101,43 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
 
 
         // fine caricamento da DB ----------------------------------------------
+
+    }
+
+    private void loadControlSystemFromFile() {
+        //crea un accelerometro e un SensorManager
+        Settings settings = null;
+
+        try {
+
+            FileInputStream fileIn = context.openFileInput(FILE_NAME);
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            settings = (Settings) in.readObject();
+            in.close();
+            fileIn.close();
+        } catch (IOException i) {
+            i.printStackTrace();
+            return;
+        } catch (ClassNotFoundException c) {
+            System.out.println("Employee class not found");
+            c.printStackTrace();
+            return;
+        }
+
+        Log.d(DEBUG_STRING,String.valueOf(settings.getControlMode()));
+        switch (settings.getControlMode()){
+
+            case SYSTEM_CONTROL_SENSOR:
+                sManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
+                accelerometer = sManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+                gestureDetector = null;
+                break;
+            case SYSTEM_CONTROL_SCROLL:
+                gestureDetector = new GestureDetectorCompat(context,this);
+                sManager = null;
+                accelerometer = null;
+                break;
+        }
 
     }
 
@@ -420,7 +445,6 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
 
     public void setSens(int sens) { this.sens = sens; }
 
-    public static void setSystemControlChoised(int systemControlChoised) { SYSTEM_CONTROL_CHOISED = systemControlChoised;}
 
     public ArrayList<PowerUp> getPowerUps() {
         return powerUps;

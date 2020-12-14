@@ -11,4 +11,7 @@
     <string name="imposta_sistema_di_controllo">" configura sistema de control"</string>
     <string name="scorri_con_il_dito">"desliza tu dedo "</string>
     <string name="muovi_il_telefono">" mover el teléfono"</string>
+    <string name="imposta_esistenza_audio">modificar audio</string>
+    <string name="audio_off">deactivado</string>
+    <string name="audio_on">activado</string>
 </resources>

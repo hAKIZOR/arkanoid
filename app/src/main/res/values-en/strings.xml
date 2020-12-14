@@ -11,4 +11,8 @@
     <string name="imposta_sistema_di_controllo">Set control system</string>
     <string name="scorri_con_il_dito">" swipe with your finger"</string>
     <string name="muovi_il_telefono">Move the phone</string>
+    <string name="imposta_esistenza_audio">set Audio</string>
+    <string name="audio_on">on</string>
+    <string name="audio_off">off</string>
+
 </resources>
