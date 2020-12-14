@@ -9,6 +9,7 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.RectF;
 
+import android.graphics.Typeface;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.util.Log;
@@ -16,6 +17,8 @@ import android.view.Display;
 import android.view.WindowManager;
 
 import com.example.arkanoid.R;
+
+import androidx.core.content.res.ResourcesCompat;
 
 
 public class GameViewPortrait extends Game{
@@ -107,8 +110,10 @@ public class GameViewPortrait extends Game{
         // disegna testo
         paint.setColor(Color.WHITE);
         paint.setTextSize(60);
-        canvas.drawText("" + getLifes(), 400, 80, paint);
-        canvas.drawText("" + getScore(), 800, 80, paint);
+        Typeface typeface = ResourcesCompat.getFont(super.getContext(), R.font.play_prented);
+        paint.setTypeface(typeface);
+        canvas.drawText("LIFES :" + getLifes(), 200, 100, paint);
+        canvas.drawText("SCORE :" + getScore(), 600, 100, paint);
 
         // in caso di sconfitta stampa "GameOver"
         if (isGameOver()) {

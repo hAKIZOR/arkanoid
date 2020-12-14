@@ -1,6 +1,7 @@
 package com.example.arkanoid.gameClasses;
 
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -8,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.RectF;
+import android.graphics.Typeface;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.util.Log;
@@ -15,6 +17,8 @@ import android.view.Display;
 import android.view.WindowManager;
 
 import com.example.arkanoid.R;
+
+import androidx.core.content.res.ResourcesCompat;
 
 
 public class GameViewLandscape extends Game{
@@ -64,7 +68,7 @@ public class GameViewLandscape extends Game{
 
     // impostare lo sfondo
     private void setBackground(Context context) {
-        background = Bitmap.createBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.bg_game_land));
+        background = Bitmap.createBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.background_score));
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         display = wm.getDefaultDisplay();
         size = new Point();
@@ -110,8 +114,10 @@ public class GameViewLandscape extends Game{
         // disegna testo
         paint.setColor(Color.WHITE);
         paint.setTextSize(60);
-        canvas.drawText("" + getLifes(), 400, 80, paint);
-        canvas.drawText("" + getScore(), 800, 80, paint);
+        Typeface typeface = ResourcesCompat.getFont(super.getContext(), R.font.play_prented);
+        paint.setTypeface(typeface);
+        canvas.drawText("LIFES : " + getLifes(), 500, 80, paint);
+        canvas.drawText("SCORE : "  + getScore(), 1000, 80, paint);
 
         // in caso di sconfitta stampa "GameOver"
         if (isGameOver()) {

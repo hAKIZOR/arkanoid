@@ -35,7 +35,7 @@ public class SettingsActivity extends AppCompatActivity {
         RadioGroup groupLanguage = (RadioGroup) findViewById(R.id.groupLanguage);
         Switch switchGameControl = (Switch) findViewById(R.id.switchControlGame);
         Switch switchAudioControl = (Switch) findViewById(R.id.switchControlAudio);
-        //switchAudioControl.setChecked(true);
+
         try {
 
             loadSettingsFromFile(groupLanguage,switchGameControl,switchAudioControl);
@@ -183,16 +183,20 @@ public class SettingsActivity extends AppCompatActivity {
     }
     public int setAudioControl(boolean audioChecked) {
         if(audioChecked) {
+            //audio on
             return 1;
         } else {
+            //audio off
             return 0;
         }
 
     }
     public int setGameControl(boolean gameControl) {
         if(gameControl) {
+            //game control sensor
             return 1;
         } else {
+            // game control slider
             return 0;
         }
     }
