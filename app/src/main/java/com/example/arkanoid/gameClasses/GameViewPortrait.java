@@ -56,6 +56,11 @@ public class GameViewPortrait extends Game{
         setBrickBase((size.x-40)/9);
         setBrickHeight((size.y-1200)/10);
 
+        setUpBoard(150);
+        setDownBoard(size.y);
+        setLeftBoard(0);
+        setRightBoard(getSizeX() - 60);
+
         for(Level l: getLevels()) {
             if(l.getNumberLevel()==getNumberLevel()) {
                 System.out.println(getNumberLevel()+"-->"+l.getNameLevel());

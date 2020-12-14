@@ -59,6 +59,12 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
     private int brickBase;
     private int brickHeight;
 
+
+    private int upBoard;
+    private int downBoard;
+    private int leftBoard;
+    private int rightBoard;
+
     public Game(Context context, int lifes, int score) {
         super(context);
 
@@ -156,11 +162,11 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
 
     //controllare che la palla non abbia toccato il bordo
     private void checkBoards() {
-        if (ball.getX() + ball.getxSpeed() >= sizeX - 60) {
+        if (ball.getX() + ball.getxSpeed() >= rightBoard) {
             ball.changeDirection("right");
-        } else if (ball.getX() + ball.getxSpeed() <= 0) {
+        } else if (ball.getX() + ball.getxSpeed() <= leftBoard) {
             ball.changeDirection("left");
-        } else if (ball.getY() + ball.getySpeed() <= 150) {
+        } else if (ball.getY() + ball.getySpeed() <= upBoard) {
             ball.changeDirection("up");
         } else if ((ball.getY()+ 45 + ball.getySpeed() >= sizeY - 200)&&(ball.getY()+ 45 + ball.getySpeed() <= sizeY - 185) ){
             if ((ball.getX() < paddle.getX() + paddle.getWidth() && ball.getX() > paddle.getX()) || (ball.getX() + 48 < paddle.getX() + paddle.getWidth() && ball.getX() + 48 > paddle.getX())) {
@@ -337,7 +343,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
                 + " " + e2.getX() + " " + e2.getY()
                 + "  " + String.valueOf(distanceX) + "  " + String.valueOf(distanceY));
 
-        paddle.setX(e2.getX());
+        paddle.setX(e2.getX() - (paddle.getWidth()/2));
         return false;
     }
 
@@ -445,6 +451,23 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
 
     public void setSens(int sens) { this.sens = sens; }
 
+    public int getUpBoard() { return upBoard;  }
+
+    public void setUpBoard(int upBoard) {  this.upBoard = upBoard;  }
+
+    public int getDownBoard() { return downBoard; }
+
+    public void setDownBoard(int downBoard) { this.downBoard = downBoard; }
+
+    public int getLeftBoard() { return leftBoard; }
+
+    public void setLeftBoard(int leftBoard) { this.leftBoard = leftBoard; }
+
+    public int getRightBoard() { return rightBoard; }
+
+    public void setRightBoard(int rightBoard) { this.rightBoard = rightBoard;  }
+
+
 
     public ArrayList<PowerUp> getPowerUps() {
         return powerUps;
@@ -487,7 +510,5 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         } else {
             lifes--;
         }
-
-
     }
 }

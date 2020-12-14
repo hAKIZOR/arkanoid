@@ -49,17 +49,21 @@ public class GameViewLandscape extends Game{
         redBall = BitmapFactory.decodeResource(getResources(), R.drawable.redball);
         paddle_p = BitmapFactory.decodeResource(getResources(), R.drawable.paddle);
 
-        //setta posizione della palla e della barra
+        //setta posizione della palla, della barra e dei 4 bordi
         getBall().setX(size.x / 2);
         getBall().setY(size.y - 280);
         getPaddle().setX(size.x / 2);
         getPaddle().setY(size.y - 200);
-        setBrickBase((size.x-40)/9);
-        setBrickHeight((size.y-1200)/10);
+        setBrickBase((size.y-40)/9);
+        setBrickHeight((size.x-1200)/10);
+        setUpBoard(0);
+        setDownBoard(getSizeY());
+        setLeftBoard(0);
+        setRightBoard(getSizeX());
 
+        //caricamento del livello con la generazione dei mattoni
         for(Level l: getLevels()) {
             if(l.getNumberLevel()==getNumberLevel()) {
-                System.out.println(getNumberLevel()+"-->"+l.getNameLevel());
                 generateBricks(context, getLevels().get(getNumberLevel()));
             }
         }
@@ -116,8 +120,8 @@ public class GameViewLandscape extends Game{
         paint.setTextSize(60);
         Typeface typeface = ResourcesCompat.getFont(super.getContext(), R.font.play_prented);
         paint.setTypeface(typeface);
-        canvas.drawText("LIFES : " + getLifes(), 500, 80, paint);
-        canvas.drawText("SCORE : "  + getScore(), 1000, 80, paint);
+        canvas.drawText("LIFES : " + getLifes(), size.x-200, 80, paint);
+        canvas.drawText("SCORE : "  + getScore(), size.x-200, 240, paint);
 
         // in caso di sconfitta stampa "GameOver"
         if (isGameOver()) {
