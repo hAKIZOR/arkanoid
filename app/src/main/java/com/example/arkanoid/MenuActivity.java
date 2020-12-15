@@ -1,8 +1,10 @@
 package com.example.arkanoid;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,10 +20,17 @@ import androidx.core.content.ContextCompat;
 
 import com.example.arkanoid.gameClasses.MainActivity;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+
 public class MenuActivity extends AppCompatActivity {
     public static final String TAG = "MenuActivity = ";
     public static final int STORAGE_PERMISSION_CODE = 1;
     Settings config ;
+    SharedPreferences prefs = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +40,23 @@ public class MenuActivity extends AppCompatActivity {
         Button button = (Button) findViewById(R.id.button_arcade);
         Button button2 = (Button) findViewById(R.id.button_settings);
 
+        prefs = getSharedPreferences("com.example.arkanoid", MODE_PRIVATE);
+
+        Settings settings = new Settings(1,"it",1);
+        try {
+
+            if (prefs.getBoolean("firstrun", true)){
+                FileOutputStream fOut = this.openFileOutput("config.txt", Context.MODE_PRIVATE);
+                ObjectOutputStream outputStream = new ObjectOutputStream(fOut);
+                outputStream.writeObject(settings);
+                fOut.close();
+                outputStream.close();
+            }
+
+
+        }catch (IOException e){
+            e.printStackTrace();
+        }
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,12 +70,6 @@ public class MenuActivity extends AppCompatActivity {
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(ContextCompat.checkSelfPermission(MenuActivity.this,
-                        Manifest.permission.MANAGE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
-                    Log.d("MenuActivity","permesso concesso");
-                } else {
-                    requestedStoragePermission();
-                }
                 Intent myIntent = new Intent(MenuActivity.this, SettingsActivity.class);
                 MenuActivity.this.startActivity(myIntent);
             }
@@ -58,37 +78,19 @@ public class MenuActivity extends AppCompatActivity {
 
     }
 
-    private void requestedStoragePermission() {
-        if(ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.MANAGE_EXTERNAL_STORAGE)){
-            new AlertDialog.Builder(this)
-                    .setTitle("Permesso necessario")
-                    .setMessage("Questo permesso è necessario per avviare il gioco")
-                    .setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            ActivityCompat.requestPermissions(MenuActivity.this,new String[] {Manifest.permission.MANAGE_EXTERNAL_STORAGE},STORAGE_PERMISSION_CODE);
-                        }
-                    })
-                    .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogInterface.dismiss();
-                        }
-                    })
-                    .create().show();
-
-        } else{
-            ActivityCompat.requestPermissions(this,new String[] {Manifest.permission.MANAGE_EXTERNAL_STORAGE},STORAGE_PERMISSION_CODE);
-        }
-    }
-
-
-
-
 
     protected void onPause() { super.onPause(); }
 
-    protected void onResume() { super.onResume(); }
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (prefs.getBoolean("firstrun", true)) {
+            // Do first run stuff here then set 'firstrun' as false
+            // using the following line to edit/commit prefs
+            prefs.edit().putBoolean("firstrun", false).commit();
+        }
+    }
 
     /*@Override
     public void onWindowFocusChanged(boolean hasFocus) {

@@ -100,12 +100,12 @@ public class SettingsActivity extends AppCompatActivity {
 
 
             if(settings != null){
-                Log.d(DEBUG_STRING,"dati caricati" + settings.toString());
+                Log.d(DEBUG_STRING,"dati caricati " + settings.toString());
                 switch (settings.getLanguage()){
                     case "en":
                         groupLanguage.check(R.id.radioEng);
                         break;
-                    case "":
+                    case "it":
                         groupLanguage.check(R.id.radioIta);
                         break;
                     case "es":
@@ -170,7 +170,7 @@ public class SettingsActivity extends AppCompatActivity {
                 break;
             case R.id.radioIta:
                 setAppLocale("");
-                language = "";
+                language = "it";
                 System.out.println("IT");
                 break;
             case R.id.radioEsp:
