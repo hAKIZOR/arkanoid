@@ -35,6 +35,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
     private ArrayList<Brick> brickList;
     private ArrayList<PowerUp> powerUps;
 
+
     private boolean start;
     private boolean gameOver;
 
