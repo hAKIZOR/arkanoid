@@ -66,6 +66,15 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
     private int leftBoard;
     private int rightBoard;
 
+
+    private int columns;
+    private int row;
+    private float w;
+    private float h;
+    private int paddW;
+    private int paddH;
+
+
     public Game(Context context, int lifes, int score) {
         super(context);
 
@@ -149,12 +158,12 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
     }
 
     // riempire l'elenco con i mattoni
-    public void generateBricks(Context context, Level level) {
+    public void generateBricks(Context context, Level level, int columns, int row, float w, float h, int paddW,int paddH ) {
         int a=0;
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 9; j++) {
+        for (int i = 0; i < columns; i++) {
+            for (int j = 0; j < row; j++) {
                 if(level.getA(a)!=0) {
-                    brickList.add(new Brick(context, brickBase * j + 20, brickHeight  * i + 150, level.getA(a)));
+                    brickList.add(new Brick(context,  w * j + paddW, h  * i + paddH, level.getA(a)));
                 }
                 a++;
             }
@@ -268,7 +277,8 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         ball.createSpeed();
         powerUps.clear();
         brickList = new ArrayList<Brick>();
-        generateBricks(context, levels.get(numberLevel));
+
+        generateBricks(context, getLevels().get(getNumberLevel()),getColumns(),getRow(),getW(),getH(),getPaddW(),getPaddH());
     }
 
     //scopri se il giocatore ha vinto o meno
@@ -512,4 +522,29 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
             lifes--;
         }
     }
+
+
+    public int getColumns() { return columns; }
+
+    public void setColumns(int columns) { this.columns = columns; }
+
+    public int getRow() { return row; }
+
+    public void setRow(int row) { this.row = row;    }
+
+    public float getW() {        return w; }
+
+    public void setW(float w) {        this.w = w; }
+
+    public float getH() {        return h; }
+
+    public void setH(float h) {        this.h = h; }
+
+    public int getPaddW() {        return paddW; }
+
+    public void setPaddW(int paddW) { this.paddW = paddW; }
+
+    public int getPaddH() {        return paddH; }
+
+    public void setPaddH(int paddH) { this.paddH = paddH; }
 }

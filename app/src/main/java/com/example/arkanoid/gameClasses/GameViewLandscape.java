@@ -60,11 +60,18 @@ public class GameViewLandscape extends Game{
         setDownBoard(getSizeY());
         setLeftBoard(0);
         setRightBoard(getSizeX());
+        setColumns(5);
+        setRow(18);
+        setW(getBrickHeight());
+        setH(getBrickBase());
+        setPaddW(150);
+        setPaddH(20);
 
         //caricamento del livello con la generazione dei mattoni
         for(Level l: getLevels()) {
             if(l.getNumberLevel()==getNumberLevel()) {
-                generateBricks(context, getLevels().get(getNumberLevel()));
+
+                generateBricks(context, getLevels().get(getNumberLevel()),getColumns(),getRow(),getW(),getH(),getPaddW(),getPaddH());
             }
         }
         this.setOnTouchListener(this);
@@ -81,10 +88,10 @@ public class GameViewLandscape extends Game{
 
     protected void onDraw(Canvas canvas) {
         // crea uno sfondo solo una volta
-        if (stretch == null) {
+       /* if (stretch == null) {
             stretch = Bitmap.createScaledBitmap(background, size.x, size.y, false);
-        }
-        canvas.drawBitmap(stretch, 0, 0, paint);
+        }*/
+        canvas.drawBitmap(background, 0, 0, paint);
 
         // disegna la pallina
         paint.setColor(Color.RED);
