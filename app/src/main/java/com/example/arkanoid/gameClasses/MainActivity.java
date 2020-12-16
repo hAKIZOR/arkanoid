@@ -12,6 +12,8 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GestureDetectorCompat;
 
+import java.io.IOException;
+
 public class MainActivity extends AppCompatActivity {
 
 
