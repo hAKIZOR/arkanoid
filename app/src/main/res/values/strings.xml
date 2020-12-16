@@ -17,5 +17,8 @@
     <string name="imposta_esistenza_audio">imposta audio</string>
     <string name="audio_on">attivato</string>
     <string name="audio_off">disattivato</string>
+    <string name="title_activity_leader_board">Classifica</string>
+    <string name="tab_text_1">Locale</string>
+    <string name="tab_text_2">Globale</string>
 
 </resources>

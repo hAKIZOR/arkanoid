@@ -31,7 +31,7 @@ import java.util.Locale;
 
 public class MenuActivity extends AppCompatActivity {
     private static final String TAG = "MenuActivity = ";
-    Settings config ;
+    Settings config;
     SharedPreferences prefs = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +39,10 @@ public class MenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_menu);
         getSupportActionBar().hide();
 
-        Button button = (Button) findViewById(R.id.button_arcade);
-        Button button2 = (Button) findViewById(R.id.button_settings);
+        Button buttonArcade = (Button) findViewById(R.id.button_arcade);
+        Button buttonSettings = (Button) findViewById(R.id.button_settings);
+        Button buttonLeaderBoard = (Button) findViewById(R.id.button_leaderboard);
+        Button buttonEditor = (Button) findViewById(R.id.button_editor);
 
 
         try {
@@ -68,7 +70,9 @@ public class MenuActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        button.setOnClickListener(new View.OnClickListener() {
+
+
+        buttonArcade.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -76,8 +80,15 @@ public class MenuActivity extends AppCompatActivity {
                 MenuActivity.this.startActivity(myIntent);
             }
         });
+         buttonLeaderBoard.setOnClickListener( new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+                 Intent myIntent = new Intent(MenuActivity.this, LeaderBoardActivity.class);
+                 MenuActivity.this.startActivity(myIntent);
+             }
 
-        button2.setOnClickListener(new View.OnClickListener() {
+         });
+        buttonSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(MenuActivity.this, SettingsActivity.class);

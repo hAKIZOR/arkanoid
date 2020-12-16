@@ -14,5 +14,8 @@
     <string name="imposta_esistenza_audio">set Audio</string>
     <string name="audio_on">on</string>
     <string name="audio_off">off</string>
+    <string name="tab_text_1">Local</string>
+    <string name="tab_text_2">Global</string>
+    <string name="title_activity_leader_board">Leaderboard</string>
 
 </resources>
