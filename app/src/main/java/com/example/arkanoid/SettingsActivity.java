@@ -22,7 +22,6 @@ import java.io.*;
 
 
 public class SettingsActivity extends AppCompatActivity {
-    private static final String FILE_NAME = "config.txt";
     private static final String DEBUG_STRING = "SettingsActivity = ";
 
     @Override
@@ -37,9 +36,8 @@ public class SettingsActivity extends AppCompatActivity {
         Switch switchAudioControl = (Switch) findViewById(R.id.switchControlAudio);
 
         try {
-
             loadSettingsFromFile(groupLanguage,switchGameControl,switchAudioControl);
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException e) {
             Log.d(DEBUG_STRING,"il file è danneggiato");
             e.printStackTrace();
         }
@@ -59,7 +57,6 @@ public class SettingsActivity extends AppCompatActivity {
                 int settedGameControl = setGameControl (checkedGameControl);
 
                 try {
-
                     saveSettingsInFile(settedGameControl,settedLanguage,settedAudio);
                 } catch (IOException e) {
                     Log.e(DEBUG_STRING,"errore saveSettingsException");
@@ -77,27 +74,12 @@ public class SettingsActivity extends AppCompatActivity {
 
     }
 
-    private void loadSettingsFromFile(RadioGroup groupLanguage, Switch switchGameControl, Switch switchAudioControl) throws IOException {
+    private void loadSettingsFromFile(RadioGroup groupLanguage, Switch switchGameControl, Switch switchAudioControl) throws IOException, ClassNotFoundException {
 
         //Deserializzazione dell'oggetto Settings
 
-            Settings settings = null;
-
-            try {
-                FileInputStream fileIn = this.openFileInput(FILE_NAME);
-                ObjectInputStream in = new ObjectInputStream(fileIn);
-                settings = (Settings) in.readObject();
-                in.close();
-                fileIn.close();
-            } catch (IOException i) {
-                i.printStackTrace();
-                return;
-            } catch (ClassNotFoundException c) {
-                System.out.println("Employee class not found");
-                c.printStackTrace();
-                return;
-            }
-
+            FileManager fileManager = new FileManager();
+            Settings settings= fileManager.readFromConfigFile(this);
 
             if(settings != null){
                 Log.d(DEBUG_STRING,"dati caricati " + settings.toString());
@@ -110,6 +92,8 @@ public class SettingsActivity extends AppCompatActivity {
                         break;
                     case "es":
                         groupLanguage.check(R.id.radioEsp);
+                        break;
+                    default:
                         break;
                 }
 
@@ -126,35 +110,14 @@ public class SettingsActivity extends AppCompatActivity {
 
     }
 
-    public boolean controlIsEmptyFile() throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader(FILE_NAME));
-        if (br.readLine() == null) {
-            Log.e(DEBUG_STRING,"vuoto");
-            br.close();
-           return true;
-        } else {
-            Log.e(DEBUG_STRING,"pieno");
-            br.close();
-            return false;
-        }
-
-    }
 
 
     public void saveSettingsInFile(int GameControl, String language,int audio) throws IOException {
 
         Settings settings = new Settings(GameControl,language,audio);
         Log.e(DEBUG_STRING,"salvataggio in corso...");
-        try {
-            FileOutputStream fOut = this.openFileOutput(FILE_NAME,Context.MODE_PRIVATE);
-            ObjectOutputStream outputStream = new ObjectOutputStream(fOut);
-            outputStream.writeObject(settings);
-            fOut.close();
-            outputStream.close();
-        }catch (IOException e){
-            e.printStackTrace();
-        }
-
+        FileManager fileManager = new FileManager(settings);
+        fileManager.writeToConfigFile(this);
         Log.e(DEBUG_STRING,"salvataggio completato");
 
     }

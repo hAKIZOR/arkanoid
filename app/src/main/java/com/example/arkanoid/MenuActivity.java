@@ -24,11 +24,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Locale;
 
 public class MenuActivity extends AppCompatActivity {
-    public static final String TAG = "MenuActivity = ";
-    public static final int STORAGE_PERMISSION_CODE = 1;
+    private static final String TAG = "MenuActivity = ";
     Settings config ;
     SharedPreferences prefs = null;
     @Override
@@ -40,21 +42,29 @@ public class MenuActivity extends AppCompatActivity {
         Button button = (Button) findViewById(R.id.button_arcade);
         Button button2 = (Button) findViewById(R.id.button_settings);
 
-        prefs = getSharedPreferences("com.example.arkanoid", MODE_PRIVATE);
 
-        Settings settings = new Settings(1,"it",1);
         try {
+            prefs = getSharedPreferences("com.example.arkanoid", MODE_PRIVATE);
+            String systemLanguage = Locale.getDefault().getLanguage();
 
             if (prefs.getBoolean("firstrun", true)){
-                FileOutputStream fOut = this.openFileOutput("config.txt", Context.MODE_PRIVATE);
-                ObjectOutputStream outputStream = new ObjectOutputStream(fOut);
-                outputStream.writeObject(settings);
-                fOut.close();
-                outputStream.close();
+                Log.d(TAG, "primo avvio");
+
+                Settings settings = new Settings(1, systemLanguage,1);
+                FileManager fileManager = new FileManager(settings);
+                fileManager.writeToConfigFile(this);
+
+            } else {
+                FileManager fileManager = new FileManager();
+                Settings settings = fileManager.readFromConfigFile(this);
+                settings.setLanguage(systemLanguage);
+                fileManager.setSettings(settings);
+                fileManager.writeToConfigFile(this);
+
             }
 
 
-        }catch (IOException e){
+        }catch (IOException | ClassNotFoundException e){
             e.printStackTrace();
         }
 
@@ -92,36 +102,5 @@ public class MenuActivity extends AppCompatActivity {
         }
     }
 
-    /*@Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if (hasFocus) {
-            hideSystemUI();
-        }
-    }
-    private void hideSystemUI() {
-        // Enables regular immersive mode.
-        // For "lean back" mode, remove SYSTEM_UI_FLAG_IMMERSIVE.
-        // Or for "sticky immersive," replace it with SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-        View decorView = getWindow().getDecorView();
-        decorView.setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_IMMERSIVE
-                        // Set the content to appear under the system bars so that the
-                        // content doesn't resize when the system bars hide and show.
-                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        // Hide the nav bar and status bar
-                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_FULLSCREEN);
-    }
-    private void showSystemUI() {
-        View decorView = getWindow().getDecorView();
-        decorView.setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-    }
-*/
 
 }
