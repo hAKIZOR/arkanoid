@@ -21,6 +21,7 @@ import com.example.arkanoid.R;
 import androidx.core.content.res.ResourcesCompat;
 
 
+
 public class GameViewPortrait extends Game{
 
     private Bitmap background;

@@ -48,6 +48,9 @@ public class PowerUp extends View {
             case 4:
                 power = BitmapFactory.decodeResource(getResources(), R.drawable.paddle_down); //<-- paddle aumenta larghezza
                 break;
+            case 5:
+                power = BitmapFactory.decodeResource(getResources(), R.drawable.paddle_down); //<-- paddle aumenta larghezza
+                break;
         }
     }
 

@@ -1,10 +1,14 @@
 package com.example.arkanoid.gameClasses;
 
 import android.content.Context;
+import android.content.res.AssetFileDescriptor;
+import android.content.res.AssetManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -73,6 +77,10 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
     private float h;
     private int paddW;
     private int paddH;
+    private int nS=2;
+
+    SoundPool soundPool;
+    int[] soundNote = {-1, -1, -1, -1, -1, -1, -1};
 
 
     public Game(Context context, int lifes, int score) {
@@ -104,7 +112,8 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         ArrayList<Integer> list = new ArrayList<Integer>(DIMENSION);
         ArrayList<Integer> list2 = new ArrayList<Integer>(DIMENSION);
         for(i=0; i<90; i++){
-            if(i%2==0) list.add(0);
+            if(i%2==0) list.add(2);
+            else if(i%3==0) list.add(4);
             else list.add(6);
         }
 
@@ -117,6 +126,26 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
 
 
         // fine caricamento da DB ----------------------------------------------
+
+        soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC,0);
+
+        try{
+            // Create objects of the 2 required classes
+            AssetManager assetManager = context.getAssets();
+            AssetFileDescriptor descriptor;
+
+            // Load our fx in memory ready for use
+            for(i=0; i<7; i++) {
+
+                descriptor = assetManager.openFd("sound"+nS+".wav");
+                soundNote[i] = soundPool.load(descriptor, 0);
+                nS++;
+            }
+        }catch(IOException e){
+            // Print an error message to the console
+            Log.e("error", "failed to load sound files");
+        }
+
 
     }
 
@@ -248,6 +277,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
                     if(generatePowerUp(b.getX(),b.getY()).getPower()!=null) {
                         powerUps.add(this.powerUp);
                     }
+                    soundPool.play(soundNote[b.getSoundName()-1], 1, 1, 0, 0, 1);
                     brickList.remove(i);
 
                     score = score + 80;
