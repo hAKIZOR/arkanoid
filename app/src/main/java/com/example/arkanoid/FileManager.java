@@ -2,12 +2,10 @@ package com.example.arkanoid;
 
 import android.content.Context;
 
-import com.example.arkanoid.Settings;
-
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
-import java.util.Set;
 import  java.io.*;
+
 public class FileManager { ;
     private static final String FILE_NAME = "config.txt";
     Settings settings;
