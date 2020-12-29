@@ -1,0 +1,5 @@
+CREATE TABLE levels (
+	idLevel	INTEGER NOT NULL PRIMARY KEY,
+	nameLevel	TEXT NOT NULL,
+	structure	TEXT NOT NULL
+);

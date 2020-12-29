@@ -3,6 +3,8 @@ package com.example.arkanoid.gameClasses;
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
+import android.database.Cursor;
+import android.database.SQLException;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -14,6 +16,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.example.arkanoid.DatabaseHelper;
 import com.example.arkanoid.Settings;
 
 import java.io.FileInputStream;
@@ -33,7 +36,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
     private static final int DIMENSION = 90;
     private int lifes;
     private int score;
-    private int numberLevel = 0;
+    private int numberLevel = 1;
     private Level level;
     private ArrayList<Level> levels;
     private ArrayList<Brick> brickList;
@@ -107,24 +110,30 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         paddle = new Paddle(0, 0);
 
         //crea lista di livelli dal DB locale
-        int i;
-        String nameLevel = "Primo Livello";
-        ArrayList<Integer> list = new ArrayList<Integer>(DIMENSION);
-        ArrayList<Integer> list2 = new ArrayList<Integer>(DIMENSION);
-        for(i=0; i<90; i++){
-            if(i%2==0) list.add(2);
-            else if(i%3==0) list.add(4);
-            else list.add(6);
+        Cursor c = null;
+
+        try {
+            DatabaseHelper myDbHelper = new DatabaseHelper(context);
+            myDbHelper.openDataBase();
+            c = myDbHelper.query("levels", null, null, null, null, null, null);
+            if (c.moveToFirst()) {
+                do {
+                    ArrayList<Integer> list = new ArrayList<Integer>(DIMENSION);
+                    for(int i=0;  i < c.getString(2).length(); i++){
+                        list.add(Integer.parseInt(String.valueOf(c.getString(2).charAt(i))));
+                    }
+                    levels.add(level = new Level(list,Integer.parseInt(c.getString(0)),c.getString(1)));
+                } while (c.moveToNext());
+            }
+
+            c.close();
+            myDbHelper.close();
+
+        } catch (IOException e){
+
+        } catch (SQLException sqle) {
+            throw sqle;
         }
-
-        levels.add(level = new Level(list,numberLevel,nameLevel));
-        list.clear();
-        for(i=0; i<90; i++){
-            list.add(3);
-        }
-        levels.add(level = new Level(list,1,"Secondo Livello"));
-
-
         // fine caricamento da DB ----------------------------------------------
 
         soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC,0);
@@ -135,7 +144,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
             AssetFileDescriptor descriptor;
 
             // Load our fx in memory ready for use
-            for(i=0; i<7; i++) {
+            for(int i=0; i<7; i++) {
 
                 descriptor = assetManager.openFd("sound"+nS+".wav");
                 soundNote[i] = soundPool.load(descriptor, 0);
@@ -218,7 +227,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
                 checkLives();
             }*/
 
-        }else if((ball.getY() + ball.getySpeed() >= sizeY - 70)&&(ball.getY() + ball.getySpeed() <= sizeY - 50)){
+        }else if((ball.getY() + ball.getySpeed() >= sizeY - 70)&&(ball.getY() + ball.getySpeed() <= sizeY)){
             Log.e("pos",""+ball.getY()+"");
             Log.e("pos2",""+paddle.getY()+"");
 
@@ -247,7 +256,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         if (lifes == 1) {
             gameOver = true;
             start = false;
-            numberLevel=0;
+            numberLevel=1;
             invalidate();
         } else{
             lifes--;
@@ -308,7 +317,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         powerUps.clear();
         brickList = new ArrayList<Brick>();
 
-        generateBricks(context, getLevels().get(getNumberLevel()),getColumns(),getRow(),getW(),getH(),getPaddW(),getPaddH());
+        generateBricks(context, getLevels().get(getNumberLevel()-1),getColumns(),getRow(),getW(),getH(),getPaddW(),getPaddH());
     }
 
     //scopri se il giocatore ha vinto o meno
@@ -355,22 +364,16 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
     }
     @Override
     public boolean onDown(MotionEvent e) {
-        Log.d(DEBUG_STRING, "onDown"+ e.getX() + " " + e.getY());
-
         return false;
     }
 
     @Override
     public void onShowPress(MotionEvent e) {
-        Log.d(DEBUG_STRING, "onShowPress"+ e.getX() + " " + e.getY());
-
 
     }
 
     @Override
     public boolean onSingleTapUp(MotionEvent e) {
-        Log.d(DEBUG_STRING, "onSingleTapUp"+ e.getX() + " " + e.getY());
-
         return false;
     }
 
@@ -380,9 +383,6 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
 
     @Override
     public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-        Log.d(DEBUG_STRING, "onScroll"+ e1.getX() + " " + e1.getY()
-                + " " + e2.getX() + " " + e2.getY()
-                + "  " + String.valueOf(distanceX) + "  " + String.valueOf(distanceY));
 
         paddle.setX(e2.getX() - (paddle.getWidth()/2));
         return false;
@@ -390,22 +390,19 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
 
     @Override
     public void onLongPress(MotionEvent e) {
-        Log.d(DEBUG_STRING, "onLongPress"+ e.getX() + " " + e.getY());
     }
 
     @Override
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-        Log.d(DEBUG_STRING, "onFling"+ e1.getX() + " " + e1.getY()
-                + " " + e2.getX() + " " + e2.getY()
-                + "  " + String.valueOf(velocityX) + "  " + String.valueOf(velocityY));
         return false;
     }
+
     public void setBrickList(ArrayList<Brick> brickList) { this.brickList = brickList; }
 
     public ArrayList<Brick> getBrickList() { return brickList; }
 
     public Level getLevel() {
-        return levels.get(numberLevel);
+        return levels.get(numberLevel-1);
     }
 
     public boolean isGameOver() {
@@ -545,7 +542,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         if (lifes == 1) {
             gameOver = true;
             start = false;
-            numberLevel=0;
+            numberLevel=1;
             paddle.resetPaddle();
             invalidate();
         } else {

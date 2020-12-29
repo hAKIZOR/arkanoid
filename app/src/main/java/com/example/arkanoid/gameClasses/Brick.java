@@ -31,6 +31,7 @@ public class Brick extends View {
                 break;
             case 1:
                 brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_inv); //<-- MATTONE INVISIBILE
+                soundName=2;
                 break;
             case 2:
                 brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_green);
@@ -54,7 +55,7 @@ public class Brick extends View {
                 break;
             case 7:
                 brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_yellow);
-                soundName=7;
+                soundName=5;
                 break;
             case 8:
                 brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_aqua);

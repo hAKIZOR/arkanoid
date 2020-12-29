@@ -71,9 +71,7 @@ public class GameViewPortrait extends Game{
 
         for(Level l: getLevels()) {
             if(l.getNumberLevel()==getNumberLevel()) {
-                System.out.println(getNumberLevel()+"-->"+l.getNameLevel());
-
-                generateBricks(context, getLevels().get(getNumberLevel()),getColumns(),getRow(),getW(),getH(),getPaddW(),getPaddH());
+                generateBricks(context, getLevels().get(getNumberLevel()-1),getColumns(),getRow(),getW(),getH(),getPaddW(),getPaddH());
             }
         }
         this.setOnTouchListener(this);
