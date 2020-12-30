@@ -1,13 +1,21 @@
 package com.example.arkanoid;
 
+import android.content.Context;
+
 import java.io.Closeable;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.io.StringWriter;
 import java.io.Writer;
+
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 /**
  * Utility class to manage Streams and generic IO issues.
@@ -108,6 +116,24 @@ public final class IOUtils {
   public static void copy(final InputStream in, final OutputStream out)
           throws IOException {
     copy(in, out, DEFAULT_BUFFE_SIZE);
+  }
+
+  public static Object readObjectFromFile(Context context,String fileName) throws IOException, ClassNotFoundException {
+    FileInputStream fIn= context.openFileInput(fileName);
+    ObjectInputStream inputStream = new ObjectInputStream(fIn);
+    Object  object =  inputStream.readObject();
+
+    fIn.close();
+    inputStream.close();
+    return object;
+  }
+  public static void writeObjectToFile(Context context,String fileName,Object object) throws IOException {
+    FileOutputStream fOut = context.openFileOutput(fileName, Context.MODE_PRIVATE);
+    ObjectOutputStream outputStream = new ObjectOutputStream(fOut);
+    outputStream.writeObject(object);
+
+    fOut.close();
+    outputStream.close();
   }
 
 }

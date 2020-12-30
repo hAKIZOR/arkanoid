@@ -17,6 +17,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.example.arkanoid.DatabaseHelper;
+import com.example.arkanoid.IOUtils;
 import com.example.arkanoid.Settings;
 
 import java.io.FileInputStream;
@@ -29,9 +30,7 @@ import androidx.core.view.GestureDetectorCompat;
 
 public class Game extends View implements SensorEventListener, View.OnTouchListener, GestureDetector.OnGestureListener{
     private static final String DEBUG_STRING = "Game";
-    private static final int SYSTEM_CONTROL_SENSOR = 1; // sistema di controllo con movimento sensore
-    private static final int SYSTEM_CONTROL_SCROLL = 0; // sistema di controllo con sliding
-    private static final String FILE_NAME = "config.txt";
+
 
     private static final int DIMENSION = 90;
     private int lifes;
@@ -160,15 +159,10 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
 
     private void loadControlSystemFromFile() {
         //crea un accelerometro e un SensorManager
+
         Settings settings = null;
-
         try {
-
-            FileInputStream fileIn = context.openFileInput(FILE_NAME);
-            ObjectInputStream in = new ObjectInputStream(fileIn);
-            settings = (Settings) in.readObject();
-            in.close();
-            fileIn.close();
+            settings = (Settings) IOUtils.readObjectFromFile(context,Settings.FILE_NAME);
         } catch (IOException i) {
             i.printStackTrace();
             return;
@@ -181,12 +175,12 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         Log.d(DEBUG_STRING,String.valueOf(settings.getControlMode()));
         switch (settings.getControlMode()){
 
-            case SYSTEM_CONTROL_SENSOR:
+            case Settings.SYSTEM_CONTROL_SENSOR:
                 sManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
                 accelerometer = sManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
                 gestureDetector = null;
                 break;
-            case SYSTEM_CONTROL_SCROLL:
+            case Settings.SYSTEM_CONTROL_SCROLL:
                 gestureDetector = new GestureDetectorCompat(context,this);
                 sManager = null;
                 accelerometer = null;

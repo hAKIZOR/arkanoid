@@ -76,19 +76,18 @@ public class SettingsActivity extends AppCompatActivity {
 
         //Deserializzazione dell'oggetto Settings
 
-            FileManager fileManager = new FileManager();
-            Settings settings= fileManager.readFromConfigFile(this);
+            Settings settings = (Settings) IOUtils.readObjectFromFile(this,Settings.FILE_NAME);
 
             if(settings != null){
                 Log.d(DEBUG_STRING,"dati caricati " + settings.toString());
                 switch (settings.getLanguage()){
-                    case "en":
+                    case Settings.LANGUAGE_ENG:
                         groupLanguage.check(R.id.radioEng);
                         break;
-                    case "it":
+                    case Settings.LANGUAGE_IT:
                         groupLanguage.check(R.id.radioIta);
                         break;
-                    case "es":
+                    case Settings.LANGUAGE_ESP:
                         groupLanguage.check(R.id.radioEsp);
                         break;
                     default:
@@ -112,10 +111,11 @@ public class SettingsActivity extends AppCompatActivity {
 
     public void saveSettingsInFile(int GameControl, String language,int audio) throws IOException {
 
-        Settings settings = new Settings(GameControl,language,audio);
+        Settings settingstmp = new Settings(GameControl,language,audio);
+
+        Log.d(DEBUG_STRING,"dati da salvare " + settingstmp.toString());
         Log.e(DEBUG_STRING,"salvataggio in corso...");
-        FileManager fileManager = new FileManager(settings);
-        fileManager.writeToConfigFile(this);
+        IOUtils.writeObjectToFile(this,Settings.FILE_NAME,settingstmp);
         Log.e(DEBUG_STRING,"salvataggio completato");
 
     }
@@ -125,18 +125,18 @@ public class SettingsActivity extends AppCompatActivity {
         String language = ""; //initialize tmp variable
         switch (checkedLanguage) {
             case R.id.radioEng:
-                setAppLocale("en");
-                language = "en";
+                setAppLocale(Settings.LANGUAGE_ENG);
+                language = Settings.LANGUAGE_ENG;
                 System.out.println("EN");
                 break;
             case R.id.radioIta:
                 setAppLocale("");
-                language = "it";
+                language = Settings.LANGUAGE_IT;
                 System.out.println("IT");
                 break;
             case R.id.radioEsp:
-                setAppLocale("es");
-                language = "es";
+                setAppLocale(Settings.LANGUAGE_ESP);
+                language = Settings.LANGUAGE_ESP;
                 System.out.println("ES");
                 break;
         }
@@ -145,20 +145,20 @@ public class SettingsActivity extends AppCompatActivity {
     public int setAudioControl(boolean audioChecked) {
         if(audioChecked) {
             //audio on
-            return 1;
+            return Settings.AUDIO_ON;
         } else {
             //audio off
-            return 0;
+            return Settings.AUDIO_OFF;
         }
 
     }
     public int setGameControl(boolean gameControl) {
         if(gameControl) {
             //game control sensor
-            return 1;
+            return Settings.SYSTEM_CONTROL_SENSOR;
         } else {
             // game control slider
-            return 0;
+            return Settings.SYSTEM_CONTROL_SCROLL;
         }
     }
 
