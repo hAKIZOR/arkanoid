@@ -31,6 +31,7 @@ import java.util.Locale;
 
 public class MenuActivity extends AppCompatActivity {
     private static final String TAG = "MenuActivity = ";
+    private static final String FIRST_RUN_INSTALLATION_STATE ="firstruninstallation";
     private static final String FIRST_RUN_STATE ="firstrun";
     SharedPreferences prefs = null;
 
@@ -49,18 +50,20 @@ public class MenuActivity extends AppCompatActivity {
 
         try {
             prefs = getSharedPreferences("com.example.arkanoid", MODE_PRIVATE);
-            String systemLanguage = Locale.getDefault().getLanguage();
 
-            if (prefs.getBoolean(this.FIRST_RUN_STATE, true)){
+            String systemLanguage = Locale.getDefault().getLanguage();
+            int languageToSet = Settings.lang.valueOf(systemLanguage).ordinal();
+
+            if (prefs.getBoolean(this.FIRST_RUN_INSTALLATION_STATE, true)){
                 Log.d(TAG, "primo avvio");
 
-                Settings settings = new Settings(1, systemLanguage,1);
+                Settings settings = new Settings(1,languageToSet ,1);
                 IOUtils.writeObjectToFile(this,Settings.FILE_NAME,settings);
 
-            } else {
+            } else if(prefs.getBoolean(this.FIRST_RUN_STATE,true)){
 
-                Settings settings = (Settings) IOUtils.readObjectFromFile(this,Settings.FILE_NAME);
-                settings.setLanguage(systemLanguage);
+                Settings settings = IOUtils.readObjectFromFile(this,Settings.FILE_NAME);
+                settings.setLanguage(languageToSet);
                 IOUtils.writeObjectToFile(this,Settings.FILE_NAME,settings);
 
             }
@@ -99,13 +102,34 @@ public class MenuActivity extends AppCompatActivity {
 
     }
 
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG,"onStart()");
+    }
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG,"onPause()");
+    }
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG,"onStop()");
+    }
 
-    protected void onPause() { super.onPause(); }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        prefs.edit().putBoolean(this.FIRST_RUN_STATE, true).commit();
+    }
 
     @Override
     protected void onResume() {
         super.onResume();
-
+        Log.d(TAG,"onResume()");
+        if (prefs.getBoolean(this.FIRST_RUN_INSTALLATION_STATE, true)) {
+            // Do first run stuff here then set 'firstrun' as false
+            // using the following line to edit/commit prefs
+            prefs.edit().putBoolean(this.FIRST_RUN_INSTALLATION_STATE, false).commit();
+        }
         if (prefs.getBoolean(this.FIRST_RUN_STATE, true)) {
             // Do first run stuff here then set 'firstrun' as false
             // using the following line to edit/commit prefs

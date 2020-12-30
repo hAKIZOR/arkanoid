@@ -21,6 +21,9 @@ import java.io.*;
 
 public class SettingsActivity extends AppCompatActivity {
     private static final String DEBUG_STRING = "SettingsActivity = ";
+    private static final int ITALIANO =  Settings.lang.valueOf(Settings.LANGUAGE_IT).ordinal();
+    private static final int INGLESE =  Settings.lang.valueOf(Settings.LANGUAGE_ENG).ordinal();
+    private static final int SPAGNOLO =  Settings.lang.valueOf(Settings.LANGUAGE_ESP).ordinal();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +53,7 @@ public class SettingsActivity extends AppCompatActivity {
                 boolean checkedAudioControl = switchAudioControl.isChecked();
 
 
-                String settedLanguage = setLanguage(checkedLanguage);
+                int  settedLanguage = setLanguage(checkedLanguage);
                 int settedAudio = setAudioControl (checkedAudioControl);
                 int settedGameControl = setGameControl (checkedGameControl);
 
@@ -76,31 +79,27 @@ public class SettingsActivity extends AppCompatActivity {
 
         //Deserializzazione dell'oggetto Settings
 
-            Settings settings = (Settings) IOUtils.readObjectFromFile(this,Settings.FILE_NAME);
+            Settings settings =  IOUtils.readObjectFromFile(this,Settings.FILE_NAME);
 
             if(settings != null){
                 Log.d(DEBUG_STRING,"dati caricati " + settings.toString());
-                switch (settings.getLanguage()){
-                    case Settings.LANGUAGE_ENG:
-                        groupLanguage.check(R.id.radioEng);
-                        break;
-                    case Settings.LANGUAGE_IT:
-                        groupLanguage.check(R.id.radioIta);
-                        break;
-                    case Settings.LANGUAGE_ESP:
-                        groupLanguage.check(R.id.radioEsp);
-                        break;
-                    default:
-                        break;
+
+                if(settings.getLanguage() == INGLESE){
+                    groupLanguage.check(R.id.radioEng);
+                } else if(settings.getLanguage() == ITALIANO){
+                    groupLanguage.check(R.id.radioIta);
+                } else if(settings.getLanguage() == SPAGNOLO){
+                    groupLanguage.check(R.id.radioEsp);
                 }
 
-                if(settings.getAudio() == 1){
+
+                if(settings.getAudio() == Settings.AUDIO_ON){
                     switchAudioControl.setChecked(true);
                 } else {
                     switchAudioControl.setChecked(false);
                 }
 
-                if(settings.getControlMode() == 1)
+                if(settings.getControlMode() == Settings.SYSTEM_CONTROL_SENSOR)
                 { switchGameControl.setChecked(true);}
                 else {switchGameControl.setChecked(false);}
             }
@@ -109,34 +108,35 @@ public class SettingsActivity extends AppCompatActivity {
 
 
 
-    public void saveSettingsInFile(int GameControl, String language,int audio) throws IOException {
+    public void saveSettingsInFile(int gameControl, int language,int audio) throws IOException {
 
-        Settings settingstmp = new Settings(GameControl,language,audio);
+        Settings settingstmp = new Settings(gameControl,language,audio);
 
         Log.d(DEBUG_STRING,"dati da salvare " + settingstmp.toString());
         Log.e(DEBUG_STRING,"salvataggio in corso...");
-        IOUtils.writeObjectToFile(this,Settings.FILE_NAME,settingstmp);
+        IOUtils.writeObjectToFile(SettingsActivity.this,Settings.FILE_NAME,settingstmp);
         Log.e(DEBUG_STRING,"salvataggio completato");
 
     }
 
-    public String setLanguage(int checkedLanguage) {
+    public int setLanguage(int checkedLanguage) {
         // Check which radio button was clicked
-        String language = ""; //initialize tmp variable
+        int  language = 0; //initialize tmp variable
         switch (checkedLanguage) {
             case R.id.radioEng:
                 setAppLocale(Settings.LANGUAGE_ENG);
-                language = Settings.LANGUAGE_ENG;
+                language = Settings.lang.valueOf(Settings.LANGUAGE_ENG).ordinal();
                 System.out.println("EN");
                 break;
             case R.id.radioIta:
                 setAppLocale("");
-                language = Settings.LANGUAGE_IT;
+                language = Settings.lang.valueOf(Settings.LANGUAGE_IT).ordinal();
+
                 System.out.println("IT");
                 break;
             case R.id.radioEsp:
                 setAppLocale(Settings.LANGUAGE_ESP);
-                language = Settings.LANGUAGE_ESP;
+                language = Settings.lang.valueOf(Settings.LANGUAGE_ESP).ordinal();
                 System.out.println("ES");
                 break;
         }

@@ -118,16 +118,16 @@ public final class IOUtils {
     copy(in, out, DEFAULT_BUFFE_SIZE);
   }
 
-  public static Object readObjectFromFile(Context context,String fileName) throws IOException, ClassNotFoundException {
+  public static Settings readObjectFromFile(Context context,String fileName) throws IOException, ClassNotFoundException {
     FileInputStream fIn= context.openFileInput(fileName);
     ObjectInputStream inputStream = new ObjectInputStream(fIn);
-    Object  object =  inputStream.readObject();
+    Settings  object = (Settings) inputStream.readObject();
 
     fIn.close();
     inputStream.close();
     return object;
   }
-  public static void writeObjectToFile(Context context,String fileName,Object object) throws IOException {
+  public static void writeObjectToFile(Context context,String fileName,Settings object) throws IOException {
     FileOutputStream fOut = context.openFileOutput(fileName, Context.MODE_PRIVATE);
     ObjectOutputStream outputStream = new ObjectOutputStream(fOut);
     outputStream.writeObject(object);

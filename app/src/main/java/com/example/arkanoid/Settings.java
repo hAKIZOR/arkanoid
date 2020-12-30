@@ -4,10 +4,15 @@ import java.io.Serializable;
 
 public class Settings implements Serializable {
     public static final String FILE_NAME ="config.txt";
-
     public static final String LANGUAGE_IT = "it";
     public static final String LANGUAGE_ESP = "es";
     public static final String LANGUAGE_ENG = "en";
+
+    public enum lang {
+        it,
+        en,
+        es
+    }
 
     public static final int SYSTEM_CONTROL_SENSOR = 1;
     public static final int SYSTEM_CONTROL_SCROLL = 0;
@@ -18,10 +23,10 @@ public class Settings implements Serializable {
 
 
     private int controlMode;
-    private String language;
+    private int language;
     private int audio;
 
-    public Settings(int controlMode,String language,int audio) {
+    public Settings(int controlMode,int language,int audio) {
         this.controlMode = controlMode;
         this.language = language;
         this.audio = audio;
@@ -35,11 +40,11 @@ public class Settings implements Serializable {
         this.controlMode = controlMode;
     }
 
-    public String getLanguage() {
+    public int getLanguage() {
         return language;
     }
 
-    public void setLanguage(String language) {
+    public void setLanguage(int language) {
         this.language = language;
     }
 
@@ -55,7 +60,7 @@ public class Settings implements Serializable {
     public String toString() {
         return "Settings{" +
                 "controlMode=" + String.valueOf(controlMode) +
-                ", language='" + language + '\'' +
+                ", language=" + language +
                 ", audio=" + String.valueOf(audio) +
                 '}';
     }
