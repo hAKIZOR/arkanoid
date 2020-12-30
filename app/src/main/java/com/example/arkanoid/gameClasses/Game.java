@@ -41,6 +41,12 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
     private ArrayList<Brick> brickList;
     private ArrayList<PowerUp> powerUps;
 
+    //variabili di gestione loop
+    private static final int TIMINGFORWIN = 1000; // tempo di loop max, oltre questo tempo la partita viene automaticamente vinta
+    private static final int MINBRICKFORTIMING = 4; // numero di mattoni minimo per poter iniziare il timing durante il loop
+    private int timing = 0;
+    private int counterBrickTiming = 0;
+
 
     private boolean start;
     private boolean gameOver;
@@ -66,12 +72,10 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
     private int brickBase;
     private int brickHeight;
 
-
     private int upBoard;
     private int downBoard;
     private int leftBoard;
     private int rightBoard;
-
 
     private int columns;
     private int row;
@@ -79,8 +83,8 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
     private float h;
     private int paddW;
     private int paddH;
-    private int nS=2;
 
+    private int nS=2; //variabile usata per completare il nome del sound nel caricamento
     SoundPool soundPool;
     int[] soundNote = {-1, -1, -1, -1, -1, -1, -1};
 
@@ -265,6 +269,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
             win();
             checkBoards();
             //ball.hitPaddle(paddle.getX(), paddle.getY());
+            counterBrickTiming = brickList.size();
             for (int i = 0; i < brickList.size(); i++) {
                 Brick b = brickList.get(i);
                 if (ball.hitBrick(b.getX(), b.getY())) {
@@ -276,8 +281,12 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
                     brickList.remove(i);
 
                     score = score + 80;
+                    timing=0;
                 }
             }
+
+            checkWinForLoop();
+
             for (int y= 0; y < powerUps.size(); y++) {
                 checkGetPowerUp(powerUps.get(y));
             }
@@ -286,6 +295,19 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
             for (int j = 0; j < powerUps.size(); j++) {
                 powerUps.get(j).move();
             }
+        }
+    }
+
+    // controlla una vittoria automatica nel caso di loop per tot secondi e con un minimo di mattoni
+    public void checkWinForLoop(){
+        if(counterBrickTiming<=MINBRICKFORTIMING && counterBrickTiming == brickList.size()){
+            timing++;
+        }
+
+        if(timing>TIMINGFORWIN){
+            score = score + (80*brickList.size());
+            brickList.clear();
+            win();
         }
     }
 
@@ -309,6 +331,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
     //scopri se il giocatore ha vinto o meno
     private void win() {
         if (brickList.isEmpty()) {
+            timing = 0;
             ++numberLevel;
 
             resetLevel();
@@ -490,8 +513,6 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
     public int getRightBoard() { return rightBoard; }
 
     public void setRightBoard(int rightBoard) { this.rightBoard = rightBoard;  }
-
-
 
     public ArrayList<PowerUp> getPowerUps() {
         return powerUps;
