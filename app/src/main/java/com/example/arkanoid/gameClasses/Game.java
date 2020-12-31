@@ -122,8 +122,11 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
             if (c.moveToFirst()) {
                 do {
                     ArrayList<Integer> list = new ArrayList<Integer>(DIMENSION);
-                    for(int i=0;  i < c.getString(2).length(); i++){
-                        list.add(Integer.parseInt(String.valueOf(c.getString(2).charAt(i))));
+
+                    String[] splitList = c.getString(2).split(",");
+
+                    for(int i=0;  i < splitList.length; i++){
+                        list.add(Integer.parseInt(String.valueOf(splitList[i])));
                     }
                     levels.add(level = new Level(list,Integer.parseInt(c.getString(0)),c.getString(1)));
                 } while (c.moveToNext());
@@ -274,14 +277,21 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
                 Brick b = brickList.get(i);
                 if (ball.hitBrick(b.getX(), b.getY())) {
 
-                    if(generatePowerUp(b.getX(),b.getY()).getPower()!=null) {
-                        powerUps.add(this.powerUp);
+                    if(b.isHitted()) {
+                        if (generatePowerUp(b.getX(), b.getY()).getPower() != null) {
+                            powerUps.add(this.powerUp);
+                        }
+                        soundPool.play(soundNote[b.getSoundName() - 1], 1, 1, 0, 0, 1);
+                        brickList.remove(i);
+                    }else{
+                        brickList.get(i).setHitted(true);
+                        brickList.get(i).setSkinById(b.getSkin());
                     }
-                    soundPool.play(soundNote[b.getSoundName()-1], 1, 1, 0, 0, 1);
-                    brickList.remove(i);
 
-                    score = score + 80;
-                    timing=0;
+
+                        score = score + 80;
+                        timing = 0;
+
                 }
             }
 
