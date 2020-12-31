@@ -150,7 +150,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
             AssetFileDescriptor descriptor;
 
             // Load our fx in memory ready for use
-            for(int i=0; i<7; i++) {
+            for(int i=0; i<8; i++) {
 
                 descriptor = assetManager.openFd("sound"+nS+".wav");
                 soundNote[i] = soundPool.load(descriptor, 0);
