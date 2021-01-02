@@ -25,16 +25,14 @@ import androidx.core.content.res.ResourcesCompat;
 public class GameViewPortrait extends Game{
 
     private Bitmap background;
-    private Bitmap redBall;
     private Bitmap stretch;
-    private Bitmap paddle_p;
+    //private Bitmap paddle_p;
 
 
     private Display display;
     private Point size;
     private Paint paint;
     private RectF r;
-    private Game game;
 
 
     public GameViewPortrait(Context context,int lifes, int score){
@@ -46,8 +44,7 @@ public class GameViewPortrait extends Game{
         setSizeY(size.y);
 
         //crea una bitmap per la palla e la barra
-        redBall = BitmapFactory.decodeResource(getResources(), R.drawable.redball);
-        paddle_p = BitmapFactory.decodeResource(getResources(), R.drawable.paddle);
+
 
         //setta posizione della palla e della barra
         getBall().setX(size.x / 2);
@@ -94,12 +91,12 @@ public class GameViewPortrait extends Game{
         canvas.drawBitmap(background, 0, 0, paint);
         // disegna la pallina
         paint.setColor(Color.RED);
-        canvas.drawBitmap(redBall, getBall().getX(), getBall().getY(), paint);
+        canvas.drawBitmap(getBall().getSkin(), getBall().getX(), getBall().getY(), paint);
 
         // disegna la barra
         paint.setColor(Color.WHITE);
-        r = new RectF(getPaddle().getX(), getPaddle().getY(), getPaddle().getX() + getPaddle().getWidth(), getPaddle().getY() + getPaddle().getHeight());
-        canvas.drawBitmap(paddle_p, null, r, paint);
+        r = new RectF(getPaddle().getX(), getPaddle().getY(), getPaddle().getX() + getPaddle().getWidthp(), getPaddle().getY() + getPaddle().getHeightp());
+        canvas.drawBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.paddle), null, r, paint);
 
         // disegna mattoni
         paint.setColor(Color.GREEN);
@@ -141,8 +138,8 @@ public class GameViewPortrait extends Game{
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
             getPaddle().setX(getPaddle().getX() - (event.values[0] * getSens()));
 
-            if (getPaddle().getX() + event.values[0] > size.x - getPaddle().getWidth()) {
-                getPaddle().setX(size.x - getPaddle().getWidth());
+            if (getPaddle().getX() + event.values[0] > size.x - getPaddle().getWidthp()) {
+                getPaddle().setX(size.x - getPaddle().getWidthp());
             } else if (getPaddle().getX() - event.values[0] <= 20) {
                 getPaddle().setX(20);
             }

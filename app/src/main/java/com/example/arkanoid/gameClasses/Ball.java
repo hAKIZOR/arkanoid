@@ -1,16 +1,34 @@
 package com.example.arkanoid.gameClasses;
 
-public class Ball {
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.view.View;
+
+import com.example.arkanoid.R;
+
+public class Ball extends View {
 
     protected float xSpeed;
     protected float ySpeed;
     private float x;
     private float y;
+    private Bitmap skin;
 
-    public Ball(float x, float y) {
+    public Ball (Context context, float x, float y, int a) {
+        super(context);
         this.x = x;
         this.y = y;
         createSpeed();
+        skin(a);
+    }
+
+    private void skin(int a) {
+        switch (a) {
+            case 0:
+                skin = BitmapFactory.decodeResource(getResources(), R.drawable.redball); //<-- SPAZIO VUOTO
+                break;
+        }
     }
 
     // crea una palla di velocità casuale
@@ -112,6 +130,14 @@ public class Ball {
     protected void move() {
         x = x + xSpeed;
         y = y + ySpeed;
+    }
+
+    public Bitmap getSkin() {
+        return skin;
+    }
+
+    public void setSkin(int a) {
+        skin(a);
     }
 
     public void reversexSpeed() {

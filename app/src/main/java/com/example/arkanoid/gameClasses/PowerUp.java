@@ -51,6 +51,9 @@ public class PowerUp extends View {
             case 5:
                 power = BitmapFactory.decodeResource(getResources(), R.drawable.hands_piano); //<-- power elimina 3 brick con dito
                 break;
+            case 6:
+                power = BitmapFactory.decodeResource(getResources(), R.drawable.laser_sound); //<-- power elimina 3 brick con dito
+                break;
         }
     }
 
@@ -72,7 +75,10 @@ public class PowerUp extends View {
         }else if (randomN < 18){ // 2%
             this.typePower=5;
             return typePower;
-        }else { // 82%
+        }else if (randomN < 20){ // 2%
+            this.typePower=6;
+            return typePower;
+        }else { // 80%
             this.typePower=0;
             return typePower;}
 

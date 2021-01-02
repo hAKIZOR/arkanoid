@@ -25,16 +25,13 @@ import androidx.core.content.res.ResourcesCompat;
 public class GameViewLandscape extends Game{
 
     private Bitmap background;
-    private Bitmap redBall;
     private Bitmap stretch;
-    private Bitmap paddle_p;
 
 
     private Display display;
     private Point size;
     private Paint paint;
     private RectF r;
-    private Game game;
 
 
     public GameViewLandscape(Context context, int lifes, int score){
@@ -47,8 +44,7 @@ public class GameViewLandscape extends Game{
         setSizeY(size.y);
 
         //crea una bitmap per la palla e la barra
-        redBall = BitmapFactory.decodeResource(getResources(), R.drawable.redball);
-        paddle_p = BitmapFactory.decodeResource(getResources(), R.drawable.paddle);
+
 
         //setta posizione della palla, della barra e dei 4 bordi
         getBall().setX(size.x / 2);
@@ -96,12 +92,12 @@ public class GameViewLandscape extends Game{
 
         // disegna la pallina
         paint.setColor(Color.RED);
-        canvas.drawBitmap(redBall, getBall().getX(), getBall().getY(), paint);
+        canvas.drawBitmap(getBall().getSkin(), getBall().getX(), getBall().getY(), paint);
 
         // disegna la barra
         paint.setColor(Color.WHITE);
-        r = new RectF(getPaddle().getX(), getPaddle().getY(), getPaddle().getX() + getPaddle().getWidth(), getPaddle().getY() + getPaddle().getHeight());
-        canvas.drawBitmap(paddle_p, null, r, paint);
+        r = new RectF(getPaddle().getX(), getPaddle().getY(), getPaddle().getX() + getPaddle().getWidthp(), getPaddle().getY() + getPaddle().getHeightp());
+        canvas.drawBitmap(getPaddle().getSkin(), null, r, paint);
 
         // disegna mattoni
         paint.setColor(Color.GREEN);
@@ -145,8 +141,8 @@ public class GameViewLandscape extends Game{
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
             getPaddle().setX(getPaddle().getX() - (event.values[1]*getSens()));
 
-            if (getPaddle().getX() + event.values[1] > size.y + 520 + getPaddle().getWidth()) {
-                getPaddle().setX(size.y + 520 + getPaddle().getWidth());
+            if (getPaddle().getX() + event.values[1] > size.y + 520 + getPaddle().getWidthp()) {
+                getPaddle().setX(size.y + 520 + getPaddle().getWidthp());
             } else if (getPaddle().getX() - event.values[1] <= 20) {
                 getPaddle().setX(20);
             }

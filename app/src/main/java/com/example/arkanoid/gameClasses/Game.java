@@ -112,8 +112,8 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         gameOver = false;
 
         //crea palla e paddle
-        ball = new Ball(0, 0);
-        paddle = new Paddle(0, 0);
+        ball = new Ball(context,0, 0, 0);
+        paddle = new Paddle(context,0, 0, 0);
 
         //crea lista di livelli dal DB locale
         Cursor c = null;
@@ -221,7 +221,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         } else if (ball.getY() + ball.getySpeed() <= upBoard) {
             ball.changeDirection("up");
         } else if ((ball.getY()+ 45 + ball.getySpeed() >= sizeY - 200)&&(ball.getY()+ 45 + ball.getySpeed() <= sizeY - 185) ){
-            if ((ball.getX() < paddle.getX() + paddle.getWidth() && ball.getX() > paddle.getX()) || (ball.getX() + 48 < paddle.getX() + paddle.getWidth() && ball.getX() + 48 > paddle.getX())) {
+            if ((ball.getX() < paddle.getX() + paddle.getWidthp() && ball.getX() > paddle.getX()) || (ball.getX() + 48 < paddle.getX() + paddle.getWidthp() && ball.getX() + 48 > paddle.getX())) {
                 ball.changeDirection("down");
             }
 
@@ -235,7 +235,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
     // controllo collisione powerup paddle
     private void checkGetPowerUp(PowerUp powerUp) {
         if ((powerUp.getY()+ 45 + powerUp.getySpeed() >= sizeY - 200)&&(powerUp.getY()+ 45 + powerUp.getySpeed() <= sizeY - 185) ){
-            if ((powerUp.getX() < paddle.getX() + paddle.getWidth() && powerUp.getX() > paddle.getX()) || (powerUp.getX() + 48 < paddle.getX() + paddle.getWidth() && powerUp.getX() + 48 > paddle.getX())) {
+            if ((powerUp.getX() < paddle.getX() + paddle.getWidthp() && powerUp.getX() > paddle.getX()) || (powerUp.getX() + 48 < paddle.getX() + paddle.getWidthp() && powerUp.getX() + 48 > paddle.getX())) {
                 powerUpEffect(powerUp);
                 this.powerUps.remove(powerUp);
             }
@@ -416,7 +416,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
     @Override
     public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
 
-        if(e2.getY()>1000) paddle.setX(e2.getX() - (paddle.getWidth()/2));
+        if(e2.getY()>1000) paddle.setX(e2.getX() - (paddle.getWidthp()/2));
         return false;
     }
 
@@ -554,18 +554,21 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
                     checkLivesAfterEffects();
                     break;
             case 3:
-                    if(paddle.getWidth() < paddle.getMaxWidth()) {
-                        paddle.setWidth(paddle.getWidth() + 50);
+                    if(paddle.getWidthp() < paddle.getMaxWidth()) {
+                        paddle.setWidth(paddle.getWidthp() + 50);
                     }
                     break;
             case 4:
-                if(paddle.getWidth() > paddle.getMinWidth()) {
-                    paddle.setWidth(paddle.getWidth() - 50);
+                if(paddle.getWidthp() > paddle.getMinWidth()) {
+                    paddle.setWidth(paddle.getWidthp() - 50);
                 }
                 break;
             case 5:
                 handsPianoPowerFlag=true;
                 handsPianoRemaining += 3;
+                break;
+            case 6:
+
                 break;
         }
     }
