@@ -51,12 +51,15 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
     private boolean start;
     private boolean gameOver;
 
+    //variabili per la gestione del powerUp handsPiano
+    private boolean handsPianoPowerFlag = false;
+    private int handsPianoRemaining = 0;
+
     private SensorManager sManager;
     private Sensor accelerometer;
     private int sens;
 
     private GestureDetectorCompat gestureDetector;
-
 
     public Sensor getAccelerometer() {
         return accelerometer;
@@ -383,6 +386,15 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
     }
     @Override
     public boolean onDown(MotionEvent e) {
+
+        if(handsPianoPowerFlag){
+            handsPianoPower(e.getX(),e.getY());
+            if (handsPianoRemaining == 0) {
+                handsPianoPowerFlag = false;
+            }
+        }
+
+        Log.e("MotionEventDOWN",e.getX()+"---"+e.getY());
         return false;
     }
 
@@ -393,6 +405,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
 
     @Override
     public boolean onSingleTapUp(MotionEvent e) {
+
         return false;
     }
 
@@ -403,7 +416,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
     @Override
     public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
 
-        paddle.setX(e2.getX() - (paddle.getWidth()/2));
+        if(e2.getY()>1000) paddle.setX(e2.getX() - (paddle.getWidth()/2));
         return false;
     }
 
@@ -550,6 +563,10 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
                     paddle.setWidth(paddle.getWidth() - 50);
                 }
                 break;
+            case 5:
+                handsPianoPowerFlag=true;
+                handsPianoRemaining += 3;
+                break;
         }
     }
 
@@ -565,6 +582,32 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         } else {
             lifes--;
         }
+    }
+
+    public void handsPianoPower(double xSelected, double ySelected) {
+        int i, indexMin = 0;
+        Brick brick;
+        double distance = 0;
+        double minDistance = Math.sqrt(Math.pow(brickList.get(0).getX() - xSelected, 2) + Math.pow(brickList.get(0).getY() - ySelected, 2));
+
+        for (i = 0; i < brickList.size(); i++) {
+            brick = brickList.get(i);
+            distance = Math.sqrt(Math.pow(brick.getX() - xSelected, 2) + Math.pow(brick.getY() - ySelected, 2));
+            if (distance < minDistance) {
+                minDistance = distance;
+                indexMin = i;
+
+            }
+
+
+        }
+        if(minDistance < 200) {
+            soundPool.play(soundNote[brickList.get(indexMin).getSoundName() - 1], 1, 1, 0, 0, 1);
+            brickList.remove(indexMin);
+            score += 80;
+            handsPianoRemaining--;
+        }
+
     }
 
 

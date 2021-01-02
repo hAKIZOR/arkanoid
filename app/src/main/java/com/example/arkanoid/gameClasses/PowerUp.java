@@ -49,7 +49,7 @@ public class PowerUp extends View {
                 power = BitmapFactory.decodeResource(getResources(), R.drawable.paddle_down); //<-- paddle aumenta larghezza
                 break;
             case 5:
-                power = BitmapFactory.decodeResource(getResources(), R.drawable.paddle_down); //<-- paddle aumenta larghezza
+                power = BitmapFactory.decodeResource(getResources(), R.drawable.hands_piano); //<-- power elimina 3 brick con dito
                 break;
         }
     }
@@ -57,19 +57,23 @@ public class PowerUp extends View {
     public int randomSkin(){
         Random random = new Random();
         int randomN = random.nextInt(100);
-        if (randomN < 5){ // 5%
+        if (randomN < 4){ // 4%
             this.typePower=1;
             return typePower;
-        }else if (randomN < 10){ // 5%
+        }else if (randomN < 8){ // 4%
             this.typePower=2;
             return typePower;
-        }else if (randomN < 15){ // 5%
+        }else if (randomN < 12){ // 4%
             this.typePower=3;
             return typePower;
-        }else if (randomN < 20){ // 5%
+        }else if (randomN < 16){ // 4%
             this.typePower=4;
             return typePower;
-        }else {this.typePower=0;
+        }else if (randomN < 18){ // 2%
+            this.typePower=5;
+            return typePower;
+        }else { // 82%
+            this.typePower=0;
             return typePower;}
 
     }
