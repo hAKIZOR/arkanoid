@@ -28,6 +28,7 @@ public class LaserSound extends View {
         switch (a) {
             case 0:
                 laser = BitmapFactory.decodeResource(getResources(), R.drawable.laser_sound2);
+                laser = Bitmap.createScaledBitmap(laser, 20, 40, false);
                 break;
         }
     }
@@ -37,6 +38,7 @@ public class LaserSound extends View {
         y = y + ySpeed;
     }
 
+    //se il colpo è vicino ad un mattone
     private boolean isClosedBrick(float ax, float ay, float bx, float by) {
         bx += 12;
         by += 11;
@@ -44,8 +46,7 @@ public class LaserSound extends View {
         return d < 80;
     }
 
-    //se la palla entra in collisione con un mattone, cambia direzione
-    //si la bola choca con un ladrillo, cambia de dirección
+    //se il colpo entra in collisione con un mattone
     protected boolean hitBrick(float xBrick, float yBrick) {
         if (isClosedBrick(xBrick, yBrick, getX(), getY())) {
             return true;

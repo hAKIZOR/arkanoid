@@ -9,8 +9,10 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
+import android.os.Build;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -93,9 +95,10 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
     private int paddW;
     private int paddH;
 
-    private int nS=2; //variabile usata per completare il nome del sound nel caricamento
+    private int nS=1; //variabile usata per completare il nome del sound nel caricamento
     SoundPool soundPool;
-    int[] soundNote = {-1, -1, -1, -1, -1, -1, -1};
+    int[] soundNote = {-1, -1, -1, -1, -1, -1, -1, -1};
+    AudioAttributes audioAttributes;
 
 
     public Game(Context context, int lifes, int score) {
@@ -152,7 +155,8 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         }
         // fine caricamento da DB ----------------------------------------------
 
-        soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC,0);
+            Log.e("sdk","DENTRO ELSE");
+            soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 1);
 
         try{
             // Create objects of the 2 required classes
@@ -161,8 +165,8 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
 
             // Load our fx in memory ready for use
             for(int i=0; i<8; i++) {
-
-                descriptor = assetManager.openFd("sound"+nS+".wav");
+                Log.e("error", ""+nS);
+                descriptor = assetManager.openFd("sound"+nS+".mp3");
                 soundNote[i] = soundPool.load(descriptor, 0);
                 nS++;
             }
@@ -316,7 +320,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
                         if (generatePowerUp(b.getX(), b.getY()).getPower() != null) {
                             powerUps.add(this.powerUp);
                         }
-                        soundPool.play(soundNote[b.getSoundName() - 1], 1, 1, 0, 0, 1);
+                        soundPool.play(soundNote[b.getSoundName()], 1, 1, 0, 0, 1);
                         brickList.remove(i);
 
                     }else{
@@ -438,8 +442,10 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
 
         if(laserSoundFlag){
             if(laserSoundRemaining != 0) {
+                soundPool.play(soundNote[0], 1, 1, 0, 0, 1);
                 laserDropped.add(generateLaserDropped(paddle.getX(), paddle.getY()));
                 laserDropped.add(generateLaserDropped(paddle.getX() + paddle.getWidthp(), paddle.getY()));
+
                 laserSoundRemaining--;
             }else {
                 laserSoundFlag = false;
