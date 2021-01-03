@@ -75,7 +75,7 @@ public class PowerUp extends View {
         }else if (randomN < 18){ // 2%
             this.typePower=5;
             return typePower;
-        }else if (randomN < 20){ // 2%
+        }else if (randomN < 25){ // 2%
             this.typePower=6;
             return typePower;
         }else { // 80%

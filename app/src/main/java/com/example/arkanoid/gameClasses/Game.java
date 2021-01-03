@@ -40,6 +40,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
     private ArrayList<Level> levels;
     private ArrayList<Brick> brickList;
     private ArrayList<PowerUp> powerUps;
+    private ArrayList<LaserSound> laserDropped;
 
     //variabili di gestione loop
     private static final int TIMINGFORWIN = 1000; // tempo di loop max, oltre questo tempo la partita viene automaticamente vinta
@@ -55,11 +56,16 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
     private boolean handsPianoPowerFlag = false;
     private int handsPianoRemaining = 0;
 
+    private boolean laserSoundFlag = false;
+    private LaserSound laserSound;
+    private int laserSoundRemaining = 0;
+
     private SensorManager sManager;
     private Sensor accelerometer;
     private int sens;
 
     private GestureDetectorCompat gestureDetector;
+
 
     public Sensor getAccelerometer() {
         return accelerometer;
@@ -102,9 +108,10 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         //impostare vite, punteggi e livelli
         this.lifes = lifes;
         this.score = score;
-        brickList = new ArrayList<Brick>();
-        levels = new ArrayList<Level>();
-        powerUps= new ArrayList<PowerUp>();
+        brickList = new ArrayList<>();
+        levels = new ArrayList<>();
+        powerUps= new ArrayList<>();
+        laserDropped= new ArrayList<>();
 
 
         //avviare un GameOver per scoprire se la partita è in piedi e se il giocatore non l'ha persa
@@ -298,6 +305,30 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
                 }
             }
 
+
+            for (int i = 0; i < brickList.size(); i++) {
+                Brick b = brickList.get(i);
+
+                for(int j = 0; j < laserDropped.size(); j++){
+                if (laserDropped.get(j).hitBrick(b.getX(), b.getY())) {
+
+                    if(b.isHitted()) {
+                        if (generatePowerUp(b.getX(), b.getY()).getPower() != null) {
+                            powerUps.add(this.powerUp);
+                        }
+                        soundPool.play(soundNote[b.getSoundName() - 1], 1, 1, 0, 0, 1);
+                        brickList.remove(i);
+
+                    }else{
+                        brickList.get(i).setHitted(true);
+                        brickList.get(i).setSkinById(b.getSkin());
+                    }
+                    laserDropped.remove(j);
+                    score = score + 80;
+                }
+                }
+            }
+
             checkWinForLoop();
 
             for (int y= 0; y < powerUps.size(); y++) {
@@ -307,6 +338,9 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
             ball.move();
             for (int j = 0; j < powerUps.size(); j++) {
                 powerUps.get(j).move();
+            }
+            for (int j = 0; j < laserDropped.size(); j++) {
+                laserDropped.get(j).move();
             }
         }
     }
@@ -320,6 +354,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         if(timing>TIMINGFORWIN){
             score = score + (80*brickList.size());
             brickList.clear();
+            laserDropped.clear();
             win();
         }
     }
@@ -330,12 +365,19 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         return powerUp;
     }
 
+    // crea random powerUp dopo la rottura del mattone
+    public LaserSound generateLaserDropped(float x , float y){
+        this.laserSound = new LaserSound(context,x,y);
+        return laserSound;
+    }
+
     //imposta il gioco per iniziare
     public void resetLevel() {
         ball.setX(sizeX / 2);
         ball.setY(sizeY - 280);
         ball.createSpeed();
         powerUps.clear();
+        laserDropped.clear();
         brickList = new ArrayList<Brick>();
 
         generateBricks(context, getLevels().get(getNumberLevel()-1),getColumns(),getRow(),getW(),getH(),getPaddW(),getPaddH());
@@ -394,7 +436,18 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
             }
         }
 
-        Log.e("MotionEventDOWN",e.getX()+"---"+e.getY());
+        if(laserSoundFlag){
+            if(laserSoundRemaining != 0) {
+                laserDropped.add(generateLaserDropped(paddle.getX(), paddle.getY()));
+                laserDropped.add(generateLaserDropped(paddle.getX() + paddle.getWidthp(), paddle.getY()));
+                laserSoundRemaining--;
+            }else {
+                laserSoundFlag = false;
+            }
+
+        }
+
+
         return false;
     }
 
@@ -568,7 +621,8 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
                 handsPianoRemaining += 3;
                 break;
             case 6:
-
+                laserSoundRemaining = 3;
+                laserSoundFlag=true;
                 break;
         }
     }
@@ -590,7 +644,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
     public void handsPianoPower(double xSelected, double ySelected) {
         int i, indexMin = 0;
         Brick brick;
-        double distance = 0;
+        double distance;
         double minDistance = Math.sqrt(Math.pow(brickList.get(0).getX() - xSelected, 2) + Math.pow(brickList.get(0).getY() - ySelected, 2));
 
         for (i = 0; i < brickList.size(); i++) {
@@ -637,4 +691,8 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
     public int getPaddH() {        return paddH; }
 
     public void setPaddH(int paddH) { this.paddH = paddH; }
+
+    public ArrayList<LaserSound> getLaserDropped() {
+        return laserDropped;
+    }
 }

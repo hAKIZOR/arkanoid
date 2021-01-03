@@ -116,6 +116,14 @@ public class GameViewPortrait extends Game{
             canvas.drawBitmap(p.getPower(), p.getX(), p.getY(), paint);
         }
 
+        //disegna powerUp
+        paint.setColor(Color.GREEN);
+        for(int j = 0; j < getLaserDropped().size(); j++){
+            LaserSound p = getLaserDropped().get(j);
+            r = new RectF(p.getX(), p.getY(), p.getX(), p.getY());
+            canvas.drawBitmap(p.getLaser(), p.getX(), p.getY(), paint);
+        }
+
         // disegna testo
         paint.setColor(Color.WHITE);
         paint.setTextSize(60);

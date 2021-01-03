@@ -32,6 +32,9 @@ public class Paddle extends View {
             case 0:
                 skin = BitmapFactory.decodeResource(getResources(), R.drawable.paddle); //<-- SPAZIO VUOTO
                 break;
+            default:
+                skin = BitmapFactory.decodeResource(getResources(), R.drawable.paddle); //<-- SPAZIO VUOTO
+                break;
         }
     }
 
