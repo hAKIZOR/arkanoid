@@ -199,7 +199,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
             case Settings.SYSTEM_CONTROL_SENSOR:
                 sManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
                 accelerometer = sManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-                gestureDetector = null;
+                gestureDetector = new GestureDetectorCompat(context,this);
                 break;
             case Settings.SYSTEM_CONTROL_SCROLL:
                 gestureDetector = new GestureDetectorCompat(context,this);
@@ -231,7 +231,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
             ball.changeDirection("left");
         } else if (ball.getY() + ball.getySpeed() <= upBoard) {
             ball.changeDirection("up");
-        } else if ((ball.getY()+ 45 + ball.getySpeed() >= sizeY - 200)&&(ball.getY()+ 45 + ball.getySpeed() <= sizeY - 185) ){
+        } else if ((ball.getY()+ 45 + ball.getySpeed() >= sizeY - 210)&&(ball.getY()+ 45 + ball.getySpeed() <= sizeY - 185) ){
             if ((ball.getX() < paddle.getX() + paddle.getWidthp() && ball.getX() > paddle.getX()) || (ball.getX() + 48 < paddle.getX() + paddle.getWidthp() && ball.getX() + 48 > paddle.getX())) {
                 ball.changeDirection("down");
             }
@@ -340,6 +340,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
             }
 
             ball.move();
+            Log.e("velocita","x:"+ball.getxSpeed()+"y:"+ball.getySpeed());
             for (int j = 0; j < powerUps.size(); j++) {
                 powerUps.get(j).move();
             }
@@ -474,8 +475,15 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
 
     @Override
     public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-
-        if(e2.getY()>1000) paddle.setX(e2.getX() - (paddle.getWidthp()/2));
+    if(accelerometer==null) {
+        if ((e2.getX() - (paddle.getWidthp()/2)>=0 && (e2.getX() - (paddle.getWidthp()/2)<= (sizeX - paddle.getWidthp())))){
+            if(e2.getY()>(sizeY*0.75)) {paddle.setX(e2.getX() - (paddle.getWidthp()/2));}
+        }else if ((e2.getX() - (paddle.getWidthp()/2) < 0)){
+            if(e2.getY()>(sizeY*0.75)) {paddle.setX(0);}
+        }else if ((e2.getX() - (paddle.getWidthp()/2) > (sizeX - paddle.getWidthp()))){
+            if(e2.getY()>(sizeY*0.75)) {paddle.setX(sizeX-paddle.getWidthp());}
+        }
+    }
         return false;
     }
 

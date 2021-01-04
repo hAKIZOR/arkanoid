@@ -38,27 +38,27 @@ public class PowerUp extends View {
                 break;
             case 1:
                 power = BitmapFactory.decodeResource(getResources(), R.drawable.hp_up); //<-- hp+1
-                power = Bitmap.createScaledBitmap(power, 60, 60, false);
+                power = Bitmap.createScaledBitmap(power, 80, 80, false);
                 break;
             case 2:
                 power = BitmapFactory.decodeResource(getResources(), R.drawable.hp_down); //<-- hp-1
-                power = Bitmap.createScaledBitmap(power, 60, 60, false);
+                power = Bitmap.createScaledBitmap(power, 80, 80, false);
                 break;
             case 3:
                 power = BitmapFactory.decodeResource(getResources(), R.drawable.paddle_up); //<-- paddle aumenta larghezza
-                power = Bitmap.createScaledBitmap(power, 60, 60, false);
+                power = Bitmap.createScaledBitmap(power, 80, 80, false);
                 break;
             case 4:
                 power = BitmapFactory.decodeResource(getResources(), R.drawable.paddle_down); //<-- paddle aumenta larghezza
-                power = Bitmap.createScaledBitmap(power, 60, 60, false);
+                power = Bitmap.createScaledBitmap(power, 80, 80, false);
                 break;
             case 5:
                 power = BitmapFactory.decodeResource(getResources(), R.drawable.hands_piano); //<-- power elimina 3 brick con dito
-                power = Bitmap.createScaledBitmap(power, 60, 60, false);
+                power = Bitmap.createScaledBitmap(power, 80, 80, false);
                 break;
             case 6:
                 power = BitmapFactory.decodeResource(getResources(), R.drawable.laser_sound); //<-- power elimina 3 brick con dito
-                power = Bitmap.createScaledBitmap(power, 60, 60, false);
+                power = Bitmap.createScaledBitmap(power, 80, 80, false);
                 break;
         }
 

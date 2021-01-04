@@ -19,7 +19,7 @@ public class LaserSound extends View {
         this.x = x;
         this.y = y;
         xSpeed = 0;
-        ySpeed = -20;
+        ySpeed = -40;
         skin(0);
 
     }
