@@ -1,7 +1,6 @@
 package com.example.arkanoid.gameClasses;
 
 import android.content.Context;
-import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -20,12 +19,12 @@ import com.example.arkanoid.R;
 
 import androidx.core.content.res.ResourcesCompat;
 
+import java.util.ArrayList;
 
 
 public class GameViewLandscape extends Game{
 
     private Bitmap background;
-    private Bitmap stretch;
 
 
     private Display display;
@@ -39,36 +38,40 @@ public class GameViewLandscape extends Game{
         paint = new Paint();
         setSens(4); // <-- setta la sensitività dell'accellerometro
         setBackground(context);
-
         setSizeX(size.x);
         setSizeY(size.y);
 
-        //crea una bitmap per la palla e la barra
-
-
         //setta posizione della palla, della barra e dei 4 bordi
+
+        //setta posizione della palla e della barra
         getBall().setX(size.x / 2);
         getBall().setY(size.y - 280);
         getPaddle().setX(size.x / 2);
         getPaddle().setY(size.y - 200);
-        setBrickBase((size.y-40)/9);
-        setBrickHeight((size.x-1200)/10);
+
+        //setto i bordi
         setUpBoard(0);
         setDownBoard(getSizeY());
-        setLeftBoard(0);
+        setLeftBoard (0);
         setRightBoard(getSizeX());
-        setColumns(5);
-        setRow(18);
-        setW(getBrickHeight());
-        setH(getBrickBase());
-        setPaddW(150);
-        setPaddH(20);
+
+        //setto colonne e righe dei mattoni
+        setColumns(15);
+        setRow(6);
+
+        //setto altezza e base del mattone
+        setBrickBase((float) ((size.y-(size.y/1.7))/getRow()));
+        setBrickHeight(size.x/getColumns());
+
+        //setto il padding del campo di gioco
+        setPaddingTopGame(0);
+        setPaddingLeftGame(0);
 
         //caricamento del livello con la generazione dei mattoni
         for(Level l: getLevels()) {
             if(l.getNumberLevel()==getNumberLevel()) {
 
-                generateBricks(context, getLevels().get(getNumberLevel()-1),getColumns(),getRow(),getW(),getH(),getPaddW(),getPaddH());
+                generateBricks(context, getLevels().get(getNumberLevel()-1),getColumns(),getRow(),getBrickHeight(),getBrickBase(),getPaddingLeftGame(),getPaddingTopGame());
             }
         }
         this.setOnTouchListener(this);
@@ -85,10 +88,7 @@ public class GameViewLandscape extends Game{
 
     protected void onDraw(Canvas canvas) {
         // crea uno sfondo solo una volta
-       /* if (stretch == null) {
-            stretch = Bitmap.createScaledBitmap(background, size.x, size.y, false);
-        }*/
-        canvas.drawBitmap(background, 0, 0, paint);
+        canvas.drawBitmap(background, (float) (getSizeX()*0.15), 0, paint);
 
         // disegna la pallina
         paint.setColor(Color.RED);
@@ -105,7 +105,7 @@ public class GameViewLandscape extends Game{
         for (int i = 0; i < getBrickList().size(); i++) {
 
                 Brick b = getBrickList().get(i);
-                r = new RectF(b.getX(), b.getY(), b.getX() + 120, b.getY()+ 80);
+                r = new RectF(b.getX(), b.getY(), b.getX() + getBrickHeight(), b.getY()+ getBrickBase());
                 canvas.drawBitmap(b.getBrick(), null, r, paint);
 
 
@@ -159,6 +159,19 @@ public class GameViewLandscape extends Game{
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
+    }
+
+    @Override
+    //imposta il gioco per iniziare
+    public void resetLevel() {
+        getBall().setX(getSizeX() / 2);
+        getBall().setY(getSizeY() - 280);
+        getBall().createSpeed();
+        getPowerUps().clear();
+        getLaserDropped().clear();
+        setBrickList(new ArrayList<Brick>());
+
+        generateBricks(getContext(), getLevels().get(getNumberLevel()-1),getColumns(),getRow(),getBrickHeight(),getBrickBase(),getPaddingLeftGame(),getPaddingTopGame());
     }
 
 }

@@ -12,7 +12,6 @@ import android.hardware.SensorManager;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
-import android.os.Build;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -22,9 +21,7 @@ import com.example.arkanoid.DatabaseHelper;
 import com.example.arkanoid.IOUtils;
 import com.example.arkanoid.Settings;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
 import androidx.core.view.GestureDetectorCompat;
@@ -57,7 +54,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
     //variabili per la gestione del powerUp handsPiano
     private boolean handsPianoPowerFlag = false;
     private int handsPianoRemaining = 0;
-
+    //variabili per la gestione del powerUp LaserSound
     private boolean laserSoundFlag = false;
     private LaserSound laserSound;
     private int laserSoundRemaining = 0;
@@ -80,8 +77,8 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
 
     private int sizeX;
     private int sizeY;
-    private int brickBase;
-    private int brickHeight;
+    private float brickBase;
+    private float brickHeight;
 
     private int upBoard;
     private int downBoard;
@@ -90,10 +87,8 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
 
     private int columns;
     private int row;
-    private float w;
-    private float h;
-    private int paddW;
-    private int paddH;
+    private float paddingLeftGame;
+    private float paddingTopGame;
 
     private int nS=1; //variabile usata per completare il nome del sound nel caricamento
     SoundPool soundPool;
@@ -211,12 +206,12 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
     }
 
     // riempire l'elenco con i mattoni
-    public void generateBricks(Context context, Level level, int columns, int row, float w, float h, int paddW,int paddH ) {
+    public void generateBricks(Context context, Level level, int columns, int row, float brickBase, float brickHeight, float paddingLeftGame,float paddingTopGame ) {
         int a=0;
-        for (int i = 0; i < columns; i++) {
-            for (int j = 0; j < row; j++) {
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < columns; j++) {
                 if(level.getA(a)!=0) {
-                    brickList.add(new Brick(context,  w * j + paddW, h  * i + paddH, level.getA(a)));
+                    brickList.add(new Brick(context,  brickBase * j + paddingLeftGame, brickHeight  * i + paddingTopGame, level.getA(a)));
                 }
                 a++;
             }
@@ -385,7 +380,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         laserDropped.clear();
         brickList = new ArrayList<Brick>();
 
-        generateBricks(context, getLevels().get(getNumberLevel()-1),getColumns(),getRow(),getW(),getH(),getPaddW(),getPaddH());
+        generateBricks(context, getLevels().get(getNumberLevel()-1),getColumns(),getRow(),getBrickBase(),getBrickHeight(),getPaddingLeftGame(),getPaddingTopGame());
     }
 
     //scopri se il giocatore ha vinto o meno
@@ -552,19 +547,19 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
 
     public void setSizeY(int sizeY) { this.sizeY = sizeY; }
 
-    public int getBrickBase() {
+    public float getBrickBase() {
         return brickBase;
     }
 
-    public void setBrickBase(int brickBase) {
+    public void setBrickBase(float brickBase) {
         this.brickBase = brickBase;
     }
 
-    public int getBrickHeight() {
+    public float getBrickHeight() {
         return brickHeight;
     }
 
-    public void setBrickHeight(int brickHeight) {
+    public void setBrickHeight(float brickHeight) {
         this.brickHeight = brickHeight;
     }
 
@@ -690,21 +685,21 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
 
     public void setRow(int row) { this.row = row;    }
 
-    public float getW() {        return w; }
+    public float getPaddingLeftGame() {
+        return paddingLeftGame;
+    }
 
-    public void setW(float w) {        this.w = w; }
+    public void setPaddingLeftGame(float paddingLeftGame) {
+        this.paddingLeftGame = paddingLeftGame;
+    }
 
-    public float getH() {        return h; }
+    public float getPaddingTopGame() {
+        return paddingTopGame;
+    }
 
-    public void setH(float h) {        this.h = h; }
-
-    public int getPaddW() {        return paddW; }
-
-    public void setPaddW(int paddW) { this.paddW = paddW; }
-
-    public int getPaddH() {        return paddH; }
-
-    public void setPaddH(int paddH) { this.paddH = paddH; }
+    public void setPaddingTopGame(float paddingTopGame) {
+        this.paddingTopGame = paddingTopGame;
+    }
 
     public ArrayList<LaserSound> getLaserDropped() {
         return laserDropped;

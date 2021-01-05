@@ -8,7 +8,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.RectF;
-
 import android.graphics.Typeface;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -25,10 +24,6 @@ import androidx.core.content.res.ResourcesCompat;
 public class GameViewPortrait extends Game{
 
     private Bitmap background;
-    private Bitmap stretch;
-    //private Bitmap paddle_p;
-
-
     private Display display;
     private Point size;
     private Paint paint;
@@ -43,32 +38,34 @@ public class GameViewPortrait extends Game{
         setSizeX(size.x);
         setSizeY(size.y);
 
-        //crea una bitmap per la palla e la barra
-
 
         //setta posizione della palla e della barra
         getBall().setX(size.x / 2);
         getBall().setY(size.y - 280);
         getPaddle().setX(size.x / 2);
         getPaddle().setY(size.y - 200);
-        setBrickBase((size.x-40)/9);
-        setBrickHeight((size.y-1200)/10);
 
+        //setto i bordi
         setUpBoard(150);
         setDownBoard(size.y);
         setLeftBoard(0);
         setRightBoard(getSizeX() - 60);
 
-        setColumns(10);
-        setRow(9);
-        setW(getBrickBase());
-        setH(getBrickHeight());
-        setPaddW(20);
-        setPaddH(150);
+        //setto colonne e righe dei mattoni
+        setColumns(9);
+        setRow(10);
+
+        //setto altezza e base del mattone
+        setBrickBase((size.x-40)/getColumns());
+        setBrickHeight((size.y-1200)/getRow());
+
+        //setto il padding del campo di gioco
+        setPaddingLeftGame(20);
+        setPaddingTopGame(150);
 
         for(Level l: getLevels()) {
             if(l.getNumberLevel()==getNumberLevel()) {
-                generateBricks(context, getLevels().get(getNumberLevel()-1),getColumns(),getRow(),getW(),getH(),getPaddW(),getPaddH());
+                generateBricks(context, getLevels().get(getNumberLevel()-1),getColumns(),getRow(),getBrickBase(),getBrickHeight(),getPaddingLeftGame(),getPaddingTopGame());
             }
         }
         this.setOnTouchListener(this);
@@ -85,9 +82,6 @@ public class GameViewPortrait extends Game{
 
     protected void onDraw(Canvas canvas) {
         // crea uno sfondo solo una volta
-        /*if (stretch == null) {
-            stretch = Bitmap.createScaledBitmap(background, size.x, size.y, false);
-        }*/
         canvas.drawBitmap(background, 0, 0, paint);
         // disegna la pallina
         paint.setColor(Color.RED);
@@ -104,7 +98,7 @@ public class GameViewPortrait extends Game{
         for (int i = 0; i < getBrickList().size(); i++) {
 
                 Brick b = getBrickList().get(i);
-                r = new RectF(b.getX(), b.getY(), b.getX() + 120, b.getY()+ 80);
+                r = new RectF(b.getX(), b.getY(), b.getX() + getBrickBase(), b.getY()+ getBrickHeight());
                 canvas.drawBitmap(b.getBrick(), null, r, paint);
         }
 
