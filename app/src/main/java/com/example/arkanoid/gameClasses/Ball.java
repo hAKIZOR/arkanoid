@@ -3,6 +3,7 @@ package com.example.arkanoid.gameClasses;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.View;
 
 import com.example.arkanoid.R;
@@ -27,6 +28,7 @@ public class Ball extends View {
         switch (a) {
             case 0:
                 skin = BitmapFactory.decodeResource(getResources(), R.drawable.redball); //<-- SPAZIO VUOTO
+                skin = Bitmap.createScaledBitmap(skin, 40, 40, false);
                 break;
         }
     }
@@ -43,20 +45,6 @@ public class Ball extends View {
 
         xSpeed = (int) (Math.random() * rangeX) + minX;
         ySpeed = (int) (Math.random() * rangeY) + minY;
-    }
-
-    //cambia direzione in base alla velocità
-    //cambia de dirección según la velocidad
-    protected void changeDirection() {
-        if (xSpeed > 0 && ySpeed < 0) {
-            reversexSpeed();
-        } else if (xSpeed < 0 && ySpeed < 0) {
-            reverseySpeed();
-        } else if (xSpeed < 0 && ySpeed > 0) {
-            reversexSpeed();
-        } else if (xSpeed > 0 && ySpeed > 0) {
-            reverseySpeed();
-        }
     }
 
     //aumentare la velocità in base al livello
@@ -86,6 +74,64 @@ public class Ball extends View {
         }
     }
 
+    //cambia direzione a seconda del ostacolo che ha toccato e della velocità
+    protected void changeDirectionBrick(String wall) {
+        if (wall.equals("left")) {
+            Log.e("direzione","LEFT");
+            reversexSpeed();
+        }  else if (wall.equals("down")) {
+            Log.e("direzione","DOWN");
+            reverseySpeed();
+        } else if (wall.equals("right")) {
+            Log.e("direzione","RIGHT");
+            reversexSpeed();
+        }else if (wall.equals("up")) {
+            Log.e("direzione","UP");
+            reverseySpeed();
+        }else if (xSpeed > 0 && ySpeed > 0 &&  wall.equals("upLeftCorner")) {
+            Log.e("direzione","CORNER_LEFT_UP");
+            reversexSpeed();
+            reverseySpeed();
+        }else if (xSpeed > 0 && ySpeed < 0 &&  wall.equals("upLeftCorner")) {
+            Log.e("direzione","CORNER_LEFT_UP");
+            reversexSpeed();
+        }else if (xSpeed < 0 && ySpeed > 0 && wall.equals("upLeftCorner")) {
+            Log.e("direzione","CORNER_LEFT_UP");
+            reverseySpeed();
+        }else if (xSpeed < 0 && ySpeed < 0 && wall.equals("upRightCorner")) {
+            Log.e("direzione","CORNER_RIGHT_UP");
+            reversexSpeed();
+        }else if (xSpeed < 0 && ySpeed > 0 && wall.equals("upRightCorner")) {
+            Log.e("direzione","CORNER_RIGHT_UP");
+            reversexSpeed();
+            reverseySpeed();
+        }else if (xSpeed > 0 && ySpeed > 0 && wall.equals("upRightCorner")) {
+            Log.e("direzione","CORNER_RIGHT_UP");
+            reversexSpeed();
+            reverseySpeed();
+        }else if (xSpeed < 0 && ySpeed < 0 && wall.equals("downLeftCorner")) {
+            Log.e("direzione","CORNER_LEFT_DOWN");
+            reverseySpeed();
+        }else if (xSpeed > 0 && ySpeed < 0 && wall.equals("downLeftCorner")) {
+            Log.e("direzione","CORNER_LEFT_DOWN");
+            reversexSpeed();
+            reverseySpeed();
+        }else if (xSpeed > 0 && ySpeed > 0 && wall.equals("downLeftCorner")) {
+            Log.e("direzione","CORNER_LEFT_DOWN");
+            reversexSpeed();
+        }else if (xSpeed > 0 && ySpeed < 0 && wall.equals("downRightCorner")) {
+            Log.e("direzione","CORNER_RIGHT_DOWN");
+            reverseySpeed();
+        }else if (xSpeed < 0 && ySpeed < 0 &&wall.equals("downRightCorner")) {
+            Log.e("direzione","CORNER_RIGHT_DOWN");
+            reverseySpeed();
+            reversexSpeed();
+        }else if (xSpeed < 0 && ySpeed > 0 &&wall.equals("downRightCorner")) {
+            Log.e("direzione","CORNER_RIGHT_DOWN");
+            reversexSpeed();
+        }
+    }
+
     //dice se la palla è vicina
     // dice si la pelota esta cerca
     private boolean isClosed(float ax, float ay, float bx, float by) {
@@ -104,10 +150,10 @@ public class Ball extends View {
     //scopri se la palla è vicina a un mattone
     //averigua si la pelota está cerca de un ladrillo
     private boolean isClosedBrick(float ax, float ay, float bx, float by) {
-        bx += 12;
-        by += 11;
-        double d = Math.sqrt(Math.pow((ax + 50) - bx, 2) + Math.pow((ay + 40) - by, 2));
-        return d < 80;
+        bx += 30;
+        by += 30;
+        double d = Math.sqrt(Math.pow((ax + 30) - bx, 2) + Math.pow((ay + 30) - by, 2));
+        return d < 30;
     }
 
     //se la palla urta con il paddle, cambia direzione
@@ -118,11 +164,18 @@ public class Ball extends View {
 
     //se la palla entra in collisione con un mattone, cambia direzione
     //si la bola choca con un ladrillo, cambia de dirección
-    protected boolean hitBrick(float xBrick, float yBrick) {
-        if (isClosedBrick(xBrick, yBrick, getX(), getY())) {
-            changeDirection();
-            return true;
-        } else return false;
+    protected boolean hitBrick(Brick b) {
+        boolean result=false;
+
+        for(int i=0; i<b.getPoints().size(); i++){
+        if (isClosedBrick(b.getPoints().get(i).getX(), b.getPoints().get(i).getY(), getX(), getY())) {
+            changeDirectionBrick(b.checkPointSide(b.getPoints().get(i).getX(),b.getPoints().get(i).getY()));
+            result= true;
+            break;
+        } else result= false;
+        }
+
+        return result;
     }
 
     // si muove alla velocità specificata

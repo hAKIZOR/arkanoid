@@ -102,6 +102,15 @@ public class GameViewPortrait extends Game{
                 canvas.drawBitmap(b.getBrick(), null, r, paint);
         }
 
+       /* for(int j=0; j<getBrickList().size(); j++){
+        for(int i = 0; i<getBrickList().get(j).getPoints().size(); i++) {
+            paint.setColor(Color.WHITE);
+            canvas.drawCircle(getBrickList().get(j).getPoints().get(i).getX(), getBrickList().get(j).getPoints().get(i).getY(), 5, paint);
+        }
+        }*/
+
+
+
         //disegna powerUp
         paint.setColor(Color.GREEN);
         for(int j = 0; j < getPowerUps().size(); j++){

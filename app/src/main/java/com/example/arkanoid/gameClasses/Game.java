@@ -211,7 +211,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < columns; j++) {
                 if(level.getA(a)!=0) {
-                    brickList.add(new Brick(context,  brickBase * j + paddingLeftGame, brickHeight  * i + paddingTopGame, level.getA(a)));
+                    brickList.add(new Brick(context,  brickBase * j + paddingLeftGame, brickHeight  * i + paddingTopGame, level.getA(a),brickBase,brickHeight));
                 }
                 a++;
             }
@@ -284,22 +284,24 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
             counterBrickTiming = brickList.size();
             for (int i = 0; i < brickList.size(); i++) {
                 Brick b = brickList.get(i);
-                if (ball.hitBrick(b.getX(), b.getY())) {
+                if (ball.hitBrick(b)) {
 
-                    if(b.isHitted()) {
-                        if (generatePowerUp(b.getX(), b.getY()).getPower() != null) {
-                            powerUps.add(this.powerUp);
-                        }
-                        soundPool.play(soundNote[b.getSoundName() - 1], 1, 1, 0, 0, 1);
-                        brickList.remove(i);
-                    }else{
-                        brickList.get(i).setHitted(true);
-                        brickList.get(i).setSkinById(b.getSkin());
-                    }
+
+                        //if (b.isHitted()) {
+                            if (generatePowerUp(b.getX(), b.getY()).getPower() != null) {
+                                powerUps.add(this.powerUp);
+                            }
+                            soundPool.play(soundNote[b.getSoundName() - 1], 1, 1, 0, 0, 1);
+                            brickList.remove(i);
+                        //} else {
+                       //     brickList.get(i).setHitted(true);
+                         //   brickList.get(i).setSkinById(b.getSkin());
+                        //}
 
 
                         score = score + 80;
                         timing = 0;
+                        break;
 
                 }
             }
@@ -335,7 +337,6 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
             }
 
             ball.move();
-            Log.e("velocita","x:"+ball.getxSpeed()+"y:"+ball.getySpeed());
             for (int j = 0; j < powerUps.size(); j++) {
                 powerUps.get(j).move();
             }
