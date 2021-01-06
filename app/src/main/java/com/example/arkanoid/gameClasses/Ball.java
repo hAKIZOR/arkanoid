@@ -10,6 +10,8 @@ import com.example.arkanoid.R;
 
 public class Ball extends View {
 
+    private static final float SIZEBALL = 35;
+    private static final float HALFBALL = SIZEBALL/2;
     protected float xSpeed;
     protected float ySpeed;
     private float x;
@@ -28,7 +30,7 @@ public class Ball extends View {
         switch (a) {
             case 0:
                 skin = BitmapFactory.decodeResource(getResources(), R.drawable.redball); //<-- SPAZIO VUOTO
-                skin = Bitmap.createScaledBitmap(skin, 40, 40, false);
+                skin = Bitmap.createScaledBitmap(skin, (int)SIZEBALL, (int)SIZEBALL, false);
                 break;
         }
     }
@@ -134,14 +136,13 @@ public class Ball extends View {
 
     //dice se la palla è vicina
     // dice si la pelota esta cerca
-    private boolean isClosed(float ax, float ay, float bx, float by) {
-        bx += 12;
-        by += 11;
-        if ((Math.sqrt(Math.pow((ax + 50) - bx, 2) + Math.pow(ay - by, 2))) < 80) {
+    private boolean isClosed(float ax, float ay) {
+
+        if ((Math.sqrt(Math.pow((ax + 50) - this.x, 2) + Math.pow(ay - this.y, 2))) < 80) {
             return true;
-        } else if ((Math.sqrt(Math.pow((ax + 100) - bx, 2) + Math.pow(ay - by, 2))) < 60) {
+        } else if ((Math.sqrt(Math.pow((ax + 100) - this.x, 2) + Math.pow(ay - this.y, 2))) < 60) {
             return true;
-        } else if ((Math.sqrt(Math.pow((ax + 150) - bx, 2) + Math.pow(ay - by, 2))) < 60) {
+        } else if ((Math.sqrt(Math.pow((ax + 150) - this.x, 2) + Math.pow(ay - this.y, 2))) < 60) {
             return true;
         }
         return false;
@@ -149,17 +150,15 @@ public class Ball extends View {
 
     //scopri se la palla è vicina a un mattone
     //averigua si la pelota está cerca de un ladrillo
-    private boolean isClosedBrick(float ax, float ay, float bx, float by) {
-        bx += 30;
-        by += 30;
-        double d = Math.sqrt(Math.pow((ax + 30) - bx, 2) + Math.pow((ay + 30) - by, 2));
-        return d < 30;
+    private boolean isClosedBrick(float brickX, float brickY) {
+        double d = Math.sqrt(Math.pow(brickX - this.x, 2) + Math.pow(brickY - this.y, 2));
+        return d < 20;
     }
 
     //se la palla urta con il paddle, cambia direzione
     //si la pelota golpea "the paddle", cambia de dirección
     protected void hitPaddle(float xPaddle, float yPaddle) {
-        if (isClosed(xPaddle, yPaddle, getX(), getY())) changeDirection("down");
+        if (isClosed(xPaddle, yPaddle)) changeDirection("down");
     }
 
     //se la palla entra in collisione con un mattone, cambia direzione
@@ -168,11 +167,11 @@ public class Ball extends View {
         boolean result=false;
 
         for(int i=0; i<b.getPoints().size(); i++){
-        if (isClosedBrick(b.getPoints().get(i).getX(), b.getPoints().get(i).getY(), getX(), getY())) {
+        if (isClosedBrick(b.getPoints().get(i).getX(), b.getPoints().get(i).getY())) {
             changeDirectionBrick(b.checkPointSide(b.getPoints().get(i).getX(),b.getPoints().get(i).getY()));
-            result= true;
+            result = true;
             break;
-        } else result= false;
+        }
         }
 
         return result;
@@ -205,16 +204,14 @@ public class Ball extends View {
         return x;
     }
 
-    public float getY() {
-        return y;
-    }
+    public float getY() { return y; }
 
     public void setX(float x) {
-        this.x = x;
+        this.x = x-HALFBALL;
     }
 
     public void setY(float y) {
-        this.y = y;
+        this.y = y+HALFBALL;
     }
 
     public float getxSpeed() {

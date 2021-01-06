@@ -78,6 +78,9 @@ public class GameViewPortrait extends Game{
         display = wm.getDefaultDisplay();
         size = new Point();
         display.getSize(size);
+
+        paint.setColor(Color.RED);
+
     }
 
     protected void onDraw(Canvas canvas) {
@@ -85,6 +88,7 @@ public class GameViewPortrait extends Game{
         canvas.drawBitmap(background, 0, 0, paint);
         // disegna la pallina
         paint.setColor(Color.RED);
+        paint.setAntiAlias(true);
         canvas.drawBitmap(getBall().getSkin(), getBall().getX(), getBall().getY(), paint);
 
         // disegna la barra

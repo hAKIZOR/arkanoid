@@ -287,16 +287,18 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
                 if (ball.hitBrick(b)) {
 
 
-                        //if (b.isHitted()) {
-                            if (generatePowerUp(b.getX(), b.getY()).getPower() != null) {
-                                powerUps.add(this.powerUp);
-                            }
-                            soundPool.play(soundNote[b.getSoundName() - 1], 1, 1, 0, 0, 1);
-                            brickList.remove(i);
-                        //} else {
-                       //     brickList.get(i).setHitted(true);
-                         //   brickList.get(i).setSkinById(b.getSkin());
-                        //}
+                        if (b.isHitted()) {
+
+                                if (generatePowerUp(b.getX(), b.getY()).getPower() != null) {
+                                    powerUps.add(this.powerUp);
+                                }
+                                soundPool.play(soundNote[b.getSoundName() - 1], 1, 1, 0, 0, 1);
+                                brickList.remove(i);
+
+                        } else {
+                            brickList.get(i).setHitted(true);
+                            brickList.get(i).setSkinById(b.getSkin());
+                        }
 
 
                         score = score + 80;
@@ -304,6 +306,8 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
                         break;
 
                 }
+
+
             }
 
 
@@ -386,7 +390,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
 
     //scopri se il giocatore ha vinto o meno
     private void win() {
-        if (brickList.isEmpty()) {
+        if (levelCompleted()) {
             timing = 0;
             ++numberLevel;
 
@@ -704,5 +708,15 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
 
     public ArrayList<LaserSound> getLaserDropped() {
         return laserDropped;
+    }
+
+    public boolean levelCompleted(){
+        boolean completed=true;
+        for(int i =0; i<brickList.size(); i++){
+            if(brickList.get(i).getSkin()!=20){
+                completed = false;
+            }
+        }
+        return completed;
     }
 }

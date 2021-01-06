@@ -38,26 +38,26 @@ public class Brick extends View {
     }
     private void generatePoints(float x, float y,float base, float height){
 
-        for(float i=0; i<=base; i=i+(base/4)){
+        for(float i=0; i<=base; i=i+(base/8)){
             if(i==0) points.add(new PointBrick((x+i), (y),"upLeftCorner"));
             else if(i==base) points.add(new PointBrick((x+i), (y),"upRightCorner"));
             else points.add(new PointBrick((x+i), (y),"up"));
 
         }
 
-        for(float i=0; i<=base; i=i+(base/4)){
+        for(float i=0; i<=base; i=i+(base/8)){
             if(i==0) points.add(new PointBrick((x+i), (y+height),"downLeftCorner"));
             else if(i==base) points.add(new PointBrick((x+i), (y+height),"downRightCorner"));
             else points.add(new PointBrick((x+i), (y+height),"down"));
 
         }
 
-        for(float i=0; i<height; i=i+(height/2)){
+        for(float i=0; i<height; i=i+(height/4)){
             if(i!=0) points.add(new PointBrick((x), (y + i), "left"));
 
         }
 
-        for(float i=0; i<height; i=i+(height/2)){
+        for(float i=0; i<height; i=i+(height/4)){
             if(i!=0)points.add(new PointBrick((x+base), (y+i),"right"));
 
         }
@@ -190,7 +190,7 @@ public class Brick extends View {
                 break;
             case 20:
                 brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_grey);
-                hitted=true;
+                hitted=false;
                 soundName=7;
                 break;
 
