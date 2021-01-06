@@ -109,11 +109,9 @@ public class GameViewPortrait extends Game{
        /* for(int j=0; j<getBrickList().size(); j++){
         for(int i = 0; i<getBrickList().get(j).getPoints().size(); i++) {
             paint.setColor(Color.WHITE);
-            canvas.drawCircle(getBrickList().get(j).getPoints().get(i).getX(), getBrickList().get(j).getPoints().get(i).getY(), 5, paint);
+            canvas.drawCircle(getBrickList().get(j).getPoints().get(i).getX(), getBrickList().get(j).getPoints().get(i).getY(), 1, paint);
         }
         }*/
-
-
 
         //disegna powerUp
         paint.setColor(Color.GREEN);
@@ -136,8 +134,10 @@ public class GameViewPortrait extends Game{
         paint.setTextSize(60);
         Typeface typeface = ResourcesCompat.getFont(super.getContext(), R.font.play_prented);
         paint.setTypeface(typeface);
-        canvas.drawText("LIFES :" + getLifes(), 200, 100, paint);
-        canvas.drawText("SCORE :" + getScore(), 600, 100, paint);
+        canvas.drawText("HP:" + getLifes(), 1, 100, paint);
+        canvas.drawText("PT:" + getScore(), 200, 100, paint);
+        canvas.drawText("LSR:" + getLaserSoundRemaining(), 550, 100, paint);
+        canvas.drawText("PIANO:" + getHandsPianoRemaining(), 800, 100, paint);
 
         // in caso di sconfitta stampa "GameOver"
         if (isGameOver()) {

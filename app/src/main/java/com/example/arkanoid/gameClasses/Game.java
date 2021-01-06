@@ -211,7 +211,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < columns; j++) {
                 if(level.getA(a)!=0) {
-                    brickList.add(new Brick(context,  brickBase * j + paddingLeftGame, brickHeight  * i + paddingTopGame, level.getA(a),brickBase,brickHeight));
+                    brickList.add(new Brick(context,  (brickBase * j) + paddingLeftGame, (brickHeight* i) + paddingTopGame, level.getA(a),brickBase,brickHeight));
                 }
                 a++;
             }
@@ -287,7 +287,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
                 if (ball.hitBrick(b)) {
 
 
-                        if (b.isHitted()) {
+                        if (b.getHitted()==b.getHit()) {
 
                                 if (generatePowerUp(b.getX(), b.getY()).getPower() != null) {
                                     powerUps.add(this.powerUp);
@@ -296,7 +296,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
                                 brickList.remove(i);
 
                         } else {
-                            brickList.get(i).setHitted(true);
+                            brickList.get(i).hittedOnce();
                             brickList.get(i).setSkinById(b.getSkin());
                         }
 
@@ -317,17 +317,13 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
                 for(int j = 0; j < laserDropped.size(); j++){
                 if (laserDropped.get(j).hitBrick(b.getX(), b.getY())) {
 
-                    if(b.isHitted()) {
+
                         if (generatePowerUp(b.getX(), b.getY()).getPower() != null) {
                             powerUps.add(this.powerUp);
                         }
                         soundPool.play(soundNote[b.getSoundName()], 1, 1, 0, 0, 1);
                         brickList.remove(i);
 
-                    }else{
-                        brickList.get(i).setHitted(true);
-                        brickList.get(i).setSkinById(b.getSkin());
-                    }
                     laserDropped.remove(j);
                     score = score + 80;
                 }
@@ -383,6 +379,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         ball.createSpeed();
         powerUps.clear();
         laserDropped.clear();
+        handsPianoRemaining = 0;
         brickList = new ArrayList<Brick>();
 
         generateBricks(context, getLevels().get(getNumberLevel()-1),getColumns(),getRow(),getBrickBase(),getBrickHeight(),getPaddingLeftGame(),getPaddingTopGame());
@@ -635,7 +632,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
                 handsPianoRemaining += 3;
                 break;
             case 6:
-                laserSoundRemaining = 3;
+                laserSoundRemaining += 3;
                 laserSoundFlag=true;
                 break;
         }
@@ -663,7 +660,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
 
         for (i = 0; i < brickList.size(); i++) {
             brick = brickList.get(i);
-            distance = Math.sqrt(Math.pow(brick.getX() - xSelected, 2) + Math.pow(brick.getY() - ySelected, 2));
+            distance = Math.sqrt(Math.pow((brick.getX()+(brickBase/2)) - xSelected, 2) + Math.pow((brick.getY()+(brickHeight/2)) - ySelected, 2));
             if (distance < minDistance) {
                 minDistance = distance;
                 indexMin = i;
@@ -718,5 +715,13 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
             }
         }
         return completed;
+    }
+
+    public int getHandsPianoRemaining() {
+        return handsPianoRemaining;
+    }
+
+    public int getLaserSoundRemaining() {
+        return laserSoundRemaining;
     }
 }

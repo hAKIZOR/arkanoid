@@ -105,11 +105,10 @@ public class Ball extends View {
             reversexSpeed();
         }else if (xSpeed < 0 && ySpeed > 0 && wall.equals("upRightCorner")) {
             Log.e("direzione","CORNER_RIGHT_UP");
-            reversexSpeed();
             reverseySpeed();
+            reversexSpeed();
         }else if (xSpeed > 0 && ySpeed > 0 && wall.equals("upRightCorner")) {
             Log.e("direzione","CORNER_RIGHT_UP");
-            reversexSpeed();
             reverseySpeed();
         }else if (xSpeed < 0 && ySpeed < 0 && wall.equals("downLeftCorner")) {
             Log.e("direzione","CORNER_LEFT_DOWN");
@@ -152,7 +151,7 @@ public class Ball extends View {
     //averigua si la pelota está cerca de un ladrillo
     private boolean isClosedBrick(float brickX, float brickY) {
         double d = Math.sqrt(Math.pow(brickX - this.x, 2) + Math.pow(brickY - this.y, 2));
-        return d < 20;
+        return d < 35;
     }
 
     //se la palla urta con il paddle, cambia direzione
