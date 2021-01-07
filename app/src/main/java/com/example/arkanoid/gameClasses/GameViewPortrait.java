@@ -96,6 +96,7 @@ public class GameViewPortrait extends Game{
         r = new RectF(getPaddle().getX(), getPaddle().getY(), getPaddle().getX() + getPaddle().getWidthp(), getPaddle().getY() + getPaddle().getHeightp());
         canvas.drawBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.paddle), null, r, paint);
 
+
         // disegna mattoni
         paint.setColor(Color.GREEN);
         int molt=1;

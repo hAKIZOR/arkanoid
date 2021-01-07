@@ -12,7 +12,7 @@ public class UpdateThread extends Thread {
     public void run() {
         while (true) {
             try {
-                sleep(25);
+                sleep(20);
             } catch (Exception ex) {
             }
             updateHandler.sendEmptyMessage(0);

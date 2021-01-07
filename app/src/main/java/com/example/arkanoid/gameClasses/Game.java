@@ -226,9 +226,9 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
             ball.changeDirection("left");
         } else if (ball.getY() + ball.getySpeed() <= upBoard) {
             ball.changeDirection("up");
-        } else if ((ball.getY()+ 45 + ball.getySpeed() >= sizeY - 210)&&(ball.getY()+ 45 + ball.getySpeed() <= sizeY - 185) ){
-            if ((ball.getX() < paddle.getX() + paddle.getWidthp() && ball.getX() > paddle.getX()) || (ball.getX() + 48 < paddle.getX() + paddle.getWidthp() && ball.getX() + 48 > paddle.getX())) {
-                ball.changeDirection("down");
+        } else if ((ball.getY()+ ball.getySpeed() >= paddle.getY()-40)&&(ball.getY()+ ball.getySpeed() <= paddle.getY()+40) ){
+            if ((ball.getX() < paddle.getX() + paddle.getWidthp() && ball.getX() > paddle.getX()) || (ball.getX() + ball.getHALFBALL() < paddle.getX() + paddle.getWidthp() && ball.getX() + ball.getHALFBALL() > paddle.getX())) {
+                ball.changeDirectionPaddle(paddle);
             }
 
         }else if((ball.getY() + ball.getySpeed() >= sizeY - 70)&&(ball.getY() + ball.getySpeed() <= sizeY)){

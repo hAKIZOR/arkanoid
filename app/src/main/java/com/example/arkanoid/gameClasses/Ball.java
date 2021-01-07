@@ -56,23 +56,43 @@ public class Ball extends View {
         ySpeed = ySpeed - (1 * level);
     }
 
+
     //cambia direzione a seconda del muro che ha toccato e della velocità
     //cambia de dirección según la pared que ha golpeado y la velocidad
     protected void changeDirection(String wall) {
         if (xSpeed > 0 && ySpeed < 0 && wall.equals("right")) {
             reversexSpeed();
-        } else if (xSpeed > 0 && ySpeed < 0 && wall.equals("up")) {
+        } else if (xSpeed >= 0 && ySpeed < 0 && wall.equals("up")) {
             reverseySpeed();
-        } else if (xSpeed < 0 && ySpeed < 0 && wall.equals("up")) {
+        } else if (xSpeed <= 0 && ySpeed < 0 && wall.equals("up")) {
             reverseySpeed();
         } else if (xSpeed < 0 && ySpeed < 0 && wall.equals("left")) {
             reversexSpeed();
         } else if (xSpeed < 0 && ySpeed > 0 && wall.equals("left")) {
             reversexSpeed();
-        } else if (wall.equals("down")) { // <--- l'unico caso in cui colpisce il Paddle
-            reverseySpeed();
         } else if (xSpeed > 0 && ySpeed > 0 && wall.equals("right")) {
             reversexSpeed();
+        }
+    }
+
+    //cambia direzione a seconda della parte di paddle che ha toccato
+    //cambia de dirección según la pared que ha golpeado y la velocidad
+    protected void changeDirectionPaddle(Paddle paddle) {
+
+        if (this.x>=paddle.getX() && this.x<paddle.getX()+paddle.getWidthp()/7) {
+            setSpeed(-16, -17);
+        } else if (this.x>=paddle.getX()+paddle.getWidthp()/7 && this.x<paddle.getX()+(paddle.getWidthp()*2)/7) {
+            setSpeed(-12, -17);
+        } else if (this.x>=paddle.getX()+(paddle.getWidthp()*2)/7 && this.x<paddle.getX()+(paddle.getWidthp()*3)/7) {
+            setSpeed(-7, -17);
+        } else if (this.x>=paddle.getX()+(paddle.getWidthp()*3)/7 && this.x<paddle.getX()+(paddle.getWidthp()*4)/7) {
+            setSpeed(0, -17);
+        } else if (this.x>=paddle.getX()+(paddle.getWidthp()*4)/7 && this.x<paddle.getX()+(paddle.getWidthp()*5)/7) {
+            setSpeed(7, -17);
+        } else if (this.x>=paddle.getX()+(paddle.getWidthp()*5)/7 && this.x<paddle.getX()+(paddle.getWidthp()*6)/7) {
+            setSpeed(12,-17);
+        } else if (this.x>paddle.getX()+(paddle.getWidthp()*6)/7 && this.x<paddle.getX()+paddle.getWidthp()) {
+            setSpeed(16, -17);
         }
     }
 
@@ -133,31 +153,11 @@ public class Ball extends View {
         }
     }
 
-    //dice se la palla è vicina
-    // dice si la pelota esta cerca
-    private boolean isClosed(float ax, float ay) {
-
-        if ((Math.sqrt(Math.pow((ax + 50) - this.x, 2) + Math.pow(ay - this.y, 2))) < 80) {
-            return true;
-        } else if ((Math.sqrt(Math.pow((ax + 100) - this.x, 2) + Math.pow(ay - this.y, 2))) < 60) {
-            return true;
-        } else if ((Math.sqrt(Math.pow((ax + 150) - this.x, 2) + Math.pow(ay - this.y, 2))) < 60) {
-            return true;
-        }
-        return false;
-    }
-
     //scopri se la palla è vicina a un mattone
     //averigua si la pelota está cerca de un ladrillo
     private boolean isClosedBrick(float brickX, float brickY) {
         double d = Math.sqrt(Math.pow(brickX - this.x, 2) + Math.pow(brickY - this.y, 2));
-        return d < 35;
-    }
-
-    //se la palla urta con il paddle, cambia direzione
-    //si la pelota golpea "the paddle", cambia de dirección
-    protected void hitPaddle(float xPaddle, float yPaddle) {
-        if (isClosed(xPaddle, yPaddle)) changeDirection("down");
+        return d < HALFBALL;
     }
 
     //se la palla entra in collisione con un mattone, cambia direzione
@@ -219,5 +219,18 @@ public class Ball extends View {
 
     public float getySpeed() {
         return ySpeed;
+    }
+
+    public static float getSIZEBALL() {
+        return SIZEBALL;
+    }
+
+    public static float getHALFBALL() {
+        return HALFBALL;
+    }
+
+    public void setSpeed( float xSpeed, float ySpeed){
+        this.xSpeed=xSpeed;
+        this.ySpeed=ySpeed;
     }
 }
