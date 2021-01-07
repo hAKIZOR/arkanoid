@@ -91,7 +91,7 @@ public class Ball extends View {
             setSpeed(7, -17);
         } else if (this.x>=paddle.getX()+(paddle.getWidthp()*5)/7 && this.x<paddle.getX()+(paddle.getWidthp()*6)/7) {
             setSpeed(12,-17);
-        } else if (this.x>paddle.getX()+(paddle.getWidthp()*6)/7 && this.x<paddle.getX()+paddle.getWidthp()) {
+        } else if (this.x>=paddle.getX()+(paddle.getWidthp()*6)/7 && this.x<paddle.getX()+paddle.getWidthp()) {
             setSpeed(16, -17);
         }
     }
@@ -110,44 +110,44 @@ public class Ball extends View {
         }else if (wall.equals("up")) {
             Log.e("direzione","UP");
             reverseySpeed();
-        }else if (xSpeed > 0 && ySpeed > 0 &&  wall.equals("upLeftCorner")) {
+        }else if (xSpeed >= 0 && ySpeed > 0 &&  wall.equals("upLeftCorner")) {
             Log.e("direzione","CORNER_LEFT_UP");
             reversexSpeed();
             reverseySpeed();
-        }else if (xSpeed > 0 && ySpeed < 0 &&  wall.equals("upLeftCorner")) {
+        }else if (xSpeed >= 0 && ySpeed < 0 &&  wall.equals("upLeftCorner")) {
             Log.e("direzione","CORNER_LEFT_UP");
             reversexSpeed();
-        }else if (xSpeed < 0 && ySpeed > 0 && wall.equals("upLeftCorner")) {
+        }else if (xSpeed <= 0 && ySpeed > 0 && wall.equals("upLeftCorner")) {
             Log.e("direzione","CORNER_LEFT_UP");
             reverseySpeed();
-        }else if (xSpeed < 0 && ySpeed < 0 && wall.equals("upRightCorner")) {
+        }else if (xSpeed <= 0 && ySpeed < 0 && wall.equals("upRightCorner")) {
             Log.e("direzione","CORNER_RIGHT_UP");
             reversexSpeed();
-        }else if (xSpeed < 0 && ySpeed > 0 && wall.equals("upRightCorner")) {
+        }else if (xSpeed <= 0 && ySpeed > 0 && wall.equals("upRightCorner")) {
             Log.e("direzione","CORNER_RIGHT_UP");
             reverseySpeed();
             reversexSpeed();
-        }else if (xSpeed > 0 && ySpeed > 0 && wall.equals("upRightCorner")) {
+        }else if (xSpeed >= 0 && ySpeed > 0 && wall.equals("upRightCorner")) {
             Log.e("direzione","CORNER_RIGHT_UP");
             reverseySpeed();
-        }else if (xSpeed < 0 && ySpeed < 0 && wall.equals("downLeftCorner")) {
+        }else if (xSpeed <= 0 && ySpeed < 0 && wall.equals("downLeftCorner")) {
             Log.e("direzione","CORNER_LEFT_DOWN");
             reverseySpeed();
-        }else if (xSpeed > 0 && ySpeed < 0 && wall.equals("downLeftCorner")) {
+        }else if (xSpeed >= 0 && ySpeed < 0 && wall.equals("downLeftCorner")) {
             Log.e("direzione","CORNER_LEFT_DOWN");
             reversexSpeed();
             reverseySpeed();
-        }else if (xSpeed > 0 && ySpeed > 0 && wall.equals("downLeftCorner")) {
+        }else if (xSpeed >= 0 && ySpeed > 0 && wall.equals("downLeftCorner")) {
             Log.e("direzione","CORNER_LEFT_DOWN");
             reversexSpeed();
-        }else if (xSpeed > 0 && ySpeed < 0 && wall.equals("downRightCorner")) {
+        }else if (xSpeed >= 0 && ySpeed < 0 && wall.equals("downRightCorner")) {
             Log.e("direzione","CORNER_RIGHT_DOWN");
             reverseySpeed();
-        }else if (xSpeed < 0 && ySpeed < 0 &&wall.equals("downRightCorner")) {
+        }else if (xSpeed <= 0 && ySpeed < 0 &&wall.equals("downRightCorner")) {
             Log.e("direzione","CORNER_RIGHT_DOWN");
             reverseySpeed();
             reversexSpeed();
-        }else if (xSpeed < 0 && ySpeed > 0 &&wall.equals("downRightCorner")) {
+        }else if (xSpeed <= 0 && ySpeed > 0 &&wall.equals("downRightCorner")) {
             Log.e("direzione","CORNER_RIGHT_DOWN");
             reversexSpeed();
         }
