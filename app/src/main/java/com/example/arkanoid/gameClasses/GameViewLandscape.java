@@ -130,7 +130,7 @@ public class GameViewLandscape extends Game{
         // disegna testo
         paint.setColor(Color.WHITE);
         paint.setTextSize(60);
-        Typeface typeface = ResourcesCompat.getFont(super.getContext(), R.font.play_prented);
+        Typeface typeface = ResourcesCompat.getFont(super.getContext(), R.font.font);
         paint.setTypeface(typeface);
         canvas.drawText("LIFES : " + getLifes(), size.x-200, 80, paint);
         canvas.drawText("SCORE : "  + getScore(), size.x-200, 240, paint);

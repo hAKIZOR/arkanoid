@@ -16,10 +16,10 @@
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/grobold"
             android:gravity="center"
             android:minHeight="?actionBarSize"
             android:padding="@dimen/appbar_padding"
-            android:fontFamily="@font/play_prented"
             android:text="@string/title_activity_leader_board"
             android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title" />
 

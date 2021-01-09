@@ -80,19 +80,19 @@ public class Ball extends View {
     protected void changeDirectionPaddle(Paddle paddle) {
 
         if (this.x>=paddle.getX() && this.x<paddle.getX()+paddle.getWidthp()/7) {
-            setSpeed(-16, -17);
+            setSpeed(-13, -14);
         } else if (this.x>=paddle.getX()+paddle.getWidthp()/7 && this.x<paddle.getX()+(paddle.getWidthp()*2)/7) {
-            setSpeed(-12, -17);
+            setSpeed(-10, -14);
         } else if (this.x>=paddle.getX()+(paddle.getWidthp()*2)/7 && this.x<paddle.getX()+(paddle.getWidthp()*3)/7) {
-            setSpeed(-7, -17);
+            setSpeed(-7, -14);
         } else if (this.x>=paddle.getX()+(paddle.getWidthp()*3)/7 && this.x<paddle.getX()+(paddle.getWidthp()*4)/7) {
-            setSpeed(0, -17);
+            setSpeed(0, -20);
         } else if (this.x>=paddle.getX()+(paddle.getWidthp()*4)/7 && this.x<paddle.getX()+(paddle.getWidthp()*5)/7) {
-            setSpeed(7, -17);
+            setSpeed(7, -14);
         } else if (this.x>=paddle.getX()+(paddle.getWidthp()*5)/7 && this.x<paddle.getX()+(paddle.getWidthp()*6)/7) {
-            setSpeed(12,-17);
+            setSpeed(10,-14);
         } else if (this.x>=paddle.getX()+(paddle.getWidthp()*6)/7 && this.x<paddle.getX()+paddle.getWidthp()) {
-            setSpeed(16, -17);
+            setSpeed(13, -14);
         }
     }
 

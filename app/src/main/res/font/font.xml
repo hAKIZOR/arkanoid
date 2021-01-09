@@ -3,5 +3,5 @@
     <font
         android:fontStyle="normal"
         android:fontWeight="400"
-        android:font="@font/play_prented" />
+        android:font="@font/grobold" />
 </font-family>

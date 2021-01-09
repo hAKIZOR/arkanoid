@@ -126,7 +126,7 @@ public class GameViewPortrait extends Game{
         // disegna testo
         paint.setColor(Color.WHITE);
         paint.setTextSize(60);
-        Typeface typeface = ResourcesCompat.getFont(super.getContext(), R.font.play_prented);
+        Typeface typeface = ResourcesCompat.getFont(super.getContext(), R.font.font);
         paint.setTypeface(typeface);
         canvas.drawText("HP:" + getLifes(), 1, 100, paint);
         canvas.drawText("PT:" + getScore(), 200, 100, paint);

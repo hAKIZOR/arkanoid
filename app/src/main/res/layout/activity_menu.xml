@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_marginBottom="48dp"
-            android:fontFamily="@font/play_prented"
+            android:fontFamily="@font/font"
             android:text="@string/menu_principale"
             android:textAlignment="center" />
 
@@ -28,28 +28,28 @@
             android:id="@+id/button_arcade"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/play_prented"
+            android:fontFamily="@font/font"
             android:text="@string/arcade" />
 
         <Button
             android:id="@+id/button_editor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/play_prented"
+            android:fontFamily="@font/font"
             android:text="@string/editor_livelli" />
 
         <Button
             android:id="@+id/button_leaderboard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/play_prented"
+            android:fontFamily="@font/font"
             android:text="@string/classifica" />
 
         <Button
             android:id="@+id/button_settings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/play_prented"
+            android:fontFamily="@font/font"
             android:text="@string/impostazioni" />
 
     </LinearLayout>
