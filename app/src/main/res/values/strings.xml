@@ -25,5 +25,8 @@
     <string name="signed_out">Log out effettuato</string>
     <string name="signed_in_fmt">Login completato</string>
     <string name="guest_button">Gioca offline</string>
+    <string name="inserisci_un_nickname">Inserisci un Nickname</string>
+    <string name="avanti">Avanti</string>
+    <string name="nickname">nickname</string>
 
 </resources>

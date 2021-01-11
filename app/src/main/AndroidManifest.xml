@@ -12,45 +12,38 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Arkanoid">
-
-        <activity android:name="com.caserteam.arkanoid.LoginActivity">
+        <activity android:name=".RegistrationActivity"></activity>
+        <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
-
         <activity
-            android:name="com.caserteam.arkanoid.LeaderBoardActivity"
+            android:name=".LeaderBoardActivity"
             android:label="@string/title_activity_leader_board"
-            android:theme="@style/Theme.Arkanoid.NoActionBar">
-        </activity>
-
-        <activity android:name="com.caserteam.arkanoid.gameClasses.MainActivity">
+            android:theme="@style/Theme.Arkanoid.NoActionBar"></activity>
+        <activity android:name=".gameClasses.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
-
-        <activity android:name="com.caserteam.arkanoid.MenuActivity">
+        <activity android:name=".MenuActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
-
-        <activity android:name="com.caserteam.arkanoid.SettingsActivity">
+        <activity android:name=".SettingsActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
-
-        <activity android:name="com.caserteam.arkanoid.SplashActivity">
+        <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

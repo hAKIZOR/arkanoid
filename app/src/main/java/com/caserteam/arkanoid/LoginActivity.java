@@ -28,6 +28,10 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class LoginActivity extends AppCompatActivity {
         private SignInButton signInButton;
@@ -143,18 +147,31 @@ public class LoginActivity extends AppCompatActivity {
 
         private void updateUI(FirebaseUser fUser){
             btnSignOut.setVisibility(View.VISIBLE);
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
             account = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
             if(account !=  null){
                 String personName = account.getDisplayName();
                 String personGivenName = account.getGivenName();
-                String personFamilyName = account.getFamilyName();
                 String personEmail = account.getEmail();
-                String personId = account.getId();
                 Uri personPhoto = account.getPhotoUrl();
-                Toast.makeText(LoginActivity.this,personName + personEmail ,Toast.LENGTH_SHORT).show();
-                System.out.println(account.getDisplayName()+"___"+account.getEmail());
-                Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
-                startActivity(intent);
+                db.collection("utenti").document(personEmail)
+                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                               //loggati
+                                Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
+                                startActivity(intent);
+
+                                }else {
+                                //vai nella sezione aggiungi nickname
+
+                            }
+                        }else {Log.d(TAG, "get failed with ", task.getException());}
+                    }});
+
             } else btnSignOut.setVisibility(View.INVISIBLE);
 
         }
