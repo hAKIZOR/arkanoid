@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Google Play game services IDs. Save this file as res/values/games-ids.xml in your project. -->
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+        <!-- app_id -->
+        <string name="TODO2" translatable="false"
+            android:name="app_id"
+            android:translatable="false" >10452951346>
+        </string>
+        <!-- package_name -->
+        <string name="TODO" translatable="false"
+            android:name="package_name"
+            android:translatable="false" >
+
+        </string>
+
+</resources>

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.arkanoid">
+    package="com.caserteam.arkanoid">
 
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -11,32 +12,45 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Arkanoid">
+
+        <activity android:name="com.caserteam.arkanoid.LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+        </activity>
+
         <activity
-            android:name=".LeaderBoardActivity"
+            android:name="com.caserteam.arkanoid.LeaderBoardActivity"
             android:label="@string/title_activity_leader_board"
-            android:theme="@style/Theme.Arkanoid.NoActionBar"></activity>
-        <activity android:name=".gameClasses.MainActivity">
+            android:theme="@style/Theme.Arkanoid.NoActionBar">
+        </activity>
+
+        <activity android:name="com.caserteam.arkanoid.gameClasses.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
-        <activity android:name=".MenuActivity">
+
+        <activity android:name="com.caserteam.arkanoid.MenuActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
-        <activity android:name=".SettingsActivity">
+
+        <activity android:name="com.caserteam.arkanoid.SettingsActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
-        <activity android:name=".SplashActivity">
+
+        <activity android:name="com.caserteam.arkanoid.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>

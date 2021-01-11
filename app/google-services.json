@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "10452951346",
+    "project_id": "arkanoid-d46b0",
+    "storage_bucket": "arkanoid-d46b0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:10452951346:android:a56e87a2f25da96836372b",
+        "android_client_info": {
+          "package_name": "com.caserteam.arkanoid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "10452951346-s0qhj0450mifsqcmrqkb4rstmu4rpbh7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.caserteam.arkanoid",
+            "certificate_hash": "cac0c830d0f2e0262d96eb697ae751e88c0c5e8d"
+          }
+        },
+        {
+          "client_id": "10452951346-a0hc55ra8pr4o0kegu7egcbfu16st9va.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCHOQu9ByPTzAjzjK8vpZoD1nH3_PHD5aU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "10452951346-a0hc55ra8pr4o0kegu7egcbfu16st9va.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
