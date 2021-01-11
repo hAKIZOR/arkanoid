@@ -167,6 +167,8 @@ public class LoginActivity extends AppCompatActivity {
 
                                 }else {
                                 //vai nella sezione aggiungi nickname
+                                Intent intent = new Intent(LoginActivity.this, RegistrationActivity.class);
+                                startActivity(intent);
 
                             }
                         }else {Log.d(TAG, "get failed with ", task.getException());}
