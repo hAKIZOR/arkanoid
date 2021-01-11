@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".EditorActivity">
+
+        <EditText
+            android:id="@+id/editTextLevelName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Name" />
+
+
+
+        <item
+            android:id="@+id/menu_main_clear"
+            android:icon="@drawable/ic_delete_forever"
+            android:orderInCategory="200"
+            app:showAsAction="always"
+            android:actionLayout="@+id/toolbar2"
+            android:title="Setting" />
+
+        <item
+            android:id="@+id/menu_main_rotation"
+            android:icon="@drawable/ic_screen_rotation"
+            android:orderInCategory="200"
+            app:showAsAction="always"
+            android:actionLayout="@+id/toolbar2"
+            android:title="Setting" />
+
+
+        <item
+            android:id="@+id/menu_main_void2"
+            android:icon="@drawable/ic_void_option"
+            android:orderInCategory="200"
+            app:showAsAction="always"
+            android:actionLayout="@+id/toolbar2"
+            android:enabled="false"
+            android:title="Setting" />
+
+
+        <item
+            android:id="@+id/menu_main_save"
+            android:icon="@drawable/ic_save"
+            android:orderInCategory="200"
+            app:showAsAction="always"
+            android:actionLayout="@+id/toolbar2"
+            android:title="Setting" />
+        <item
+            android:id="@+id/menu_main_upload"
+            android:icon="@drawable/ic_upload"
+            android:orderInCategory="200"
+            app:showAsAction="always"
+            android:actionLayout="@+id/toolbar2"
+            android:title="Setting" />
+
+
+
+</menu>

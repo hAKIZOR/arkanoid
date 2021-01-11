@@ -13,10 +13,10 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.4"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.644">
+        app:layout_constraintVertical_bias="0.661">
 
         <TextView
             android:id="@+id/textView_menu"
@@ -97,12 +97,12 @@
                 android:layout_marginEnd="44dp"
                 android:clickable="true"
                 android:rotation="180"
+                android:src="@drawable/ic_baseline_login_24"
                 app:backgroundTint="@color/purple_500"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/name"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_baseline_login_24" />
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>

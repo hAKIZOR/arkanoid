@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/purple_200">
+
+    <TableLayout
+        android:layout_width="404dp"
+        android:layout_height="237dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.569"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.25">
+
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabLayoutBottomSheet"
+                android:layout_width="401dp"
+                android:layout_height="match_parent"
+                tools:layout_editor_absoluteY="402dp">
+
+                <com.google.android.material.tabs.TabItem
+                    android:id="@+id/tabMattoni"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:icon="@drawable/ic_brick" />
+
+
+                <com.google.android.material.tabs.TabItem
+                    android:id="@+id/tabOstacles"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:icon="@drawable/ic_obstacle" />
+
+
+            </com.google.android.material.tabs.TabLayout>
+
+
+        </TableRow>
+
+        <TableRow android:id="@+id/TableRow2">
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/outputFragment"
+                class="com.caserteam.arkanoid.editor.ui_plus_check.FragmentVoid"
+                android:layout_width="311dp"
+                android:layout_height="273dp">
+
+            </androidx.fragment.app.FragmentContainerView>
+        </TableRow>
+
+
+    </TableLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
