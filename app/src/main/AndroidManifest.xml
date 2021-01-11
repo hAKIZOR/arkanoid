@@ -12,6 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Arkanoid">
+        <activity android:name="com.caserteam.arkanoid.editor.ui_upload_check.UploadLevelActivity"></activity>
+        <activity android:name="com.caserteam.arkanoid.editor.EditorActivity"></activity>
         <activity android:name=".RegistrationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
