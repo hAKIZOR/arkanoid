@@ -34,13 +34,15 @@ public class DialogSaveLevel extends DialogFragment {
     private EditText editTextLevelName;
     private String nameLevel;
     private String structure;
+    private String pathCollection;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
        View v = inflater.inflate(R.layout.level_save_fragment_dialog,container,false);
 
-       structure = getArguments().getString("structure");
-       nameLevel = getArguments().getString("nameLevel");
+       structure = getArguments().getString(EditorActivity.STATE_STRUCTURE);
+       nameLevel = getArguments().getString(EditorActivity.STATE_NAME_LEVEL);
+       pathCollection = "utenti/"+getArguments().getString(EditorActivity.STATE_CURRENT_USER)+"/livelli";
 
        imageButtonClose = v.findViewById(R.id.imageButtonClose);
        buttonSave = v.findViewById(R.id.buttonSave);
@@ -77,8 +79,9 @@ public class DialogSaveLevel extends DialogFragment {
 
         LoadingDialog loadingDialog = new LoadingDialog(getActivity());
         loadingDialog.startDialog(LoadingDialog.MESSAGE_SAVE);
+
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection(PATH_COLLECTION)
+        db.collection(pathCollection)
                 .add(data)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override

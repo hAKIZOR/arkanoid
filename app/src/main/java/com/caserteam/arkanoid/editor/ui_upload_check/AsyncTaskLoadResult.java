@@ -24,14 +24,17 @@ import com.caserteam.arkanoid.editor.ui_plus_check.FragmentDetailBricks;
 //    Result – the type returns from doInBackground()
 // Any of them can be String, Integer, Void, etc.
 
-public class AsyncTaskGetResult extends AsyncTask<Void, Integer, ArrayList<LevelCreated>> {
+public class AsyncTaskLoadResult extends AsyncTask<Void, Integer, ArrayList<LevelCreated>> {
     private ArrayList<LevelCreated> levelCreateds;
     private ListenerAsyncData listenerAsyncData;
     private Context context;
     private UploadLevelActivity activity;
-    public AsyncTaskGetResult(Context context, UploadLevelActivity activity) {
+    private String pathCollection;
+
+    public AsyncTaskLoadResult(Context context, UploadLevelActivity activity,String pathCollection) {
         this.context = context;
         this.activity = activity;
+        this.pathCollection = pathCollection;
     }
 
 
@@ -49,9 +52,9 @@ public class AsyncTaskGetResult extends AsyncTask<Void, Integer, ArrayList<Level
         // get the string from params, which is an array
 
 
-        // Do something that takes a long time, for example:
+        // attendo e effettuo il retreiving dei dati
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        Task<QuerySnapshot> task = db.collection("utenti/Davide/livelli").get();
+        Task<QuerySnapshot> task = db.collection(pathCollection).get();
         try {
             Tasks.await(task);
         } catch (ExecutionException e) {
@@ -59,9 +62,11 @@ public class AsyncTaskGetResult extends AsyncTask<Void, Integer, ArrayList<Level
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        levelCreateds = new ArrayList<>();
-        for(DocumentSnapshot documentSnapshot : task.getResult()){
-            levelCreateds.add(documentSnapshot.toObject(LevelCreated.class));
+        if(task.isSuccessful()){
+            levelCreateds = new ArrayList<>();
+            for(DocumentSnapshot documentSnapshot : task.getResult()){
+                levelCreateds.add(documentSnapshot.toObject(LevelCreated.class));
+            }
         }
 
         return levelCreateds;
@@ -79,7 +84,7 @@ public class AsyncTaskGetResult extends AsyncTask<Void, Integer, ArrayList<Level
     @Override
     protected void onPostExecute(ArrayList<LevelCreated> result) {
         listenerAsyncData = (ListenerAsyncData) context;
-        listenerAsyncData.transferResult(result);
+        listenerAsyncData.onDataOfLevelCreatedChange(result);
         super.onPostExecute(result);
 
         // Do things like hide the progress bar or change a TextView
@@ -93,6 +98,6 @@ public class AsyncTaskGetResult extends AsyncTask<Void, Integer, ArrayList<Level
         return levelCreateds;
     }
     public  interface ListenerAsyncData {
-         void transferResult(ArrayList<LevelCreated> levelCreateds);
+         void onDataOfLevelCreatedChange(ArrayList<LevelCreated> levelCreateds);
     }
 }

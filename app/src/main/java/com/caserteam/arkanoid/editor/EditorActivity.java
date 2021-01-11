@@ -2,8 +2,10 @@ package com.caserteam.arkanoid.editor;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NavUtils;
 import androidx.core.view.GestureDetectorCompat;
 
+import com.caserteam.arkanoid.MenuActivity;
 import com.caserteam.arkanoid.R;
 import com.caserteam.arkanoid.editor.editor_module.Editor;
 import com.caserteam.arkanoid.editor.editor_module.EditorViewLandScape;
@@ -16,6 +18,10 @@ import com.caserteam.arkanoid.editor.ui_upload_check.LoadingDialog;
 import com.caserteam.arkanoid.editor.ui_upload_check.UploadLevelActivity;
 import com.caserteam.arkanoid.editor.PromptUtils;
 import com.caserteam.arkanoid.gameClasses.UpdateThread;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 
 
 import android.annotation.SuppressLint;
@@ -50,8 +56,9 @@ public class EditorActivity extends AppCompatActivity  implements
         FloatingActionButtonMinus.FloatingActionButtonMinusListener
 
 {
-    private static final String STATE_NAME_LEVEL = "nameLevel";
-    private static final String STATE_STRUCTURE = "structure";
+    public static final String STATE_CURRENT_USER = "currentUser";
+    public static final String STATE_NAME_LEVEL = "nameLevel";
+    public static final String STATE_STRUCTURE = "structure";
     private boolean fullScreen = false;
     private Editor editor;
     private Handler updateHandler;
@@ -59,15 +66,18 @@ public class EditorActivity extends AppCompatActivity  implements
     private GestureDetectorCompat gestureDetector;
     private String structure;
     private String nameLevel;
+    private GoogleSignInClient mGoogleSignInClient;
+    private GoogleSignInAccount account;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        initializaEditor(savedInstanceState);
+        initializeSessionOption();
+
+        initializeEditor(savedInstanceState);
 
         setContentView(editor);
-
 
         //inizializza l'orientamento dello schermo
         initializeOrientation();
@@ -75,15 +85,22 @@ public class EditorActivity extends AppCompatActivity  implements
         //inizializza l'action bar assieme al floating action button
         initializeActionBarAndFloatingActionButton();
 
-
         // crea handler e thread
         createHandlerAndThread();
 
     }
 
+    private void initializeSessionOption() {
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        account = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
+    }
 
 
-    private void initializaEditor(Bundle savedInstanceState) {
+    private void initializeEditor(Bundle savedInstanceState) {
         Log.d("EditorActivity","passo");
         if(savedInstanceState != null){
             nameLevel = savedInstanceState.getString(STATE_NAME_LEVEL);
@@ -99,10 +116,6 @@ public class EditorActivity extends AppCompatActivity  implements
                 loadLevelUpdated(structure);
             }
         }
-
-
-
-
 
     }
 
@@ -174,6 +187,7 @@ public class EditorActivity extends AppCompatActivity  implements
                    la finestra di dialogo
                 */
                 Intent intent = new Intent(EditorActivity.this, UploadLevelActivity.class);
+                intent.putExtra(STATE_CURRENT_USER,account.getEmail());
                 startActivity(intent);
 
                 break;
@@ -188,6 +202,7 @@ public class EditorActivity extends AppCompatActivity  implements
                         Bundle bundle = new Bundle();
                         bundle.putString(STATE_STRUCTURE, structure);
                         bundle.putString(STATE_NAME_LEVEL, nameLevel);
+                        bundle.putString(STATE_CURRENT_USER,account.getEmail());
                         DialogSaveLevel dialogSaveLevel = new DialogSaveLevel();
                         dialogSaveLevel.setArguments(bundle);
                         dialogSaveLevel.show(getSupportFragmentManager(),"DialogFragmentSave");
@@ -206,6 +221,13 @@ public class EditorActivity extends AppCompatActivity  implements
                     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                 }
                 break;
+            case android.R.id.home:
+
+                Intent intent1 = new Intent(EditorActivity.this, MenuActivity.class);
+                startActivity(intent1);
+                finish();
+                return true;
+
         }
 
         return super.onOptionsItemSelected(item);

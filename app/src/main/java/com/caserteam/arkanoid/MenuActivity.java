@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.caserteam.arkanoid.editor.EditorActivity;
 import com.caserteam.arkanoid.gameClasses.MainActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -24,6 +25,7 @@ import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.Locale;
+import java.util.zip.Inflater;
 
 public class MenuActivity extends AppCompatActivity {
     private static final String TAG = "MenuActivity = ";
@@ -124,7 +126,13 @@ public class MenuActivity extends AppCompatActivity {
             }
         });
 
-
+        buttonEditor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MenuActivity.this, EditorActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     protected void onStart() {
