@@ -32,9 +32,10 @@ import com.google.firebase.auth.GoogleAuthProvider;
 public class LoginActivity extends AppCompatActivity {
         private SignInButton signInButton;
         private GoogleSignInClient mGoogleSignInClient;
-        private  String TAG = "MainActivity";
+        private  String TAG = "LoginActivity";
         private FirebaseAuth mAuth;
         private Button btnSignOut;
+        private Button guestButton;
         private int RC_SIGN_IN = 1;
         GoogleSignInAccount account;
 
@@ -47,6 +48,7 @@ public class LoginActivity extends AppCompatActivity {
             signInButton = findViewById(R.id.sign_in_button);
             mAuth = FirebaseAuth.getInstance();
             btnSignOut = findViewById(R.id.sign_out_button);
+            guestButton = findViewById(R.id.guest_button);
 
             GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                     .requestIdToken(getString(R.string.default_web_client_id))
@@ -68,12 +70,28 @@ public class LoginActivity extends AppCompatActivity {
                     mGoogleSignInClient.signOut();
                     Toast.makeText(LoginActivity.this,"You are Logged Out",Toast.LENGTH_SHORT).show();
                     btnSignOut.setVisibility(View.INVISIBLE);
+                }
+            });
 
+            guestButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
+                    startActivity(intent);
                 }
             });
         }
 
-        private void signIn(){
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        updateUI(currentUser);
+    }
+
+
+    private void signIn(){
             Intent signInIntent = mGoogleSignInClient.getSignInIntent();
             startActivityForResult(signInIntent, RC_SIGN_IN);
         }
@@ -133,13 +151,11 @@ public class LoginActivity extends AppCompatActivity {
                 String personEmail = account.getEmail();
                 String personId = account.getId();
                 Uri personPhoto = account.getPhotoUrl();
-
-
                 Toast.makeText(LoginActivity.this,personName + personEmail ,Toast.LENGTH_SHORT).show();
                 System.out.println(account.getDisplayName()+"___"+account.getEmail());
                 Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
                 startActivity(intent);
-            }
+            }//else btnSignOut.setVisibility(View.INVISIBLE);
 
         }
 }

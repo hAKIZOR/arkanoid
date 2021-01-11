@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -14,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.caserteam.arkanoid.gameClasses.MainActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
@@ -36,17 +38,23 @@ public class MenuActivity extends AppCompatActivity {
 
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
 
-        Button buttonArcade = (Button) findViewById(R.id.button_arcade);
-        Button buttonSettings = (Button) findViewById(R.id.button_settings);
-        Button buttonLeaderBoard = (Button) findViewById(R.id.button_leaderboard);
-        Button buttonEditor = (Button) findViewById(R.id.button_editor);
+        Button buttonArcade = findViewById(R.id.button_arcade);
+        Button buttonSettings = findViewById(R.id.button_settings);
+        Button buttonLeaderBoard = findViewById(R.id.button_leaderboard);
+        Button buttonEditor = findViewById(R.id.button_editor);
+        FloatingActionButton buttonLogout = findViewById(R.id.floatingActionLogoutButton);
         TextView name = findViewById(R.id.name);
         ImageView photoProfile = findViewById(R.id.imageProfile);
 
-        name.setText(account.getDisplayName());
-        Picasso.get().load(account.getPhotoUrl()).into(photoProfile);
         try {
-            prefs = getSharedPreferences("com.example.arkanoid", MODE_PRIVATE);
+            name.setText(account.getDisplayName());
+            Picasso.get().load(account.getPhotoUrl()).into(photoProfile);
+        } catch (Exception e){
+
+        }
+
+        try {
+            prefs = getSharedPreferences("com.caserteam.arkanoid", MODE_PRIVATE);
 
             String systemLanguage = Locale.getDefault().getLanguage();
             int languageToSet = Settings.lang.valueOf(systemLanguage).ordinal();
@@ -71,6 +79,15 @@ public class MenuActivity extends AppCompatActivity {
         }
 
 
+
+        buttonLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(MenuActivity.this, LoginActivity.class);
+                MenuActivity.this.startActivity(myIntent);
+                finish();
+            }
+        });
 
         buttonArcade.setOnClickListener(new View.OnClickListener() {
             @Override
