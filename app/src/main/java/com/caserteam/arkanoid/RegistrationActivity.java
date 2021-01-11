@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -49,40 +50,15 @@ public class RegistrationActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                 if (task.isSuccessful()) {
-                                    Map<String, Object> nicknames = new HashMap<>();
-                                    boolean nicknameUsable = true;
-                                    for (QueryDocumentSnapshot document : task.getResult()) {
-                                        Log.d(TAG, document.getId() + " => " + document.getData());
-                                        nicknames.putAll(document.getData());
-                                        if (nicknames.get("nickname").toString().equals(nickname.getText().toString())) {
-                                            Toast.makeText(RegistrationActivity.this, "Nickname già esistente!", Toast.LENGTH_SHORT).show();
-                                            nicknameUsable = false;
-                                            break;
-                                        }
+                                    String nicknameInserted = nickname.getText().toString();
 
-                                    }
+                                    boolean nicknameUsable = checkIfNicnameIsUsable(nicknameInserted,task);
 
                                     if(nicknameUsable){
-                                    Map<String, Object> utente = new HashMap<>();
-                                    utente.put("nickname", nickname.getText());
-
-                                        db.collection("utenti").document(account.getEmail())
-                                                .set(utente)
-                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                    @Override
-                                                    public void onSuccess(Void aVoid) {
-                                                        Log.d(TAG, "DocumentSnapshot successfully written!");
-                                                        Intent myIntent = new Intent(RegistrationActivity.this, LoginActivity.class);
-                                                        startActivity(myIntent);
-                                                    }
-                                                })
-                                                .addOnFailureListener(new OnFailureListener() {
-                                                    @Override
-                                                    public void onFailure(@NonNull Exception e) {
-                                                        Log.w(TAG, "Error writing document", e);
-                                                    }
-                                                });
-                                }
+                                        insertNicknameToDatabase(db,nicknameInserted,account);
+                                    } else {
+                                        Toast.makeText(RegistrationActivity.this, "Nickname esistente",Toast.LENGTH_SHORT);
+                                    }
 
                                 } else {
                                     Log.d(TAG, "Error getting documents: ", task.getException());
@@ -91,6 +67,47 @@ public class RegistrationActivity extends AppCompatActivity {
                         });
             }
         });
+
+    }
+
+    public void  insertNicknameToDatabase(FirebaseFirestore db,String nicknameInserted,GoogleSignInAccount account){
+
+        Map<String, Object> utente = new HashMap<>();
+        utente.put("nickname", nicknameInserted);
+
+        db.collection("utenti").document(account.getEmail())
+                .set(utente)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                        Intent myIntent = new Intent(RegistrationActivity.this, LoginActivity.class);
+                        myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        myIntent.putExtra("nickname",nicknameInserted);
+                        startActivity(myIntent);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+    }
+    public boolean checkIfNicnameIsUsable(String nickname,Task<QuerySnapshot> task){
+        Map<String, Object> nicknameTmp = new HashMap<>();
+        boolean result = true;
+        for (QueryDocumentSnapshot document : task.getResult()) {
+            Log.d(TAG, document.getId() + " => " + document.getData());
+            nicknameTmp.putAll(document.getData());
+            if (nicknameTmp.get("nickname").toString().equals(nickname)) {
+                Toast.makeText(RegistrationActivity.this, "Nickname già esistente!", Toast.LENGTH_SHORT).show();
+                result = false;
+                break;
+            }
+        }
+
+        return result;
 
     }
 

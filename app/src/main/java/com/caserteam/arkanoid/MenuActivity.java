@@ -55,7 +55,8 @@ public class MenuActivity extends AppCompatActivity {
         ImageView photoProfile = findViewById(R.id.imageProfile);
 
         try {
-            name.setText(account.getDisplayName());
+
+            name.setText("Benvenuto  " + getIntent().getStringExtra("nickname"));
             Picasso.get().load(account.getPhotoUrl()).into(photoProfile);
         } catch (Exception e){
 
