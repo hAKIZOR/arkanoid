@@ -15,6 +15,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.caserteam.arkanoid.gameClasses.MainActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.squareup.picasso.Picasso;
 
@@ -27,6 +29,7 @@ public class MenuActivity extends AppCompatActivity {
     private static final String TAG = "MenuActivity = ";
     private static final String FIRST_RUN_INSTALLATION_STATE ="firstruninstallation";
     private static final String FIRST_RUN_STATE ="firstrun";
+    private GoogleSignInClient mGoogleSignInClient;
     SharedPreferences prefs = null;
 
 
@@ -35,7 +38,12 @@ public class MenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
         getSupportActionBar().hide();
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
 
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
 
         Button buttonArcade = findViewById(R.id.button_arcade);
@@ -84,7 +92,9 @@ public class MenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(MenuActivity.this, LoginActivity.class);
-                MenuActivity.this.startActivity(myIntent);
+                myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                mGoogleSignInClient.signOut();
+                startActivity(myIntent);
                 finish();
             }
         });
@@ -94,7 +104,7 @@ public class MenuActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent myIntent = new Intent(MenuActivity.this, MainActivity.class);
-                MenuActivity.this.startActivity(myIntent);
+                startActivity(myIntent);
             }
         });
          buttonLeaderBoard.setOnClickListener( new View.OnClickListener() {

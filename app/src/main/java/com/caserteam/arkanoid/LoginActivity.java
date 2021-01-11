@@ -155,7 +155,8 @@ public class LoginActivity extends AppCompatActivity {
                 System.out.println(account.getDisplayName()+"___"+account.getEmail());
                 Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
                 startActivity(intent);
-            }//else btnSignOut.setVisibility(View.INVISIBLE);
+            } else btnSignOut.setVisibility(View.INVISIBLE);
 
         }
+
 }
