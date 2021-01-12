@@ -4,11 +4,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -49,12 +52,16 @@ public class MenuActivity extends AppCompatActivity {
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
 
         Button buttonArcade = findViewById(R.id.button_arcade);
-        Button buttonSettings = findViewById(R.id.button_settings);
+        FloatingActionButton buttonSettings = findViewById(R.id.button_settings);
         Button buttonLeaderBoard = findViewById(R.id.button_leaderboard);
-        Button buttonEditor = findViewById(R.id.button_editor);
         FloatingActionButton buttonLogout = findViewById(R.id.floatingActionLogoutButton);
         TextView name = findViewById(R.id.name);
         ImageView photoProfile = findViewById(R.id.imageProfile);
+
+        Button buttonEditor = findViewById(R.id.button_editor);
+        Button buttonMultiplayer = findViewById(R.id.button_multiplayer);
+
+
 
         try {
 
@@ -126,15 +133,47 @@ public class MenuActivity extends AppCompatActivity {
             }
         });
 
+
         buttonEditor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(account!=null){
                 Intent intent = new Intent(MenuActivity.this, EditorActivity.class);
                 startActivity(intent);
+                }else  {
+                    Toast t =Toast.makeText(MenuActivity.this,R.string.need_login,Toast.LENGTH_SHORT);
+                    centerText(t.getView());
+                    t.show();
+                }
+            }
+        });
+
+
+        buttonMultiplayer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(account!=null){
+                    Intent intent = new Intent(MenuActivity.this, MultiplayerActivity.class);
+                    startActivity(intent);
+                }else {
+                    Toast t =Toast.makeText(MenuActivity.this,R.string.need_login,Toast.LENGTH_SHORT);
+                    centerText(t.getView());
+                    t.show();
+                }
             }
         });
     }
-
+    void centerText(View view) {
+        if( view instanceof TextView){
+            ((TextView) view).setGravity(Gravity.CENTER);
+        }else if( view instanceof ViewGroup){
+            ViewGroup group = (ViewGroup) view;
+            int n = group.getChildCount();
+            for( int i = 0; i<n; i++ ){
+                centerText(group.getChildAt(i));
+            }
+        }
+    }
     protected void onStart() {
         super.onStart();
         Log.d(TAG,"onStart()");
