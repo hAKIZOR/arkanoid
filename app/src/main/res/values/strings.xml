@@ -30,5 +30,8 @@
     <string name="avanti">Avanti</string>
     <string name="nickname">nickname</string>
     <string name="multiplayer">Multiplayer</string>
+    <string name="seleziona_tipologia_partita">Seleziona tipologia partita</string>
+    <string name="matchmaking">matchmaking</string>
+    <string name="privata">privata</string>
 
 </resources>

@@ -12,7 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Arkanoid">
-        <activity android:name=".MultiplayerActivity"></activity>
+        <activity android:name=".multiplayer.MultiplayerActivity"></activity>
         <activity android:name=".editor.ui_upload_check.UploadLevelActivity" />
         <activity android:name=".editor.EditorActivity" />
         <activity android:name=".RegistrationActivity">
