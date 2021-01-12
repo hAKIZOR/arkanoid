@@ -12,8 +12,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Arkanoid">
-        <activity android:name="com.caserteam.arkanoid.editor.ui_upload_check.UploadLevelActivity"></activity>
-        <activity android:name="com.caserteam.arkanoid.editor.EditorActivity"></activity>
+        <activity android:name=".MultiplayerActivity"></activity>
+        <activity android:name=".editor.ui_upload_check.UploadLevelActivity" />
+        <activity android:name=".editor.EditorActivity" />
         <activity android:name=".RegistrationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -27,7 +28,7 @@
         <activity
             android:name=".LeaderBoardActivity"
             android:label="@string/title_activity_leader_board"
-            android:theme="@style/Theme.Arkanoid.NoActionBar"></activity>
+            android:theme="@style/Theme.Arkanoid.NoActionBar" />
         <activity android:name=".gameClasses.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

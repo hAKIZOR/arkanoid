@@ -22,11 +22,13 @@
     <string name="tab_text_2">Globale</string>
     <string name="sign_out_button" translatable="false">Log Out</string>
     <string name="signin_other_error">Errore nel login</string>
+    <string name="need_login">Devi essere loggato per poter accedere!</string>
     <string name="signed_out">Log out effettuato</string>
     <string name="signed_in_fmt">Login completato</string>
     <string name="guest_button">Gioca offline</string>
     <string name="inserisci_un_nickname">Inserisci un Nickname</string>
     <string name="avanti">Avanti</string>
     <string name="nickname">nickname</string>
+    <string name="multiplayer">Multiplayer</string>
 
 </resources>
