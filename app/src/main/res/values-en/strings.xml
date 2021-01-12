@@ -17,5 +17,12 @@
     <string name="tab_text_1">Local</string>
     <string name="tab_text_2">Global</string>
     <string name="title_activity_leader_board">Leaderboard</string>
+    <string name="guest_button">play offline</string>
+    <string name="inserisci_un_nickname">insert Nickname</string>
+    <string name="avanti">go</string>
+    <string name="signed_in_fmt">login done</string>
+    <string name="signed_out">Log out done</string>
+    <string name="need_login">"You must be logged in to access! "</string>
+    <string name="signin_other_error">Error login</string>
 
 </resources>

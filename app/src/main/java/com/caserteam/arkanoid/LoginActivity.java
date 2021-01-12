@@ -5,7 +5,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.ScaleAnimation;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -36,7 +41,6 @@ public class LoginActivity extends AppCompatActivity {
         private GoogleSignInClient mGoogleSignInClient;
         private  String TAG = "LoginActivity";
         private FirebaseAuth mAuth;
-        private Button btnSignOut;
         private Button guestButton;
         private int RC_SIGN_IN = 1;
         GoogleSignInAccount account;
@@ -47,9 +51,13 @@ public class LoginActivity extends AppCompatActivity {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_login);
 
+            getSupportActionBar().hide();
+
+            TextView textArka =  findViewById(R.id.arkanTextView);
+            animate(textArka);
+
             signInButton = findViewById(R.id.sign_in_button);
             mAuth = FirebaseAuth.getInstance();
-            btnSignOut = findViewById(R.id.sign_out_button);
             guestButton = findViewById(R.id.guest_button);
 
             GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -66,14 +74,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
             });
 
-            btnSignOut.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    mGoogleSignInClient.signOut();
-                    Toast.makeText(LoginActivity.this,"You are Logged Out",Toast.LENGTH_SHORT).show();
-                    btnSignOut.setVisibility(View.INVISIBLE);
-                }
-            });
+
 
             guestButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -85,6 +86,7 @@ public class LoginActivity extends AppCompatActivity {
             });
         }
 
+
     @Override
     public void onStart() {
         super.onStart();
@@ -93,6 +95,28 @@ public class LoginActivity extends AppCompatActivity {
         updateUI(currentUser);
     }
 
+    public void animate (View view) {
+        Animation mAnimation = new ScaleAnimation(1.0f, 1.3f, 1.0f, 1.3f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.45f);
+        mAnimation.setDuration(1000);
+        mAnimation.setRepeatCount(-1);
+        mAnimation.setRepeatMode(Animation.REVERSE);
+        mAnimation.setInterpolator(new AccelerateInterpolator());
+        mAnimation.setAnimationListener(new Animation.AnimationListener() {
+
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+        });
+        view.setAnimation(mAnimation);
+    }
 
     private void signIn(){
             Intent signInIntent = mGoogleSignInClient.getSignInIntent();
@@ -145,7 +169,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         private void updateUI(FirebaseUser fUser){
-            btnSignOut.setVisibility(View.VISIBLE);
+
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             account = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
             if(account !=  null){
@@ -179,7 +203,7 @@ public class LoginActivity extends AppCompatActivity {
                         }else {Log.d(TAG, "get failed with ", task.getException());}
                     }});
 
-            } else btnSignOut.setVisibility(View.INVISIBLE);
+            }
 
         }
 
