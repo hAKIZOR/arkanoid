@@ -15,6 +15,7 @@ public class Brick extends View {
     public static final int BRICK_YELLOW = 7;
     public static final int BRICK_AQUA = 8;
     public static final int BRICK_BLUE = 9;
+    public static final int BRICK_OSTACLE1 = 10;
 
 
     private Bitmap brick;
@@ -48,35 +49,30 @@ public class Brick extends View {
                 break;
             case BRICK_GREEN:
                 brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_green);
-                soundName=2;
                 break;
             case BRICK_ORANGE:
                 brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_orange);
-                soundName=3;
                 break;
             case BRICK_LIME:
                 brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_lime);
-                soundName=4;
                 break;
             case BRICK_PURPLE:
                 brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_purple);
-                soundName=5;
                 break;
             case BRICK_RED:
                 brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_red);
-                soundName=6;
                 break;
             case BRICK_YELLOW:
                 brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_yellow);
-                soundName=7;
                 break;
             case BRICK_AQUA:
                 brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_aqua);
-                soundName=8;
                 break;
             case BRICK_BLUE:
                 brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_blue);
-                soundName=8;
+                break;
+            case BRICK_OSTACLE1:
+                brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_grey);
                 break;
         }
     }
@@ -90,6 +86,7 @@ public class Brick extends View {
         if ( BitmapFactory.decodeResource(getResources(), R.drawable.brick_yellow).sameAs(skin)) { return BRICK_YELLOW; }
         if ( BitmapFactory.decodeResource(getResources(), R.drawable.brick_aqua).sameAs(skin)) { return BRICK_AQUA; }
         if ( BitmapFactory.decodeResource(getResources(), R.drawable.brick_blue).sameAs(skin)) { return BRICK_BLUE; }
+        if ( BitmapFactory.decodeResource(getResources(), R.drawable.brick_grey).sameAs(skin)) { return BRICK_OSTACLE1; }
         return 0;
     }
 

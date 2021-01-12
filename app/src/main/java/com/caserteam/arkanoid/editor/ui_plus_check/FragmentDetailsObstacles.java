@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+
+import com.caserteam.arkanoid.editor.Brick;
 import com.caserteam.arkanoid.editor.Paddle;
 import com.caserteam.arkanoid.R;
 
@@ -26,22 +28,19 @@ public class FragmentDetailsObstacles extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.obstacles_detail_fragment,container,false);
 
-        buttonObstacleSkin2Show = v.findViewById(R.id.imageButtonObstacle2);
+        buttonObstacleSkin1Show = v.findViewById(R.id.imageButtonObstacle1);
 
-        callClickListenerOf(buttonObstacleSkin1Show, Paddle.PADDLE_SKIN1);
-
-
-        return v;
-    }
-    private void callClickListenerOf (ImageButton button, int obstacleSkin){
-        button.setOnClickListener(new View.OnClickListener() {
+        buttonObstacleSkin1Show.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.Q)
             @Override
             public void onClick(View view) {
-                mListener.onObstacleClicked(obstacleSkin);
+                mListener.onObstacleClicked(Brick.BRICK_OSTACLE1);
             }
         });
+
+        return v;
     }
+
 
     public  interface FragmentDetailsObstaclesListener{
         void onObstacleClicked(int obstacleSkin);

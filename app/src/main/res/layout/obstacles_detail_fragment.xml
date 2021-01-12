@@ -3,9 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <TableLayout
-        android:layout_width="276dp"
-        android:layout_height="170dp"
+        android:layout_width="99dp"
+        android:layout_height="179dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
@@ -14,19 +15,17 @@
         app:layout_constraintVertical_bias="0.237">
 
 
-
         <TableRow
-            android:id="@+id/tableRow2"
+            android:id="@+id/tableRow1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <ImageButton
-                android:id="@+id/imageButtonObstacle2"
+                android:id="@+id/imageButtonObstacle1"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/paddle" />
-
+                android:background="@drawable/brick_grey" />
 
 
         </TableRow>
