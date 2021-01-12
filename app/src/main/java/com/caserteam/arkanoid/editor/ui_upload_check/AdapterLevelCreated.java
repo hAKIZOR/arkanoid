@@ -63,8 +63,8 @@ class AdapterLevelCreated extends ArrayAdapter<LevelCreated> {
             public void onClick(View view) {
                 Toast.makeText(mContext,"cliccato il livello"+ nameLevel,Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(mContext, EditorActivity.class);
-                intent.putExtra("structureGrid", structure);
-                intent.putExtra("nameLevel", nameLevel);
+                intent.putExtra(EditorActivity.STATE_STRUCTURE, structure);
+                intent.putExtra(EditorActivity.STATE_NAME_LEVEL, nameLevel);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 mContext.startActivity(intent);
 

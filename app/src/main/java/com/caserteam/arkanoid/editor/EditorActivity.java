@@ -105,39 +105,35 @@ public class EditorActivity extends AppCompatActivity  implements
         if(savedInstanceState != null){
             nameLevel = savedInstanceState.getString(STATE_NAME_LEVEL);
             structure = savedInstanceState.getString(STATE_STRUCTURE);
+
+        } else {
+            structure = getIntent().getStringExtra(STATE_STRUCTURE);
+            nameLevel = getIntent().getStringExtra(STATE_NAME_LEVEL);
+        }
+
+        if(structure != null){
             loadLevelUpdated(structure);
         } else {
-            structure = getIntent().getStringExtra("structureGrid");
-            nameLevel = getIntent().getStringExtra("nameLevel");
-            if((nameLevel == null)&&(structure==null)){
-                loadDefaultEditor();
-            } else {
-                Log.d("EditorActivity","passo");
-                loadLevelUpdated(structure);
-            }
+            loadDefaultEditor();
         }
+        gestureDetector = editor.getGestureDetector();
 
     }
 
     private void loadDefaultEditor() {
         if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
             editor = new EditorViewLandScape(this, EditorActivity.this);
-            gestureDetector = editor.getGestureDetector();
         } else if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
-
             editor = new EditorViewPortrait(this, EditorActivity.this);
-            gestureDetector = editor.getGestureDetector();
         }
     }
 
     private void loadLevelUpdated(String structure) {
         if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
             editor = new EditorViewLandScape(this, EditorActivity.this,structure);
-            gestureDetector = editor.getGestureDetector();
         } else if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
             Log.d("EditorActivity","passo");
             editor = new EditorViewPortrait(this, EditorActivity.this,structure);
-            gestureDetector = editor.getGestureDetector();
         }
     }
 
@@ -295,8 +291,12 @@ public class EditorActivity extends AppCompatActivity  implements
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         structure = editor.convertListBrickToString();
-        outState.putString(STATE_NAME_LEVEL, nameLevel);
-        outState.putString(STATE_STRUCTURE, structure);
+        if(structure!=null) {
+            Log.d(STATE_STRUCTURE, structure);
+            outState.putString(STATE_NAME_LEVEL, nameLevel);
+            outState.putString(STATE_STRUCTURE, structure);
+        }
+
         super.onSaveInstanceState(outState);
     }
 
