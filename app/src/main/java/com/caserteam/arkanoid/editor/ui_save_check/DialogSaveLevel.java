@@ -1,7 +1,6 @@
 package com.caserteam.arkanoid.editor.ui_save_check;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,11 +20,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import com.caserteam.arkanoid.editor.EditorActivity;
-import com.caserteam.arkanoid.editor.FirebaseUtility;
 import com.caserteam.arkanoid.R;
-import com.caserteam.arkanoid.editor.editor_module.Editor;
 import com.caserteam.arkanoid.editor.ui_upload_check.LoadingDialog;
-import com.caserteam.arkanoid.editor.ui_upload_check.UploadLevelActivity;
 
 public class DialogSaveLevel extends DialogFragment {
     private static final String PATH_COLLECTION = "utenti/Davide/livelli";
@@ -45,8 +41,8 @@ public class DialogSaveLevel extends DialogFragment {
        pathCollection = "utenti/"+getArguments().getString(EditorActivity.STATE_CURRENT_USER)+"/livelli";
 
        imageButtonClose = v.findViewById(R.id.imageButtonClose);
-       buttonSave = v.findViewById(R.id.buttonSave);
-       editTextLevelName = v.findViewById(R.id.editTextLevelName);
+       buttonSave = v.findViewById(R.id.buttonCreateRoom);
+       editTextLevelName = v.findViewById(R.id.editTextCodeRoom);
         if(nameLevel != null){
             editTextLevelName.setText(nameLevel);
         }
