@@ -72,7 +72,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
 
     private Context context;
     private Ball ball;
-    private Paddle paddle;
+    private Paddle paddle,paddle2;
     private PowerUp powerUp;
 
     private int sizeX;
@@ -119,6 +119,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         //crea palla e paddle
         ball = new Ball(context,0, 0, 0);
         paddle = new Paddle(context,0, 0, 0);
+        paddle2 = new Paddle(context,0, 0, 0);
 
         //crea lista di livelli dal DB locale
         Cursor c = null;
@@ -285,13 +286,11 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
             for (int i = 0; i < brickList.size(); i++) {
                 Brick b = brickList.get(i);
                 if (ball.hitBrick(b)) {
-
-
                         if (b.getHitted()==b.getHit()) {
 
-                                if (generatePowerUp(b.getX(), b.getY()).getPower() != null) {
+                               /* if (generatePowerUp(b.getX(), b.getY()).getPower() != null) {
                                     powerUps.add(this.powerUp);
-                                }
+                                }*/
                                 soundPool.play(soundNote[b.getSoundName() - 1], 1, 1, 0, 0, 1);
                                 brickList.remove(i);
 
@@ -299,19 +298,16 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
                             brickList.get(i).hittedOnce();
                             brickList.get(i).setSkinById(b.getSkin());
                         }
-
-
                         score = score + 80;
                         timing = 0;
                         break;
-
                 }
-
-
             }
+            ball.move();
+            for (int j = 0; j < powerUps.size(); j++) {
+                powerUps.get(j).move();
 
-
-            for (int i = 0; i < brickList.size(); i++) {
+           /* for (int i = 0; i < brickList.size(); i++) {
                 Brick b = brickList.get(i);
 
                 for(int j = 0; j < laserDropped.size(); j++){
@@ -330,33 +326,20 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
                 }
             }
 
-            checkWinForLoop();
+            //checkWinForLoop();
 
             for (int y= 0; y < powerUps.size(); y++) {
                 checkGetPowerUp(powerUps.get(y));
             }
 
-            ball.move();
-            for (int j = 0; j < powerUps.size(); j++) {
-                powerUps.get(j).move();
-            }
             for (int j = 0; j < laserDropped.size(); j++) {
                 laserDropped.get(j).move();
             }
-        }
-    }
 
-    // controlla una vittoria automatica nel caso di loop per tot secondi e con un minimo di mattoni
-    public void checkWinForLoop(){
-        if(counterBrickTiming<=MINBRICKFORTIMING && counterBrickTiming == brickList.size()){
-            timing++;
-        }
+            */
 
-        if(timing>TIMINGFORWIN){
-            score = score + (80*brickList.size());
-            brickList.clear();
-            laserDropped.clear();
-            win();
+            }
+
         }
     }
 
@@ -519,7 +502,11 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
 
     public Paddle getPaddle() { return paddle; }
 
-    public void setPaddle() { this.paddle = paddle; }
+    public void setPaddle() { this.paddle = paddle;}
+
+    public Paddle getPaddle2() { return paddle2; }
+
+    public void setPaddle2() { this.paddle2 = paddle2;}
 
     public void setLifes(int lifes) {
         this.lifes = lifes;
@@ -723,5 +710,15 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
 
     public int getLaserSoundRemaining() {
         return laserSoundRemaining;
+    }
+
+    public void setMultiplayerData(float xPaddle2, float xBall, float yBall){
+        paddle2.setX(xPaddle2);
+        ball.setSpeed(xBall,yBall);
+    }
+
+    public float[] getMultiplayerData(){
+        float[] data = {paddle.getX(),ball.getxSpeed(),ball.getySpeed()};
+        return data;
     }
 }

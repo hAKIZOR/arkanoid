@@ -1,5 +1,11 @@
 package com.caserteam.arkanoid.multiplayer.gameClasses;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GestureDetectorCompat;
+
+import  com.caserteam.arkanoid.R;
+import com.caserteam.arkanoid.multiplayer.Room;
+
 import android.annotation.SuppressLint;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
@@ -9,33 +15,24 @@ import android.os.Message;
 import android.view.MotionEvent;
 import android.view.View;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.GestureDetectorCompat;
-
-public class MainActivity extends AppCompatActivity {
+public class ActualGameActivity extends AppCompatActivity {
 
 
     private Game game;
     private UpdateThread myThread;
     private Handler updateHandler;
     private GestureDetectorCompat gestureDetector;
+    private Room room;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         //imposta l'orientamento dello schermo
-        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE);
-            game = new GameViewLandscape(this, 3, 0);
-            gestureDetector = game.getGestureDetector();
-            setContentView(game);
-        }else{
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-            game = new GameViewPortrait(this, 3, 0);
-            gestureDetector = game.getGestureDetector();
-            setContentView(game);
-        }
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        game = new GameViewPortrait(this, 3, 0);
+        gestureDetector = game.getGestureDetector();
+        setContentView(game);
 
 
         // creare un nuova partita
@@ -55,6 +52,13 @@ public class MainActivity extends AppCompatActivity {
             public void handleMessage(Message msg) {
                 game.invalidate();
                 game.update();
+
+                //QUI INSERISCI VALORI NEL DB
+                float[] multiPlayerData = game.getMultiplayerData(); // contiene a [0]xPaddle, [1]xSpeedBall, [2]ySpeedBall
+
+                //QUI RECUPERI VALORI DAL DB
+                game.setMultiplayerData();
+
                 super.handleMessage(msg);
             }
         };
@@ -110,7 +114,5 @@ public class MainActivity extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
     }
-
-
 
 }

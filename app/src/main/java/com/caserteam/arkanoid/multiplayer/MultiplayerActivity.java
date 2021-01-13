@@ -1,9 +1,7 @@
 package com.caserteam.arkanoid.multiplayer;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Database;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,20 +11,16 @@ import android.widget.Button;
 
 import com.caserteam.arkanoid.R;
 import com.caserteam.arkanoid.editor.ui_upload_check.LoadingDialog;
+import com.caserteam.arkanoid.multiplayer.gameClasses.ActualGameActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-
-import java.util.List;
 
 public class MultiplayerActivity extends AppCompatActivity implements DialogCodeRoom.DialogCodeRoomListener {
    private static final String TAG = "MultiplayerActivity";
@@ -91,7 +85,7 @@ public class MultiplayerActivity extends AppCompatActivity implements DialogCode
         roomRef.setValue(account.getEmail());
 
         //accedo al gioco
-        Intent intent = new Intent(MultiplayerActivity.this,ActualGameActivity.class);
+        Intent intent = new Intent(MultiplayerActivity.this, ActualGameActivity.class);
         startActivity(intent);
 
         System.out.println(roomRef.get().toString());

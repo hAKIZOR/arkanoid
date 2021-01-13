@@ -42,6 +42,8 @@ public class GameViewPortrait extends Game {
         getBall().setY(size.y - 280);
         getPaddle().setX(size.x / 2);
         getPaddle().setY(size.y - 200);
+        getPaddle2().setX(size.x / 2);
+        getPaddle2().setY((float) (size.x*0.10));
 
         //setto i bordi
         setUpBoard(150);
@@ -93,7 +95,10 @@ public class GameViewPortrait extends Game {
         paint.setColor(Color.WHITE);
         r = new RectF(getPaddle().getX(), getPaddle().getY(), getPaddle().getX() + getPaddle().getWidthp(), getPaddle().getY() + getPaddle().getHeightp());
         canvas.drawBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.paddle), null, r, paint);
-
+        // disegna la barra2
+        paint.setColor(Color.WHITE);
+        r = new RectF(getPaddle2().getX(), getPaddle2().getY(), getPaddle2().getX() + getPaddle2().getWidthp(), getPaddle2().getY() + getPaddle2().getHeightp());
+        canvas.drawBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.paddle), null, r, paint);
 
         // disegna mattoni
         paint.setColor(Color.GREEN);
