@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Database;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -76,7 +77,7 @@ public class MultiplayerActivity extends AppCompatActivity implements DialogCode
         LoadingDialog loadingDialog = new LoadingDialog(MultiplayerActivity.this);
         loadingDialog.startDialog("attendo che qualcuno acceda");
 
-
+        addRoomEventListener(loadingDialog);
         //roomRef.child(Keys).child("idRoom").setValue(code);
         //roomRef.child(Keys).child("player1").setValue(account.getEmail());
     }
@@ -86,18 +87,29 @@ public class MultiplayerActivity extends AppCompatActivity implements DialogCode
     public void onClickJoinRoomListener(String code) {
         LoadingDialog loadingDialog = new LoadingDialog(MultiplayerActivity.this);
         loadingDialog.startDialog("attendo il caricamento della partita");
-        roomRef =  FirebaseDatabase.getInstance(ROOT).getReference("rooms/"+code);
+        roomRef =  FirebaseDatabase.getInstance(ROOT).getReference("rooms/"+code+"/player2");
+        roomRef.setValue(account.getEmail());
+
+        //accedo al gioco
+        Intent intent = new Intent(MultiplayerActivity.this,ActualGameActivity.class);
+        startActivity(intent);
+
         System.out.println(roomRef.get().toString());
         System.out.println(roomRef.getKey());
 
     }
 
-    private void addRoomEventListener(){
+    private void addRoomEventListener(LoadingDialog load){
         roomRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if( snapshot.child("player2").getValue().toString() != ""){
+                    load.dismissDialog();
+                    Intent intent = new Intent(MultiplayerActivity.this,ActualGameActivity.class);
+                    startActivity(intent);
+                }
                 //aggregazione alla stanza
-                Log.w(TAG, "loadPost:onDataChange");
+                Log.w(TAG, snapshot.child("player2").getValue().toString());
                // Intent intent = new Intent(getApplicationContext(), ActualGameActivity.class);
                 // startActivity(intent);
             }
