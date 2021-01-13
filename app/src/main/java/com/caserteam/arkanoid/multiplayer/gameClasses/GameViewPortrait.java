@@ -43,7 +43,7 @@ public class GameViewPortrait extends Game {
         getPaddle().setX(size.x / 2);
         getPaddle().setY(size.y - 200);
         getPaddle2().setX(size.x / 2);
-        getPaddle2().setY((float) (size.x*0.10));
+        getPaddle2().setY((float) (size.y*0.10));
 
         //setto i bordi
         setUpBoard(150);
