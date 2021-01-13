@@ -11,8 +11,12 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.caserteam.arkanoid.editor.ui_plus_check.FragmentDetailBricks;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -37,6 +41,7 @@ public class DialogCodeRoom extends DialogFragment {
     private Button buttonJoinRoom;
     private EditText editTextRoomCode;
     private String code;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -46,12 +51,11 @@ public class DialogCodeRoom extends DialogFragment {
         buttonCreateRoom = v.findViewById(R.id.buttonCreateRoom);
         buttonJoinRoom = v.findViewById(R.id.buttonJoinRoom);
 
-        code = editTextRoomCode.getText().toString();
-
         buttonJoinRoom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //accedo alla stanza con quel codice e faccio partire il loading Dialog
+                code = editTextRoomCode.getText().toString();
                 dialogCodeRoomListener.onClickJoinRoomListener(code);
             }
         });
@@ -59,7 +63,9 @@ public class DialogCodeRoom extends DialogFragment {
         buttonCreateRoom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                code = editTextRoomCode.getText().toString();
                 //creo la stanza e faccio partire il loading Dialog
+
                 dialogCodeRoomListener.onClickCreateRoomListener(code);
             }
         });

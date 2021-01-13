@@ -3,19 +3,20 @@ package com.caserteam.arkanoid.multiplayer;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Database;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
-import android.widget.Toast;
 
 import com.caserteam.arkanoid.R;
-import com.caserteam.arkanoid.editor.ui_save_check.DialogSaveLevel;
 import com.caserteam.arkanoid.editor.ui_upload_check.LoadingDialog;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,13 +27,16 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
-public class MultiplayerActivity extends AppCompatActivity implements
-        DialogCodeRoom.DialogCodeRoomListener {
+public class MultiplayerActivity extends AppCompatActivity implements DialogCodeRoom.DialogCodeRoomListener {
    private static final String TAG = "MultiplayerActivity";
+    private static final String ROOT = "https://arkanoid-d46b0-default-rtdb.europe-west1.firebasedatabase.app/";
 
-    FirebaseDatabase firebaseDatabase ;
+
     DatabaseReference roomRef;
-    DatabaseReference roomsRef;
+    GoogleSignInAccount account;
+    FirebaseUser accountF;
+    FirebaseAuth auth;
+    Room room;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,12 +45,13 @@ public class MultiplayerActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_multiplayer);
         Button matchMakingButton = findViewById(R.id.button_matchmaking);
         Button privateButton = findViewById(R.id.button_private);
-         firebaseDatabase = FirebaseDatabase.getInstance();
-         roomRef = firebaseDatabase.getReference();
+        account = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
 
         matchMakingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
 
             }
         });
@@ -65,45 +70,26 @@ public class MultiplayerActivity extends AppCompatActivity implements
 
     @Override
     public void onClickCreateRoomListener(String code) {
+        roomRef =  FirebaseDatabase.getInstance(ROOT).getReference("rooms/"+code);
+        room = new Room(account.getEmail(),"",0,0,0,0);
+        roomRef.setValue(room);
         LoadingDialog loadingDialog = new LoadingDialog(MultiplayerActivity.this);
         loadingDialog.startDialog("attendo che qualcuno acceda");
-        roomRef = firebaseDatabase.getReference();
-        //addRoomEventListener();
-        roomRef.child("room").push().setValue(code);
+
+
+        //roomRef.child(Keys).child("idRoom").setValue(code);
+        //roomRef.child(Keys).child("player1").setValue(account.getEmail());
     }
+
 
     @Override
     public void onClickJoinRoomListener(String code) {
         LoadingDialog loadingDialog = new LoadingDialog(MultiplayerActivity.this);
         loadingDialog.startDialog("attendo il caricamento della partita");
-        roomsRef.orderByChild("idRoom").equalTo(code).addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
-                System.out.println(dataSnapshot.getKey());
-            }
+        roomRef =  FirebaseDatabase.getInstance(ROOT).getReference("rooms/"+code);
+        System.out.println(roomRef.get().toString());
+        System.out.println(roomRef.getKey());
 
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-            // ...
-        });
     }
 
     private void addRoomEventListener(){
@@ -126,8 +112,8 @@ public class MultiplayerActivity extends AppCompatActivity implements
             }
         });
     }
-/*
-    private void addRoomsEventListener(){
+
+    /*private void addRoomsEventListener(){
         roomsRef = firebaseDatabase.getReference("rooms");
         roomsRef.addValueEventListener(new ValueEventListener() {
             @Override

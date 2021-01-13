@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "10452951346",
+    "firebase_url": "https://arkanoid-d46b0-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "arkanoid-d46b0",
     "storage_bucket": "arkanoid-d46b0.appspot.com"
   },
@@ -13,6 +14,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "10452951346-5o29qknqv17magm2gpp9d4q38dao4g3q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.caserteam.arkanoid",
+            "certificate_hash": "9a71794478993594573505b5fc95511a033b1c32"
+          }
+        },
         {
           "client_id": "10452951346-s0qhj0450mifsqcmrqkb4rstmu4rpbh7.apps.googleusercontent.com",
           "client_type": 1,

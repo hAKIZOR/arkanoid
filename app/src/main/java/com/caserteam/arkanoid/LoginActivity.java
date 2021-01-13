@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.caserteam.arkanoid.multiplayer.Room;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -30,6 +31,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -44,6 +47,8 @@ public class LoginActivity extends AppCompatActivity {
         private Button guestButton;
         private int RC_SIGN_IN = 1;
         GoogleSignInAccount account;
+        DatabaseReference roomRef;
+
 
 
         @Override
@@ -187,8 +192,11 @@ public class LoginActivity extends AppCompatActivity {
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
                                //loggati
+                                roomRef= FirebaseDatabase.getInstance().getReference();
+                                System.out.println(roomRef.getRoot());
                                 Map<String, Object> data = new HashMap<>();
                                 data.putAll(document.getData());
+
                                 Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 intent.putExtra("nickname",data.get("nickname").toString());
