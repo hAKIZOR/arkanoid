@@ -42,7 +42,7 @@ public class ActualGameActivity extends AppCompatActivity {
     SharedPreferences preferences;
     private String nickname;
     DatabaseReference roomRef;
-    private boolean playerRole;
+    private String playerRole;
     String p1,p2;
 
     @Override
@@ -54,7 +54,7 @@ public class ActualGameActivity extends AppCompatActivity {
         nickname = data.get(LoginActivity.KEY_NICKNAME_PREFERENCES);
         counter=0;
         code = getIntent().getStringExtra(MultiplayerActivity.STATE_CODE);
-        playerRole = getIntent().getBooleanExtra(MultiplayerActivity.CODE_PLAYER,true);
+        playerRole = getIntent().getStringExtra(MultiplayerActivity.CODE_PLAYER);
         roomRef =  FirebaseDatabase.getInstance(MultiplayerActivity.ROOT).getReference("rooms/"+code);
 
         //imposta l'orientamento dello schermo
@@ -66,7 +66,7 @@ public class ActualGameActivity extends AppCompatActivity {
 
         // creare un nuova partita
 
-        if(playerRole){
+        if(playerRole.equals("player2")){
             p1 = "xPaddlePlayer1";
             p2 = "xPaddlePlayer2";
         } else {
@@ -88,7 +88,7 @@ public class ActualGameActivity extends AppCompatActivity {
 
                 game.invalidate();
                 game.update();
-                if(counter == 100) {
+                if(counter == 10) {
                     updateMultiplayerData();
                     counter = 0;
                 }
