@@ -98,7 +98,7 @@ public class Game extends View implements
         this.p1 = p1;
         this.p2 = p2;
         this.room = room;
-        room.child(p2).addValueEventListener(this);
+        room.addValueEventListener(this);
 
 
 
@@ -110,7 +110,7 @@ public class Game extends View implements
         list = new ArrayList<>();
 
         //avviare un GameOver per scoprire se la partita è in piedi e se il giocatore non l'ha persa
-        start = false;
+        start = true;
         gameOver = false;
 
         //crea palla e paddle
@@ -122,7 +122,7 @@ public class Game extends View implements
 
         for(int i=0; i<DIMENSION; i++){
             if(i>8 && i<18) list.add(0);
-            else list.add(4);
+            else list.add(0);
         }
 
         level = new Level(list,100,"MULTIPLAYER");
@@ -203,13 +203,13 @@ public class Game extends View implements
             ball.changeDirection("right");
         } else if (ball.getX() + ball.getxSpeed() <= leftBoard) {
             ball.changeDirection("left");
-        } else if ((ball.getY()+ ball.getySpeed() <= paddle2.getY()+40)&&(ball.getY()+ ball.getySpeed() >= paddle2.getY()-40) ){
-            if ((ball.getX() < paddle2.getX() + paddle2.getWidthp() && ball.getX() > paddle2.getX()) || (ball.getX() + ball.getHALFBALL() < paddle2.getX() + paddle2.getWidthp() && ball.getX() + ball.getHALFBALL() > paddle2.getX())) {
-                ball.changeDirectionPaddle2(paddle2);
-            }
+        /*}  else if (ball.getY() + ball.getySpeed() <= upBoard) {
+            ball.changeDirection("up");*/
         } else if ((ball.getY()+ ball.getySpeed() >= paddle.getY()-40)&&(ball.getY()+ ball.getySpeed() <= paddle.getY()+40) ){
             if ((ball.getX() < paddle.getX() + paddle.getWidthp() && ball.getX() > paddle.getX()) || (ball.getX() + ball.getHALFBALL() < paddle.getX() + paddle.getWidthp() && ball.getX() + ball.getHALFBALL() > paddle.getX())) {
                 ball.changeDirectionPaddle(paddle);
+                room.child("xSpeedBall").setValue(-ball.xSpeed);
+                room.child("ySpeedBall").setValue(-ball.ySpeed);
             }
 
         }else if((ball.getY() + ball.getySpeed() >= sizeY - 70)&&(ball.getY() + ball.getySpeed() <= sizeY)){
@@ -234,7 +234,7 @@ public class Game extends View implements
             ball.setY(sizeY - 280);
             ball.createSpeed();
             ball.increaseSpeed(level.getNumberLevel());
-            start = false;
+            start = true;
         }
         paddle.resetPaddle();
     }
@@ -263,7 +263,7 @@ public class Game extends View implements
                         break;
                 }
             }
-           // ball.move();
+           ball.move();
 
         }
     }
@@ -506,11 +506,14 @@ public class Game extends View implements
 
     @Override
     public void onDataChange(@NonNull DataSnapshot snapshot) {
-        setMultiplayerData(Float.parseFloat(snapshot.getValue().toString()));
+        setMultiplayerData(Float.parseFloat(snapshot.child(p2).getValue().toString()));
+        if(p1.equals("player1")) getBall().setSpeed(Integer.parseInt(snapshot.child("xSpeedBall").getValue().toString()),Integer.parseInt(snapshot.child("xSpeedBall").getValue().toString()));
     }
 
     @Override
     public void onCancelled(@NonNull DatabaseError error) {
 
     }
+
+    public String getP1(){return p1;}
 }
