@@ -101,6 +101,7 @@ public class ActualGameActivity extends AppCompatActivity {
                        Float.parseFloat(snapshot.child("xBall").getValue().toString()),
                        Float.parseFloat(snapshot.child("yBall").getValue().toString())
                };
+               game.setMultiplayerData(multiPlayerDataToReceive[0],multiPlayerDataToReceive[1],multiPlayerDataToReceive[2]);
            }
 
            @Override

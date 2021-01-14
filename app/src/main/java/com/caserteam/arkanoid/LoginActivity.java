@@ -52,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
         DatabaseReference roomRef;
         public static final String KEY_PREFERENCES_USER_INFORMATION ="UserInformation";
         public static final String KEY_NICKNAME_PREFERENCES = "nickname";
-        SharedPreferences preferences = getSharedPreferences(KEY_PREFERENCES_USER_INFORMATION,MODE_PRIVATE);
+        SharedPreferences preferences ;
 
 
         @Override
@@ -61,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
             setContentView(R.layout.activity_login);
 
             getSupportActionBar().hide();
-
+            preferences = getSharedPreferences(KEY_PREFERENCES_USER_INFORMATION,MODE_PRIVATE);
             TextView textArka =  findViewById(R.id.arkanTextView);
             animate(textArka);
 
