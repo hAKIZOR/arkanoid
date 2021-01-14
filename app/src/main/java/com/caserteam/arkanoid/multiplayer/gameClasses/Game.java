@@ -17,19 +17,28 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.core.view.GestureDetectorCompat;
 
 import com.caserteam.arkanoid.DatabaseHelper;
 import com.caserteam.arkanoid.IOUtils;
 import com.caserteam.arkanoid.Settings;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 
 
-public class Game extends View implements SensorEventListener, View.OnTouchListener, GestureDetector.OnGestureListener{
+public class Game extends View implements
+        SensorEventListener,
+        View.OnTouchListener,
+        GestureDetector.OnGestureListener,
+        ValueEventListener {
     private static final String DEBUG_STRING = "Game";
 
 
@@ -89,7 +98,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         this.p1 = p1;
         this.p2 = p2;
         this.room = room;
-
+        room.child(p2).addValueEventListener(this);
 
         loadControlSystemFromFile();
         //impostare vite, punteggi e livelli
@@ -490,5 +499,15 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
 
     public float getMultiplayerData(){
         return  paddle.getX();
+    }
+
+    @Override
+    public void onDataChange(@NonNull DataSnapshot snapshot) {
+        setMultiplayerData(Float.parseFloat(snapshot.getValue().toString()));
+    }
+
+    @Override
+    public void onCancelled(@NonNull DatabaseError error) {
+
     }
 }

@@ -40,8 +40,13 @@ public class GameViewPortrait extends Game {
 
 
         //setta posizione della palla e della barra
-        getBall().setX(size.x / 2);
-        getBall().setY(size.y - 280);
+        if(p1.equals("xPaddlePlayer1")){
+            getBall().setX(size.x / 2);
+            getBall().setY((float) ((size.y*0.10)+getPaddle().getHeightp())-30);
+        }else{
+            getBall().setX(size.x / 2);
+            getBall().setY((float) (size.y - (size.y*0.10)+getPaddle().getHeightp()+30));
+        }
         getPaddle().setX(size.x / 2);
         getPaddle().setY((float) (size.y - (size.y*0.10)+getPaddle().getHeightp()));
         getPaddle2().setX(size.x / 2);

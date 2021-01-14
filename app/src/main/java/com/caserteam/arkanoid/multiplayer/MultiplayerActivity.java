@@ -70,7 +70,7 @@ public class MultiplayerActivity extends AppCompatActivity implements DialogCode
 
 
     @Override
-    public void onClickCreateRoomListener(String code) {
+    public void onClickCreateRoom(String code) {
         roomRef =  FirebaseDatabase.getInstance(ROOT).getReference("rooms/"+code);
 
         HashMap<String,String> data = new HashMap<>();
@@ -89,7 +89,7 @@ public class MultiplayerActivity extends AppCompatActivity implements DialogCode
 
 
     @Override
-    public void onClickJoinRoomListener(String code) {
+    public void onClickJoinRoom(String code) {
         LoadingDialog loadingDialog = new LoadingDialog(MultiplayerActivity.this);
         loadingDialog.startDialog("attendo il caricamento della partita");
         roomRef =  FirebaseDatabase.getInstance(ROOT).getReference("rooms/"+code+"/player2");
@@ -110,6 +110,7 @@ public class MultiplayerActivity extends AppCompatActivity implements DialogCode
     }
 
     private void addRoomEventListener(LoadingDialog load, String code){
+
         roomRef.child("player2").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

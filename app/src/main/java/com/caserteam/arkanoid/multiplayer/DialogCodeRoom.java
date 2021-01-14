@@ -56,7 +56,7 @@ public class DialogCodeRoom extends DialogFragment {
             public void onClick(View view) {
                 //accedo alla stanza con quel codice e faccio partire il loading Dialog
                 code = editTextRoomCode.getText().toString();
-                dialogCodeRoomListener.onClickJoinRoomListener(code);
+                dialogCodeRoomListener.onClickJoinRoom(code);
             }
         });
 
@@ -66,7 +66,7 @@ public class DialogCodeRoom extends DialogFragment {
                 code = editTextRoomCode.getText().toString();
                 //creo la stanza e faccio partire il loading Dialog
 
-                dialogCodeRoomListener.onClickCreateRoomListener(code);
+                dialogCodeRoomListener.onClickCreateRoom(code);
             }
         });
 
@@ -82,8 +82,8 @@ public class DialogCodeRoom extends DialogFragment {
     }
 
     public interface DialogCodeRoomListener{
-        void onClickCreateRoomListener(String code);
-        void onClickJoinRoomListener(String code);
+        void onClickCreateRoom(String code);
+        void onClickJoinRoom(String code);
     }
 
     @Override

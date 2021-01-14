@@ -90,7 +90,7 @@ public class ActualGameActivity extends AppCompatActivity {
                 game.invalidate();
                 game.update();
 
-                updateMultiplayerData();
+
 
 
                 super.handleMessage(msg);
@@ -98,26 +98,7 @@ public class ActualGameActivity extends AppCompatActivity {
         };
     }
 
-   private void updateMultiplayerData(){
-       //QUI INSERISCI VALORI NEL DB
-      // float multiPlayerDataToSend = game.getMultiplayerData(); // contiene a [0]xPaddle, [1]xSpeedBall, [2]ySpeedBall
-       //roomRef.child(p1).setValue(multiPlayerDataToSend);
-       //QUI RECUPERI VALORI DAL DB
 
-       roomRef.child(p2).addValueEventListener(new ValueEventListener() {
-           @Override
-           public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-               game.setMultiplayerData(Float.parseFloat(snapshot.getValue().toString()));
-           }
-
-           @Override
-           public void onCancelled(@NonNull DatabaseError error) {
-
-           }
-       });
-
-    }
     protected void onPause() {
         super.onPause();
         game.pauseGame();
