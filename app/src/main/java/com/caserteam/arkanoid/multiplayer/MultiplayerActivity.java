@@ -38,11 +38,12 @@ public class MultiplayerActivity extends AppCompatActivity implements DialogCode
     FirebaseUser accountF;
     FirebaseAuth auth;
     Room room;
-    SharedPreferences preferences = getSharedPreferences(LoginActivity.KEY_PREFERENCES_USER_INFORMATION,MODE_PRIVATE);
+    SharedPreferences preferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        preferences = getSharedPreferences(LoginActivity.KEY_PREFERENCES_USER_INFORMATION,MODE_PRIVATE);
         setContentView(R.layout.activity_multiplayer);
         Button matchMakingButton = findViewById(R.id.button_matchmaking);
         Button privateButton = findViewById(R.id.button_private);
