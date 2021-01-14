@@ -41,9 +41,9 @@ public class GameViewPortrait extends Game {
         getBall().setX(size.x / 2);
         getBall().setY(size.y - 280);
         getPaddle().setX(size.x / 2);
-        getPaddle().setY(size.y - 200);
+        getPaddle().setY((float) (size.y - (size.y*0.10)+getPaddle().getHeightp()));
         getPaddle2().setX(size.x / 2);
-        getPaddle2().setY((float) (size.y*0.10));
+        getPaddle2().setY((float) (size.y*0.10)+getPaddle2().getHeightp());
 
         //setto i bordi
         setUpBoard(150);
@@ -53,21 +53,19 @@ public class GameViewPortrait extends Game {
 
         //setto colonne e righe dei mattoni
         setColumns(9);
-        setRow(10);
+        setRow(3);
 
         //setto altezza e base del mattone
         setBrickBase((size.x-40)/getColumns());
-        setBrickHeight((size.y-1200)/getRow());
+        setBrickHeight((size.y/9)/getRow());
 
         //setto il padding del campo di gioco
         setPaddingLeftGame(20);
-        setPaddingTopGame(150);
+        setPaddingTopGame((size.y/2)-(getBrickHeight()*3/2));
 
-        for(Level l: getLevels()) {
-            if(l.getNumberLevel()==getNumberLevel()) {
-                generateBricks(context, getLevels().get(getNumberLevel()-1),getColumns(),getRow(),getBrickBase(),getBrickHeight(),getPaddingLeftGame(),getPaddingTopGame());
-            }
-        }
+
+        generateBricks(context, getLevel(),getColumns(),getRow(),getBrickBase(),getBrickHeight(),getPaddingLeftGame(),getPaddingTopGame());
+
         this.setOnTouchListener(this);
     }
 
@@ -110,22 +108,6 @@ public class GameViewPortrait extends Game {
                 canvas.drawBitmap(b.getBrick(), null, r, paint);
         }
 
-        //disegna powerUp
-        paint.setColor(Color.GREEN);
-        for(int j = 0; j < getPowerUps().size(); j++){
-            PowerUp p = getPowerUps().get(j);
-            r = new RectF(p.getX(), p.getY(), p.getX(), p.getY());
-            canvas.drawBitmap(p.getPower(), p.getX(), p.getY(), paint);
-        }
-
-        //disegna powerUp
-        paint.setColor(Color.GREEN);
-        for(int j = 0; j < getLaserDropped().size(); j++){
-            LaserSound p = getLaserDropped().get(j);
-            r = new RectF(p.getX(), p.getY(), p.getX(), p.getY());
-            canvas.drawBitmap(p.getLaser(), p.getX(), p.getY(), paint);
-        }
-
         // disegna testo
         paint.setColor(Color.WHITE);
         paint.setTextSize(60);
@@ -133,8 +115,6 @@ public class GameViewPortrait extends Game {
         paint.setTypeface(typeface);
         canvas.drawText("HP:" + getLifes(), 1, 100, paint);
         canvas.drawText("PT:" + getScore(), 200, 100, paint);
-        canvas.drawText("LSR:" + getLaserSoundRemaining(), 550, 100, paint);
-        canvas.drawText("PIANO:" + getHandsPianoRemaining(), 800, 100, paint);
 
         // in caso di sconfitta stampa "GameOver"
         if (isGameOver()) {

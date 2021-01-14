@@ -6,10 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GestureDetectorCompat;
 
 import com.caserteam.arkanoid.LoginActivity;
-import  com.caserteam.arkanoid.R;
 import com.caserteam.arkanoid.multiplayer.MultiplayerActivity;
 import com.caserteam.arkanoid.multiplayer.Room;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -19,7 +17,6 @@ import com.google.firebase.database.ValueEventListener;
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -81,6 +78,7 @@ public class ActualGameActivity extends AppCompatActivity {
         getSupportActionBar().hide();
     }
 
+    @SuppressLint("HandlerLeak")
     private void createHandler() {
         updateHandler = new Handler() {
             @SuppressLint("HandlerLeak")
