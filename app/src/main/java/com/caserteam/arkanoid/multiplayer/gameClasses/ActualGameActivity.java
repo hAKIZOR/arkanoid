@@ -42,6 +42,8 @@ public class ActualGameActivity extends AppCompatActivity {
     SharedPreferences preferences;
     private String nickname;
     DatabaseReference roomRef;
+    private boolean playerRole;
+    String p1,p2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +54,7 @@ public class ActualGameActivity extends AppCompatActivity {
         nickname = data.get(LoginActivity.KEY_NICKNAME_PREFERENCES);
         counter=0;
         code = getIntent().getStringExtra(MultiplayerActivity.STATE_CODE);
+        playerRole = getIntent().getBooleanExtra(MultiplayerActivity.CODE_PLAYER,true);
         roomRef =  FirebaseDatabase.getInstance(MultiplayerActivity.ROOT).getReference("rooms/"+code);
 
         //imposta l'orientamento dello schermo
@@ -63,7 +66,13 @@ public class ActualGameActivity extends AppCompatActivity {
 
         // creare un nuova partita
 
-
+        if(playerRole){
+            p1 = "xPaddlePlayer1";
+            p2 = "xPaddlePlayer2";
+        } else {
+            p1 = "xPaddlePlayer2";
+            p2 = "xPaddlePlayer1";
+        }
 
         // crea handler e thread
         createHandler();
@@ -92,14 +101,14 @@ public class ActualGameActivity extends AppCompatActivity {
    private void updateMultiplayerData(){
        //QUI INSERISCI VALORI NEL DB
        float multiPlayerDataToSend = game.getMultiplayerData(); // contiene a [0]xPaddle, [1]xSpeedBall, [2]ySpeedBall
-       roomRef.child("xPaddlePlayer1").setValue(multiPlayerDataToSend);
+       roomRef.child(p1).setValue(multiPlayerDataToSend);
        //QUI RECUPERI VALORI DAL DB
 
        roomRef.addValueEventListener(new ValueEventListener() {
            @Override
            public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-               float multiPlayerDataToReceive =Float.parseFloat(snapshot.child("xPaddlePlayer2").getValue().toString());
+               float multiPlayerDataToReceive =Float.parseFloat(snapshot.child(p2).getValue().toString());
                game.setMultiplayerData(multiPlayerDataToReceive);
            }
 

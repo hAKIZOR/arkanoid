@@ -31,6 +31,7 @@ public class MultiplayerActivity extends AppCompatActivity implements DialogCode
     private static final String TAG = "MultiplayerActivity";
     public static final String ROOT = "https://arkanoid-d46b0-default-rtdb.europe-west1.firebasedatabase.app/";
     public static final String STATE_CODE = "gameCode";
+    public static final String CODE_PLAYER = "player";
 
 
     DatabaseReference roomRef;
@@ -100,6 +101,7 @@ public class MultiplayerActivity extends AppCompatActivity implements DialogCode
         //accedo al gioco
         Intent intent = new Intent(MultiplayerActivity.this, ActualGameActivity.class);
         intent.putExtra(STATE_CODE,code);
+        intent.putExtra(CODE_PLAYER,true);
         startActivity(intent);
 
         System.out.println(roomRef.get().toString());
@@ -115,6 +117,7 @@ public class MultiplayerActivity extends AppCompatActivity implements DialogCode
                     load.dismissDialog();
                     Intent intent = new Intent(MultiplayerActivity.this,ActualGameActivity.class);
                     intent.putExtra(STATE_CODE,code);
+                    intent.putExtra(CODE_PLAYER,false);
                     startActivity(intent);
                 }
                 //aggregazione alla stanza
