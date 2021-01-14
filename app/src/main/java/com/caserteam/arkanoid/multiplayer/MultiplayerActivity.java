@@ -119,13 +119,15 @@ public class MultiplayerActivity extends AppCompatActivity implements DialogCode
                     intent.putExtra(STATE_CODE,code);
                     intent.putExtra(CODE_PLAYER,"player1");
                     startActivity(intent);
-                    finish();
+                    roomRef.child("player2").removeEventListener(this);
+
                 }
                 //aggregazione alla stanza
                 Log.w(TAG, snapshot.getValue().toString());
                // Intent intent = new Intent(getApplicationContext(), ActualGameActivity.class);
                 // startActivity(intent);
             }
+
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
