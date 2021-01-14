@@ -110,18 +110,19 @@ public class MultiplayerActivity extends AppCompatActivity implements DialogCode
     }
 
     private void addRoomEventListener(LoadingDialog load, String code){
-        roomRef.addValueEventListener(new ValueEventListener() {
+        roomRef.child("player2").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if( snapshot.child("player2").getValue().toString() != ""){
+                if( snapshot.getValue().toString() != ""){
                     load.dismissDialog();
                     Intent intent = new Intent(MultiplayerActivity.this,ActualGameActivity.class);
                     intent.putExtra(STATE_CODE,code);
                     intent.putExtra(CODE_PLAYER,"player1");
                     startActivity(intent);
+                    finish();
                 }
                 //aggregazione alla stanza
-                Log.w(TAG, snapshot.child("player2").getValue().toString());
+                Log.w(TAG, snapshot.getValue().toString());
                // Intent intent = new Intent(getApplicationContext(), ActualGameActivity.class);
                 // startActivity(intent);
             }

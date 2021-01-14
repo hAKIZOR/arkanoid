@@ -29,8 +29,8 @@ public class GameViewPortrait extends Game {
     private RectF r;
 
 
-    public GameViewPortrait(Context context, int lifes, int score,String p1, String p2, DatabaseReference room){
-        super(context, lifes, score,p1,p2,room);
+    public GameViewPortrait(Context context, int lifes, int score,DatabaseReference room,String p1, String p2){
+        super(context, lifes,score,room,p1,p2);
         paint = new Paint();
         setBackground(context);
         setSens(2); // <-- setta la sensitività dell'accellerometro

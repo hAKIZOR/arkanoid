@@ -56,6 +56,7 @@ public class ActualGameActivity extends AppCompatActivity {
 
         //imposta l'orientamento dello schermo
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
         if(playerRole.equals("player2")){
             p1 = "xPaddlePlayer1";
             p2 = "xPaddlePlayer2";
@@ -63,7 +64,8 @@ public class ActualGameActivity extends AppCompatActivity {
             p1 = "xPaddlePlayer2";
             p2 = "xPaddlePlayer1";
         }
-        game = new GameViewPortrait(this, 3, 0,p1,p2,roomRef);
+
+        game = new GameViewPortrait(this, 3, 0,roomRef,p1,p2);
         gestureDetector = game.getGestureDetector();
         setContentView(game);
 
@@ -87,11 +89,10 @@ public class ActualGameActivity extends AppCompatActivity {
 
                 game.invalidate();
                 game.update();
-                if(counter == 10) {
-                    updateMultiplayerData();
-                    counter = 0;
-                }
-                else counter++;
+
+                updateMultiplayerData();
+
+
                 super.handleMessage(msg);
             }
         };
@@ -103,12 +104,11 @@ public class ActualGameActivity extends AppCompatActivity {
        //roomRef.child(p1).setValue(multiPlayerDataToSend);
        //QUI RECUPERI VALORI DAL DB
 
-       roomRef.addValueEventListener(new ValueEventListener() {
+       roomRef.child(p2).addValueEventListener(new ValueEventListener() {
            @Override
            public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-               float multiPlayerDataToReceive =Float.parseFloat(snapshot.child(p2).getValue().toString());
-               game.setMultiplayerData(multiPlayerDataToReceive);
+               game.setMultiplayerData(Float.parseFloat(snapshot.getValue().toString()));
            }
 
            @Override

@@ -72,24 +72,24 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
     private int row;
     private float paddingLeftGame;
     private float paddingTopGame;
-
-    private String p1,p2;
     private DatabaseReference room;
+    private String p1,p2;
+
 
     private int nS=1; //variabile usata per completare il nome del sound nel caricamento
     SoundPool soundPool;
     int[] soundNote = {-1, -1, -1, -1, -1, -1, -1, -1};
     AudioAttributes audioAttributes;
 
-    public Game(Context context, int lifes, int score,String p1, String p2, DatabaseReference room) {
+    public Game(Context context, int lifes, int score,DatabaseReference room,String p1,String p2) {
         super(context);
 
         //impostare contesto
         this.context = context;
-
         this.p1 = p1;
         this.p2 = p2;
         this.room = room;
+
 
         loadControlSystemFromFile();
         //impostare vite, punteggi e livelli
@@ -110,7 +110,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         //crea livello dal DB locale
 
         for(int i=0; i<DIMENSION; i++){
-            if(i>9 && i<19) list.add(0);
+            if(i>8 && i<18) list.add(0);
             else list.add(4);
         }
 
