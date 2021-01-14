@@ -1,6 +1,7 @@
 package com.caserteam.arkanoid;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -38,6 +39,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class LoginActivity extends AppCompatActivity {
         private SignInButton signInButton;
@@ -48,7 +50,9 @@ public class LoginActivity extends AppCompatActivity {
         private int RC_SIGN_IN = 1;
         GoogleSignInAccount account;
         DatabaseReference roomRef;
-
+        public static final String KEY_PREFERENCES_USER_INFORMATION ="UserInformation";
+        public static final String KEY_NICKNAME_PREFERENCES = "nickname";
+        SharedPreferences preferences = getSharedPreferences(KEY_PREFERENCES_USER_INFORMATION,MODE_PRIVATE);
 
 
         @Override
@@ -85,7 +89,7 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
-                    intent.putExtra("nickname","giocatore guest");
+                    preferences.edit().putString(KEY_NICKNAME_PREFERENCES,"Guest").commit();
                     startActivity(intent);
                 }
             });
@@ -177,7 +181,9 @@ public class LoginActivity extends AppCompatActivity {
 
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             account = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
+
             if(account !=  null){
+
                 String personName = account.getDisplayName();
                 String personGivenName = account.getGivenName();
                 String personEmail = account.getEmail();
@@ -199,11 +205,13 @@ public class LoginActivity extends AppCompatActivity {
 
                                 Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                intent.putExtra("nickname",data.get("nickname").toString());
+                                preferences.edit().putString(KEY_NICKNAME_PREFERENCES,data.get(KEY_NICKNAME_PREFERENCES).toString()).commit();
+
                                 startActivity(intent);
 
                                 }else {
                                 //vai nella sezione aggiungi nickname
+
                                 Intent intent = new Intent(LoginActivity.this, RegistrationActivity.class);
                                 startActivity(intent);
 

@@ -31,7 +31,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 public class MenuActivity extends AppCompatActivity {
     private static final String TAG = "MenuActivity = ";
@@ -69,8 +71,10 @@ public class MenuActivity extends AppCompatActivity {
 
 
         try {
-
-            name.setText("Benvenuto  " + getIntent().getStringExtra("nickname"));
+            SharedPreferences preferences = getSharedPreferences(LoginActivity.KEY_PREFERENCES_USER_INFORMATION,MODE_PRIVATE);
+            Map<String,String> data = new HashMap<>();
+            data.putAll((Map<String,String>) preferences.getAll());
+            name.setText("Benvenuto  " + data.get(LoginActivity.KEY_NICKNAME_PREFERENCES));
             Picasso.get().load(account.getPhotoUrl()).into(photoProfile);
         } catch (Exception e){
 

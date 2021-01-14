@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -52,7 +53,7 @@ public class RegistrationActivity extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     String nicknameInserted = nickname.getText().toString();
 
-                                    boolean nicknameUsable = checkIfNicnameIsUsable(nicknameInserted,task);
+                                    boolean nicknameUsable = checkIfNicknameIsUsable(nicknameInserted,task);
 
                                     if(nicknameUsable){
                                         insertNicknameToDatabase(db,nicknameInserted,account);
@@ -74,7 +75,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
         Map<String, Object> utente = new HashMap<>();
         utente.put("nickname", nicknameInserted);
-
+        SharedPreferences preferences = getSharedPreferences(LoginActivity.KEY_PREFERENCES_USER_INFORMATION,MODE_PRIVATE);
         db.collection("utenti").document(account.getEmail())
                 .set(utente)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -83,7 +84,8 @@ public class RegistrationActivity extends AppCompatActivity {
                         Log.d(TAG, "DocumentSnapshot successfully written!");
                         Intent myIntent = new Intent(RegistrationActivity.this, LoginActivity.class);
                         myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        myIntent.putExtra("nickname",nicknameInserted);
+                        preferences.edit().putString(LoginActivity.KEY_NICKNAME_PREFERENCES,nicknameInserted).commit();
+
                         startActivity(myIntent);
                     }
                 })
@@ -94,7 +96,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     }
                 });
     }
-    public boolean checkIfNicnameIsUsable(String nickname,Task<QuerySnapshot> task){
+    public boolean checkIfNicknameIsUsable(String nickname,Task<QuerySnapshot> task){
         Map<String, Object> nicknameTmp = new HashMap<>();
         boolean result = true;
         for (QueryDocumentSnapshot document : task.getResult()) {

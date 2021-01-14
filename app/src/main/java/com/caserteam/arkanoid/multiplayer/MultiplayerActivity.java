@@ -4,11 +4,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.caserteam.arkanoid.LoginActivity;
 import com.caserteam.arkanoid.R;
 import com.caserteam.arkanoid.editor.ui_upload_check.LoadingDialog;
 import com.caserteam.arkanoid.multiplayer.gameClasses.ActualGameActivity;
@@ -22,9 +24,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class MultiplayerActivity extends AppCompatActivity implements DialogCodeRoom.DialogCodeRoomListener {
-   private static final String TAG = "MultiplayerActivity";
-    private static final String ROOT = "https://arkanoid-d46b0-default-rtdb.europe-west1.firebasedatabase.app/";
+    private static final String TAG = "MultiplayerActivity";
+    public static final String ROOT = "https://arkanoid-d46b0-default-rtdb.europe-west1.firebasedatabase.app/";
+    public static final String STATE_CODE = "gameCode";
 
 
     DatabaseReference roomRef;
@@ -32,7 +38,7 @@ public class MultiplayerActivity extends AppCompatActivity implements DialogCode
     FirebaseUser accountF;
     FirebaseAuth auth;
     Room room;
-
+    SharedPreferences preferences = getSharedPreferences(LoginActivity.KEY_PREFERENCES_USER_INFORMATION,MODE_PRIVATE);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -45,8 +51,6 @@ public class MultiplayerActivity extends AppCompatActivity implements DialogCode
         matchMakingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
 
             }
         });
@@ -66,7 +70,12 @@ public class MultiplayerActivity extends AppCompatActivity implements DialogCode
     @Override
     public void onClickCreateRoomListener(String code) {
         roomRef =  FirebaseDatabase.getInstance(ROOT).getReference("rooms/"+code);
-        room = new Room(account.getEmail(),"",0,0,0,0);
+
+        HashMap<String,String> data = new HashMap<>();
+        data.putAll((Map<String,String>) preferences.getAll());
+        String nickname = data.get(LoginActivity.KEY_NICKNAME_PREFERENCES);
+
+        room = new Room(nickname,"",0,0,0,0);
         roomRef.setValue(room);
         LoadingDialog loadingDialog = new LoadingDialog(MultiplayerActivity.this);
         loadingDialog.startDialog("attendo che qualcuno acceda");
@@ -82,10 +91,14 @@ public class MultiplayerActivity extends AppCompatActivity implements DialogCode
         LoadingDialog loadingDialog = new LoadingDialog(MultiplayerActivity.this);
         loadingDialog.startDialog("attendo il caricamento della partita");
         roomRef =  FirebaseDatabase.getInstance(ROOT).getReference("rooms/"+code+"/player2");
-        roomRef.setValue(account.getEmail());
+        HashMap<String,String> data = new HashMap<>();
+        data.putAll((Map<String,String>) preferences.getAll());
+        String nickname = data.get(LoginActivity.KEY_NICKNAME_PREFERENCES);
+        roomRef.setValue(nickname);
 
         //accedo al gioco
         Intent intent = new Intent(MultiplayerActivity.this, ActualGameActivity.class);
+        intent.putExtra("codeRoom",code);
         startActivity(intent);
 
         System.out.println(roomRef.get().toString());

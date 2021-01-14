@@ -39,4 +39,5 @@
     <string name="privata">privata</string>
     <string name="firebase_root" translatable="false">https://arkanoid-d46b0-default-rtdb.europe-west1.firebasedatabase.app</string>
 
+
 </resources>
