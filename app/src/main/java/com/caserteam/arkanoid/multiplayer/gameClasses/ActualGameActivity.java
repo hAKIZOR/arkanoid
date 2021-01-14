@@ -38,14 +38,14 @@ public class ActualGameActivity extends AppCompatActivity {
     private String code;
     private GestureDetectorCompat gestureDetector;
     private Room room;
-    SharedPreferences preferences = getSharedPreferences(LoginActivity.KEY_PREFERENCES_USER_INFORMATION,MODE_PRIVATE);
+    SharedPreferences preferences;
     private String nickname;
     DatabaseReference roomRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        preferences = getSharedPreferences(LoginActivity.KEY_PREFERENCES_USER_INFORMATION,MODE_PRIVATE);
         HashMap<String,String> data = new HashMap<>();
         data.putAll((Map<String,String>) preferences.getAll());
         nickname = data.get(LoginActivity.KEY_NICKNAME_PREFERENCES);
