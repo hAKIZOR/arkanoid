@@ -76,12 +76,12 @@ public class MultiplayerActivity extends AppCompatActivity implements DialogCode
         data.putAll((Map<String,String>) preferences.getAll());
         String nickname = data.get(LoginActivity.KEY_NICKNAME_PREFERENCES);
 
-        room = new Room(nickname,"",0,0,0,0);
+        room = new Room(nickname,"",0,0);
         roomRef.setValue(room);
         LoadingDialog loadingDialog = new LoadingDialog(MultiplayerActivity.this);
         loadingDialog.startDialog("attendo che qualcuno acceda");
 
-        addRoomEventListener(loadingDialog);
+        addRoomEventListener(loadingDialog,code);
         //roomRef.child(Keys).child("idRoom").setValue(code);
         //roomRef.child(Keys).child("player1").setValue(account.getEmail());
     }
@@ -99,7 +99,7 @@ public class MultiplayerActivity extends AppCompatActivity implements DialogCode
 
         //accedo al gioco
         Intent intent = new Intent(MultiplayerActivity.this, ActualGameActivity.class);
-        intent.putExtra("codeRoom",code);
+        intent.putExtra(STATE_CODE,code);
         startActivity(intent);
 
         System.out.println(roomRef.get().toString());
@@ -107,13 +107,14 @@ public class MultiplayerActivity extends AppCompatActivity implements DialogCode
 
     }
 
-    private void addRoomEventListener(LoadingDialog load){
+    private void addRoomEventListener(LoadingDialog load, String code){
         roomRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if( snapshot.child("player2").getValue().toString() != ""){
                     load.dismissDialog();
                     Intent intent = new Intent(MultiplayerActivity.this,ActualGameActivity.class);
+                    intent.putExtra(STATE_CODE,code);
                     startActivity(intent);
                 }
                 //aggregazione alla stanza

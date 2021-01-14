@@ -225,8 +225,10 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
             ball.changeDirection("right");
         } else if (ball.getX() + ball.getxSpeed() <= leftBoard) {
             ball.changeDirection("left");
-        } else if (ball.getY() + ball.getySpeed() <= upBoard) {
-            ball.changeDirection("up");
+        } else if ((ball.getY()+ ball.getySpeed() <= paddle2.getY()+40)&&(ball.getY()+ ball.getySpeed() >= paddle2.getY()-40) ){
+            if ((ball.getX() < paddle2.getX() + paddle2.getWidthp() && ball.getX() > paddle2.getX()) || (ball.getX() + ball.getHALFBALL() < paddle2.getX() + paddle2.getWidthp() && ball.getX() + ball.getHALFBALL() > paddle2.getX())) {
+                ball.changeDirectionPaddle2(paddle2);
+            }
         } else if ((ball.getY()+ ball.getySpeed() >= paddle.getY()-40)&&(ball.getY()+ ball.getySpeed() <= paddle.getY()+40) ){
             if ((ball.getX() < paddle.getX() + paddle.getWidthp() && ball.getX() > paddle.getX()) || (ball.getX() + ball.getHALFBALL() < paddle.getX() + paddle.getWidthp() && ball.getX() + ball.getHALFBALL() > paddle.getX())) {
                 ball.changeDirectionPaddle(paddle);
@@ -303,7 +305,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
                         break;
                 }
             }
-            ball.move();
+           // ball.move();
             for (int j = 0; j < powerUps.size(); j++) {
                 powerUps.get(j).move();
 
@@ -712,13 +714,11 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         return laserSoundRemaining;
     }
 
-    public void setMultiplayerData(float xPaddle2, float xBall, float yBall){
+    public void setMultiplayerData(float xPaddle2){
         paddle2.setX(xPaddle2);
-        ball.setSpeed(xBall,yBall);
     }
 
-    public float[] getMultiplayerData(){
-        float[] data = {paddle.getX(),ball.getxSpeed(),ball.getySpeed()};
-        return data;
+    public float getMultiplayerData(){
+        return  paddle.getX();
     }
 }

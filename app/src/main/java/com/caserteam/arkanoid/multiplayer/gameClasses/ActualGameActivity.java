@@ -38,6 +38,7 @@ public class ActualGameActivity extends AppCompatActivity {
     private String code;
     private GestureDetectorCompat gestureDetector;
     private Room room;
+    private int counter;
     SharedPreferences preferences;
     private String nickname;
     DatabaseReference roomRef;
@@ -49,7 +50,7 @@ public class ActualGameActivity extends AppCompatActivity {
         HashMap<String,String> data = new HashMap<>();
         data.putAll((Map<String,String>) preferences.getAll());
         nickname = data.get(LoginActivity.KEY_NICKNAME_PREFERENCES);
-
+        counter=0;
         code = getIntent().getStringExtra(MultiplayerActivity.STATE_CODE);
         roomRef =  FirebaseDatabase.getInstance(MultiplayerActivity.ROOT).getReference("rooms/"+code);
 
@@ -78,30 +79,28 @@ public class ActualGameActivity extends AppCompatActivity {
 
                 game.invalidate();
                 game.update();
+                if(counter == 100) {
+                    updateMultiplayerData();
+                    counter = 0;
+                }
+                else counter++;
                 super.handleMessage(msg);
             }
         };
     }
 
    private void updateMultiplayerData(){
-       updateMultiplayerData();
        //QUI INSERISCI VALORI NEL DB
-       float[] multiPlayerDataToSend = game.getMultiplayerData(); // contiene a [0]xPaddle, [1]xSpeedBall, [2]ySpeedBall
-       roomRef.child("xPaddlePlayer1").setValue(multiPlayerDataToSend[0]);
-       roomRef.child("xBall").setValue(multiPlayerDataToSend[1]);
-       roomRef.child("yBall").setValue(multiPlayerDataToSend[2]);
+       float multiPlayerDataToSend = game.getMultiplayerData(); // contiene a [0]xPaddle, [1]xSpeedBall, [2]ySpeedBall
+       roomRef.child("xPaddlePlayer1").setValue(multiPlayerDataToSend);
        //QUI RECUPERI VALORI DAL DB
 
        roomRef.addValueEventListener(new ValueEventListener() {
            @Override
            public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-               float[] multiPlayerDataToReceive = {
-                       Float.parseFloat(snapshot.child("xPaddlePlayer2").getValue().toString()),
-                       Float.parseFloat(snapshot.child("xBall").getValue().toString()),
-                       Float.parseFloat(snapshot.child("yBall").getValue().toString())
-               };
-               game.setMultiplayerData(multiPlayerDataToReceive[0],multiPlayerDataToReceive[1],multiPlayerDataToReceive[2]);
+               float multiPlayerDataToReceive =Float.parseFloat(snapshot.child("xPaddlePlayer2").getValue().toString());
+               game.setMultiplayerData(multiPlayerDataToReceive);
            }
 
            @Override

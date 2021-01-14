@@ -96,6 +96,25 @@ public class Ball extends View {
         }
     }
 
+    protected void changeDirectionPaddle2(Paddle paddle) {
+
+        if (this.x>=paddle.getX() && this.x<paddle.getX()+paddle.getWidthp()/7) {
+            setSpeed(13, 14);
+        } else if (this.x>=paddle.getX()+paddle.getWidthp()/7 && this.x<paddle.getX()+(paddle.getWidthp()*2)/7) {
+            setSpeed(10, 14);
+        } else if (this.x>=paddle.getX()+(paddle.getWidthp()*2)/7 && this.x<paddle.getX()+(paddle.getWidthp()*3)/7) {
+            setSpeed(7, 14);
+        } else if (this.x>=paddle.getX()+(paddle.getWidthp()*3)/7 && this.x<paddle.getX()+(paddle.getWidthp()*4)/7) {
+            setSpeed(0, 20);
+        } else if (this.x>=paddle.getX()+(paddle.getWidthp()*4)/7 && this.x<paddle.getX()+(paddle.getWidthp()*5)/7) {
+            setSpeed(-7, 14);
+        } else if (this.x>=paddle.getX()+(paddle.getWidthp()*5)/7 && this.x<paddle.getX()+(paddle.getWidthp()*6)/7) {
+            setSpeed(-10,14);
+        } else if (this.x>=paddle.getX()+(paddle.getWidthp()*6)/7 && this.x<paddle.getX()+paddle.getWidthp()) {
+            setSpeed(-13, 14);
+        }
+    }
+
     //cambia direzione a seconda del ostacolo che ha toccato e della velocità
     protected void changeDirectionBrick(String wall) {
         if (wall.equals("left")) {
