@@ -17,6 +17,7 @@ import android.view.WindowManager;
 import androidx.core.content.res.ResourcesCompat;
 
 import com.caserteam.arkanoid.R;
+import com.google.firebase.database.DatabaseReference;
 
 
 public class GameViewPortrait extends Game {
@@ -28,13 +29,14 @@ public class GameViewPortrait extends Game {
     private RectF r;
 
 
-    public GameViewPortrait(Context context,int lifes, int score){
-        super(context, lifes, score);
+    public GameViewPortrait(Context context, int lifes, int score,String p1, String p2, DatabaseReference room){
+        super(context, lifes, score,p1,p2,room);
         paint = new Paint();
         setBackground(context);
         setSens(2); // <-- setta la sensitività dell'accellerometro
         setSizeX(size.x);
         setSizeY(size.y);
+
 
 
         //setta posizione della palla e della barra

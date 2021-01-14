@@ -56,13 +56,6 @@ public class ActualGameActivity extends AppCompatActivity {
 
         //imposta l'orientamento dello schermo
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        game = new GameViewPortrait(this, 3, 0);
-        gestureDetector = game.getGestureDetector();
-        setContentView(game);
-
-
-        // creare un nuova partita
-
         if(playerRole.equals("player2")){
             p1 = "xPaddlePlayer1";
             p2 = "xPaddlePlayer2";
@@ -70,6 +63,14 @@ public class ActualGameActivity extends AppCompatActivity {
             p1 = "xPaddlePlayer2";
             p2 = "xPaddlePlayer1";
         }
+        game = new GameViewPortrait(this, 3, 0,p1,p2,roomRef);
+        gestureDetector = game.getGestureDetector();
+        setContentView(game);
+
+
+
+
+
 
         // crea handler e thread
         createHandler();
@@ -98,8 +99,8 @@ public class ActualGameActivity extends AppCompatActivity {
 
    private void updateMultiplayerData(){
        //QUI INSERISCI VALORI NEL DB
-       float multiPlayerDataToSend = game.getMultiplayerData(); // contiene a [0]xPaddle, [1]xSpeedBall, [2]ySpeedBall
-       roomRef.child(p1).setValue(multiPlayerDataToSend);
+      // float multiPlayerDataToSend = game.getMultiplayerData(); // contiene a [0]xPaddle, [1]xSpeedBall, [2]ySpeedBall
+       //roomRef.child(p1).setValue(multiPlayerDataToSend);
        //QUI RECUPERI VALORI DAL DB
 
        roomRef.addValueEventListener(new ValueEventListener() {

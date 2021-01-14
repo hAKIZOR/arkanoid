@@ -22,6 +22,7 @@ import androidx.core.view.GestureDetectorCompat;
 import com.caserteam.arkanoid.DatabaseHelper;
 import com.caserteam.arkanoid.IOUtils;
 import com.caserteam.arkanoid.Settings;
+import com.google.firebase.database.DatabaseReference;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -72,16 +73,23 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
     private float paddingLeftGame;
     private float paddingTopGame;
 
+    private String p1,p2;
+    private DatabaseReference room;
+
     private int nS=1; //variabile usata per completare il nome del sound nel caricamento
     SoundPool soundPool;
     int[] soundNote = {-1, -1, -1, -1, -1, -1, -1, -1};
     AudioAttributes audioAttributes;
 
-    public Game(Context context, int lifes, int score) {
+    public Game(Context context, int lifes, int score,String p1, String p2, DatabaseReference room) {
         super(context);
 
         //impostare contesto
         this.context = context;
+
+        this.p1 = p1;
+        this.p2 = p2;
+        this.room = room;
 
         loadControlSystemFromFile();
         //impostare vite, punteggi e livelli
@@ -319,11 +327,20 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
     public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
     if(accelerometer==null) {
         if ((e2.getX() - (paddle.getWidthp()/2)>=0 && (e2.getX() - (paddle.getWidthp()/2)<= (sizeX - paddle.getWidthp())))){
-            if(e2.getY()>(sizeY*0.75)) {paddle.setX(e2.getX() - (paddle.getWidthp()/2));}
+            if(e2.getY()>(sizeY*0.75)) {
+                paddle.setX(e2.getX() - (paddle.getWidthp()/2));
+                room.child(p1).setValue(e2.getX() - (paddle.getWidthp()/2));
+            }
         }else if ((e2.getX() - (paddle.getWidthp()/2) < 0)){
-            if(e2.getY()>(sizeY*0.75)) {paddle.setX(0);}
+            if(e2.getY()>(sizeY*0.75)) {
+                paddle.setX(0);
+                room.child(p1).setValue(0);
+            }
         }else if ((e2.getX() - (paddle.getWidthp()/2) > (sizeX - paddle.getWidthp()))){
-            if(e2.getY()>(sizeY*0.75)) {paddle.setX(sizeX-paddle.getWidthp());}
+            if(e2.getY()>(sizeY*0.75)) {
+                paddle.setX(sizeX-paddle.getWidthp());
+                room.child(p1).setValue(sizeX-paddle.getWidthp());
+            }
         }
     }
         return false;
