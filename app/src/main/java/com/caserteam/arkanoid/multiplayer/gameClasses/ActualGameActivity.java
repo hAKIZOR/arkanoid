@@ -66,6 +66,13 @@ public class ActualGameActivity extends AppCompatActivity {
         }
 
         game = new GameViewPortrait(this, 3, 0,roomRef,p1,p2);
+
+        if(playerRole.equals("player1")) {
+            game.getBall().setSpeed(7,-14);
+        } else {
+            game.getBall().setSpeed(-7,14);
+        }
+
         gestureDetector = game.getGestureDetector();
         setContentView(game);
 

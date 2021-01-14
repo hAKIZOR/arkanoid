@@ -100,6 +100,8 @@ public class Game extends View implements
         this.room = room;
         room.child(p2).addValueEventListener(this);
 
+
+
         loadControlSystemFromFile();
         //impostare vite, punteggi e livelli
         this.lifes = lifes;
@@ -244,6 +246,7 @@ public class Game extends View implements
         if (start) {
             win();
             checkBoards();
+            ball.move();
             for (int i = 0; i < brickList.size(); i++) {
                 Brick b = brickList.get(i);
                 if (ball.hitBrick(b)) {

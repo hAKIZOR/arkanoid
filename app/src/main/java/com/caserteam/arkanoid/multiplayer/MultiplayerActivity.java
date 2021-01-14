@@ -77,7 +77,7 @@ public class MultiplayerActivity extends AppCompatActivity implements DialogCode
         data.putAll((Map<String,String>) preferences.getAll());
         String nickname = data.get(LoginActivity.KEY_NICKNAME_PREFERENCES);
 
-        room = new Room(nickname,"",0,0);
+        room = new Room(nickname,"",0,0,7,-14);
         roomRef.setValue(room);
         LoadingDialog loadingDialog = new LoadingDialog(MultiplayerActivity.this);
         loadingDialog.startDialog("attendo che qualcuno acceda");

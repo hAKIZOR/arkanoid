@@ -147,5 +147,6 @@ public class GameViewPortrait extends Game {
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
     }
 }
