@@ -13,7 +13,7 @@ import android.widget.ImageButton;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import com.caserteam.arkanoid.editor.Brick;
+import com.caserteam.arkanoid.editor.BrickEditor;
 import com.caserteam.arkanoid.R;
 
 public class FragmentDetailBricks extends Fragment {
@@ -41,14 +41,14 @@ public class FragmentDetailBricks extends Fragment {
         buttonPurple = v.findViewById(R.id.imageButtonPurple);
         buttonYellow = v.findViewById(R.id.imageButtonYellow);
 
-        callClickListenerOf(buttonBlue, Brick.BRICK_BLUE);
-        callClickListenerOf(buttonLime, Brick.BRICK_LIME);
-        callClickListenerOf(buttonGreen, Brick.BRICK_GREEN);
-        callClickListenerOf(buttonOrange, Brick.BRICK_ORANGE);
-        callClickListenerOf(buttonAqua, Brick.BRICK_AQUA);
-        callClickListenerOf(buttonRed, Brick.BRICK_RED);
-        callClickListenerOf(buttonPurple, Brick.BRICK_PURPLE);
-        callClickListenerOf(buttonYellow, Brick.BRICK_YELLOW);
+        callClickListenerOf(buttonBlue, BrickEditor.BRICK_BLUE);
+        callClickListenerOf(buttonLime, BrickEditor.BRICK_LIME);
+        callClickListenerOf(buttonGreen, BrickEditor.BRICK_GREEN);
+        callClickListenerOf(buttonOrange, BrickEditor.BRICK_ORANGE);
+        callClickListenerOf(buttonAqua, BrickEditor.BRICK_AQUA);
+        callClickListenerOf(buttonRed, BrickEditor.BRICK_RED);
+        callClickListenerOf(buttonPurple, BrickEditor.BRICK_PURPLE);
+        callClickListenerOf(buttonYellow, BrickEditor.BRICK_YELLOW);
 
         return v;
     }

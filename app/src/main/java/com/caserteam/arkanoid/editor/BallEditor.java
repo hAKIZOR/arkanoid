@@ -5,7 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.View;
 import com.caserteam.arkanoid.R;
-public class Ball  extends View{
+public class BallEditor extends View{
 
     public static final int BALL_SKIN1 = 1;
     private Bitmap ballSkin;
@@ -14,7 +14,7 @@ public class Ball  extends View{
     private float x;
     private float y;
 
-    public Ball(Context context,float x, float y,int typeSkin) {
+    public BallEditor(Context context, float x, float y, int typeSkin) {
         super(context);
         this.x = x;
         this.y = y;

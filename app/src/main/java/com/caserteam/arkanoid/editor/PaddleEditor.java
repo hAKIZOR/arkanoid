@@ -6,7 +6,7 @@ import android.graphics.BitmapFactory;
 import android.view.View;
 import com.caserteam.arkanoid.R;
 
-public class Paddle extends View {
+public class PaddleEditor extends View {
 
     public static final int PADDLE_SKIN1 = 1;
     public static final int PADDLE_SKIN2 = 2;
@@ -22,7 +22,7 @@ public class Paddle extends View {
     private static final int MAX_WIDTH = 450; //larghezza massima paddle
 
 
-    public Paddle(Context context,float x, float y,int typeSkin) {
+    public PaddleEditor(Context context, float x, float y, int typeSkin) {
         super(context);
         this.x = x;
         this.y = y;

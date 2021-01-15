@@ -21,11 +21,11 @@ import android.view.WindowManager;
 import java.util.ArrayList;
 
 import androidx.core.view.GestureDetectorCompat;
-import com.caserteam.arkanoid.editor.Ball;
-import com.caserteam.arkanoid.editor.Brick;
+import com.caserteam.arkanoid.editor.BallEditor;
+import com.caserteam.arkanoid.editor.BrickEditor;
 import com.caserteam.arkanoid.editor.FloatingActionButtonMinus;
 import com.caserteam.arkanoid.editor.FloatingActionButtonPlus;
-import com.caserteam.arkanoid.editor.Paddle;
+import com.caserteam.arkanoid.editor.PaddleEditor;
 import com.caserteam.arkanoid.editor.PromptUtils;
 import com.caserteam.arkanoid.R;
 
@@ -46,17 +46,17 @@ public abstract class Editor extends View implements
     protected Display display;
     protected Point size;
     protected Context context;
-    protected ArrayList<Brick> brickArrayList;
+    protected ArrayList<BrickEditor> brickEditorArrayList;
 
     protected GestureDetectorCompat gestureDetector;
     protected RectF r;
-    protected Paddle paddle;
-    protected Ball ball;
+    protected PaddleEditor paddleEditor;
+    protected BallEditor ballEditor;
 
-    protected Brick brickTemp = null;
+    protected BrickEditor brickEditorTemp = null;
 
     protected int brickSelectedIndex = -1;
-    protected Brick brickSelected;
+    protected BrickEditor brickEditorSelected;
 
     protected float brickWidth;
     protected float brickHeight;
@@ -82,8 +82,8 @@ public abstract class Editor extends View implements
         promptUtils = PromptUtils.initialize(context);
         setBackground(context);
         paint = new Paint();
-        brickSelected = new Brick(context,0,0,invisibleSkin);
-        brickArrayList = new ArrayList<>(DIMENSION_GRID);
+        brickEditorSelected = new BrickEditor(context,0,0,invisibleSkin);
+        brickEditorArrayList = new ArrayList<>(DIMENSION_GRID);
         gestureDetector = new GestureDetectorCompat(context,this);
 
 
@@ -99,10 +99,10 @@ public abstract class Editor extends View implements
                 if(list[indexList].equals("1")){
                     Log.d("EditorActivity","passo");
                     Log.d("edge--->",String.valueOf(indexList));
-                    brickArrayList.add(new Brick(context,  brickWidth * j + paddingLeftGrid , brickHeight  * i + paddingTopGrid , edgeSkin));
+                    brickEditorArrayList.add(new BrickEditor(context,  brickWidth * j + paddingLeftGrid , brickHeight  * i + paddingTopGrid , edgeSkin));
                 } else {
                     Log.d("noedge--->",String.valueOf(indexList));
-                    brickArrayList.add(new Brick(context,  brickWidth * j + paddingLeftGrid , brickHeight  * i + paddingTopGrid , Integer.parseInt(list[indexList])));
+                    brickEditorArrayList.add(new BrickEditor(context,  brickWidth * j + paddingLeftGrid , brickHeight  * i + paddingTopGrid , Integer.parseInt(list[indexList])));
                 }
                 indexList ++;
             }
@@ -114,7 +114,7 @@ public abstract class Editor extends View implements
         //si moltiplicano gli indici i e j con i rispettivi valori  brickHeight,brickWidth per garantire un degno distanziamento
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < columns; j++) {
-                brickArrayList.add(new Brick(context,  brickWidth * j + paddingLeft , brickHeight  * i + paddingTop , edgeSkin));
+                brickEditorArrayList.add(new BrickEditor(context,  brickWidth * j + paddingLeft , brickHeight  * i + paddingTop , edgeSkin));
             }
         }
 
@@ -124,13 +124,13 @@ public abstract class Editor extends View implements
     public  void replaceFromGridBrickToTempBrick() {
         int indexSlotSelected;
 
-        if(!(brickTemp.getBrick().sameAs(invisibleSkin))) {
+        if(!(brickEditorTemp.getBrick().sameAs(invisibleSkin))) {
 
-            indexSlotSelected = getIndexOfSlotSelected(brickTemp.getX(),brickTemp.getY());
-            brickArrayList.get(indexSlotSelected).setBrick(brickTemp.getBrick());
+            indexSlotSelected = getIndexOfSlotSelected(brickEditorTemp.getX(), brickEditorTemp.getY());
+            brickEditorArrayList.get(indexSlotSelected).setBrick(brickEditorTemp.getBrick());
             if(existPreviousOneSelection()) {
-                brickArrayList.get(brickSelectedIndex).setBrick(brickSelected.getBrick());
-                brickSelected.setBrick(brickTemp.getBrick());
+                brickEditorArrayList.get(brickSelectedIndex).setBrick(brickEditorSelected.getBrick());
+                brickEditorSelected.setBrick(brickEditorTemp.getBrick());
                 brickSelectedIndex = indexSlotSelected;
                 setParamsSelection(true,true);
                 switchSelection = false;
@@ -139,7 +139,7 @@ public abstract class Editor extends View implements
                 switchSelection = false;
             }
 
-            brickTemp.setBrick(invisibleSkin);
+            brickEditorTemp.setBrick(invisibleSkin);
 
         }
 
@@ -161,7 +161,7 @@ public abstract class Editor extends View implements
                         switchSelection = false;
                     } else if(!isBrickSelectedTheSameOf(indexSlotSelected)) {
 
-                        brickArrayList.get(brickSelectedIndex).setBrick(brickSelected.getBrick());
+                        brickEditorArrayList.get(brickSelectedIndex).setBrick(brickEditorSelected.getBrick());
                         validateSelectionTo(indexSlotSelected);
 
                     } else if(switchSelection) {
@@ -197,7 +197,7 @@ public abstract class Editor extends View implements
     }
 
     private boolean iSlotSelectedEmpty(int slot){
-        return brickArrayList.get(slot).getBrick().sameAs(edgeSkin);
+        return brickEditorArrayList.get(slot).getBrick().sameAs(edgeSkin);
     }
     private boolean isBrickSelectedTheSameOf(int slot){
         return brickSelectedIndex == slot;
@@ -215,7 +215,7 @@ public abstract class Editor extends View implements
     }
 
     private void validateSelectionTo(int indexNewBrickToSelect) {
-        brickSelected.setBrick(brickArrayList.get(indexNewBrickToSelect).getBrick());
+        brickEditorSelected.setBrick(brickEditorArrayList.get(indexNewBrickToSelect).getBrick());
         brickSelectedIndex = indexNewBrickToSelect;
         setParamsSelection(true,true);
 
@@ -223,12 +223,12 @@ public abstract class Editor extends View implements
 
     private int getIndexOfSlotSelected(float xSelected,float ySelected) {
         Log.d("onTap","passo");
-        Brick brick;
-        double minDistance = Math.sqrt(Math.pow(brickArrayList.get(0).getX() - xSelected,2) + Math.pow(brickArrayList.get(0).getY() - ySelected,2));
+        BrickEditor brick;
+        double minDistance = Math.sqrt(Math.pow(brickEditorArrayList.get(0).getX() - xSelected,2) + Math.pow(brickEditorArrayList.get(0).getY() - ySelected,2));
         double distance;
         int indexMin = 0;
-        for(int i = 1; i< brickArrayList.size(); i++){
-            brick = brickArrayList.get(i);
+        for(int i = 1; i< brickEditorArrayList.size(); i++){
+            brick = brickEditorArrayList.get(i);
             distance = Math.sqrt(Math.pow(brick.getX() - xSelected,2) + Math.pow(brick.getY() - ySelected,2));
             if(distance < minDistance){
                 minDistance = distance;
@@ -257,27 +257,27 @@ public abstract class Editor extends View implements
     }
 
 
-    public void setPaddle(int skinPaddle) {
-        paddle.skin(skinPaddle);
+    public void setPaddleEditor(int skinPaddle) {
+        paddleEditor.skin(skinPaddle);
     }
-    public void setBall(int skinBall) {
-        ball.skin(skinBall);
+    public void setBallEditor(int skinBall) {
+        ballEditor.skin(skinBall);
     }
 
     public void createbrick(int i) {
 
-        brickTemp.skin(i);
-        brickTemp.setX(size.x/2-(brickWidth/2));
-        brickTemp.setY(size.y/2-(brickHeight/2));
+        brickEditorTemp.skin(i);
+        brickEditorTemp.setX(size.x/2-(brickWidth/2));
+        brickEditorTemp.setY(size.y/2-(brickHeight/2));
     }
 
     public void deleteBrickSelected() {
 
         if(brickSelectedIndex != -1) {
-            brickArrayList.get(brickSelectedIndex).setBrick(edgeSkin);
+            brickEditorArrayList.get(brickSelectedIndex).setBrick(edgeSkin);
             brickSelectedIndex = -1;
             selectionBrick = false;
-            brickSelected.setBrick(invisibleSkin);
+            brickEditorSelected.setBrick(invisibleSkin);
             promptUtils.showMessage(PromptUtils.DELETE_MESSAGE_BRICK);
         } else {
             promptUtils.showMessage(PromptUtils.DELETE_MESSAGE_FAILURE);
@@ -291,7 +291,7 @@ public abstract class Editor extends View implements
         } else {
             promptUtils.showMessage(PromptUtils.DELETE_ALL_MESSAGE_BRICK);
         }
-        for(Brick brick: brickArrayList) { brick.setBrick(edgeSkin); }
+        for(BrickEditor brick: brickEditorArrayList) { brick.setBrick(edgeSkin); }
         brickSelectedIndex = -1;
         selectionBrick = false;
 
@@ -301,7 +301,7 @@ public abstract class Editor extends View implements
 
     private boolean GridHasNoBricks() {
         boolean f = true;
-        for(Brick brick: brickArrayList) {
+        for(BrickEditor brick: brickEditorArrayList) {
             if(brick.getIdSkinById(brick.getBrick()) != 0){
                     return false;
             }
@@ -325,8 +325,8 @@ public abstract class Editor extends View implements
 
     @Override
     public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
-        brickTemp.setX(motionEvent1.getX() - (float) (brickWidth/2));
-        brickTemp.setY(motionEvent1.getY() - (float) (actionBarHeight + (brickHeight/2)));
+        brickEditorTemp.setX(motionEvent1.getX() - (float) (brickWidth/2));
+        brickEditorTemp.setY(motionEvent1.getY() - (float) (actionBarHeight + (brickHeight/2)));
         mIsScrolling = true;
         return false;
     }
@@ -374,12 +374,12 @@ public abstract class Editor extends View implements
     public abstract void setPaddingTopGrid(float paddingTopGrid);
     public String convertListBrickToString(){
         if(existPreviousOneSelection()){
-            brickArrayList.get(brickSelectedIndex).setBrick(brickSelected.getBrick());
+            brickEditorArrayList.get(brickSelectedIndex).setBrick(brickEditorSelected.getBrick());
         }
         String result = null;
         if (!GridHasNoBricks()){
             result = new String();
-            for(Brick b :brickArrayList){
+            for(BrickEditor b : brickEditorArrayList){
                 if(b.getBrick().sameAs(edgeSkin)){
                     result = result + String.valueOf(1)+",";
                 } else {
@@ -396,5 +396,10 @@ public abstract class Editor extends View implements
 
     public void setPromptUtils(PromptUtils promptUtils) {
         this.promptUtils = promptUtils;
+    }
+
+    public interface EditorEventListener{
+        void onClickEmptySlotListener();
+        void onClickBrickListener();
     }
 }
