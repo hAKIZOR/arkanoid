@@ -204,31 +204,20 @@ public class Game extends View implements
     private void checkBoards() {
         if (ball.getX() + ball.getxSpeed() >= rightBoard) {
             ball.changeDirection("right");
-            if(p1.equals("xPaddlePlayer1")) {
-                room.child("xSpeedBall").setValue(-ball.xSpeed);
-                room.child("ySpeedBall").setValue(-ball.ySpeed);
-            }
         } else if (ball.getX() + ball.getxSpeed() <= leftBoard) {
             ball.changeDirection("left");
-            if(p1.equals("xPaddlePlayer1")) {
-                room.child("xSpeedBall").setValue(-ball.xSpeed);
-                room.child("ySpeedBall").setValue(-ball.ySpeed);
-            }
         }  else if (ball.getY() + ball.getySpeed() <= upBoard) {
             checkScore("player1");
         } else if ((ball.getY()+ ball.getySpeed() >= paddle.getY()-40)&&(ball.getY()+ ball.getySpeed() <= paddle.getY()+40) ){
             if ((ball.getX() < paddle.getX() + paddle.getWidthp() && ball.getX() > paddle.getX()) || (ball.getX() + ball.getHALFBALL() < paddle.getX() + paddle.getWidthp() && ball.getX() + ball.getHALFBALL() > paddle.getX())) {
                 ball.changeDirectionPaddle(paddle);
-                if(p1.equals("xPaddlePlayer1")) {
                     room.child("xSpeedBall").setValue(-ball.xSpeed);
                     room.child("ySpeedBall").setValue(-ball.ySpeed);
-                }else { room.child("xSpeedBall").setValue(ball.xSpeed);
-                        room.child("ySpeedBall").setValue(ball.ySpeed);}
             }
 
         }else if((ball.getY() + ball.getySpeed() >= sizeY - 70)&&(ball.getY() + ball.getySpeed() <= sizeY)){
 
-            checkScore(playerRole);
+            checkScore("player2");
 
         }
     }
@@ -245,7 +234,7 @@ public class Game extends View implements
                 scoreP1++;
 
                 ball.setX(sizeX / 2);
-                ball.setY(sizeY - 280);
+                ball.setY((float) ((sizeY*0.10)+getPaddle().getHeightp())-30);
                 start = true;
             }
 
@@ -526,10 +515,11 @@ public class Game extends View implements
 
             getBall().setSpeed(Integer.parseInt(snapshot.child("xSpeedBall").getValue().toString()),
                     Integer.parseInt(snapshot.child("ySpeedBall").getValue().toString()));
-        } else {
-
-            getBall().setSpeed((-1) * (Integer.parseInt(snapshot.child("xSpeedBall").getValue().toString())),
-                    (-1) * (Integer.parseInt(snapshot.child("ySpeedBall").getValue().toString())) );
+        } else{
+            if(Integer.parseInt(snapshot.child("xSpeedBall").getValue().toString())!=-ball.getxSpeed() && Integer.parseInt(snapshot.child("ySpeedBall").getValue().toString())!=-ball.getySpeed()) {
+                getBall().setSpeed((-1) * (Integer.parseInt(snapshot.child("xSpeedBall").getValue().toString())),
+                        (-1) * (Integer.parseInt(snapshot.child("ySpeedBall").getValue().toString())));
+            }
         }
     }
 

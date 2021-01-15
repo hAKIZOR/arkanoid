@@ -69,8 +69,12 @@ public class ActualGameActivity extends AppCompatActivity {
 
         if(playerRole.equals("player1")) {
             game.getBall().setSpeed(7,-14);
+            roomRef.child("xSpeedBall").setValue(-game.getBall().xSpeed);
+            roomRef.child("ySpeedBall").setValue(-game.getBall().ySpeed);
         } else {
             game.getBall().setSpeed(-7,14);
+            roomRef.child("xSpeedBall").setValue(game.getBall().xSpeed);
+            roomRef.child("ySpeedBall").setValue(game.getBall().ySpeed);
         }
 
         gestureDetector = game.getGestureDetector();
