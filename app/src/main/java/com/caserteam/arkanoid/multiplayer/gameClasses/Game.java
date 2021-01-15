@@ -208,8 +208,11 @@ public class Game extends View implements
         } else if ((ball.getY()+ ball.getySpeed() >= paddle.getY()-40)&&(ball.getY()+ ball.getySpeed() <= paddle.getY()+40) ){
             if ((ball.getX() < paddle.getX() + paddle.getWidthp() && ball.getX() > paddle.getX()) || (ball.getX() + ball.getHALFBALL() < paddle.getX() + paddle.getWidthp() && ball.getX() + ball.getHALFBALL() > paddle.getX())) {
                 ball.changeDirectionPaddle(paddle);
-                room.child("xSpeedBall").setValue(-ball.xSpeed);
-                room.child("ySpeedBall").setValue(-ball.ySpeed);
+                if(p1=="xPaddlePlayer1") {
+                    room.child("xSpeedBall").setValue(-ball.xSpeed);
+                    room.child("ySpeedBall").setValue(-ball.ySpeed);
+                }else { room.child("xSpeedBall").setValue(ball.xSpeed);
+                        room.child("ySpeedBall").setValue(ball.ySpeed);}
             }
 
         }else if((ball.getY() + ball.getySpeed() >= sizeY - 70)&&(ball.getY() + ball.getySpeed() <= sizeY)){
@@ -507,7 +510,7 @@ public class Game extends View implements
     @Override
     public void onDataChange(@NonNull DataSnapshot snapshot) {
         setMultiplayerData(Float.parseFloat(snapshot.child(p2).getValue().toString()));
-        if(p1.equals("xPaddlePlayer1")) getBall().setSpeed(Integer.parseInt(snapshot.child("xSpeedBall").getValue().toString()),Integer.parseInt(snapshot.child("ySpeedBall").getValue().toString()));
+        getBall().setSpeed(Integer.parseInt(snapshot.child("xSpeedBall").getValue().toString()),Integer.parseInt(snapshot.child("ySpeedBall").getValue().toString()));
     }
 
     @Override
