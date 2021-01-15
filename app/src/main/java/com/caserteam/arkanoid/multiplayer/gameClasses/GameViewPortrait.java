@@ -30,8 +30,8 @@ public class GameViewPortrait extends Game {
     private RectF r;
 
 
-    public GameViewPortrait(Context context, int lifes, int score,DatabaseReference room,String p1, String p2){
-        super(context, lifes,score,room,p1,p2);
+    public GameViewPortrait(Context context,DatabaseReference room,String p1, String p2){
+        super(context,room,p1,p2);
         paint = new Paint();
         setBackground(context);
         setSens(2); // <-- setta la sensitività dell'accellerometro
@@ -124,8 +124,7 @@ public class GameViewPortrait extends Game {
         paint.setTextSize(60);
         Typeface typeface = ResourcesCompat.getFont(super.getContext(), R.font.font);
         paint.setTypeface(typeface);
-        canvas.drawText("HP:" + getLifes(), 1, 100, paint);
-        canvas.drawText("PT:" + getScore(), 200, 100, paint);
+        canvas.drawText(getScoreP1()+" - "+getScoreP2(), size.x/2, 100, paint);
 
         // in caso di sconfitta stampa "GameOver"
         if (isGameOver()) {

@@ -43,9 +43,6 @@ public class Game extends View implements
 
 
     private static final int DIMENSION = 27;
-    private int lifes;
-    private int score;
-    private int numberLevel = 1;
     private Level level;
     private ArrayList<Brick> brickList;
     private ArrayList<Integer> list;
@@ -83,6 +80,7 @@ public class Game extends View implements
     private float paddingTopGame;
     private DatabaseReference room;
     private String p1,p2;
+    private int scoreP1,scoreP2;
 
 
     private int nS=1; //variabile usata per completare il nome del sound nel caricamento
@@ -90,7 +88,7 @@ public class Game extends View implements
     int[] soundNote = {-1, -1, -1, -1, -1, -1, -1, -1};
     AudioAttributes audioAttributes;
 
-    public Game(Context context, int lifes, int score,DatabaseReference room,String p1,String p2) {
+    public Game(Context context,DatabaseReference room,String p1,String p2) {
         super(context);
 
         //impostare contesto
@@ -104,11 +102,10 @@ public class Game extends View implements
 
         loadControlSystemFromFile();
         //impostare vite, punteggi e livelli
-        this.lifes = lifes;
-        this.score = score;
         brickList = new ArrayList<>();
         list = new ArrayList<>();
-
+        scoreP1=0;
+        scoreP2=0;
         //avviare un GameOver per scoprire se la partita è in piedi e se il giocatore non l'ha persa
         start = true;
         gameOver = false;
@@ -167,7 +164,7 @@ public class Game extends View implements
             return;
         }
 
-        Log.d(DEBUG_STRING,String.valueOf(settings.getControlMode()));
+        /*Log.d(DEBUG_STRING,String.valueOf(settings.getControlMode()));
         switch (settings.getControlMode()){
 
             case Settings.SYSTEM_CONTROL_SENSOR:
@@ -180,7 +177,11 @@ public class Game extends View implements
                 sManager = null;
                 accelerometer = null;
                 break;
-        }
+        }*/
+
+        gestureDetector = new GestureDetectorCompat(context,this);
+        sManager = null;
+        accelerometer = null;
 
     }
 
@@ -201,10 +202,18 @@ public class Game extends View implements
     private void checkBoards() {
         if (ball.getX() + ball.getxSpeed() >= rightBoard) {
             ball.changeDirection("right");
+            if(p1.equals("xPaddlePlayer1")) {
+                room.child("xSpeedBall").setValue(-ball.xSpeed);
+                room.child("ySpeedBall").setValue(-ball.ySpeed);
+            }
         } else if (ball.getX() + ball.getxSpeed() <= leftBoard) {
             ball.changeDirection("left");
-        /*}  else if (ball.getY() + ball.getySpeed() <= upBoard) {
-            ball.changeDirection("up");*/
+            if(p1.equals("xPaddlePlayer1")) {
+                room.child("xSpeedBall").setValue(-ball.xSpeed);
+                room.child("ySpeedBall").setValue(-ball.ySpeed);
+            }
+        }  else if (ball.getY() + ball.getySpeed() <= upBoard) {
+            checkScore("player1");
         } else if ((ball.getY()+ ball.getySpeed() >= paddle.getY()-40)&&(ball.getY()+ ball.getySpeed() <= paddle.getY()+40) ){
             if ((ball.getX() < paddle.getX() + paddle.getWidthp() && ball.getX() > paddle.getX()) || (ball.getX() + ball.getHALFBALL() < paddle.getX() + paddle.getWidthp() && ball.getX() + ball.getHALFBALL() > paddle.getX())) {
                 ball.changeDirectionPaddle(paddle);
@@ -217,28 +226,41 @@ public class Game extends View implements
 
         }else if((ball.getY() + ball.getySpeed() >= sizeY - 70)&&(ball.getY() + ball.getySpeed() <= sizeY)){
 
-            checkLives();
+            checkScore("player2");
 
         }
     }
 
     // controlla lo stato del gioco. se le mie vite o se il gioco è finito
-    public void checkLives() {
+    public void checkScore(String player) {
 
-        if (lifes == 1) {
-            gameOver = true;
-            start = false;
-            numberLevel=1;
-            invalidate();
-        } else{
-            lifes--;
+        if(player.equals("player1")) {
+            if (scoreP1== 2) {
+                gameOver = true;
+                start = false;
+                invalidate();
+            } else {
+                scoreP1++;
 
-            ball.setX(sizeX / 2);
-            ball.setY(sizeY - 280);
-            ball.createSpeed();
-            ball.increaseSpeed(level.getNumberLevel());
-            start = true;
+                ball.setX(sizeX / 2);
+                ball.setY(sizeY - 280);
+                start = true;
+            }
+
+        }else{
+            if (scoreP2== 2) {
+                gameOver = true;
+                start = false;
+                invalidate();
+            } else {
+                scoreP2++;
+
+                ball.setX(sizeX / 2);
+                ball.setY(sizeY - 280);
+                start = true;
+            }
         }
+
         paddle.resetPaddle();
     }
 
@@ -262,7 +284,6 @@ public class Game extends View implements
                             brickList.get(i).hittedOnce();
                             brickList.get(i).setSkinById(b.getSkin());
                         }
-                        score = score + 80;
                         break;
                 }
             }
@@ -275,7 +296,6 @@ public class Game extends View implements
     public void resetLevel() {
         ball.setX(sizeX / 2);
         ball.setY(sizeY - 280);
-        ball.createSpeed();
 
         brickList = new ArrayList<Brick>();
 
@@ -308,8 +328,8 @@ public class Game extends View implements
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         if (isGameOver() == true && isStart() == false) {
-            setScore(0);
-            setLifes(3);
+            scoreP1=0;
+            scoreP2=0;
             resetLevel();
             setGameOver(false);
 
@@ -378,14 +398,6 @@ public class Game extends View implements
         return gameOver;
     }
 
-    public int getLifes() {
-        return lifes;
-    }
-
-    public int getScore() {
-        return score;
-    }
-
     public Ball getBall() { return ball; }
 
     public void setBall() { this.ball = ball; }
@@ -397,14 +409,6 @@ public class Game extends View implements
     public Paddle getPaddle2() { return paddle2; }
 
     public void setPaddle2() { this.paddle2 = paddle2;}
-
-    public void setLifes(int lifes) {
-        this.lifes = lifes;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
-    }
 
     public boolean isStart() {
         return start;
@@ -440,10 +444,6 @@ public class Game extends View implements
 
     public void setBrickHeight(float brickHeight) {
         this.brickHeight = brickHeight;
-    }
-
-    public int getNumberLevel() {
-        return numberLevel;
     }
 
     public Level getLevel() {
@@ -519,4 +519,20 @@ public class Game extends View implements
     }
 
     public String getP1(){return p1;}
+
+    public int getScoreP1() {
+        return scoreP1;
+    }
+
+    public void setScoreP1(int scoreP1) {
+        this.scoreP1 = scoreP1;
+    }
+
+    public int getScoreP2() {
+        return scoreP2;
+    }
+
+    public void setScoreP2(int scoreP2) {
+        this.scoreP2 = scoreP2;
+    }
 }

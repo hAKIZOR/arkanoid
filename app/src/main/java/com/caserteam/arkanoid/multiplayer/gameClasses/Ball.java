@@ -22,7 +22,6 @@ public class Ball extends View {
         super(context);
         this.x = x;
         this.y = y;
-        createSpeed();
         skin(a);
     }
 
@@ -33,27 +32,6 @@ public class Ball extends View {
                 skin = Bitmap.createScaledBitmap(skin, (int)SIZEBALL, (int)SIZEBALL, false);
                 break;
         }
-    }
-
-    // crea una palla di velocità casuale
-    // crear una bola de velocidad aleatoria
-    protected void createSpeed() {
-        int maxX = 13;
-        int minX = 7;
-        int maxY = -17;
-        int minY = -23;
-        int rangeX = maxX - minX + 1;
-        int rangeY = maxY - minY + 1;
-
-        xSpeed = (int) (Math.random() * rangeX) + minX;
-        ySpeed = (int) (Math.random() * rangeY) + minY;
-    }
-
-    //aumentare la velocità in base al livello
-    //aumentar la velocidad según el nivel
-    protected void increaseSpeed(int level) {
-        xSpeed = xSpeed + (1 * level);
-        ySpeed = ySpeed - (1 * level);
     }
 
 

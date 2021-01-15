@@ -65,7 +65,7 @@ public class ActualGameActivity extends AppCompatActivity {
             p2 = "xPaddlePlayer1";
         }
 
-        game = new GameViewPortrait(this, 3, 0,roomRef,p1,p2);
+        game = new GameViewPortrait(this,roomRef,p1,p2);
 
         if(playerRole.equals("player1")) {
             game.getBall().setSpeed(7,-14);
