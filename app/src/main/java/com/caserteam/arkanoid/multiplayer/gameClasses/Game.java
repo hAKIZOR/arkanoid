@@ -507,7 +507,7 @@ public class Game extends View implements
     @Override
     public void onDataChange(@NonNull DataSnapshot snapshot) {
         setMultiplayerData(Float.parseFloat(snapshot.child(p2).getValue().toString()));
-        if(p1.equals("player1")) getBall().setSpeed(Integer.parseInt(snapshot.child("xSpeedBall").getValue().toString()),Integer.parseInt(snapshot.child("xSpeedBall").getValue().toString()));
+        if(p1.equals("xPaddlePlayer1")) getBall().setSpeed(Integer.parseInt(snapshot.child("xSpeedBall").getValue().toString()),Integer.parseInt(snapshot.child("ySpeedBall").getValue().toString()));
     }
 
     @Override
