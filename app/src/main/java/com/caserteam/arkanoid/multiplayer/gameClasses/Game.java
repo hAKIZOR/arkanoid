@@ -518,10 +518,11 @@ public class Game extends View implements
 
             getBall().setSpeed(Integer.parseInt(snapshot.child("xSpeedBall").getValue().toString()),
                     Integer.parseInt(snapshot.child("ySpeedBall").getValue().toString()));
-        } else {
-
-            getBall().setSpeed((-1) * (Integer.parseInt(snapshot.child("xSpeedBall").getValue().toString())),
-                    (-1) * (Integer.parseInt(snapshot.child("ySpeedBall").getValue().toString())) );
+        } else{
+            if(Integer.parseInt(snapshot.child("xSpeedBall").getValue().toString())!=-ball.getxSpeed() && Integer.parseInt(snapshot.child("ySpeedBall").getValue().toString())!=-ball.getySpeed()) {
+                getBall().setSpeed((-1) * (Integer.parseInt(snapshot.child("xSpeedBall").getValue().toString())),
+                        (-1) * (Integer.parseInt(snapshot.child("ySpeedBall").getValue().toString())));
+            }
         }
     }
 
