@@ -211,16 +211,13 @@ public class Game extends View implements
         } else if ((ball.getY()+ ball.getySpeed() >= paddle.getY()-40)&&(ball.getY()+ ball.getySpeed() <= paddle.getY()+40) ){
             if ((ball.getX() < paddle.getX() + paddle.getWidthp() && ball.getX() > paddle.getX()) || (ball.getX() + ball.getHALFBALL() < paddle.getX() + paddle.getWidthp() && ball.getX() + ball.getHALFBALL() > paddle.getX())) {
                 ball.changeDirectionPaddle(paddle);
-                if(p1.equals("xPaddlePlayer1")) {
-                    room.child("xSpeedBall").setValue(ball.xSpeed);
-                    room.child("ySpeedBall").setValue(ball.ySpeed);
-                }else { room.child("xSpeedBall").setValue(ball.xSpeed);
-                        room.child("ySpeedBall").setValue(ball.ySpeed);}
+                    room.child("xSpeedBall").setValue(-ball.xSpeed);
+                    room.child("ySpeedBall").setValue(-ball.ySpeed);
             }
 
         }else if((ball.getY() + ball.getySpeed() >= sizeY - 70)&&(ball.getY() + ball.getySpeed() <= sizeY)){
 
-            checkScore(playerRole);
+            checkScore("player2");
 
         }
     }
@@ -237,7 +234,7 @@ public class Game extends View implements
                 scoreP1++;
 
                 ball.setX(sizeX / 2);
-                ball.setY(sizeY - 280);
+                ball.setY((float) ((sizeY*0.10)+getPaddle().getHeightp())-30);
                 start = true;
             }
 
