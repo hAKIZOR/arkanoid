@@ -1,6 +1,7 @@
 package com.caserteam.arkanoid.multiplayer;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -92,11 +93,17 @@ public class MultiplayerActivity extends AppCompatActivity implements DialogCode
     public void onClickJoinRoom(String code) {
         LoadingDialog loadingDialog = new LoadingDialog(MultiplayerActivity.this);
         loadingDialog.startDialog("attendo il caricamento della partita");
+
         roomRef =  FirebaseDatabase.getInstance(ROOT).getReference("rooms/"+code+"/player2");
         HashMap<String,String> data = new HashMap<>();
         data.putAll((Map<String,String>) preferences.getAll());
         String nickname = data.get(LoginActivity.KEY_NICKNAME_PREFERENCES);
-        roomRef.setValue(nickname);
+        roomRef.setValue(nickname, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+                loadingDialog.dismissDialog();
+            }
+        });
 
         //accedo al gioco
         Intent intent = new Intent(MultiplayerActivity.this, ActualGameActivity.class);
@@ -114,14 +121,14 @@ public class MultiplayerActivity extends AppCompatActivity implements DialogCode
         roomRef.child("player2").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if( snapshot.getValue().toString() != ""){
+                Log.d(TAG,"---------------------->" + snapshot.getValue().toString());
+                if(!snapshot.getValue().toString().equals("")){
                     load.dismissDialog();
                     Intent intent = new Intent(MultiplayerActivity.this,ActualGameActivity.class);
                     intent.putExtra(STATE_CODE,code);
                     intent.putExtra(CODE_PLAYER,"player1");
                     startActivity(intent);
                     roomRef.child("player2").removeEventListener(this);
-
                 }
                 //aggregazione alla stanza
                 Log.w(TAG, snapshot.getValue().toString());

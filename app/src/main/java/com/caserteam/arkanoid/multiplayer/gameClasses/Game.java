@@ -81,6 +81,7 @@ public class Game extends View implements
     private DatabaseReference room;
     private String p1,p2;
     private int scoreP1,scoreP2;
+    private String playerRole;
 
 
     private int nS=1; //variabile usata per completare il nome del sound nel caricamento
@@ -88,7 +89,7 @@ public class Game extends View implements
     int[] soundNote = {-1, -1, -1, -1, -1, -1, -1, -1};
     AudioAttributes audioAttributes;
 
-    public Game(Context context,DatabaseReference room,String p1,String p2) {
+    public Game(Context context,DatabaseReference room,String p1,String p2,String playerRole) {
         super(context);
 
         //impostare contesto
@@ -96,6 +97,7 @@ public class Game extends View implements
         this.p1 = p1;
         this.p2 = p2;
         this.room = room;
+        this.playerRole = playerRole;
         room.addValueEventListener(this);
 
 
@@ -226,7 +228,7 @@ public class Game extends View implements
 
         }else if((ball.getY() + ball.getySpeed() >= sizeY - 70)&&(ball.getY() + ball.getySpeed() <= sizeY)){
 
-            checkScore("player2");
+            checkScore(playerRole);
 
         }
     }
@@ -340,6 +342,15 @@ public class Game extends View implements
     }
     @Override
     public boolean onDown(MotionEvent e) {
+        if (isGameOver() == true && isStart() == false) {
+            scoreP1=0;
+            scoreP2=0;
+            resetLevel();
+            setGameOver(false);
+
+        } else {
+            setStart(true);
+        }
         return false;
     }
 
@@ -510,7 +521,16 @@ public class Game extends View implements
     @Override
     public void onDataChange(@NonNull DataSnapshot snapshot) {
         setMultiplayerData(Float.parseFloat(snapshot.child(p2).getValue().toString()));
-        getBall().setSpeed(Integer.parseInt(snapshot.child("xSpeedBall").getValue().toString()),Integer.parseInt(snapshot.child("ySpeedBall").getValue().toString()));
+
+        if(playerRole.equals("player1")){
+
+            getBall().setSpeed(Integer.parseInt(snapshot.child("xSpeedBall").getValue().toString()),
+                    Integer.parseInt(snapshot.child("ySpeedBall").getValue().toString()));
+        } else {
+
+            getBall().setSpeed((-1) * (Integer.parseInt(snapshot.child("xSpeedBall").getValue().toString())),
+                    (-1) * (Integer.parseInt(snapshot.child("ySpeedBall").getValue().toString())) );
+        }
     }
 
     @Override
