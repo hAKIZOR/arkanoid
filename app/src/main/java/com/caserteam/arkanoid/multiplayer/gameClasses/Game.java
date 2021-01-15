@@ -521,8 +521,9 @@ public class Game extends View implements
     @Override
     public void onDataChange(@NonNull DataSnapshot snapshot) {
         setMultiplayerData(Float.parseFloat(snapshot.child(p2).getValue().toString()));
-
-        if(playerRole.equals("player1")){
+        getBall().setSpeed(Integer.parseInt(snapshot.child("xSpeedBall").getValue().toString()),
+                Integer.parseInt(snapshot.child("ySpeedBall").getValue().toString()));
+       /* if(playerRole.equals("player1")){
 
             getBall().setSpeed(Integer.parseInt(snapshot.child("xSpeedBall").getValue().toString()),
                     Integer.parseInt(snapshot.child("ySpeedBall").getValue().toString()));
@@ -530,7 +531,7 @@ public class Game extends View implements
 
             getBall().setSpeed((-1) * (Integer.parseInt(snapshot.child("xSpeedBall").getValue().toString())),
                     (-1) * (Integer.parseInt(snapshot.child("ySpeedBall").getValue().toString())) );
-        }
+        }*/
     }
 
     @Override
