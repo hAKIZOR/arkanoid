@@ -57,7 +57,7 @@ public class ActualGameActivity extends AppCompatActivity {
         //imposta l'orientamento dello schermo
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        if(playerRole.equals("player2")){
+        if(playerRole.equals("player1")){
             p1 = "xPaddlePlayer1";
             p2 = "xPaddlePlayer2";
         } else {

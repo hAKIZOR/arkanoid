@@ -11,6 +11,7 @@ import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
+import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 
@@ -42,11 +43,14 @@ public class GameViewPortrait extends Game {
         //setta posizione della palla e della barra
         if(p1.equals("xPaddlePlayer1")){
             getBall().setX(size.x / 2);
-            getBall().setY((float) ((size.y*0.10)+getPaddle().getHeightp())-30);
+            getBall().setY((float) (size.y - (size.y*0.10)+getPaddle().getHeightp()+30));
         }else{
             getBall().setX(size.x / 2);
-            getBall().setY((float) (size.y - (size.y*0.10)+getPaddle().getHeightp()+30));
+            getBall().setY((float) ((size.y*0.10)+getPaddle().getHeightp())-30);
         }
+
+
+
         getPaddle().setX(size.x / 2);
         getPaddle().setY((float) (size.y - (size.y*0.10)+getPaddle().getHeightp()));
         getPaddle2().setX(size.x / 2);
