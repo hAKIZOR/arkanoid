@@ -11,6 +11,7 @@ import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
+import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 
@@ -19,67 +20,59 @@ import androidx.core.content.res.ResourcesCompat;
 import com.caserteam.arkanoid.R;
 import com.google.firebase.database.DatabaseReference;
 
+import java.util.ArrayList;
 
-public class GameViewPortrait extends Game {
+
+public class GameViewLandscape extends Game {
 
     private Bitmap background;
+
+
     private Display display;
     private Point size;
     private Paint paint;
     private RectF r;
 
 
-    public GameViewPortrait(Context context, int lifes, int score, String playerRole, DatabaseReference roomRef){
-        super(context, lifes, score, playerRole , roomRef);
+    public GameViewLandscape(Context context, int lifes, int score, String playerRole, DatabaseReference roomRef){
+        super(context, lifes, score, playerRole, roomRef);
         paint = new Paint();
+        setSens(4); // <-- setta la sensitività dell'accellerometro
         setBackground(context);
-        setSens(2); // <-- setta la sensitività dell'accellerometro
         setSizeX(size.x);
         setSizeY(size.y);
 
+        //setta posizione della palla, della barra e dei 4 bordi
 
         //setta posizione della palla e della barra
         getBall().setX(size.x / 2);
         getBall().setY(size.y - 280);
-
-        if(playerRole.equals("player1")) {
-            //setto paddle 1
-            getPaddle().setX(size.x / 4);
-            getPaddle().setY(size.y - 200);
-            //setto paddle 2
-            getPaddle2().setX(size.x * (3 / 4));
-            getPaddle2().setY(size.y - 200);
-        }else{
-            //setto paddle 1
-            getPaddle().setX(size.x * (3 / 4));
-            getPaddle().setY(size.y - 200);
-            //setto paddle 2
-            getPaddle2().setX(size.x / 4);
-            getPaddle2().setY(size.y - 200);
-
-        }
+        getPaddle().setX(size.x / 2);
+        getPaddle().setY(size.y - 200);
 
         //setto i bordi
-        setUpBoard(150);
-        setDownBoard(size.y);
-        setLeftBoard(0);
-        setRightBoard(getSizeX() - 60);
+        setUpBoard(0);
+        setDownBoard(getSizeY());
+        setLeftBoard (0);
+        setRightBoard(getSizeX());
 
         //setto colonne e righe dei mattoni
-        setColumns(9);
-        setRow(10);
+        setColumns(15);
+        setRow(6);
 
         //setto altezza e base del mattone
-        setBrickBase((size.x-40)/getColumns());
-        setBrickHeight((size.y-1200)/getRow());
+        setBrickBase((float) ((size.y-(size.y/1.7))/getRow()));
+        setBrickHeight(size.x/getColumns());
 
         //setto il padding del campo di gioco
-        setPaddingLeftGame(20);
-        setPaddingTopGame(150);
+        setPaddingTopGame(0);
+        setPaddingLeftGame(0);
 
+        //caricamento del livello con la generazione dei mattoni
         for(Level l: getLevels()) {
             if(l.getNumberLevel()==getNumberLevel()) {
-                generateBricks(context, getLevels().get(getNumberLevel()-1),getColumns(),getRow(),getBrickBase(),getBrickHeight(),getPaddingLeftGame(),getPaddingTopGame());
+
+                generateBricks(context, getLevels().get(getNumberLevel()-1),getColumns(),getRow(),getBrickHeight(),getBrickBase(),getPaddingLeftGame(),getPaddingTopGame());
             }
         }
         this.setOnTouchListener(this);
@@ -87,31 +80,25 @@ public class GameViewPortrait extends Game {
 
     // impostare lo sfondo
     private void setBackground(Context context) {
-        background = Bitmap.createBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.background_score));
+        background = Bitmap.createBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.background_score));
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         display = wm.getDefaultDisplay();
         size = new Point();
         display.getSize(size);
-
-        paint.setColor(Color.RED);
-
     }
 
     protected void onDraw(Canvas canvas) {
         // crea uno sfondo solo una volta
-        canvas.drawBitmap(background, 0, 0, paint);
+        canvas.drawBitmap(background, (float) (getSizeX()*0.15), 0, paint);
+
         // disegna la pallina
         paint.setColor(Color.RED);
-        paint.setAntiAlias(true);
         canvas.drawBitmap(getBall().getSkin(), getBall().getX(), getBall().getY(), paint);
 
         // disegna la barra
         paint.setColor(Color.WHITE);
         r = new RectF(getPaddle().getX(), getPaddle().getY(), getPaddle().getX() + getPaddle().getWidthp(), getPaddle().getY() + getPaddle().getHeightp());
-        canvas.drawBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.paddle), null, r, paint);
-        paint.setColor(Color.WHITE);
-        r = new RectF(getPaddle2().getX(), getPaddle2().getY(), getPaddle2().getX() + getPaddle2().getWidthp(), getPaddle().getY() + getPaddle().getHeightp());
-        canvas.drawBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.paddle), null, r, paint);
+        canvas.drawBitmap(getPaddle().getSkin(), null, r, paint);
 
         // disegna mattoni
         paint.setColor(Color.GREEN);
@@ -119,8 +106,10 @@ public class GameViewPortrait extends Game {
         for (int i = 0; i < getBrickList().size(); i++) {
 
                 Brick b = getBrickList().get(i);
-                r = new RectF(b.getX(), b.getY(), b.getX() + getBrickBase(), b.getY()+ getBrickHeight());
+                r = new RectF(b.getX(), b.getY(), b.getX() + getBrickHeight(), b.getY()+ getBrickBase());
                 canvas.drawBitmap(b.getBrick(), null, r, paint);
+
+
         }
 
         //disegna powerUp
@@ -129,6 +118,7 @@ public class GameViewPortrait extends Game {
             PowerUp p = getPowerUps().get(j);
             r = new RectF(p.getX(), p.getY(), p.getX(), p.getY());
             canvas.drawBitmap(p.getPower(), p.getX(), p.getY(), paint);
+            Log.e("pu", p.getX()+"");
         }
 
         //disegna powerUp
@@ -138,16 +128,13 @@ public class GameViewPortrait extends Game {
             r = new RectF(p.getX(), p.getY(), p.getX(), p.getY());
             canvas.drawBitmap(p.getLaser(), p.getX(), p.getY(), paint);
         }
-
         // disegna testo
         paint.setColor(Color.WHITE);
         paint.setTextSize(60);
         Typeface typeface = ResourcesCompat.getFont(super.getContext(), R.font.font);
         paint.setTypeface(typeface);
-        canvas.drawText("HP:" + getLifes(), 1, 100, paint);
-        canvas.drawText("PT:" + getScore(), 200, 100, paint);
-        canvas.drawText("LSR:" + getLaserSoundRemaining(), 550, 100, paint);
-        canvas.drawText("PIANO:" + getHandsPianoRemaining(), 800, 100, paint);
+        canvas.drawText("LIFES : " + getLifes(), size.x-200, 80, paint);
+        canvas.drawText("SCORE : "  + getScore(), size.x-200, 240, paint);
 
         // in caso di sconfitta stampa "GameOver"
         if (isGameOver()) {
@@ -161,11 +148,11 @@ public class GameViewPortrait extends Game {
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-            getPaddle().setX(getPaddle().getX() - (event.values[0] * getSens()));
+            getPaddle().setX(getPaddle().getX() - (event.values[1]*getSens()));
 
-            if (getPaddle().getX() + event.values[0] > size.x - getPaddle().getWidthp()) {
-                getPaddle().setX(size.x - getPaddle().getWidthp());
-            } else if (getPaddle().getX() - event.values[0] <= 20) {
+            if (getPaddle().getX() + event.values[1] > size.y + 520 + getPaddle().getWidthp()) {
+                getPaddle().setX(size.y + 520 + getPaddle().getWidthp());
+            } else if (getPaddle().getX() - event.values[1] <= 20) {
                 getPaddle().setX(20);
             }
         }
@@ -174,4 +161,18 @@ public class GameViewPortrait extends Game {
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
     }
+
+    @Override
+    //imposta il gioco per iniziare
+    public void resetLevel() {
+        getBall().setX(getSizeX() / 2);
+        getBall().setY(getSizeY() - 280);
+        getBall().createSpeed();
+        getPowerUps().clear();
+        getLaserDropped().clear();
+        setBrickList(new ArrayList<Brick>());
+
+        generateBricks(getContext(), getLevels().get(getNumberLevel()-1),getColumns(),getRow(),getBrickHeight(),getBrickBase(),getPaddingLeftGame(),getPaddingTopGame());
+    }
+
 }

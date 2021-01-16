@@ -1,27 +1,23 @@
 package com.caserteam.arkanoid.multiplayer.gameClasses;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.view.MotionEvent;
+import android.view.View;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GestureDetectorCompat;
 
 import com.caserteam.arkanoid.LoginActivity;
 import com.caserteam.arkanoid.multiplayer.MultiplayerActivity;
 import com.caserteam.arkanoid.multiplayer.Room;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import android.annotation.SuppressLint;
-import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.view.MotionEvent;
-import android.view.View;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,7 +28,6 @@ public class ActualGameActivity extends AppCompatActivity {
     private Game game;
     private UpdateThread myThread;
     private Handler updateHandler;
-    private String code;
     private GestureDetectorCompat gestureDetector;
     private Room room;
     private int counter;
@@ -40,11 +35,11 @@ public class ActualGameActivity extends AppCompatActivity {
     private String nickname;
     DatabaseReference roomRef;
     private String playerRole;
-    String p1,p2;
-
+    String p1,p2,code;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         preferences = getSharedPreferences(LoginActivity.KEY_PREFERENCES_USER_INFORMATION,MODE_PRIVATE);
         HashMap<String,String> data = new HashMap<>();
         data.putAll((Map<String,String>) preferences.getAll());
@@ -55,33 +50,16 @@ public class ActualGameActivity extends AppCompatActivity {
         roomRef =  FirebaseDatabase.getInstance(MultiplayerActivity.ROOT).getReference("rooms/"+code);
 
         //imposta l'orientamento dello schermo
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        if(playerRole.equals("player1")){
-            p1 = "xPaddlePlayer1";
-            p2 = "xPaddlePlayer2";
-        } else {
-            p1 = "xPaddlePlayer2";
-            p2 = "xPaddlePlayer1";
-        }
-
-        game = new GameViewPortrait(this,roomRef,p1,p2,playerRole);
-
-        if(playerRole.equals("player1")) {
-            game.getBall().setSpeed(7,-14);
-            roomRef.child("xSpeedBall").setValue(-game.getBall().xSpeed);
-            roomRef.child("ySpeedBall").setValue(-game.getBall().ySpeed);
-        } else {
-            game.getBall().setSpeed(-7,14);
-            roomRef.child("xSpeedBall").setValue(game.getBall().xSpeed);
-            roomRef.child("ySpeedBall").setValue(game.getBall().ySpeed);
-        }
-
-        gestureDetector = game.getGestureDetector();
-        setContentView(game);
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            game = new GameViewPortrait(this, 3, 0, playerRole, roomRef);
+            gestureDetector = game.getGestureDetector();
+            setContentView(game);
 
 
 
+
+        // creare un nuova partita
 
 
 
@@ -92,18 +70,12 @@ public class ActualGameActivity extends AppCompatActivity {
         getSupportActionBar().hide();
     }
 
-    @SuppressLint("HandlerLeak")
     private void createHandler() {
         updateHandler = new Handler() {
             @SuppressLint("HandlerLeak")
             public void handleMessage(Message msg) {
-
                 game.invalidate();
                 game.update();
-
-
-
-
                 super.handleMessage(msg);
             }
         };
@@ -159,5 +131,7 @@ public class ActualGameActivity extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
     }
+
+
 
 }
