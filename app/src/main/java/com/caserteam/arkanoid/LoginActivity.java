@@ -18,7 +18,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.caserteam.arkanoid.multiplayer.Room;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -41,7 +40,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class LoginActivity extends AppCompatActivity {
+public  class LoginActivity extends AppCompatActivity {
         private SignInButton signInButton;
         private GoogleSignInClient mGoogleSignInClient;
         private  String TAG = "LoginActivity";

@@ -80,6 +80,9 @@ public class DialogCodeRoom extends DialogFragment {
 
         return v;
     }
+    public void dismissDialog(){
+        this.dismiss();
+    }
 
     public interface DialogCodeRoomListener{
         void onClickCreateRoom(String code);
