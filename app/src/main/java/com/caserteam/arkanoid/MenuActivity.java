@@ -1,5 +1,8 @@
 package com.caserteam.arkanoid;
 
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
+import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -9,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -68,6 +72,18 @@ public class MenuActivity extends AppCompatActivity {
         Button buttonEditor = findViewById(R.id.button_editor);
         Button buttonMultiplayer = findViewById(R.id.button_multiplayer);
 
+        Animation animationScale = AnimationUtils.loadAnimation(this, R.anim.scale_animation);
+        Animation animationBottom = AnimationUtils.loadAnimation(this, R.anim.bottom_animation);
+        Animation animationTop = AnimationUtils.loadAnimation(this, R.anim.top_animation);
+
+
+        buttonSettings.setAnimation(animationScale);
+        buttonLogout.setAnimation(animationScale);
+
+        buttonArcade.setAnimation(animationTop);
+        buttonMultiplayer.setAnimation(animationTop);
+        buttonLeaderBoard.setAnimation(animationBottom);
+        buttonEditor.setAnimation(animationBottom);
 
 
         try {
@@ -110,6 +126,7 @@ public class MenuActivity extends AppCompatActivity {
         buttonLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent myIntent = new Intent(MenuActivity.this, LoginActivity.class);
                 myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 mGoogleSignInClient.signOut();
@@ -137,6 +154,7 @@ public class MenuActivity extends AppCompatActivity {
         buttonSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent myIntent = new Intent(MenuActivity.this, SettingsActivity.class);
                 MenuActivity.this.startActivity(myIntent);
             }
@@ -220,10 +238,9 @@ public class MenuActivity extends AppCompatActivity {
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
+        hideSystemUI();
         super.onWindowFocusChanged(hasFocus);
-        if (hasFocus) {
-            hideSystemUI();
-        }
+
     }
 
     private void hideSystemUI() {

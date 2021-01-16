@@ -13,8 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
-import com.caserteam.arkanoid.editor.Brick;
-import com.caserteam.arkanoid.editor.Paddle;
+import com.caserteam.arkanoid.editor.BrickEditor;
 import com.caserteam.arkanoid.R;
 
 public class FragmentDetailsObstacles extends Fragment {
@@ -34,7 +33,7 @@ public class FragmentDetailsObstacles extends Fragment {
             @RequiresApi(api = Build.VERSION_CODES.Q)
             @Override
             public void onClick(View view) {
-                mListener.onObstacleClicked(Brick.BRICK_OSTACLE1);
+                mListener.onObstacleClicked(BrickEditor.BRICK_OSTACLE1);
             }
         });
 

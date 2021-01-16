@@ -6,7 +6,7 @@ import android.graphics.BitmapFactory;
 import android.view.View;
 import com.caserteam.arkanoid.R;
 
-public class Brick extends View {
+public class BrickEditor extends View {
     public static final int BRICK_GREEN = 2;
     public static final int BRICK_ORANGE = 3;
     public static final int BRICK_LIME = 4;
@@ -24,13 +24,13 @@ public class Brick extends View {
     private int soundName;
 
 
-    public Brick(Context context, float x,float y,Bitmap skin){
+    public BrickEditor(Context context, float x, float y, Bitmap skin){
         super(context);
         this.x = x;
         this.y = y;
         brick = skin;
     }
-    public Brick(Context context, float x, float y, int a) {
+    public BrickEditor(Context context, float x, float y, int a) {
         super(context);
         this.x = x;
         this.y = y;

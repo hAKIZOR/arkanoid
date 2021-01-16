@@ -8,10 +8,9 @@ import android.graphics.RectF;
 import android.util.Log;
 import android.util.TypedValue;
 
-import com.caserteam.arkanoid.editor.Ball;
-import com.caserteam.arkanoid.editor.Brick;
-import com.caserteam.arkanoid.editor.EditorActivity;
-import com.caserteam.arkanoid.editor.Paddle;
+import com.caserteam.arkanoid.editor.BallEditor;
+import com.caserteam.arkanoid.editor.BrickEditor;
+import com.caserteam.arkanoid.editor.PaddleEditor;
 import com.caserteam.arkanoid.R;
 
 public class EditorViewPortrait extends Editor{
@@ -28,18 +27,18 @@ public class EditorViewPortrait extends Editor{
 
        this.activity = activity;
        actionBarHeight = getHeightOfActionBar();
-       paddle = new Paddle(context,0,0,Paddle.PADDLE_SKIN1);
-       paddle.setX(initialPosition[0]);
-       paddle.setY(initialPosition[1]);
+       paddleEditor = new PaddleEditor(context,0,0, PaddleEditor.PADDLE_SKIN1);
+       paddleEditor.setX(initialPosition[0]);
+       paddleEditor.setY(initialPosition[1]);
 
-       ball = new Ball(context,0,0, Ball.BALL_SKIN1);
-       ball.setX(initialPosition[2]);
-       ball.setY(initialPosition[3]);
+       ballEditor = new BallEditor(context,0,0, BallEditor.BALL_SKIN1);
+       ballEditor.setX(initialPosition[2]);
+       ballEditor.setY(initialPosition[3]);
 
-       brickTemp = new Brick(context,0,0,1);
-       brickTemp.setX(initialPosition[4]);
-       brickTemp.setY(initialPosition[5]);
-       brickTemp.setBrick(invisibleSkin);
+       brickEditorTemp = new BrickEditor(context,0,0,1);
+       brickEditorTemp.setX(initialPosition[4]);
+       brickEditorTemp.setY(initialPosition[5]);
+       brickEditorTemp.setBrick(invisibleSkin);
 
        paddleWidth = (size.x/5);
        paddleHeight =(size.y/80);
@@ -65,18 +64,18 @@ public class EditorViewPortrait extends Editor{
 
         this.activity = activity;
         actionBarHeight = getHeightOfActionBar();
-        paddle = new Paddle(context,0,0,Paddle.PADDLE_SKIN1);
-        paddle.setX(initialPosition[0]);
-        paddle.setY(initialPosition[1]);
+        paddleEditor = new PaddleEditor(context,0,0, PaddleEditor.PADDLE_SKIN1);
+        paddleEditor.setX(initialPosition[0]);
+        paddleEditor.setY(initialPosition[1]);
 
-        ball = new Ball(context,0,0, Ball.BALL_SKIN1);
-        ball.setX(initialPosition[2]);
-        ball.setY(initialPosition[3]);
+        ballEditor = new BallEditor(context,0,0, BallEditor.BALL_SKIN1);
+        ballEditor.setX(initialPosition[2]);
+        ballEditor.setY(initialPosition[3]);
 
-        brickTemp = new Brick(context,0,0,1);
-        brickTemp.setX(initialPosition[4]);
-        brickTemp.setY(initialPosition[5]);
-        brickTemp.setBrick(invisibleSkin);
+        brickEditorTemp = new BrickEditor(context,0,0,1);
+        brickEditorTemp.setX(initialPosition[4]);
+        brickEditorTemp.setY(initialPosition[5]);
+        brickEditorTemp.setBrick(invisibleSkin);
 
         paddleWidth = (size.x/5);
         paddleHeight =(size.y/80);
@@ -114,32 +113,32 @@ public class EditorViewPortrait extends Editor{
 
         canvas.drawBitmap(background, 0, 0, paint);
 
-        canvas.drawBitmap(ball.getBallSkin(), ball.getX(), ball.getY(), paint);
+        canvas.drawBitmap(ballEditor.getBallSkin(), ballEditor.getX(), ballEditor.getY(), paint);
 
         // disegna la barra
 
-        r = new RectF(paddle.getX(), paddle.getY(), paddle.getX() + paddleWidth, paddle.getY() + paddleHeight);
-        canvas.drawBitmap(paddle.getPaddleSkin(), null, r, paint);
+        r = new RectF(paddleEditor.getX(), paddleEditor.getY(), paddleEditor.getX() + paddleWidth, paddleEditor.getY() + paddleHeight);
+        canvas.drawBitmap(paddleEditor.getPaddleSkin(), null, r, paint);
 
 
-        r = new RectF(brickTemp.getX(), brickTemp.getY(), brickTemp.getX() + brickWidth, brickTemp.getY()+ brickHeight);
-        canvas.drawBitmap(brickTemp.getBrick(), null, r, paint);
+        r = new RectF(brickEditorTemp.getX(), brickEditorTemp.getY(), brickEditorTemp.getX() + brickWidth, brickEditorTemp.getY()+ brickHeight);
+        canvas.drawBitmap(brickEditorTemp.getBrick(), null, r, paint);
 
         if(selectionBrick) {
             //aggiungo bordo nero
-            Bitmap brickUpdate = brickArrayList.get(brickSelectedIndex).getBrick();
-            brickArrayList.get(brickSelectedIndex).setBrick(addBorder(brickUpdate,10));
+            Bitmap brickUpdate = brickEditorArrayList.get(brickSelectedIndex).getBrick();
+            brickEditorArrayList.get(brickSelectedIndex).setBrick(addBorder(brickUpdate,10));
             selectionBrick = false;
         } else if(!keepselectionBrick){
             //tolgo bordo nero
-            brickArrayList.get(brickSelectedIndex).skin(brickSelected.getIdSkinById(brickSelected.getBrick()));
+            brickEditorArrayList.get(brickSelectedIndex).skin(brickEditorSelected.getIdSkinById(brickEditorSelected.getBrick()));
             brickSelectedIndex = -1;
             keepselectionBrick = true;
         }
 
 
-        for (int i = 0; i < brickArrayList.size(); i++) {
-            Brick b = brickArrayList.get(i);
+        for (int i = 0; i < brickEditorArrayList.size(); i++) {
+            BrickEditor b = brickEditorArrayList.get(i);
             r = new RectF(b.getX(), b.getY(), b.getX() +brickWidth , b.getY() +brickHeight);
             canvas.drawBitmap(b.getBrick(), null, r, paint);
         }
