@@ -36,6 +36,8 @@ public class ActualGameActivity extends AppCompatActivity {
     DatabaseReference roomRef;
     private String playerRole;
     String p1,p2,code;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +47,7 @@ public class ActualGameActivity extends AppCompatActivity {
         data.putAll((Map<String,String>) preferences.getAll());
         nickname = data.get(LoginActivity.KEY_NICKNAME_PREFERENCES);
         counter=0;
+
         code = getIntent().getStringExtra(MultiplayerActivity.STATE_CODE);
         playerRole = getIntent().getStringExtra(MultiplayerActivity.CODE_PLAYER_EXTRA);
         roomRef =  FirebaseDatabase.getInstance(MultiplayerActivity.ROOT).getReference("rooms/"+code);

@@ -33,6 +33,8 @@ class AdapterLevelCreated extends ArrayAdapter<LevelCreated> {
     private ArrayList<LevelCreated> levelCreateds;
     private Activity activity;
     private String pathCollection;
+    private static final String TAG = "UploadLevelActivity";
+    private static final String FIELD_NAME_LEVEL = "nomeLivello";
 
 
     public AdapterLevelCreated(Context context, int resource, ArrayList<LevelCreated> levelCreateds, Activity activity,String pathCollectioon){
@@ -78,7 +80,7 @@ class AdapterLevelCreated extends ArrayAdapter<LevelCreated> {
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
                 // Create a reference to the cities collection
                 db.collection(pathCollection)
-                        .whereEqualTo("nomeLivello",nameLevel)
+                        .whereEqualTo(FIELD_NAME_LEVEL,nameLevel)
                         .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -93,19 +95,19 @@ class AdapterLevelCreated extends ArrayAdapter<LevelCreated> {
                             db.collection(pathCollection).document(id).delete();
 
                         } else {
-                            Log.d("UploadLevelActivity","upload non riuscito");
+                            Log.d(TAG,"upload non riuscito");
                         }
                     }
                 });
 
                 if(levelCreateds != null){
-                    Log.d("levelCreatedsSize",String.valueOf(levelCreateds.size()));
+                    Log.d(TAG,"levelCreatedsSize"+String.valueOf(levelCreateds.size()));
                     levelCreateds.remove(position);
                     AsyncTaskLoadResult.ListenerAsyncData listenerAsyncData = (AsyncTaskLoadResult.ListenerAsyncData)mContext;
                     listenerAsyncData.onDataOfLevelCreatedChange(levelCreateds);
                     notifyDataSetChanged();
                 } else {
-                    Log.d("levelCreatedsSize","is null");
+                    Log.d(TAG," levelCreatedSize is null");
                 }
 
 

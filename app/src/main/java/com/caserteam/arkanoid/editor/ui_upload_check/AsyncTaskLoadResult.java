@@ -19,12 +19,13 @@ import java.util.concurrent.ExecutionException;
 import com.caserteam.arkanoid.editor.ui_plus_check.FragmentDetailBricks;
 
 // AsyncTask<Params, Progress, Result>.
-//    Params – the type (Object/primitive) you pass to the AsyncTask from .execute()
-//    Progress – the type that gets passed to onProgressUpdate()
-//    Result – the type returns from doInBackground()
+//    Params – nessun parametro da passare in doInBackGround
+//    Progress – nessun valore da passare a onProgressUpdate
+//    Result – il risultato o il model di dati aggiornato,
+//    nonchè valore di ritorno per il doInBackGround e parametro di input passato a onPostExecute
 // Any of them can be String, Integer, Void, etc.
 
-public class AsyncTaskLoadResult extends AsyncTask<Void, Integer, ArrayList<LevelCreated>> {
+public class AsyncTaskLoadResult extends AsyncTask<Void, Void, ArrayList<LevelCreated>> {
     private ArrayList<LevelCreated> levelCreateds;
     private ListenerAsyncData listenerAsyncData;
     private Context context;
@@ -42,20 +43,18 @@ public class AsyncTaskLoadResult extends AsyncTask<Void, Integer, ArrayList<Leve
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-
-        // Do something like display a progress bar
     }
 
-    // This is run in a background thread
+    // esecuzione del thread
     @Override
     protected ArrayList<LevelCreated> doInBackground(Void ...voids) {
-        // get the string from params, which is an array
 
+        // attendo e effettuo il retrieving dei dati dalla collection livelli di un utente
 
-        // attendo e effettuo il retreiving dei dati
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Task<QuerySnapshot> task = db.collection(pathCollection).get();
         try {
+            //aspetto appunto l'esito dell'operazione di retrieving dei dati
             Tasks.await(task);
         } catch (ExecutionException e) {
             e.printStackTrace();
@@ -72,22 +71,19 @@ public class AsyncTaskLoadResult extends AsyncTask<Void, Integer, ArrayList<Leve
         return levelCreateds;
     }
 
-    // This is called from background thread but runs in UI
     @Override
-    protected void onProgressUpdate(Integer... values) {
-        super.onProgressUpdate(values);
-
-        // Do things like update the progress bar
+    protected void onProgressUpdate(Void ...voids) {
+        super.onProgressUpdate(voids);
     }
 
-    // This runs in UI when background thread finishes
+    // una volta finito il thread di retrieving dei dati accedo alla thread di UI
     @Override
     protected void onPostExecute(ArrayList<LevelCreated> result) {
         listenerAsyncData = (ListenerAsyncData) context;
+        // attivo la chiamata a fronte della modifica nel model di dati contenuto in result
         listenerAsyncData.onDataOfLevelCreatedChange(result);
         super.onPostExecute(result);
 
-        // Do things like hide the progress bar or change a TextView
     }
 
     public void setLevelCreateds(ArrayList<LevelCreated> levelCreateds) {

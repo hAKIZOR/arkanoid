@@ -74,7 +74,7 @@ public class DialogSaveLevel extends DialogFragment {
         data.put("nomeLivello",nameLevel);
 
         LoadingDialog loadingDialog = new LoadingDialog(getActivity());
-        loadingDialog.startDialog(LoadingDialog.MESSAGE_SAVE);
+        loadingDialog.startDialog(getResources().getString(R.string.save_level));
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection(pathCollection)

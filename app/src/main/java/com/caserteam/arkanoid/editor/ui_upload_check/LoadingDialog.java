@@ -11,10 +11,7 @@ import android.widget.TextView;
 import com.caserteam.arkanoid.R;
 
 public class LoadingDialog {
-    public static String MESSAGE_SAVE = "Sto salvando";
-    public static String MESSAGE_UPLOAD_LEVEL = "caricamento livelli creati";
-    public static String MESSAGE_LOAD_LEVEL = "caricamento livello selezionato";
-    public static String MESSAGE_DELETE_LEVEL = "eliminazione livello in corso";
+
     private Activity activity;
     private AlertDialog dialog;
     private TextView textLoading;
@@ -39,6 +36,7 @@ public class LoadingDialog {
         View view = inflater.inflate(R.layout.loading_dialog,null);
         textLoading = (TextView) view.findViewById(R.id.textLoading);
         buttonCancel = (Button) view.findViewById(R.id.buttonCancel);
+
         buttonCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
