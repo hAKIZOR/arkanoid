@@ -40,5 +40,22 @@
     <string name="cancel_button">annulla</string>
     <string name="firebase_root" translatable="false">https://arkanoid-d46b0-default-rtdb.europe-west1.firebasedatabase.app</string>
 
+    <!-- messaggi di caricamento  -->
+
+    <string name="save_level">Sto salvando</string>
+    <string name="load_levels_created">caricamento livelli creati</string>
+    <string name="load_level_selected">caricamento livello selezionato</string>
+    <string name="delete_level">eliminazione livello in corso</string>
+
+    <string name="wait_access_room">attendo che qualcuno acceda</string>
+    <string name="wait_loading_game_room">attendo il caricamento della partita</string>
+
+
+    <!-- feedback accesso/creazione stanza -->
+    <string name="error_exist_room">esiste una room con questo codice</string>
+    <string name="error_room_already_taken">stanza di gioco occupata</string>
+    <string name="error_room_already_created">stanza ancora non creata</string>
+    <string name="error_access_room_with_same_profile">Risulti loggato in un altro dispositivo</string>
+
 
 </resources>

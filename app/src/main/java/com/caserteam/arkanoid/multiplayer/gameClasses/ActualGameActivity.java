@@ -46,7 +46,7 @@ public class ActualGameActivity extends AppCompatActivity {
         nickname = data.get(LoginActivity.KEY_NICKNAME_PREFERENCES);
         counter=0;
         code = getIntent().getStringExtra(MultiplayerActivity.STATE_CODE);
-        playerRole = getIntent().getStringExtra(MultiplayerActivity.CODE_PLAYER);
+        playerRole = getIntent().getStringExtra(MultiplayerActivity.CODE_PLAYER_EXTRA);
         roomRef =  FirebaseDatabase.getInstance(MultiplayerActivity.ROOT).getReference("rooms/"+code);
 
         //imposta l'orientamento dello schermo
