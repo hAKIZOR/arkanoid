@@ -14,13 +14,17 @@ import android.hardware.SensorEvent;
 import android.view.Display;
 import android.view.WindowManager;
 
+import com.caserteam.arkanoid.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
+
+import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
 
-import com.caserteam.arkanoid.R;
-import com.google.firebase.database.DatabaseReference;
 
-
-public class GameViewPortrait extends Game {
+public class GameViewPortrait extends Game implements ValueEventListener {
 
     private Bitmap background;
     private Display display;
@@ -29,8 +33,9 @@ public class GameViewPortrait extends Game {
     private RectF r;
 
 
-    public GameViewPortrait(Context context, int lifes, int score, String playerRole, DatabaseReference roomRef){
-        super(context, lifes, score, playerRole , roomRef);
+
+    public GameViewPortrait(Context context,int lifes, int score,String playerRole, DatabaseReference roomRef){
+        super(context, lifes, score,playerRole,roomRef);
         paint = new Paint();
         setBackground(context);
         setSens(2); // <-- setta la sensitività dell'accellerometro
@@ -38,26 +43,36 @@ public class GameViewPortrait extends Game {
         setSizeY(size.y);
 
 
-        //setta posizione della palla e della barra
+        super.roomRef.addValueEventListener(this);
+
+        //setta posizione della palla
         getBall().setX(size.x / 2);
         getBall().setY(size.y - 280);
 
+        //setto le posizioni iniziali dei paddle
         if(playerRole.equals("player1")) {
-            //setto paddle 1
-            getPaddle().setX(size.x / 4);
-            getPaddle().setY(size.y - 200);
-            //setto paddle 2
-            getPaddle2().setX(size.x * (3 / 4));
-            getPaddle2().setY(size.y - 200);
-        }else{
-            //setto paddle 1
-            getPaddle().setX(size.x * (3 / 4));
-            getPaddle().setY(size.y - 200);
-            //setto paddle 2
-            getPaddle2().setX(size.x / 4);
-            getPaddle2().setY(size.y - 200);
-
+            paddle.setX((size.x/4) - (paddle.getWidthp()/2));
+            paddle.setY((float) (size.y - (size.y * (0.2))));
+            paddle2.setX((size.x/2) + (paddle.getWidthp()/2));
+            paddle2.setY((float) (size.y - (size.y * (0.2))));
+            minPositionPaddle = 0;
+            maxPositionPaddle = size.x/2;
+            fieldXPaddle1 = "xPaddlePlayer1";
+            fieldXPaddle2 = "xPaddlePlayer2";
+            roomRef.child(fieldXPaddle1).setValue((size.x/4) - (paddle.getWidthp()/2));
+        } else {
+            paddle.setX((size.x/2) + (paddle.getWidthp()/2));
+            paddle.setY((float) (size.y - (size.y * (0.2))));
+            paddle2.setX(size.x/4 - (paddle.getWidthp()/2));
+            paddle2.setY((float) (size.y - (size.y * (0.2))));
+            minPositionPaddle = size.x/2;
+            maxPositionPaddle = size.x;
+            fieldXPaddle1 = "xPaddlePlayer2";
+            fieldXPaddle2 = "xPaddlePlayer1";
+            roomRef.child(fieldXPaddle1).setValue((size.x/2) + (paddle.getWidthp()/2));
         }
+
+
 
         //setto i bordi
         setUpBoard(150);
@@ -105,13 +120,16 @@ public class GameViewPortrait extends Game {
         paint.setAntiAlias(true);
         canvas.drawBitmap(getBall().getSkin(), getBall().getX(), getBall().getY(), paint);
 
-        // disegna la barra
+
+        // disegna le barre
         paint.setColor(Color.WHITE);
-        r = new RectF(getPaddle().getX(), getPaddle().getY(), getPaddle().getX() + getPaddle().getWidthp(), getPaddle().getY() + getPaddle().getHeightp());
+        r = new RectF(paddle.getX(), paddle.getY(), paddle.getX() + paddle.getWidthp(), paddle.getY() + paddle.getHeightp());
         canvas.drawBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.paddle), null, r, paint);
-        paint.setColor(Color.WHITE);
-        r = new RectF(getPaddle2().getX(), getPaddle2().getY(), getPaddle2().getX() + getPaddle2().getWidthp(), getPaddle().getY() + getPaddle().getHeightp());
+        canvas.drawCircle(paddle.getX(), paddle.getY(),8,paint);
+        r = new RectF(paddle2.getX(), paddle2.getY(), paddle2.getX() + paddle2.getWidthp(), paddle2.getY() + paddle2.getHeightp());
         canvas.drawBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.paddle), null, r, paint);
+        canvas.drawCircle(paddle2.getX(), paddle2.getY(),3,paint);
+
 
         // disegna mattoni
         paint.setColor(Color.GREEN);
@@ -160,7 +178,7 @@ public class GameViewPortrait extends Game {
     //cambiare accelerometro
     @Override
     public void onSensorChanged(SensorEvent event) {
-        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+        /*if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
             getPaddle().setX(getPaddle().getX() - (event.values[0] * getSens()));
 
             if (getPaddle().getX() + event.values[0] > size.x - getPaddle().getWidthp()) {
@@ -168,10 +186,23 @@ public class GameViewPortrait extends Game {
             } else if (getPaddle().getX() - event.values[0] <= 20) {
                 getPaddle().setX(20);
             }
-        }
+        }*/
     }
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
+    }
+    @Override
+    public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+        float xPaddle = Float.parseFloat(snapshot.child(fieldXPaddle2).getValue().toString());
+        paddle2.setX(xPaddle);
+
+
+    }
+
+    @Override
+    public void onCancelled(@NonNull DatabaseError error) {
+
     }
 }

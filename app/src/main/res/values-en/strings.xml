@@ -2,7 +2,6 @@
 <resources>
     <string name="menu_principale" translatable="false">Main Menu</string>
     <string name="impostazioni" translatable="false">Settings</string>
-    <string name="arcade">Arcade</string>
     <string name="editor_livelli">Levels Editor</string>
     <string name="classifica">Leaderboard</string>
     <string name="imposta_lingua">Set language</string>
@@ -43,5 +42,6 @@
     <string name="load_levels_created">loading created levels</string>
     <string name="load_level_selected">loading selected level</string>
     <string name="delete_level">level deletion in progress</string>
+    <string name="welcome_text">Welcome</string>
 
 </resources>

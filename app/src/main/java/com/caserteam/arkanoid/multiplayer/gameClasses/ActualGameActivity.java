@@ -3,15 +3,11 @@ package com.caserteam.arkanoid.multiplayer.gameClasses;
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.MotionEvent;
 import android.view.View;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.GestureDetectorCompat;
 
 import com.caserteam.arkanoid.LoginActivity;
 import com.caserteam.arkanoid.multiplayer.MultiplayerActivity;
@@ -21,6 +17,9 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GestureDetectorCompat;
 
 public class ActualGameActivity extends AppCompatActivity {
 
@@ -54,10 +53,10 @@ public class ActualGameActivity extends AppCompatActivity {
 
         //imposta l'orientamento dello schermo
 
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-            game = new GameViewPortrait(this, 3, 0, playerRole, roomRef);
-            gestureDetector = game.getGestureDetector();
-            setContentView(game);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        game = new GameViewPortrait(this, 3, 0, playerRole, roomRef);
+        gestureDetector = game.getGestureDetector();
+        setContentView(game);
 
 
 

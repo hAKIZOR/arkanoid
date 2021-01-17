@@ -7,7 +7,7 @@ import com.google.android.material.tabs.TabLayout;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.caserteam.arkanoid.ui.main.SectionsPagerAdapter;
+import com.caserteam.arkanoid.ui.leaderboard.SectionsPagerAdapter;
 
 public class LeaderBoardActivity extends AppCompatActivity {
 

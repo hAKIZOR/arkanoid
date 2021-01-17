@@ -17,9 +17,6 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
-import androidx.annotation.NonNull;
-import androidx.core.view.GestureDetectorCompat;
-
 import com.caserteam.arkanoid.DatabaseHelper;
 import com.caserteam.arkanoid.IOUtils;
 import com.caserteam.arkanoid.Settings;
@@ -31,8 +28,16 @@ import com.google.firebase.database.ValueEventListener;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.xml.validation.Validator;
 
-public class Game extends View implements SensorEventListener, View.OnTouchListener, GestureDetector.OnGestureListener, ValueEventListener {
+import androidx.annotation.NonNull;
+import androidx.core.view.GestureDetectorCompat;
+
+
+public class Game extends View implements
+        SensorEventListener,
+        View.OnTouchListener,
+        GestureDetector.OnGestureListener{
     private static final String DEBUG_STRING = "Game";
 
 
@@ -45,6 +50,18 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
     private ArrayList<Brick> brickList;
     private ArrayList<PowerUp> powerUps;
     private ArrayList<LaserSound> laserDropped;
+    protected float minPositionPaddle;
+    protected float maxPositionPaddle;
+
+    protected String fieldXPaddle1;
+    protected String fieldXPaddle2;
+
+    //variabili di gestione loop
+    private static final int TIMINGFORWIN = 1000; // tempo di loop max, oltre questo tempo la partita viene automaticamente vinta
+    private static final int MINBRICKFORTIMING = 4; // numero di mattoni minimo per poter iniziare il timing durante il loop
+    private int timing = 0;
+    private int counterBrickTiming = 0;
+
 
     private boolean start;
     private boolean gameOver;
@@ -70,8 +87,8 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
 
     private Context context;
     private Ball ball;
-    private Paddle paddle;
-    private Paddle paddle2;
+    protected Paddle paddle;
+    protected Paddle paddle2;
     private PowerUp powerUp;
 
     private int sizeX;
@@ -89,20 +106,15 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
     private float paddingLeftGame;
     private float paddingTopGame;
 
-    //MULTIPLAYER DATA
-    private String playerRole,p1,p2;
-    private DatabaseReference roomRef;
-    private float minMovePaddle,maxMovePaddle;
-
     private int nS=1; //variabile usata per completare il nome del sound nel caricamento
     SoundPool soundPool;
     int[] soundNote = {-1, -1, -1, -1, -1, -1, -1, -1};
     AudioAttributes audioAttributes;
-
-
-    public Game(Context context, int lifes, int score, String playerRole, DatabaseReference roomRef) {
+    protected String playerRole;
+    protected DatabaseReference roomRef;
+    public Game(Context context, int lifes, int score, String playerRole,DatabaseReference roomRef) {
         super(context);
-
+        this.roomRef = roomRef;
         //impostare contesto
         this.context = context;
 
@@ -115,21 +127,9 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         powerUps= new ArrayList<>();
         laserDropped= new ArrayList<>();
 
-        //impostare dati multiplayer
-        this.playerRole=playerRole;
-        this.roomRef=roomRef;
-        roomRef.addValueEventListener(this);
-        if(playerRole.equals("player1")){
-            p1="xPaddlePlayer1";
-            p2="xPaddlePlayer2";
-            minMovePaddle=0;
-            maxMovePaddle=sizeX/2;
-        }else {
-            p1="xPaddlePlayer2";
-            p2="xPaddlePlayer1";
-            minMovePaddle=sizeX/2;
-            maxMovePaddle=sizeX;
-        }
+        this.playerRole = playerRole;
+
+
 
 
         //avviare un GameOver per scoprire se la partita è in piedi e se il giocatore non l'ha persa
@@ -140,6 +140,8 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         ball = new Ball(context,0, 0, 0);
         paddle = new Paddle(context,0, 0, 0);
         paddle2 = new Paddle(context,0, 0, 0);
+
+
 
         //crea lista di livelli dal DB locale
         Cursor c = null;
@@ -302,6 +304,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
             win();
             checkBoards();
             //ball.hitPaddle(paddle.getX(), paddle.getY());
+            counterBrickTiming = brickList.size();
             for (int i = 0; i < brickList.size(); i++) {
                 Brick b = brickList.get(i);
                 if (ball.hitBrick(b)) {
@@ -322,6 +325,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
 
 
                         score = score + 80;
+                        timing = 0;
                         break;
 
                 }
@@ -349,6 +353,8 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
                 }
             }
 
+            checkWinForLoop();
+
             for (int y= 0; y < powerUps.size(); y++) {
                 checkGetPowerUp(powerUps.get(y));
             }
@@ -360,6 +366,20 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
             for (int j = 0; j < laserDropped.size(); j++) {
                 laserDropped.get(j).move();
             }
+        }
+    }
+
+    // controlla una vittoria automatica nel caso di loop per tot secondi e con un minimo di mattoni
+    public void checkWinForLoop(){
+        if(counterBrickTiming<=MINBRICKFORTIMING && counterBrickTiming == brickList.size()){
+            timing++;
+        }
+
+        if(timing>TIMINGFORWIN){
+            score = score + (80*brickList.size());
+            brickList.clear();
+            laserDropped.clear();
+            win();
         }
     }
 
@@ -391,6 +411,7 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
     //scopri se il giocatore ha vinto o meno
     private void win() {
         if (levelCompleted()) {
+            timing = 0;
             ++numberLevel;
 
             resetLevel();
@@ -474,24 +495,28 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
 
     @Override
     public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-        if(accelerometer==null) {
-            if ((e2.getX() - (paddle.getWidthp()/2)>=minMovePaddle && (e2.getX() - (paddle.getWidthp()/2)<= (maxMovePaddle - paddle.getWidthp())))){
-                if(e2.getY()>(sizeY*0.75)) {
-                    paddle.setX(e2.getX() - (paddle.getWidthp()/2));
-                    roomRef.child(p1).setValue(e2.getX() - (paddle.getWidthp()/2));
-                }
-            }else if ((e2.getX() - (paddle.getWidthp()/2) < minMovePaddle)){
-                if(e2.getY()>(sizeY*0.75)) {
-                    paddle.setX(minMovePaddle);
-                    roomRef.child(p1).setValue(minMovePaddle);
-                }
-            }else if ((e2.getX() - (paddle.getWidthp()/2) > (maxMovePaddle - paddle.getWidthp()))){
-                if(e2.getY()>(sizeY*0.75)) {
-                    paddle.setX(maxMovePaddle-paddle.getWidthp());
-                    roomRef.child(p1).setValue(maxMovePaddle-paddle.getWidthp());
-                }
+    if(accelerometer==null) {
+
+        if(e2.getY() > (sizeY*0.75)) {
+            if ((e2.getX() - (paddle.getWidthp()/2) >= minPositionPaddle && (e2.getX() - (paddle.getWidthp()/2)<= (maxPositionPaddle - paddle.getWidthp())))){
+                paddle.setX(e2.getX() - (paddle.getWidthp()/2));
+                roomRef.child(fieldXPaddle1).setValue(paddle.getX());
+
+
+            } else if ((e2.getX() - (paddle.getWidthp()/2) < minPositionPaddle)){
+                paddle.setX(minPositionPaddle);
+                roomRef.child(fieldXPaddle1).setValue(minPositionPaddle);
+
+            } else if ((e2.getX() - (paddle.getWidthp()/2) > (maxPositionPaddle - paddle.getWidthp()))){
+
+                paddle.setX(maxPositionPaddle-paddle.getWidthp());
+                roomRef.child(fieldXPaddle1).setValue(paddle.getX());
+
             }
+
         }
+
+    }
         return false;
     }
 
@@ -736,28 +761,5 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
         return laserSoundRemaining;
     }
 
-    public Paddle getPaddle2() {
-        return paddle2;
-    }
 
-    public void setPaddle2(Paddle paddle2) {
-        this.paddle2 = paddle2;
-    }
-
-    public void setMultiplayerData(float xPaddle2){
-        paddle2.setX(xPaddle2);
-    }
-    @Override
-    public void onDataChange(@NonNull DataSnapshot snapshot) {
-        setMultiplayerData(Float.parseFloat(snapshot.child(p2).getValue().toString()));
-
-            getBall().setSpeed(Integer.parseInt(snapshot.child("xSpeedBall").getValue().toString()),
-                    Integer.parseInt(snapshot.child("ySpeedBall").getValue().toString()));
-
-    }
-
-    @Override
-    public void onCancelled(@NonNull DatabaseError error) {
-
-    }
 }

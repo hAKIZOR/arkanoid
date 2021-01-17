@@ -1,7 +1,9 @@
 <resources>
     <string name="app_name" translatable="false">Arkanoid</string>
+    <string name="package_name" translatable="false">com.caserteam.arkanoid</string>
+    <string name="welcome_text">Benvenuto</string>
     <string name="menu_principale">Menu Principale</string>
-    <string name="arcade">Arcade</string>
+    <string name="arcade" translatable="false">Arcade</string>
     <string name="impostazioni">Impostazioni</string>
     <string name="editor_livelli">Editor Livelli</string>
     <string name="classifica">Classifica</string>
@@ -56,6 +58,7 @@
     <string name="error_room_already_taken">stanza di gioco occupata</string>
     <string name="error_room_already_created">stanza ancora non creata</string>
     <string name="error_access_room_with_same_profile">impossibile accedere alla stanza</string>
+
 
 
 </resources>

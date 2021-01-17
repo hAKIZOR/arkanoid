@@ -1,4 +1,4 @@
-package com.caserteam.arkanoid.ui.main;
+package com.caserteam.arkanoid.ui.leaderboard;
 
 import android.content.Context;
 

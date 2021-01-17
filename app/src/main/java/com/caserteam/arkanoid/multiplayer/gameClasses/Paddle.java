@@ -12,10 +12,10 @@ public class Paddle extends View {
     private float y;
     private int height;
     private int width;
-    private static final int WIDTH = 100; //larghezza iniziale paddle
+    private static final int WIDTH = 50; //larghezza iniziale paddle
     private static final int HEIGHT = 40; //altezza iniziale paddle
     private static final int MIN_WIDTH = 100; //larghezza minima paddle
-    private static final int MAX_WIDTH = 150; //larghezza massima paddle
+    private static final int MAX_WIDTH = 450; //larghezza massima paddle
     private Bitmap skin;
 
     public Paddle(Context context, float x, float y, int a) {

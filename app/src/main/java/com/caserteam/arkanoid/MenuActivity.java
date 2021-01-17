@@ -90,14 +90,14 @@ public class MenuActivity extends AppCompatActivity {
             SharedPreferences preferences = getSharedPreferences(LoginActivity.KEY_PREFERENCES_USER_INFORMATION,MODE_PRIVATE);
             Map<String,String> data = new HashMap<>();
             data.putAll((Map<String,String>) preferences.getAll());
-            name.setText("Benvenuto  " + data.get(LoginActivity.KEY_NICKNAME_PREFERENCES));
+            name.setText(getResources().getString(R.string.welcome_text) + " " + data.get(LoginActivity.KEY_NICKNAME_PREFERENCES));
             Picasso.get().load(account.getPhotoUrl()).into(photoProfile);
         } catch (Exception e){
 
         }
 
         try {
-            prefs = getSharedPreferences("com.caserteam.arkanoid", MODE_PRIVATE);
+            prefs = getSharedPreferences(getResources().getString(R.string.package_name), MODE_PRIVATE);
 
             String systemLanguage = Locale.getDefault().getLanguage();
             int languageToSet = Settings.lang.valueOf(systemLanguage).ordinal();

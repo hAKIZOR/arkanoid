@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="menu_principale" translatable="false">" Menú principal"</string>
+    <string name="menu_principale" translatable="false">" Menu' principal"</string>
     <string name="impostazioni" translatable="false">" Ajustes"</string>
-    <string name="arcade">Arcade</string>
     <string name="editor_livelli">" Editor de niveles"</string>
     <string name="classifica">" Clasificación"</string>
     <string name="imposta_lingua">" Elegir lenguaje"</string>
@@ -43,4 +42,5 @@
     <string name="save_level">ahorro en progreso</string>
     <string name="load_levels_created">cargando niveles creados</string>
     <string name="load_level_selected">cargando el nivel seleccionado</string>
+    <string name="welcome_text">Bienvenidos</string>
 </resources>
