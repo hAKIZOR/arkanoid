@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">arkanoid</string>
+    <string name="app_name" translatable="false">Arkanoid</string>
     <string name="menu_principale">Menu Principale</string>
     <string name="arcade">Arcade</string>
     <string name="impostazioni">Impostazioni</string>
@@ -32,7 +32,7 @@
     <string name="guest_button">Gioca offline</string>
     <string name="inserisci_un_nickname">Inserisci un Nickname</string>
     <string name="avanti">Avanti</string>
-    <string name="nickname">nickname</string>
+    <string name="nickname" translatable="false">nickname</string>
     <string name="multiplayer">Multiplayer</string>
     <string name="seleziona_tipologia_partita">Seleziona tipologia partita</string>
     <string name="matchmaking">matchmaking</string>
@@ -42,12 +42,12 @@
 
     <!-- messaggi di caricamento  -->
 
-    <string name="save_level">Sto salvando</string>
+    <string name="save_level">salvataggio in corso</string>
     <string name="load_levels_created">caricamento livelli creati</string>
     <string name="load_level_selected">caricamento livello selezionato</string>
     <string name="delete_level">eliminazione livello in corso</string>
 
-    <string name="wait_access_room">attendo che qualcuno acceda</string>
+    <string name="wait_access_room">in attesa di un altro giocatore</string>
     <string name="wait_loading_game_room">attendo il caricamento della partita</string>
 
 

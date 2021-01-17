@@ -25,5 +25,23 @@
     <string name="need_login">"You must be logged in to access! "</string>
     <string name="signin_other_error">Error login</string>
     <string name="cancel_button">cancel</string>
+    <string name="create_room_button">create</string>
+    <string name="join_room_button">join</string>
+    <string name="create_or_join_room">create or join in room</string>
+    <string name="insert_room">insert code room</string>
+    <string name="error_access_room_with_same_profile">impossible to have access in the room</string>
+    <string name="error_room_already_created">room not yet created</string>
+    <string name="error_room_already_taken">game room occupied</string>
+    <string name="error_exist_room">there is a room with this code</string>
+    <string name="wait_loading_game_room">loading game</string>
+    <string name="wait_access_room">"waiting for another player "</string>
+    <string name="privata">private</string>
+    <string name="matchmaking">matchmaking</string>
+    <string name="seleziona_tipologia_partita">Select match type</string>
+    <string name="multiplayer">Multiplayer</string>
+    <string name="save_level">saving in progress</string>
+    <string name="load_levels_created">loading created levels</string>
+    <string name="load_level_selected">loading selected level</string>
+    <string name="delete_level">level deletion in progress</string>
 
 </resources>
