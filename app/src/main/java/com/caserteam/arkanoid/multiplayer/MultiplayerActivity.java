@@ -88,7 +88,7 @@ public class MultiplayerActivity extends AppCompatActivity implements
         loadingDialog = new LoadingDialog(MultiplayerActivity.this);
         loadingDialog.startDialog(getResources().getString(R.string.wait_loading_game_room));
 
-        DatabaseReference playerRef = firebaseDatabase.getReference(ROOMS_NODE+ "/" + code + "/" + PLAYER2_NODE);
+        DatabaseReference player2Ref = firebaseDatabase.getReference(ROOMS_NODE+ "/" + code + "/" + PLAYER2_NODE);
         HashMap<String,String> data = new HashMap<>();
         data.putAll((Map<String,String>) preferences.getAll());
         String nickname = data.get(LoginActivity.KEY_NICKNAME_PREFERENCES);
@@ -101,7 +101,7 @@ public class MultiplayerActivity extends AppCompatActivity implements
                 if(snapshot.hasChild(code)){
                     if(!snapshot.child(code).child(PLAYER1_NODE).getValue().equals(nickname)){
                         if(snapshot.child(code).child(PLAYER2_NODE).getValue().equals(EMPTY_STRING)){
-                            playerRef.setValue(nickname, new DatabaseReference.CompletionListener() {
+                            player2Ref.setValue(nickname, new DatabaseReference.CompletionListener() {
                                 @Override
                                 public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
                                     loadingDialog.dismissDialog();
@@ -114,17 +114,19 @@ public class MultiplayerActivity extends AppCompatActivity implements
                                 }
                             });
                         } else {
+                            //esiste già un giocatore 2 all'interno della stanza
                             showErrorMessage(getResources().getString(R.string.error_room_already_taken));
                             roomsRef.removeEventListener(thisValueEventListener);
 
                         }
                     } else {
+                        //il giocatore tenta di accedere ad una stanza con lo stesso profilo (CASO LIMITE DA PREVEDERE)
                         showErrorMessage(getResources().getString(R.string.error_access_room_with_same_profile));
-
                         roomsRef.removeEventListener(thisValueEventListener);
                     }
 
                 } else {
+                    // non è possibile accedere alla stanza poichè non è stata ancora creata
                     showErrorMessage(getResources().getString(R.string.error_room_already_created));
                     roomsRef.removeEventListener(thisValueEventListener);
                 }
@@ -185,8 +187,8 @@ public class MultiplayerActivity extends AppCompatActivity implements
 
     }
 
-    public void createRoom(LoadingDialog load, String code, String nickname, DataSnapshot roomToHaveAccess){
-
+    public void createRoom(LoadingDialog load, String code, String nickname, DataSnapshot roomToHaveAccess) {
+        // creazione della stanza con i relativi controlli
         DatabaseReference roomRef = firebaseDatabase.getReference(ROOMS_NODE + "/" + code);
         room = new Room(nickname,EMPTY_STRING,0,0,7,-14);
 
@@ -198,21 +200,13 @@ public class MultiplayerActivity extends AppCompatActivity implements
                     public void onDataChange(@NonNull DataSnapshot fieldPlayer2) {
                         if(fieldPlayer2.getValue() != null){
                             if(! fieldPlayer2.getValue().equals(EMPTY_STRING)){
-                                if(! fieldPlayer2.getValue().equals(nickname)){
-                                    // il giocatore accede alla stanza poichè
+                                    // il giocatore accede alla stanza poichè passa tutti i controlli sulla disponibilità del posto in stanza
                                     load.dismissDialog();
                                     Intent intent = new Intent(MultiplayerActivity.this,ActualGameActivity.class);
                                     intent.putExtra(STATE_CODE,code);
                                     intent.putExtra(CODE_PLAYER_EXTRA,PLAYER1_NODE);
                                     ref.child(PLAYER2_NODE).removeEventListener(this);
                                     startActivity(intent);
-
-
-                                } else {
-                                    showErrorMessage(getResources().getString(R.string.error_access_room_with_same_profile));
-                                    dialogCodeRoom.dismiss();
-                                    ref.child(PLAYER2_NODE).removeEventListener(this);
-                                }
                             }
                         } else {
                             ref.child(PLAYER2_NODE).removeEventListener(this);
@@ -236,6 +230,7 @@ public class MultiplayerActivity extends AppCompatActivity implements
 
     @Override
     public void onClickButtonCancel(Object roomToCancel) {
+        // durante il caricamento della stanza il giocatore annulla il tentativo di creazione stanza
         String room =(String) roomToCancel;
 
         DatabaseReference roomToDelete = firebaseDatabase.getReference(ROOMS_NODE).child(room);
