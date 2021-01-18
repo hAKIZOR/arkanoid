@@ -48,7 +48,7 @@ public class GameViewPortrait extends Game{
         setUpBoard(150);
         setDownBoard(size.y);
         setLeftBoard(0);
-        setRightBoard(getSizeX() - 60);
+        setRightBoard(getSizeX());
 
         //setto colonne e righe dei mattoni
         setColumns(9);

@@ -1,8 +1,5 @@
 package com.caserteam.arkanoid;
 
-import android.animation.ObjectAnimator;
-import android.animation.PropertyValuesHolder;
-import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -22,16 +19,13 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.caserteam.arkanoid.editor.EditorActivity;
-import com.caserteam.arkanoid.gameClasses.MainActivity;
+import com.caserteam.arkanoid.gameClasses.GameActivity;
 import com.caserteam.arkanoid.multiplayer.MultiplayerActivity;
-import com.caserteam.arkanoid.multiplayer.Room;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
@@ -139,7 +133,7 @@ public class MenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent myIntent = new Intent(MenuActivity.this, MainActivity.class);
+                Intent myIntent = new Intent(MenuActivity.this, GameActivity.class);
                 startActivity(myIntent);
             }
         });

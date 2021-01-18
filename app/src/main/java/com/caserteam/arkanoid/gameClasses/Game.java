@@ -473,17 +473,17 @@ public class Game extends View implements SensorEventListener, View.OnTouchListe
     @Override
     public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
     if(accelerometer==null) {
-        if ((e2.getX() - (paddle.getWidthp()/2)>=0 && (e2.getX() - (paddle.getWidthp()/2)<= (sizeX - paddle.getWidthp())))){
+        if ((e2.getX() - (paddle.getWidthp()/2)>=leftBoard && (e2.getX() - (paddle.getWidthp()/2)<= (rightBoard - paddle.getWidthp())))){
             if(e2.getY()>(sizeY*0.75)) {
                 paddle.setX(e2.getX() - (paddle.getWidthp()/2));
             }
-        }else if ((e2.getX() - (paddle.getWidthp()/2) < 0)){
+        }else if ((e2.getX() - (paddle.getWidthp()/2) < leftBoard)){
             if(e2.getY()>(sizeY*0.75)) {
-                paddle.setX(0);
+                paddle.setX(leftBoard);
             }
-        }else if ((e2.getX() - (paddle.getWidthp()/2) > (sizeX - paddle.getWidthp()))){
-            if(e2.getY()>(sizeY*0.75)) {
-                paddle.setX(sizeX-paddle.getWidthp());
+        }else if ((e2.getX() - (paddle.getWidthp()/2) > (rightBoard - paddle.getWidthp()))){
+            if(e2.getY() > (sizeY*0.75)) {
+                paddle.setX(rightBoard-paddle.getWidthp());
             }
         }
     }

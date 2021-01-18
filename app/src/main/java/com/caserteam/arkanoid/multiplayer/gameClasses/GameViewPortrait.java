@@ -52,9 +52,9 @@ public class GameViewPortrait extends Game implements ValueEventListener {
         //setto le posizioni iniziali dei paddle
         if(playerRole.equals("player1")) {
             paddle.setX((size.x/4) - (paddle.getWidthp()/2));
-            paddle.setY((float) (size.y - (size.y * (0.2))));
+            paddle.setY((float) (size.y - (size.y / 50)));
             paddle2.setX((size.x/2) + (paddle.getWidthp()/2));
-            paddle2.setY((float) (size.y - (size.y * (0.2))));
+            paddle2.setY((float) (size.y - (size.y / 50)));
             minPositionPaddle = 0;
             maxPositionPaddle = size.x/2;
             fieldXPaddle1 = "xPaddlePlayer1";
@@ -62,9 +62,9 @@ public class GameViewPortrait extends Game implements ValueEventListener {
             roomRef.child(fieldXPaddle1).setValue((size.x/4) - (paddle.getWidthp()/2));
         } else {
             paddle.setX((size.x/2) + (paddle.getWidthp()/2));
-            paddle.setY((float) (size.y - (size.y * (0.2))));
+            paddle.setY((float) (size.y - (size.y / 50)));
             paddle2.setX(size.x/4 - (paddle.getWidthp()/2));
-            paddle2.setY((float) (size.y - (size.y * (0.2))));
+            paddle2.setY((float) (size.y - (size.y / 50)));
             minPositionPaddle = size.x/2;
             maxPositionPaddle = size.x;
             fieldXPaddle1 = "xPaddlePlayer2";

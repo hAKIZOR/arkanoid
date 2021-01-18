@@ -12,7 +12,7 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GestureDetectorCompat;
 
-public class MainActivity extends AppCompatActivity {
+public class GameActivity extends AppCompatActivity {
 
 
     private Game game;
@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //imposta l'orientamento dello schermo
+        //imposta l'orientamento dello schermo e si crea la partita dipendentemente da esso
         if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE);
             game = new GameViewLandscape(this, 3, 0);
@@ -36,10 +36,6 @@ public class MainActivity extends AppCompatActivity {
             gestureDetector = game.getGestureDetector();
             setContentView(game);
         }
-
-
-        // creare un nuova partita
-
 
 
         // crea handler e thread

@@ -303,85 +303,29 @@ public class Game extends View implements
         if (start) {
             win();
             checkBoards();
-            //ball.hitPaddle(paddle.getX(), paddle.getY());
-            counterBrickTiming = brickList.size();
+            ball.move();
+
             for (int i = 0; i < brickList.size(); i++) {
                 Brick b = brickList.get(i);
                 if (ball.hitBrick(b)) {
+                    if (b.getHitted()==b.getHit()) {
 
-
-                        if (b.getHitted()==b.getHit()) {
-
-                                if (generatePowerUp(b.getX(), b.getY()).getPower() != null) {
-                                    powerUps.add(this.powerUp);
-                                }
-                                soundPool.play(soundNote[b.getSoundName() - 1], 1, 1, 0, 0, 1);
-                                brickList.remove(i);
-
-                        } else {
-                            brickList.get(i).hittedOnce();
-                            brickList.get(i).setSkinById(b.getSkin());
-                        }
-
-
-                        score = score + 80;
-                        timing = 0;
-                        break;
-
-                }
-
-
-            }
-
-
-            for (int i = 0; i < brickList.size(); i++) {
-                Brick b = brickList.get(i);
-
-                for(int j = 0; j < laserDropped.size(); j++){
-                if (laserDropped.get(j).hitBrick(b.getX(), b.getY())) {
-
-
-                        if (generatePowerUp(b.getX(), b.getY()).getPower() != null) {
-                            powerUps.add(this.powerUp);
-                        }
-                        soundPool.play(soundNote[b.getSoundName()], 1, 1, 0, 0, 1);
+                        soundPool.play(soundNote[b.getSoundName() - 1], 1, 1, 0, 0, 1);
                         brickList.remove(i);
 
-                    laserDropped.remove(j);
-                    score = score + 80;
-                }
+                    } else {
+                        brickList.get(i).hittedOnce();
+                        brickList.get(i).setSkinById(b.getSkin());
+                    }
+                    break;
                 }
             }
-
-            checkWinForLoop();
-
-            for (int y= 0; y < powerUps.size(); y++) {
-                checkGetPowerUp(powerUps.get(y));
-            }
-
             ball.move();
-            for (int j = 0; j < powerUps.size(); j++) {
-                powerUps.get(j).move();
-            }
-            for (int j = 0; j < laserDropped.size(); j++) {
-                laserDropped.get(j).move();
-            }
+
         }
     }
 
-    // controlla una vittoria automatica nel caso di loop per tot secondi e con un minimo di mattoni
-    public void checkWinForLoop(){
-        if(counterBrickTiming<=MINBRICKFORTIMING && counterBrickTiming == brickList.size()){
-            timing++;
-        }
 
-        if(timing>TIMINGFORWIN){
-            score = score + (80*brickList.size());
-            brickList.clear();
-            laserDropped.clear();
-            win();
-        }
-    }
 
     // crea random powerUp dopo la rottura del mattone
     public PowerUp generatePowerUp(float x , float y){

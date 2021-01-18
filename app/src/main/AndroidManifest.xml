@@ -30,7 +30,7 @@
             android:name=".LeaderBoardActivity"
             android:label="@string/title_activity_leader_board"
             android:theme="@style/Theme.Arkanoid.NoActionBar" />
-        <activity android:name=".gameClasses.MainActivity">
+        <activity android:name=".gameClasses.GameActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>

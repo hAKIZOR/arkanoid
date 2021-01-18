@@ -45,33 +45,33 @@ public class GameViewLandscape extends Game{
 
         //setta posizione della palla e della barra
         getBall().setX(size.x / 2);
-        getBall().setY(size.y - 280);
+        getBall().setY(size.y - 250);
         getPaddle().setX(size.x / 2);
-        getPaddle().setY(size.y - 200);
+        getPaddle().setY(size.y - 180);
 
         //setto i bordi
         setUpBoard(0);
-        setDownBoard(getSizeY());
-        setLeftBoard (0);
-        setRightBoard(getSizeX());
+        setDownBoard(size.y);
+        setLeftBoard ((int) (size.x * (0.13)));
+        setRightBoard(size.x);
 
         //setto colonne e righe dei mattoni
         setColumns(15);
         setRow(6);
 
         //setto altezza e base del mattone
-        setBrickBase((float) ((size.y-(size.y/1.7))/getRow()));
-        setBrickHeight(size.x/getColumns());
+        setBrickBase((float) ((size.y-(size.y/1.4))/getRow()));
+        setBrickHeight((size.x/getColumns()) - 30);
 
         //setto il padding del campo di gioco
         setPaddingTopGame(0);
-        setPaddingLeftGame(0);
+        setPaddingLeftGame((float) (size.x * (0.20)));
 
         //caricamento del livello con la generazione dei mattoni
         for(Level l: getLevels()) {
             if(l.getNumberLevel()==getNumberLevel()) {
 
-                generateBricks(context, getLevels().get(getNumberLevel()-1),getColumns(),getRow(),getBrickHeight(),getBrickBase(),getPaddingLeftGame(),getPaddingTopGame());
+                generateBricks(context, getLevels().get(getNumberLevel()),getColumns(),getRow(),getBrickHeight(),getBrickBase(),getPaddingLeftGame(),getPaddingTopGame());
             }
         }
         this.setOnTouchListener(this);
@@ -88,7 +88,8 @@ public class GameViewLandscape extends Game{
 
     protected void onDraw(Canvas canvas) {
         // crea uno sfondo solo una volta
-        canvas.drawBitmap(background, (float) (getSizeX()*0.15), 0, paint);
+        paint.setColor(Color.BLACK);
+        canvas.drawBitmap(background, 0, 0, paint);
 
         // disegna la pallina
         paint.setColor(Color.RED);
@@ -127,13 +128,23 @@ public class GameViewLandscape extends Game{
             r = new RectF(p.getX(), p.getY(), p.getX(), p.getY());
             canvas.drawBitmap(p.getLaser(), p.getX(), p.getY(), paint);
         }
+
+
+
+        Paint lineProperty = new Paint();
+        lineProperty.setColor(Color.BLACK);
+        lineProperty.setStrokeWidth((float) (size.x-(size.x*(0.75))));
+        canvas.drawLine(0,0,0,size.y,lineProperty);
+
         // disegna testo
         paint.setColor(Color.WHITE);
-        paint.setTextSize(60);
+        paint.setTextSize(35);
         Typeface typeface = ResourcesCompat.getFont(super.getContext(), R.font.font);
         paint.setTypeface(typeface);
-        canvas.drawText("LIFES : " + getLifes(), size.x-200, 80, paint);
-        canvas.drawText("SCORE : "  + getScore(), size.x-200, 240, paint);
+        canvas.drawText("HP:" + getLifes(), (float) (size.x-(size.x*(0.98))), 80, paint);
+        canvas.drawText("PT:" + getScore(), (float) (size.x-(size.x*(0.98))), 150, paint);
+        canvas.drawText("LSR:" + getLaserSoundRemaining(), (float) (size.x-(size.x*(0.98))), 220, paint);
+        canvas.drawText("PIANO:" + getHandsPianoRemaining(), (float) (size.x-(size.x*(0.98))), 290, paint);
 
         // in caso di sconfitta stampa "GameOver"
         if (isGameOver()) {
