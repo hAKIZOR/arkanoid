@@ -34,7 +34,7 @@ public class ActualGameActivity extends AppCompatActivity {
     private String nickname;
     DatabaseReference roomRef;
     private String playerRole;
-    String p1,p2,code;
+    String code;
 
 
     @Override

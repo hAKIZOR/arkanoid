@@ -27,6 +27,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -60,6 +61,8 @@ public class EditorActivity extends AppCompatActivity  implements
     public static final String STATE_CURRENT_USER = "currentUser";
     public static final String STATE_NAME_LEVEL = "nameLevel";
     public static final String STATE_STRUCTURE = "structure";
+    public static final String STATE_NICKNAME = "nickname";
+    private String nackname;
     private boolean fullScreen = false;
     private Editor editor;
     private Handler updateHandler;
@@ -73,6 +76,8 @@ public class EditorActivity extends AppCompatActivity  implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        getNickameFromPreferences();
 
         initializeSessionOption();
 
@@ -88,6 +93,12 @@ public class EditorActivity extends AppCompatActivity  implements
 
         // crea handler e thread
         createHandlerAndThread();
+
+    }
+
+    private void getNickameFromPreferences() {
+        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        preferences.getString(STATE_NICKNAME,null);
 
     }
 
@@ -180,8 +191,7 @@ public class EditorActivity extends AppCompatActivity  implements
                 break;
             case R.id.menu_main_upload:
                 /*
-                   Al click di questo tasto deve essere possibile il caricamento del livello attraverso
-                   la finestra di dialogo
+                   Al click di questo tasto deve essere possibile il caricamento dei propri livelli mediante un'altra activity
                 */
                 Intent intent = new Intent(EditorActivity.this, UploadLevelActivity.class);
                 intent.putExtra(STATE_CURRENT_USER,account.getEmail());
@@ -199,6 +209,7 @@ public class EditorActivity extends AppCompatActivity  implements
                         Bundle bundle = new Bundle();
                         bundle.putString(STATE_STRUCTURE, structure);
                         bundle.putString(STATE_NAME_LEVEL, nameLevel);
+                        //bundle.getString(STATE_NICKNAME, nickname);
                         bundle.putString(STATE_CURRENT_USER,account.getEmail());
                         DialogSaveLevel dialogSaveLevel = new DialogSaveLevel();
                         dialogSaveLevel.setArguments(bundle);
@@ -225,8 +236,11 @@ public class EditorActivity extends AppCompatActivity  implements
                 finish();
                 return true;
             case R.id.menu_main_search:
-
+                /*
+                   Al click di questo tasto deve essere possibile il caricamento di tutti livelli creati da altri utenti mediante un'altra activity
+                */
                 Intent intent2 = new Intent(EditorActivity.this, LevelsSearchActivity.class);
+                intent2.putExtra(STATE_CURRENT_USER,account.getEmail());
                 startActivity(intent2);
 
                 return true;

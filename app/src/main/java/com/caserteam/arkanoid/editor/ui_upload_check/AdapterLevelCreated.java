@@ -72,7 +72,7 @@ class AdapterLevelCreated extends ArrayAdapter<LevelCreatedModel> {
 
             }
         });
-        ImageButton buttonRemove = (ImageButton) convertView.findViewById(R.id.removeButton);
+        ImageButton buttonRemove = (ImageButton) convertView.findViewById(R.id.playButton);
         buttonRemove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

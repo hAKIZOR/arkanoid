@@ -75,8 +75,8 @@ public class Paddle extends View {
             this.width = width;
         }
 
-        public void resetPaddle () {
-            this.width = WIDTH;
+        public void resetPaddle (float initialWidth) {
+            this.width = initialWidth;
         }
 
         public float getX () {

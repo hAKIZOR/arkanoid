@@ -24,13 +24,16 @@ import com.caserteam.arkanoid.R;
 import com.caserteam.arkanoid.editor.ui_upload_check.LoadingDialog;
 
 public class DialogSaveLevel extends DialogFragment {
-    private static final String PATH_COLLECTION = "utenti/Davide/livelli";
+    private static final String USERS_COLLECTION = "utenti";
+    private static final String LEVELS_COLLECTION = "livelli";
     private ImageButton imageButtonClose;
     private Button buttonSave;
     private EditText editTextLevelName;
     private String nameLevel;
     private String structure;
     private String pathCollection;
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -38,7 +41,7 @@ public class DialogSaveLevel extends DialogFragment {
 
        structure = getArguments().getString(EditorActivity.STATE_STRUCTURE);
        nameLevel = getArguments().getString(EditorActivity.STATE_NAME_LEVEL);
-       pathCollection = "utenti/"+getArguments().getString(EditorActivity.STATE_CURRENT_USER)+"/livelli";
+       pathCollection = USERS_COLLECTION+ "/" + getArguments().getString(EditorActivity.STATE_CURRENT_USER) + "/" + LEVELS_COLLECTION;
 
        imageButtonClose = v.findViewById(R.id.imageButtonClose);
        buttonSave = v.findViewById(R.id.buttonCreateRoom);

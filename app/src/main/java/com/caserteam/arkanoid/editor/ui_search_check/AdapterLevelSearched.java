@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,24 +28,30 @@ import java.util.ArrayList;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-class AdapterLevelSearched extends ArrayAdapter<LevelCreatedModel> {
+class AdapterLevelSearched extends ArrayAdapter<LevelSearchedModel> {
 
     private Context mContext;
     private int  mResource;
-    private ArrayList<LevelCreatedModel> levelCreateds;
+    private ArrayList<LevelSearchedModel> levelsSearched;
     private Activity activity;
     private String pathCollection;
-    private static final String TAG = "UploadLevelActivity";
+    private ImageButton buttonPlay;
+    private TextView textViewLevel;
+    private TextView textAuthor;
+    FirebaseFirestore db;
+    private static final String TAG = "LevelsSearchActivity";
     private static final String FIELD_NAME_LEVEL = "nomeLivello";
 
 
-    public AdapterLevelSearched(Context context, int resource, ArrayList<LevelCreatedModel> levelCreateds, Activity activity, String pathCollectioon){
-        super(context,resource,levelCreateds);
+    public AdapterLevelSearched(Context context, int resource, ArrayList<LevelSearchedModel> levelsSearched,
+                                Activity activity, String pathCollection) {
+
+        super(context,resource,levelsSearched);
         this.mContext = context;
         this.mResource = resource;
-        this.levelCreateds = levelCreateds;
+        this.levelsSearched = levelsSearched;
         this.activity = activity;
-        this.pathCollection = pathCollectioon;
+        this.pathCollection = pathCollection;
     }
 
 
@@ -54,65 +61,23 @@ class AdapterLevelSearched extends ArrayAdapter<LevelCreatedModel> {
         LayoutInflater layoutInflater = LayoutInflater.from(mContext);
         convertView =layoutInflater.inflate(mResource,parent,false);
 
+        db = FirebaseFirestore.getInstance();
+
         String structure = getItem(position).getStruttura();
         String nameLevel = getItem(position).getNomeLivello();
+        String autore = getItem(position).getAutore();
 
-        TextView textViewLevel = convertView.findViewById(R.id.nameLevel);
+        textViewLevel = convertView.findViewById(R.id.textViewAuthor);
+        textViewLevel.setText(activity.getResources().getString(R.string.author_level) + autore);
+
+        textViewLevel = convertView.findViewById(R.id.nameLevel);
         textViewLevel.setText(nameLevel);
 
-        ImageButton buttonEdit = (ImageButton) convertView.findViewById(R.id.editButton);
-        buttonEdit.setOnClickListener(new View.OnClickListener() {
+        buttonPlay = (ImageButton) convertView.findViewById(R.id.playButton);
+        buttonPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(mContext,"cliccato il livello"+ nameLevel,Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(mContext, EditorActivity.class);
-                intent.putExtra(EditorActivity.STATE_STRUCTURE, structure);
-                intent.putExtra(EditorActivity.STATE_NAME_LEVEL, nameLevel);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                mContext.startActivity(intent);
-
-            }
-        });
-        ImageButton buttonRemove = (ImageButton) convertView.findViewById(R.id.removeButton);
-        buttonRemove.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                FirebaseFirestore db = FirebaseFirestore.getInstance();
-                // Create a reference to the cities collection
-                db.collection(pathCollection)
-                        .whereEqualTo(FIELD_NAME_LEVEL,nameLevel)
-                        .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()) {
-
-                            levelCreateds = new ArrayList<>();
-                            String id = null;
-                            for (DocumentSnapshot document : task.getResult()) {
-                                id = document.getId();
-                            }
-
-                            db.collection(pathCollection).document(id).delete();
-
-                        } else {
-                            Log.d(TAG,"upload non riuscito");
-                        }
-                    }
-                });
-
-                if(levelCreateds != null){
-                    Log.d(TAG,"levelCreatedsSize"+String.valueOf(levelCreateds.size()));
-                    levelCreateds.remove(position);
-                    AsyncTaskLoadResult.ListenerAsyncData listenerAsyncData = (AsyncTaskLoadResult.ListenerAsyncData)mContext;
-                    listenerAsyncData.onDataOfLevelCreatedChange(levelCreateds);
-                    notifyDataSetChanged();
-                } else {
-                    Log.d(TAG," levelCreatedSize is null");
-                }
-
-
-
+                //faccio partire il livello così da permettere al giocatore di giocarci
             }
         });
 

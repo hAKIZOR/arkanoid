@@ -30,6 +30,7 @@ public class UploadLevelActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_level);
         listViewLevels = findViewById(R.id.listLevels);
+
         getSupportActionBar().setTitle(R.string.select_level_created);
         getSupportActionBar().setHomeButtonEnabled(true);
 

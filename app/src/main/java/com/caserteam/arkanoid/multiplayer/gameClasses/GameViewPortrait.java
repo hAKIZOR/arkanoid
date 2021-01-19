@@ -11,6 +11,7 @@ import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
+import android.media.MediaPlayer;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
@@ -23,6 +24,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
 
 
@@ -33,7 +35,6 @@ public class GameViewPortrait extends Game implements ValueEventListener {
     private Point size;
     private Paint paint;
     private RectF r;
-
 
 
     public GameViewPortrait(Context context,int lifes, int score,String playerRole, DatabaseReference roomRef){
@@ -51,6 +52,7 @@ public class GameViewPortrait extends Game implements ValueEventListener {
         getBall().setX(size.x / 2);
         getBall().setY(size.y - 280);
 
+
         //setto le posizioni iniziali dei paddle
 
         paddle.setWidthp((float) (size.x * (0.1)));
@@ -62,12 +64,35 @@ public class GameViewPortrait extends Game implements ValueEventListener {
             Log.d("Game", "x---->" + String.valueOf(size.x -((size.x/4))));
             paddle2.setX(size.x/2);
             paddle2.setY((float) (size.y - (size.y / 50)));
+
             minPositionPaddle = 0;
             maxPositionPaddle = size.x/2;
             fieldXPaddle1 = "xPaddlePlayer1";
             fieldXPaddle2 = "xPaddlePlayer2";
+            fieldSizeXPlayer1 = "sizeXPlayer1";
+            fieldSizeXPlayer2 = "sizeXPlayer2";
+            fieldDpiPlayer1 = "dpiPlayer1";
+            fieldDpiPlayer2 = "dpiPlayer2";
 
-            sendToDb((size.x/2) - (paddle.getWidthp()));
+            roomRef.child(fieldDpiPlayer1).setValue(metrics.densityDpi);
+            roomRef.child(fieldSizeXPlayer1).setValue(size.x);
+
+            roomRef.child(fieldSizeXPlayer2).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    float value = Float.parseFloat(snapshot.getValue().toString());
+                    if( value != 0){
+                        sendToDb((float) ((value/2) - (value*(0.1))));
+                        roomRef.child(fieldSizeXPlayer2).removeEventListener(this);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
         } else {
             paddle.setX((size.x/2));
             paddle.setY((float) (size.y - (size.y / 50)));
@@ -77,8 +102,29 @@ public class GameViewPortrait extends Game implements ValueEventListener {
             maxPositionPaddle = size.x;
             fieldXPaddle1 = "xPaddlePlayer2";
             fieldXPaddle2 = "xPaddlePlayer1";
+            fieldSizeXPlayer1 = "sizeXPlayer2";
+            fieldSizeXPlayer2 = "sizeXPlayer1";
+            fieldDpiPlayer1 = "dpiPlayer2";
+            fieldDpiPlayer2 = "dpiPlayer1";
 
-            sendToDb((size.x/2) - (paddle.getWidthp()));
+            roomRef.child(fieldDpiPlayer1).setValue(metrics.densityDpi);
+            roomRef.child(fieldSizeXPlayer1).setValue(size.x);
+            roomRef.child(fieldSizeXPlayer2).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    float value = Float.parseFloat(snapshot.getValue().toString());
+                    if( value != 0){
+                        sendToDb(value/2);
+                        roomRef.child(fieldSizeXPlayer2).removeEventListener(this);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
         }
 
 
@@ -205,12 +251,16 @@ public class GameViewPortrait extends Game implements ValueEventListener {
     }
     @Override
     public void onDataChange(@NonNull DataSnapshot snapshot) {
+        /*
+        prendere il valore dal database così com'è
+        */
 
+        dpi2 = Float.parseFloat(snapshot.child(fieldDpiPlayer2).getValue().toString());
+        size2 = Float.parseFloat(snapshot.child(fieldSizeXPlayer2).getValue().toString());
 
-        float percent = Float.parseFloat(snapshot.child(fieldXPaddle2).getValue().toString());
-        float prop = (percent * metrics.densityDpi)/100;
-        float xPaddleConverted = convertDpToPx(context,prop);
-        paddle2.setX(xPaddleConverted);
+        float xPaddle = Float.parseFloat(snapshot.child(fieldXPaddle2).getValue().toString());
+
+        paddle2.setX(xPaddle);
 
 
     }

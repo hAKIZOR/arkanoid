@@ -56,6 +56,13 @@ public class Game extends View implements
 
     protected String fieldXPaddle1;
     protected String fieldXPaddle2;
+    protected String fieldSizeXPlayer1;
+    protected String fieldSizeXPlayer2;
+    protected String fieldDpiPlayer1;
+    protected String fieldDpiPlayer2;
+
+    protected float dpi2;
+    protected float size2;
 
     //variabili di gestione loop
     private static final int TIMINGFORWIN = 1000; // tempo di loop max, oltre questo tempo la partita viene automaticamente vinta
@@ -297,7 +304,7 @@ public class Game extends View implements
             ball.increaseSpeed(level.getNumberLevel());
             start = false;
         }
-        paddle.resetPaddle();
+        paddle.resetPaddle((float) (sizeX * (0.1)));
     }
 
 
@@ -447,20 +454,30 @@ public class Game extends View implements
 
         if(e2.getY() > (sizeY*0.75)) {
             if ((e2.getX() - (paddle.getWidthp()/2) >= minPositionPaddle && (e2.getX() - (paddle.getWidthp()/2)<= (maxPositionPaddle - paddle.getWidthp())))){
-
-                sendToDb(e2.getX() - (paddle.getWidthp()/2));
+                float p = (e2.getX() * size2) / sizeX;
+                sendToDb((float) (p - (size2*(0.1)/2)));
                 paddle.setX(e2.getX() - (paddle.getWidthp()/2));
 
 
 
             } else if ((e2.getX() - (paddle.getWidthp()/2) < minPositionPaddle)) {
 
-                sendToDb(minPositionPaddle);
+                if(playerRole.equals("player2")){
+                    sendToDb((float) (size2/2));
+                } else {
+                    sendToDb(minPositionPaddle);
+                }
+
                 paddle.setX(minPositionPaddle);
 
             } else if ((e2.getX() - (paddle.getWidthp()/2) > (maxPositionPaddle - paddle.getWidthp()))){
 
-                sendToDb(maxPositionPaddle-paddle.getWidthp());
+                if(playerRole.equals("player1")){
+                    sendToDb((float) ((size2/2)-(size2*(0.1))));
+                } else {
+                    sendToDb((float) ((size2)-(size2*(0.1))));
+                }
+
                 paddle.setX(maxPositionPaddle-paddle.getWidthp());
 
             }
@@ -632,7 +649,7 @@ public class Game extends View implements
             gameOver = true;
             start = false;
             numberLevel=1;
-            paddle.resetPaddle();
+            paddle.resetPaddle((float) (sizeX * (0.1)));
             invalidate();
         } else {
             lifes--;
@@ -717,10 +734,15 @@ public class Game extends View implements
     public float convertPxToDp(Context context, float px) {
         return px / context.getResources().getDisplayMetrics().density;
     }
-    protected void sendToDb(float pixel) {
+    protected void sendToDb(float p1) {
+        /*
+        ((Dpi2 + size2) * p1) / (Dpi1 + size1))
+        */
 
-        float value = ((convertPxToDp(context,pixel) *100)  / metrics.densityDpi);
-        roomRef.child(fieldXPaddle1).setValue(value);
+        //float value = (p1 * size2) / sizeX;
+        //float value = ((dpi2 + size2) * p1) / (metrics.densityDpi + sizeX);
+
+        roomRef.child(fieldXPaddle1).setValue(p1);
     }
 
 }
