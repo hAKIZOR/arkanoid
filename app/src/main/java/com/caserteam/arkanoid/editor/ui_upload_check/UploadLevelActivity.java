@@ -18,7 +18,7 @@ public class UploadLevelActivity extends AppCompatActivity
 
     private ListView listViewLevels;
     private AdapterLevelCreated adapterLevelCreated;
-    private ArrayList<LevelCreated> levelCreateds;
+    private ArrayList<LevelCreatedModel> levelCreateds;
     private String pathOfCollection;
     private LoadingDialog loadingDialog;
     public static final String COLLECTION_USERS = "utenti";
@@ -30,6 +30,8 @@ public class UploadLevelActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_level);
         listViewLevels = findViewById(R.id.listLevels);
+        getSupportActionBar().setTitle(R.string.select_level_created);
+        getSupportActionBar().setHomeButtonEnabled(true);
 
         String currentUser = getIntent().getStringExtra(EditorActivity.STATE_CURRENT_USER);
         pathOfCollection = COLLECTION_USERS + "/" + currentUser + "/" +COLLECTION_LEVELS;
@@ -50,7 +52,7 @@ public class UploadLevelActivity extends AppCompatActivity
     }
 
     @Override
-    public void onDataOfLevelCreatedChange(ArrayList<LevelCreated> levelCreateds) {
+    public void onDataOfLevelCreatedChange(ArrayList<LevelCreatedModel> levelCreateds) {
         /*metodo di interfaccia richiamato da AsyncTaskLoadResult e da AdapterViewCreated
         al fine di aggiornare la visualizzazione e il database a fronte di un eliminazione di item nella listView
         passando il modello di dati intrinseco alla variabile levelCreateds
@@ -58,7 +60,7 @@ public class UploadLevelActivity extends AppCompatActivity
         this.levelCreateds = levelCreateds;
 
         //aggiorno l'adapter per poi settare la listView che contiene i livelli
-        adapterLevelCreated = new AdapterLevelCreated(UploadLevelActivity.this,R.layout.row_layout,levelCreateds,UploadLevelActivity.this,pathOfCollection);
+        adapterLevelCreated = new AdapterLevelCreated(UploadLevelActivity.this,R.layout.row_layout_levels_created,levelCreateds,UploadLevelActivity.this,pathOfCollection);
         listViewLevels.setAdapter(adapterLevelCreated);
         loadingDialog.dismissDialog();
         listViewLevels.setOnItemClickListener(new AdapterView.OnItemClickListener() {

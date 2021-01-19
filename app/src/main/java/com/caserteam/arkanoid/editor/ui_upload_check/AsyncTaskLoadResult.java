@@ -1,22 +1,16 @@
 package com.caserteam.arkanoid.editor.ui_upload_check;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
-
-import com.caserteam.arkanoid.editor.ui_plus_check.FragmentDetailBricks;
 
 // AsyncTask<Params, Progress, Result>.
 //    Params – nessun parametro da passare in doInBackGround
@@ -25,8 +19,8 @@ import com.caserteam.arkanoid.editor.ui_plus_check.FragmentDetailBricks;
 //    nonchè valore di ritorno per il doInBackGround e parametro di input passato a onPostExecute
 // Any of them can be String, Integer, Void, etc.
 
-public class AsyncTaskLoadResult extends AsyncTask<Void, Void, ArrayList<LevelCreated>> {
-    private ArrayList<LevelCreated> levelCreateds;
+public class AsyncTaskLoadResult extends AsyncTask<Void, Void, ArrayList<LevelCreatedModel>> {
+    private ArrayList<LevelCreatedModel> levelCreateds;
     private ListenerAsyncData listenerAsyncData;
     private Context context;
     private UploadLevelActivity activity;
@@ -47,7 +41,7 @@ public class AsyncTaskLoadResult extends AsyncTask<Void, Void, ArrayList<LevelCr
 
     // esecuzione del thread
     @Override
-    protected ArrayList<LevelCreated> doInBackground(Void ...voids) {
+    protected ArrayList<LevelCreatedModel> doInBackground(Void ...voids) {
 
         // attendo e effettuo il retrieving dei dati dalla collection livelli di un utente
 
@@ -64,7 +58,7 @@ public class AsyncTaskLoadResult extends AsyncTask<Void, Void, ArrayList<LevelCr
         if(task.isSuccessful()){
             levelCreateds = new ArrayList<>();
             for(DocumentSnapshot documentSnapshot : task.getResult()){
-                levelCreateds.add(documentSnapshot.toObject(LevelCreated.class));
+                levelCreateds.add(documentSnapshot.toObject(LevelCreatedModel.class));
             }
         }
 
@@ -78,7 +72,7 @@ public class AsyncTaskLoadResult extends AsyncTask<Void, Void, ArrayList<LevelCr
 
     // una volta finito il thread di retrieving dei dati accedo alla thread di UI
     @Override
-    protected void onPostExecute(ArrayList<LevelCreated> result) {
+    protected void onPostExecute(ArrayList<LevelCreatedModel> result) {
         listenerAsyncData = (ListenerAsyncData) context;
         // attivo la chiamata a fronte della modifica nel model di dati contenuto in result
         listenerAsyncData.onDataOfLevelCreatedChange(result);
@@ -86,14 +80,14 @@ public class AsyncTaskLoadResult extends AsyncTask<Void, Void, ArrayList<LevelCr
 
     }
 
-    public void setLevelCreateds(ArrayList<LevelCreated> levelCreateds) {
+    public void setLevelCreateds(ArrayList<LevelCreatedModel> levelCreateds) {
         this.levelCreateds = levelCreateds;
     }
 
-    public ArrayList<LevelCreated> getLevelCreateds() {
+    public ArrayList<LevelCreatedModel> getLevelCreateds() {
         return levelCreateds;
     }
     public  interface ListenerAsyncData {
-         void onDataOfLevelCreatedChange(ArrayList<LevelCreated> levelCreateds);
+         void onDataOfLevelCreatedChange(ArrayList<LevelCreatedModel> levelCreateds);
     }
 }

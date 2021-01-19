@@ -1,4 +1,4 @@
-package com.caserteam.arkanoid.editor.ui_upload_check;
+package com.caserteam.arkanoid.editor.ui_search_check;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,7 +12,10 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
+import com.caserteam.arkanoid.R;
+import com.caserteam.arkanoid.editor.EditorActivity;
+import com.caserteam.arkanoid.editor.ui_upload_check.AsyncTaskLoadResult;
+import com.caserteam.arkanoid.editor.ui_upload_check.LevelCreatedModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -23,10 +26,8 @@ import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import com.caserteam.arkanoid.editor.EditorActivity;
-import com.caserteam.arkanoid.R;
 
-class AdapterLevelCreated extends ArrayAdapter<LevelCreatedModel> {
+class AdapterLevelSearched extends ArrayAdapter<LevelCreatedModel> {
 
     private Context mContext;
     private int  mResource;
@@ -37,7 +38,7 @@ class AdapterLevelCreated extends ArrayAdapter<LevelCreatedModel> {
     private static final String FIELD_NAME_LEVEL = "nomeLivello";
 
 
-    public AdapterLevelCreated(Context context, int resource, ArrayList<LevelCreatedModel> levelCreateds, Activity activity, String pathCollectioon){
+    public AdapterLevelSearched(Context context, int resource, ArrayList<LevelCreatedModel> levelCreateds, Activity activity, String pathCollectioon){
         super(context,resource,levelCreateds);
         this.mContext = context;
         this.mResource = resource;

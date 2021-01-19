@@ -46,4 +46,7 @@
     <string name="save_level_dialog">guardar nivel</string>
     <string name="insert_name_level_hint">ingrese el nombre del nivel</string>
     <string name="save_label">salvar</string>
+    <string name="select_level_created">editar o eliminar capas</string>
+    <string name="select_level_to_play">selecciona un nivel para jugar</string>
+    <string name="author_level">"autor: "</string>
 </resources>

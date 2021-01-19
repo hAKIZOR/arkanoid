@@ -14,6 +14,7 @@ import com.caserteam.arkanoid.editor.ui_plus_check.BottomSheetDialog;
 import com.caserteam.arkanoid.editor.ui_plus_check.FragmentDetailBricks;
 import com.caserteam.arkanoid.editor.ui_plus_check.FragmentDetailsObstacles;
 import com.caserteam.arkanoid.editor.ui_save_check.DialogSaveLevel;
+import com.caserteam.arkanoid.editor.ui_search_check.LevelsSearchActivity;
 import com.caserteam.arkanoid.editor.ui_upload_check.LoadingDialog;
 import com.caserteam.arkanoid.editor.ui_upload_check.UploadLevelActivity;
 import com.caserteam.arkanoid.editor.PromptUtils;
@@ -222,6 +223,12 @@ public class EditorActivity extends AppCompatActivity  implements
                 Intent intent1 = new Intent(EditorActivity.this, MenuActivity.class);
                 startActivity(intent1);
                 finish();
+                return true;
+            case R.id.menu_main_search:
+
+                Intent intent2 = new Intent(EditorActivity.this, LevelsSearchActivity.class);
+                startActivity(intent2);
+
                 return true;
 
         }

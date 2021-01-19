@@ -19,7 +19,7 @@ public class LoadingDialog {
     private LoadingDialogClickListener loadingDialogClickListener;
     private Object dataToCancel;
 
-    public LoadingDialog(Activity activity){
+    public LoadingDialog(Activity activity) {
         this.activity = activity;
     }
     public void setDataToCancel(Object dataToCancel){

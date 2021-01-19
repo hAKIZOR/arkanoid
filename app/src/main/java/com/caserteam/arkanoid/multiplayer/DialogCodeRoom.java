@@ -2,7 +2,6 @@ package com.caserteam.arkanoid.multiplayer;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,28 +9,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
-import com.caserteam.arkanoid.editor.ui_plus_check.FragmentDetailBricks;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.HashMap;
-import java.util.Map;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import com.caserteam.arkanoid.editor.EditorActivity;
-import com.caserteam.arkanoid.editor.FirebaseUtility;
+
 import com.caserteam.arkanoid.R;
-import com.caserteam.arkanoid.editor.editor_module.Editor;
-import com.caserteam.arkanoid.editor.ui_upload_check.LoadingDialog;
-import com.caserteam.arkanoid.editor.ui_upload_check.UploadLevelActivity;
 
 public class DialogCodeRoom extends DialogFragment {
     private static final String PATH_COLLECTION = "utenti/Davide/livelli";
