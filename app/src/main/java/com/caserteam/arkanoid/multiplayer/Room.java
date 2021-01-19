@@ -19,7 +19,8 @@ public class Room {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
 
-    public Room( String player1, String player2, int xSpeedBall,int ySpeedBall,float xPaddlePlayer1, float xPaddlePlayer2) {
+    public Room( String player1, String player2, int xSpeedBall,
+                 int ySpeedBall,float xPaddlePlayer1, float xPaddlePlayer2) {
         this.player1 = player1;
         this.player2 = player2;
         this.xSpeedBall = xSpeedBall;

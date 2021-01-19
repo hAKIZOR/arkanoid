@@ -20,9 +20,7 @@ public class LoadingDialog {
     private Object dataToCancel;
 
     public LoadingDialog(Activity activity){
-
         this.activity = activity;
-        loadingDialogClickListener = (LoadingDialogClickListener) activity;
     }
     public void setDataToCancel(Object dataToCancel){
         this.dataToCancel = dataToCancel;
@@ -40,6 +38,7 @@ public class LoadingDialog {
         buttonCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                loadingDialogClickListener = (LoadingDialogClickListener) activity;
                 loadingDialogClickListener.onClickButtonCancel(dataToCancel);
             }
         });

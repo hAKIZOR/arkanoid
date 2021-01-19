@@ -11,7 +11,7 @@ public class Paddle extends View {
     private float x;
     private float y;
     private int height;
-    private int width;
+    private float width;
     private static final int WIDTH = 100; //larghezza iniziale paddle
     private static final int HEIGHT = 40; //altezza iniziale paddle
     private static final int MIN_WIDTH = 100; //larghezza minima paddle
@@ -64,9 +64,11 @@ public class Paddle extends View {
         return height;
         }
 
-
-        public int getWidthp() {
+        public float getWidthp() {
         return width;
+        }
+        public void setWidthp(float width) {
+            this.width =  width;
         }
 
     public void setWidth (int width){

@@ -12,6 +12,7 @@ import android.hardware.SensorManager;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -85,7 +86,7 @@ public class Game extends View implements
         return accelerometer;
     }
 
-    private Context context;
+    protected Context context;
     private Ball ball;
     protected Paddle paddle;
     protected Paddle paddle2;
@@ -112,6 +113,8 @@ public class Game extends View implements
     AudioAttributes audioAttributes;
     protected String playerRole;
     protected DatabaseReference roomRef;
+    protected DisplayMetrics metrics;
+
     public Game(Context context, int lifes, int score, String playerRole,DatabaseReference roomRef) {
         super(context);
         this.roomRef = roomRef;
@@ -129,6 +132,7 @@ public class Game extends View implements
 
         this.playerRole = playerRole;
 
+        metrics = getResources().getDisplayMetrics();
 
 
 
@@ -443,18 +447,21 @@ public class Game extends View implements
 
         if(e2.getY() > (sizeY*0.75)) {
             if ((e2.getX() - (paddle.getWidthp()/2) >= minPositionPaddle && (e2.getX() - (paddle.getWidthp()/2)<= (maxPositionPaddle - paddle.getWidthp())))){
+
+                sendToDb(e2.getX() - (paddle.getWidthp()/2));
                 paddle.setX(e2.getX() - (paddle.getWidthp()/2));
-                roomRef.child(fieldXPaddle1).setValue(paddle.getX());
 
 
-            } else if ((e2.getX() - (paddle.getWidthp()/2) < minPositionPaddle)){
+
+            } else if ((e2.getX() - (paddle.getWidthp()/2) < minPositionPaddle)) {
+
+                sendToDb(minPositionPaddle);
                 paddle.setX(minPositionPaddle);
-                roomRef.child(fieldXPaddle1).setValue(minPositionPaddle);
 
             } else if ((e2.getX() - (paddle.getWidthp()/2) > (maxPositionPaddle - paddle.getWidthp()))){
 
+                sendToDb(maxPositionPaddle-paddle.getWidthp());
                 paddle.setX(maxPositionPaddle-paddle.getWidthp());
-                roomRef.child(fieldXPaddle1).setValue(paddle.getX());
 
             }
 
@@ -599,12 +606,12 @@ public class Game extends View implements
                     break;
             case 3:
                     if(paddle.getWidthp() < paddle.getMaxWidth()) {
-                        paddle.setWidth(paddle.getWidthp() + 50);
+                        paddle.setWidthp(paddle.getWidthp() + 50);
                     }
                     break;
             case 4:
                 if(paddle.getWidthp() > paddle.getMinWidth()) {
-                    paddle.setWidth(paddle.getWidthp() - 50);
+                    paddle.setWidthp(paddle.getWidthp() - 50);
                 }
                 break;
             case 5:
@@ -704,6 +711,16 @@ public class Game extends View implements
     public int getLaserSoundRemaining() {
         return laserSoundRemaining;
     }
+    public float convertDpToPx(Context context, float dp) {
+        return dp * context.getResources().getDisplayMetrics().density;
+    }
+    public float convertPxToDp(Context context, float px) {
+        return px / context.getResources().getDisplayMetrics().density;
+    }
+    protected void sendToDb(float pixel) {
 
+        float value = ((convertPxToDp(context,pixel) *100)  / metrics.densityDpi);
+        roomRef.child(fieldXPaddle1).setValue(value);
+    }
 
 }

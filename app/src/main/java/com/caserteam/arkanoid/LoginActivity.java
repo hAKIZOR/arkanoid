@@ -51,6 +51,7 @@ public  class LoginActivity extends AppCompatActivity {
         DatabaseReference roomRef;
         public static final String KEY_PREFERENCES_USER_INFORMATION ="UserInformation";
         public static final String KEY_NICKNAME_PREFERENCES = "nickname";
+        private static final String USERS_COLLECTION = "utenti";
         SharedPreferences preferences ;
 
 
@@ -144,11 +145,11 @@ public  class LoginActivity extends AppCompatActivity {
             try{
 
                 GoogleSignInAccount acc = completedTask.getResult(ApiException.class);
-                Toast.makeText(LoginActivity.this,"Signed In Successfully",Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this,getResources().getString(R.string.signed_in_fmt),Toast.LENGTH_SHORT).show();
                 FirebaseGoogleAuth(acc);
             }
             catch (ApiException e){
-                Toast.makeText(LoginActivity.this,"Sign In Failed",Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this,getResources().getString(R.string.signin_other_error),Toast.LENGTH_SHORT).show();
                 FirebaseGoogleAuth(null);
             }
         }
@@ -161,18 +162,18 @@ public  class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(LoginActivity.this, "Successful", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, getResources().getString(R.string.signed_in_fmt), Toast.LENGTH_SHORT).show();
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
                         } else {
-                            Toast.makeText(LoginActivity.this, "Failed", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, getResources().getString(R.string.signin_other_error), Toast.LENGTH_SHORT).show();
                             updateUI(null);
                         }
                     }
                 });
             }
             else{
-                Toast.makeText(LoginActivity.this, "acc failed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, getResources().getString(R.string.signin_other_error), Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -189,7 +190,7 @@ public  class LoginActivity extends AppCompatActivity {
                 Uri personPhoto = account.getPhotoUrl();
 
 
-                db.collection("utenti").document(personEmail)
+                db.collection(USERS_COLLECTION).document(personEmail)
                         .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {

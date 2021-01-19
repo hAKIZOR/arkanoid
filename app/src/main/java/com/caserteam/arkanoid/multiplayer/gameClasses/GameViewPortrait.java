@@ -11,6 +11,8 @@ import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 
@@ -50,26 +52,33 @@ public class GameViewPortrait extends Game implements ValueEventListener {
         getBall().setY(size.y - 280);
 
         //setto le posizioni iniziali dei paddle
+
+        paddle.setWidthp((float) (size.x * (0.1)));
+        paddle2.setWidthp((float) (size.x * (0.1)));
+
         if(playerRole.equals("player1")) {
-            paddle.setX((size.x/4) - (paddle.getWidthp()/2));
+            paddle.setX((size.x/2) - (paddle.getWidthp()));
             paddle.setY((float) (size.y - (size.y / 50)));
-            paddle2.setX((size.x/2) + (paddle.getWidthp()/2));
+            Log.d("Game", "x---->" + String.valueOf(size.x -((size.x/4))));
+            paddle2.setX(size.x/2);
             paddle2.setY((float) (size.y - (size.y / 50)));
             minPositionPaddle = 0;
             maxPositionPaddle = size.x/2;
             fieldXPaddle1 = "xPaddlePlayer1";
             fieldXPaddle2 = "xPaddlePlayer2";
-            roomRef.child(fieldXPaddle1).setValue((size.x/4) - (paddle.getWidthp()/2));
+
+            sendToDb((size.x/2) - (paddle.getWidthp()));
         } else {
-            paddle.setX((size.x/2) + (paddle.getWidthp()/2));
+            paddle.setX((size.x/2));
             paddle.setY((float) (size.y - (size.y / 50)));
-            paddle2.setX(size.x/4 - (paddle.getWidthp()/2));
+            paddle2.setX((size.x/2) - (paddle.getWidthp()));
             paddle2.setY((float) (size.y - (size.y / 50)));
             minPositionPaddle = size.x/2;
             maxPositionPaddle = size.x;
             fieldXPaddle1 = "xPaddlePlayer2";
             fieldXPaddle2 = "xPaddlePlayer1";
-            roomRef.child(fieldXPaddle1).setValue((size.x/2) + (paddle.getWidthp()/2));
+
+            sendToDb((size.x/2) - (paddle.getWidthp()));
         }
 
 
@@ -99,6 +108,8 @@ public class GameViewPortrait extends Game implements ValueEventListener {
         }
         this.setOnTouchListener(this);
     }
+
+
 
     // impostare lo sfondo
     private void setBackground(Context context) {
@@ -195,8 +206,11 @@ public class GameViewPortrait extends Game implements ValueEventListener {
     @Override
     public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-        float xPaddle = Float.parseFloat(snapshot.child(fieldXPaddle2).getValue().toString());
-        paddle2.setX(xPaddle);
+
+        float percent = Float.parseFloat(snapshot.child(fieldXPaddle2).getValue().toString());
+        float prop = (percent * metrics.densityDpi)/100;
+        float xPaddleConverted = convertDpToPx(context,prop);
+        paddle2.setX(xPaddleConverted);
 
 
     }

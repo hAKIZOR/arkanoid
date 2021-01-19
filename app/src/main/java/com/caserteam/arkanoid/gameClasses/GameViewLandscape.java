@@ -109,7 +109,6 @@ public class GameViewLandscape extends Game{
                 r = new RectF(b.getX(), b.getY(), b.getX() + getBrickHeight(), b.getY()+ getBrickBase());
                 canvas.drawBitmap(b.getBrick(), null, r, paint);
 
-
         }
 
         //disegna powerUp
@@ -165,6 +164,7 @@ public class GameViewLandscape extends Game{
             } else if (getPaddle().getX() - event.values[1] <= 20) {
                 getPaddle().setX(20);
             }
+
         }
     }
 

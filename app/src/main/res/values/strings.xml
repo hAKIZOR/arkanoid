@@ -1,46 +1,56 @@
 <resources>
     <string name="app_name" translatable="false">Arkanoid</string>
     <string name="package_name" translatable="false">com.caserteam.arkanoid</string>
-    <string name="welcome_text">Benvenuto</string>
-    <string name="menu_principale">Menu Principale</string>
-    <string name="arcade" translatable="false">Arcade</string>
-    <string name="impostazioni">Impostazioni</string>
-    <string name="editor_livelli">Editor Livelli</string>
-    <string name="classifica">Classifica</string>
-    <string name="imposta_lingua">imposta lingua:</string>
-    <string name="ita" translatable="false">ITA</string>
-    <string name="eng" translatable="false">ENG</string>
-    <string name="esp" translatable="false">ESP</string>
-    <string name="salva">Salva</string>
-    <string name="developed">Sviluppato da</string>
-    <string name="imposta_sistema_di_controllo">Imposta sistema di controllo</string>
-    <string name="scorri_con_il_dito">scorri con il dito</string>
-    <string name="muovi_il_telefono">muovi il telefono</string>
-    <string name="imposta_esistenza_audio">imposta audio</string>
-    <string name="audio_on">attivato</string>
-    <string name="audio_off">disattivato</string>
-    <string name="title_activity_leader_board">Classifica</string>
+    <string name="sign_out_button" translatable="false">Log Out</string>
+    <string name="firebase_root" translatable="false">https://arkanoid-d46b0-default-rtdb.europe-west1.firebasedatabase.app</string>
+
+
+    <!-- label registrazione utente -->
+    <string name="inserisci_un_nickname">Inserisci un Nickname</string>
+    <string name="avanti">Avanti</string>
+    <string name="nickname" translatable="false">nickname</string>
+
+    <!-- label della classifica -->
     <string name="tab_text_1">Locale</string>
     <string name="tab_text_2">Globale</string>
-    <string name="sign_out_button" translatable="false">Log Out</string>
-    <string name="create_room_button">crea</string>
-    <string name="join_room_button">accedi</string>
-    <string name="create_or_join_room">crea o accedi alla stanza</string>
-    <string name="insert_room">inserisci codice stanza </string>
-    <string name="signin_other_error">Errore nel login</string>
+    <string name="title_activity_leader_board">Classifica</string>
+
+    <!-- label del login -->
     <string name="need_login">Devi essere loggato per poter accedere!</string>
     <string name="signed_out">Log out effettuato</string>
     <string name="signed_in_fmt">Login completato</string>
     <string name="guest_button">Gioca offline</string>
-    <string name="inserisci_un_nickname">Inserisci un Nickname</string>
-    <string name="avanti">Avanti</string>
-    <string name="nickname" translatable="false">nickname</string>
+    <string name="signin_other_error">Errore nel login</string>
+
+    <!-- label menu principale -->
+    <string name="menu_principale">Menu Principale</string>
+    <string name="welcome_text">Benvenuto</string>
+    <string name="classifica">Classifica</string>
+    <string name="arcade" translatable="false">Arcade</string>
     <string name="multiplayer">Multiplayer</string>
-    <string name="seleziona_tipologia_partita">Seleziona tipologia partita</string>
-    <string name="matchmaking">matchmaking</string>
-    <string name="privata">privata</string>
-    <string name="cancel_button">annulla</string>
-    <string name="firebase_root" translatable="false">https://arkanoid-d46b0-default-rtdb.europe-west1.firebasedatabase.app</string>
+    <string name="impostazioni">Impostazioni</string>
+    <string name="editor_livelli">Editor Livelli</string>
+
+
+    <!-- label SplashScreen -->
+    <string name="developed">Sviluppato da</string>
+
+    <!-- label ActivitySettings -->
+    <string name="ita" translatable="false">ITA</string>
+    <string name="eng" translatable="false">ENG</string>
+    <string name="esp" translatable="false">ESP</string>
+    <string name="imposta_lingua">imposta lingua:</string>
+    <string name="imposta_sistema_di_controllo">Imposta sistema di controllo</string>
+    <string name="imposta_esistenza_audio">imposta audio</string>
+    <string name="audio_on">attivato</string>
+    <string name="audio_off">disattivato</string>
+    <string name="scorri_con_il_dito">scorri con il dito</string>
+    <string name="muovi_il_telefono">muovi il telefono</string>
+
+    <!-- label save level dialog -->
+    <string name="save_level_dialog">Salva livello</string>
+    <string name="insert_name_level_hint">inserisci nome livello</string>
+    <string name="save_label">Salva</string>
 
     <!-- messaggi di caricamento  -->
 
@@ -53,12 +63,20 @@
     <string name="wait_loading_game_room">attendo il caricamento della partita</string>
 
 
-    <!-- feedback accesso/creazione stanza -->
+    <!-- label del multiplayer -->
+    <string name="seleziona_tipologia_partita">Seleziona tipologia partita</string>
+    <string name="matchmaking">matchmaking</string>
+    <string name="privata">privata</string>
+    <string name="insert_room">inserisci codice stanza </string>
+    <string name="create_room_button">crea</string>
+    <string name="join_room_button">accedi</string>
+    <string name="create_or_join_room">crea o accedi alla stanza</string>
     <string name="error_exist_room">esiste una room con questo codice</string>
     <string name="error_room_already_taken">stanza di gioco occupata</string>
     <string name="error_room_already_created">stanza ancora non creata</string>
     <string name="error_access_room_with_same_profile">impossibile accedere alla stanza</string>
-
+    <string name="cancel_button">annulla</string>
+    <string name="salva">Salva</string>
 
 
 </resources>

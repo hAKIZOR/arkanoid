@@ -43,5 +43,8 @@
     <string name="load_level_selected">loading selected level</string>
     <string name="delete_level">level deletion in progress</string>
     <string name="welcome_text">Welcome</string>
+    <string name="save_level_dialog">Save Level</string>
+    <string name="insert_name_level_hint">insert name level</string>
+    <string name="save_label">save</string>
 
 </resources>

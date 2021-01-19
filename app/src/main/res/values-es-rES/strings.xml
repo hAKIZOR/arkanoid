@@ -43,4 +43,7 @@
     <string name="load_levels_created">cargando niveles creados</string>
     <string name="load_level_selected">cargando el nivel seleccionado</string>
     <string name="welcome_text">Bienvenidos</string>
+    <string name="save_level_dialog">guardar nivel</string>
+    <string name="insert_name_level_hint">ingrese el nombre del nivel</string>
+    <string name="save_label">salvar</string>
 </resources>
