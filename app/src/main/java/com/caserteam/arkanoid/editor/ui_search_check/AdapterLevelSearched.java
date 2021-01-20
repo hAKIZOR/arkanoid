@@ -65,7 +65,7 @@ class AdapterLevelSearched extends ArrayAdapter<LevelSearchedModel> {
 
         String structure = getItem(position).getStruttura();
         String nameLevel = getItem(position).getNomeLivello();
-        String autore = getItem(position).getAutore();
+        String autore = getItem(position).getNickname();
 
         textViewLevel = convertView.findViewById(R.id.textViewAuthor);
         textViewLevel.setText(activity.getResources().getString(R.string.author_level) + autore);

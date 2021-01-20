@@ -11,6 +11,7 @@ import android.widget.ListView;
 
 import com.caserteam.arkanoid.R;
 import com.caserteam.arkanoid.editor.EditorActivity;
+import com.caserteam.arkanoid.editor.editor_module.Editor;
 import com.caserteam.arkanoid.editor.ui_upload_check.LoadingDialog;
 import com.caserteam.arkanoid.editor.ui_upload_check.UploadLevelActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -26,50 +27,58 @@ public class LevelsSearchActivity extends AppCompatActivity {
     private AdapterLevelSearched adapterLevelSearched;
     private ListView listViewLevelsSearched;
     private LoadingDialog loadingDialog;
-    private String pathOfCollection;
-    public static final String COLLECTION_USERS = "utenti";
-    public static final String COLLECTION_LEVELS = "livelli";
-    public static final String FIELD_NICKNAME = "nickname";
+    private  String nickname;
+    public static final String COLLECTION_SHARED_LEVEL = "livelliCondivisi";
 
+    public static final String FIELD_NICKNAME = "nickname";
     public static final String FIELD_NAME_LEVEL = "nomeLivello";
     public static final String FIELD_NAME_STRUCTURE_LEVEL = "struttura";
+
     private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_levels_search);
+
         getSupportActionBar().setTitle(R.string.select_level_to_play);
         getSupportActionBar().setHomeButtonEnabled(true);
+
+        listViewLevelsSearched = findViewById(R.id.listLevelsToPlay);
+        levelsSearched = new ArrayList<LevelSearchedModel>();
+
+        loadingDialog = new LoadingDialog(LevelsSearchActivity.this);
+        loadingDialog.startDialog(getResources().getString(R.string.load_level_to_search));
+
+        nickname = getIntent().getStringExtra(EditorActivity.STATE_CURRENT_USER);
         db = FirebaseFirestore.getInstance();
 
-        String currentUser = getIntent().getStringExtra(EditorActivity.STATE_CURRENT_USER);
-
-        /*db.collection(COLLECTION_USERS).get().addOnCompleteListener(
+        db.collection(COLLECTION_SHARED_LEVEL).get().addOnCompleteListener(
                 new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            for(DocumentSnapshot user: task.getResult()){
-                                if(user.getId() != currentUser ){
 
+                        // travaso le info dal database a levelsSearched
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot levelShared : task.getResult()) {
+                                if(!levelShared.get(FIELD_NICKNAME).equals(nickname)){
+                                    levelsSearched.add(levelShared.toObject(LevelSearchedModel.class));
+                                }
                             }
+                            //aggiorno l'adapter per poi settare la listView che contiene i livelli
+
+                            adapterLevelSearched = new AdapterLevelSearched(LevelsSearchActivity.this,R.layout.row_layout_leves_to_play,
+                            levelsSearched,LevelsSearchActivity.this,COLLECTION_SHARED_LEVEL);
+                            listViewLevelsSearched.setAdapter(adapterLevelSearched);
+                            loadingDialog.dismissDialog();
+
+                        } else {
+
                         }
+
+
                     }
-                }
-        );
-
-        // travaso le info dal database a levelsSearched
-
-
-
-        //aggiorno l'adapter per poi settare la listView che contiene i livelli
-
-        adapterLevelSearched = new AdapterLevelSearched(LevelsSearchActivity.this,R.layout.row_layout_levels_created,
-        levelsSearched,LevelsSearchActivity.this,COLLECTION_USERS);
-        listViewLevelsSearched.setAdapter(adapterLevelSearched);
-        loadingDialog.dismissDialog();
-         */
+                });
 
 
     }

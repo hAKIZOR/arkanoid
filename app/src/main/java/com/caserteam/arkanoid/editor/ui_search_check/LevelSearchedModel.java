@@ -3,26 +3,39 @@ package com.caserteam.arkanoid.editor.ui_search_check;
 public class LevelSearchedModel {
     private String nomeLivello;
     private String struttura;
-    private String autore;
+    private String nickname;
 
     public LevelSearchedModel(){
     }
-    public LevelSearchedModel(String nameLevel, String structure,String autore){
-        this.nomeLivello = nameLevel;
-        this.struttura = structure;
-        this.autore = autore;
+
+    public LevelSearchedModel(String nickname, String nomeLivello,String struttura){
+        this.nomeLivello = nomeLivello;
+        this.struttura = struttura;
+        this.nickname = nickname;
     }
 
     public String getNomeLivello() {
         return nomeLivello;
     }
 
-    public void setNomeLivello(String nameLevel) {
-        this.nomeLivello = nameLevel;
+    public void setNomeLivello(String nomeLivello) {
+        this.nomeLivello = nomeLivello;
     }
 
     public String getStruttura() {
         return struttura;
+    }
+
+    public void setStruttura(String structure) {
+        this.struttura = structure;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
     @Override
@@ -30,19 +43,7 @@ public class LevelSearchedModel {
         return "LevelCreated{" +
                 "nomeLivello='" + nomeLivello + '\'' +
                 ", struttura='" + struttura + '\'' +
-                ", struttura='" + autore + '\'' +
+                ", struttura='" + nickname + '\'' +
                 '}';
-    }
-
-    public void setStruttura(String structure) {
-        this.struttura = structure;
-    }
-
-    public String getAutore() {
-        return autore;
-    }
-
-    public void setAutore(String autore) {
-        this.autore = autore;
     }
 }

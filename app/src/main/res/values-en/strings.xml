@@ -49,5 +49,6 @@
     <string name="select_level_created">edit or delete layers</string>
     <string name="select_level_to_play">select a level to play</string>
     <string name="author_level">author:</string>
+    <string name="load_level_to_search">load shared levels</string>
 
 </resources>

@@ -6,6 +6,7 @@
     <string name="select_level_created">modifica o elimina livelli</string>
     <string name="select_level_to_play">seleziona un livello per giocarci</string>
     <string name="author_level">autore: </string>
+    <string name="load_level_to_search">caricamento livelli condivisi</string>
 
     <!-- label registrazione utente -->
     <string name="inserisci_un_nickname">Inserisci un Nickname</string>

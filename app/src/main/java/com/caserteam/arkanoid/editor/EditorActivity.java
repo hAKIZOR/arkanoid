@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NavUtils;
 import androidx.core.view.GestureDetectorCompat;
 
+import com.caserteam.arkanoid.LoginActivity;
 import com.caserteam.arkanoid.MenuActivity;
 import com.caserteam.arkanoid.R;
 import com.caserteam.arkanoid.editor.editor_module.Editor;
@@ -44,6 +45,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 /*
 TO DO:
@@ -62,7 +66,7 @@ public class EditorActivity extends AppCompatActivity  implements
     public static final String STATE_NAME_LEVEL = "nameLevel";
     public static final String STATE_STRUCTURE = "structure";
     public static final String STATE_NICKNAME = "nickname";
-    private String nackname;
+    private String nickname;
     private boolean fullScreen = false;
     private Editor editor;
     private Handler updateHandler;
@@ -72,12 +76,14 @@ public class EditorActivity extends AppCompatActivity  implements
     private String nameLevel;
     private GoogleSignInClient mGoogleSignInClient;
     private GoogleSignInAccount account;
+    private SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getNickameFromPreferences();
+        preferences = getSharedPreferences(LoginActivity.KEY_PREFERENCES_USER_INFORMATION,MODE_PRIVATE);
+        nickname = preferences.getString(LoginActivity.KEY_NICKNAME_PREFERENCES,"");
 
         initializeSessionOption();
 
@@ -96,11 +102,6 @@ public class EditorActivity extends AppCompatActivity  implements
 
     }
 
-    private void getNickameFromPreferences() {
-        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
-        preferences.getString(STATE_NICKNAME,null);
-
-    }
 
     private void initializeSessionOption() {
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -203,19 +204,12 @@ public class EditorActivity extends AppCompatActivity  implements
                 Al click di questo tasto deve essere possibile l'inserimento del nome del livello attraverso una finestra di
                 dialogo con i bottoni "salva" e "annulla" oltre che la EditText del nome del livello
                 */
+
+                Log.d("EditorActivity----->", nickname);
                 structure = editor.convertListBrickToString();
                 if(structure != null){
-
-                        Bundle bundle = new Bundle();
-                        bundle.putString(STATE_STRUCTURE, structure);
-                        bundle.putString(STATE_NAME_LEVEL, nameLevel);
-                        //bundle.getString(STATE_NICKNAME, nickname);
-                        bundle.putString(STATE_CURRENT_USER,account.getEmail());
-                        DialogSaveLevel dialogSaveLevel = new DialogSaveLevel();
-                        dialogSaveLevel.setArguments(bundle);
+                        DialogSaveLevel dialogSaveLevel = new DialogSaveLevel(structure,nameLevel,nickname,account.getEmail());
                         dialogSaveLevel.show(getSupportFragmentManager(),"DialogFragmentSave");
-
-
                 } else {
                     editor.getPromptUtils().showMessage(PromptUtils.SAVE_FAILED_NO_BRICK_IN_THE_GRID);
                 }
@@ -240,7 +234,7 @@ public class EditorActivity extends AppCompatActivity  implements
                    Al click di questo tasto deve essere possibile il caricamento di tutti livelli creati da altri utenti mediante un'altra activity
                 */
                 Intent intent2 = new Intent(EditorActivity.this, LevelsSearchActivity.class);
-                intent2.putExtra(STATE_CURRENT_USER,account.getEmail());
+                intent2.putExtra(STATE_CURRENT_USER,nickname);
                 startActivity(intent2);
 
                 return true;
