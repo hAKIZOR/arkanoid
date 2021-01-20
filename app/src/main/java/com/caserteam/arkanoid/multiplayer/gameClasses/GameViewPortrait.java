@@ -27,6 +27,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
 
+import okhttp3.internal.cache.DiskLruCache;
+
 
 public class GameViewPortrait extends Game implements ValueEventListener {
 
@@ -71,10 +73,15 @@ public class GameViewPortrait extends Game implements ValueEventListener {
             fieldXPaddle2 = "xPaddlePlayer2";
             fieldSizeXPlayer1 = "sizeXPlayer1";
             fieldSizeXPlayer2 = "sizeXPlayer2";
-            fieldDpiPlayer1 = "dpiPlayer1";
-            fieldDpiPlayer2 = "dpiPlayer2";
+            fieldSizeYPlayer1 = "sizeYPlayer1";
+            fieldSizeYPlayer2 = "sizeYPlayer2";
+            fieldxBall="xBall";
+            fieldyBall="yBall";
+            fieldxSpeedBall="xSpeedBall";
+            fieldySpeedBall="ySpeedBall";
+            fieldStarted="started";
 
-            roomRef.child(fieldDpiPlayer1).setValue(metrics.densityDpi);
+
             roomRef.child(fieldSizeXPlayer1).setValue(size.x);
 
             roomRef.child(fieldSizeXPlayer2).addValueEventListener(new ValueEventListener() {
@@ -93,6 +100,21 @@ public class GameViewPortrait extends Game implements ValueEventListener {
                 }
             });
 
+            roomRef.child(fieldSizeYPlayer2).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    float value = Float.parseFloat(snapshot.getValue().toString());
+                    if( value != 0){
+                        size2Y=value;
+                        roomRef.child(fieldSizeYPlayer2).removeEventListener(this);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
         } else {
             paddle.setX((size.x/2));
             paddle.setY((float) (size.y - (size.y / 50)));
@@ -102,12 +124,16 @@ public class GameViewPortrait extends Game implements ValueEventListener {
             maxPositionPaddle = size.x;
             fieldXPaddle1 = "xPaddlePlayer2";
             fieldXPaddle2 = "xPaddlePlayer1";
+            fieldxBall="xBall";
+            fieldyBall="yBall";
+            fieldxSpeedBall="xSpeedBall";
+            fieldySpeedBall="ySpeedBall";
+            fieldStarted="started";
             fieldSizeXPlayer1 = "sizeXPlayer2";
             fieldSizeXPlayer2 = "sizeXPlayer1";
-            fieldDpiPlayer1 = "dpiPlayer2";
-            fieldDpiPlayer2 = "dpiPlayer1";
+            fieldSizeYPlayer1 = "sizeYPlayer2";
+            fieldSizeYPlayer2 = "sizeYPlayer1";
 
-            roomRef.child(fieldDpiPlayer1).setValue(metrics.densityDpi);
             roomRef.child(fieldSizeXPlayer1).setValue(size.x);
             roomRef.child(fieldSizeXPlayer2).addValueEventListener(new ValueEventListener() {
                 @Override
@@ -124,6 +150,8 @@ public class GameViewPortrait extends Game implements ValueEventListener {
 
                 }
             });
+
+            roomRef.child(fieldSizeYPlayer1).setValue(size.y);
 
         }
 
@@ -255,13 +283,18 @@ public class GameViewPortrait extends Game implements ValueEventListener {
         prendere il valore dal database così com'è
         */
 
-        dpi2 = Float.parseFloat(snapshot.child(fieldDpiPlayer2).getValue().toString());
-        size2 = Float.parseFloat(snapshot.child(fieldSizeXPlayer2).getValue().toString());
-
+        size2X = Float.parseFloat(snapshot.child(fieldSizeXPlayer2).getValue().toString());
+        //size2Y = Float.parseFloat(snapshot.child(fieldSizeXPlayer2).getValue().toString());
         float xPaddle = Float.parseFloat(snapshot.child(fieldXPaddle2).getValue().toString());
 
         paddle2.setX(xPaddle);
 
+        if(playerRole.equals("player2")){
+            ball.setX(Float.parseFloat(snapshot.child(fieldxBall).getValue().toString()));
+            ball.setY(Float.parseFloat(snapshot.child(fieldyBall).getValue().toString()));
+            ball.setSpeed(Integer.parseInt(snapshot.child(fieldxSpeedBall).getValue().toString()),Integer.parseInt(snapshot.child(fieldySpeedBall).getValue().toString()));
+            start = Boolean.parseBoolean(snapshot.child(fieldStarted).getValue().toString());
+        }
 
     }
 

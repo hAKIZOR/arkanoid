@@ -183,7 +183,7 @@ public class MultiplayerActivity extends AppCompatActivity implements
     public void createRoom(LoadingDialog load, String code, String nickname, DataSnapshot roomToHaveAccess) {
         // creazione della stanza con i relativi controlli
         DatabaseReference roomRef = firebaseDatabase.getReference(ROOMS_NODE + "/" + code);
-        room = new Room(nickname,EMPTY_STRING,0,0,0,0,0,0,0,0);
+        room = new Room(nickname,EMPTY_STRING,0,0,0,0,0,0,false,0,0,0,0,0,3);
 
         roomRef.setValue(room, new DatabaseReference.CompletionListener() {
             @Override

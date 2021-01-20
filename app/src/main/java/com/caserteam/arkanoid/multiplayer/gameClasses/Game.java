@@ -58,20 +58,20 @@ public class Game extends View implements
     protected String fieldXPaddle2;
     protected String fieldSizeXPlayer1;
     protected String fieldSizeXPlayer2;
-    protected String fieldDpiPlayer1;
-    protected String fieldDpiPlayer2;
+    protected String fieldSizeYPlayer1;
+    protected String fieldSizeYPlayer2;
+    protected String fieldxBall;
+    protected String fieldyBall;
+    protected String fieldxSpeedBall;
+    protected String fieldySpeedBall;
+    protected String fieldStarted;
 
     protected float dpi2;
-    protected float size2;
-
-    //variabili di gestione loop
-    private static final int TIMINGFORWIN = 1000; // tempo di loop max, oltre questo tempo la partita viene automaticamente vinta
-    private static final int MINBRICKFORTIMING = 4; // numero di mattoni minimo per poter iniziare il timing durante il loop
-    private int timing = 0;
-    private int counterBrickTiming = 0;
+    protected float size2X;
+    protected float size2Y;
 
 
-    private boolean start;
+    protected boolean start;
     private boolean gameOver;
 
     //variabili per la gestione del powerUp handsPiano
@@ -94,7 +94,7 @@ public class Game extends View implements
     }
 
     protected Context context;
-    private Ball ball;
+    protected Ball ball;
     protected Paddle paddle;
     protected Paddle paddle2;
     private PowerUp powerUp;
@@ -265,6 +265,10 @@ public class Game extends View implements
                 ball.changeDirectionPaddle(paddle);
             }
 
+            if ((ball.getX() < paddle2.getX() + paddle2.getWidthp() && ball.getX() > paddle2.getX()) || (ball.getX() + ball.getHALFBALL() < paddle2.getX() + paddle2.getWidthp() && ball.getX() + ball.getHALFBALL() > paddle2.getX())) {
+                ball.changeDirectionPaddle(paddle2);
+            }
+
         }else if((ball.getY() + ball.getySpeed() >= sizeY - 70)&&(ball.getY() + ball.getySpeed() <= sizeY)){
 
             checkLives();
@@ -314,7 +318,7 @@ public class Game extends View implements
         if (start) {
             win();
             checkBoards();
-            ball.move();
+            //ball.move();
 
             for (int i = 0; i < brickList.size(); i++) {
                 Brick b = brickList.get(i);
@@ -331,8 +335,24 @@ public class Game extends View implements
                     break;
                 }
             }
-            ball.move();
 
+
+
+            if(playerRole.equals("player1")) {
+                ball.move();
+                roomRef.child(fieldxBall).setValue((ball.getX()*size2X)/sizeX);
+                roomRef.child(fieldyBall).setValue((ball.getY()*size2Y)/sizeY);
+                roomRef.child(fieldxSpeedBall).setValue(ball.getxSpeed());
+                roomRef.child(fieldySpeedBall).setValue(ball.getySpeed());
+            }
+
+        }else{
+        if(playerRole.equals("player1")) {
+            roomRef.child(fieldxBall).setValue((ball.getX()*size2X)/sizeX);
+            roomRef.child(fieldyBall).setValue((ball.getY()*size2Y)/sizeY);
+            roomRef.child(fieldxSpeedBall).setValue(ball.getxSpeed());
+            roomRef.child(fieldySpeedBall).setValue(ball.getySpeed());
+        }
         }
     }
 
@@ -366,7 +386,6 @@ public class Game extends View implements
     //scopri se il giocatore ha vinto o meno
     private void win() {
         if (levelCompleted()) {
-            timing = 0;
             ++numberLevel;
 
             resetLevel();
@@ -395,6 +414,7 @@ public class Game extends View implements
     //serve a sospendere il gioco in caso di un nuovo gioco
     @Override
     public boolean onTouch(View v, MotionEvent event) {
+
         if (isGameOver() == true && isStart() == false) {
             setScore(0);
             setLifes(3);
@@ -402,7 +422,10 @@ public class Game extends View implements
             setGameOver(false);
 
         } else {
+            if(playerRole.equals("player1")){
             setStart(true);
+            roomRef.child(fieldStarted).setValue(true);
+            }
         }
         return false;
     }
@@ -454,8 +477,8 @@ public class Game extends View implements
 
         if(e2.getY() > (sizeY*0.75)) {
             if ((e2.getX() - (paddle.getWidthp()/2) >= minPositionPaddle && (e2.getX() - (paddle.getWidthp()/2)<= (maxPositionPaddle - paddle.getWidthp())))){
-                float p = (e2.getX() * size2) / sizeX;
-                sendToDb((float) (p - (size2*(0.1)/2)));
+                float p = (e2.getX() * size2X) / sizeX;
+                sendToDb((float) (p - (size2X*(0.1)/2)));
                 paddle.setX(e2.getX() - (paddle.getWidthp()/2));
 
 
@@ -463,7 +486,7 @@ public class Game extends View implements
             } else if ((e2.getX() - (paddle.getWidthp()/2) < minPositionPaddle)) {
 
                 if(playerRole.equals("player2")){
-                    sendToDb((float) (size2/2));
+                    sendToDb((float) (size2X/2));
                 } else {
                     sendToDb(minPositionPaddle);
                 }
@@ -473,9 +496,9 @@ public class Game extends View implements
             } else if ((e2.getX() - (paddle.getWidthp()/2) > (maxPositionPaddle - paddle.getWidthp()))){
 
                 if(playerRole.equals("player1")){
-                    sendToDb((float) ((size2/2)-(size2*(0.1))));
+                    sendToDb((float) ((size2X/2)-(size2X*(0.1))));
                 } else {
-                    sendToDb((float) ((size2)-(size2*(0.1))));
+                    sendToDb((float) ((size2X)-(size2X*(0.1))));
                 }
 
                 paddle.setX(maxPositionPaddle-paddle.getWidthp());
