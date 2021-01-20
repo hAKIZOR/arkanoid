@@ -211,7 +211,7 @@ public class EditorActivity extends AppCompatActivity  implements
                         DialogSaveLevel dialogSaveLevel = new DialogSaveLevel(structure,nameLevel,nickname,account.getEmail());
                         dialogSaveLevel.show(getSupportFragmentManager(),"DialogFragmentSave");
                 } else {
-                    editor.getPromptUtils().showMessage(PromptUtils.SAVE_FAILED_NO_BRICK_IN_THE_GRID);
+                    editor.getPromptUtils().showMessage(getResources().getString(R.string.save_level_no_brick));
                 }
 
                 break;

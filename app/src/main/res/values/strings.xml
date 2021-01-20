@@ -3,20 +3,19 @@
     <string name="package_name" translatable="false">com.caserteam.arkanoid</string>
     <string name="sign_out_button" translatable="false">Log Out</string>
     <string name="firebase_root" translatable="false">https://arkanoid-d46b0-default-rtdb.europe-west1.firebasedatabase.app</string>
-    <string name="select_level_created">modifica o elimina livelli</string>
-    <string name="select_level_to_play">seleziona un livello per giocarci</string>
-    <string name="author_level">autore: </string>
-    <string name="load_level_to_search">caricamento livelli condivisi</string>
+
 
     <!-- label registrazione utente -->
     <string name="inserisci_un_nickname">Inserisci un Nickname</string>
     <string name="avanti">Avanti</string>
     <string name="nickname" translatable="false">nickname</string>
 
+
     <!-- label della classifica -->
     <string name="tab_text_1">Locale</string>
     <string name="tab_text_2">Globale</string>
     <string name="title_activity_leader_board">Classifica</string>
+
 
     <!-- label del login -->
     <string name="need_login">Devi essere loggato per poter accedere!</string>
@@ -24,6 +23,7 @@
     <string name="signed_in_fmt">Login completato</string>
     <string name="guest_button">Gioca offline</string>
     <string name="signin_other_error">Errore nel login</string>
+
 
     <!-- label menu principale -->
     <string name="menu_principale">Menu Principale</string>
@@ -38,6 +38,7 @@
     <!-- label SplashScreen -->
     <string name="developed">Sviluppato da</string>
 
+
     <!-- label ActivitySettings -->
     <string name="ita" translatable="false">ITA</string>
     <string name="eng" translatable="false">ENG</string>
@@ -50,13 +51,32 @@
     <string name="scorri_con_il_dito">scorri con il dito</string>
     <string name="muovi_il_telefono">muovi il telefono</string>
 
+
     <!-- label save level dialog -->
     <string name="save_level_dialog">Salva livello</string>
     <string name="insert_name_level_hint">inserisci nome livello</string>
     <string name="save_label">Salva</string>
 
-    <!-- messaggi di caricamento  -->
+    <!-- messaggi di prompting editor -->
+    <string name="select_brick">"seleziona un mattone"</string>
+    <string name="deleted_selected_brick">"mattone selezionato eliminato"</string>
+    <string name="all_bricks_are_deleted">"tutti i mattoni inseriti sono eliminati"</string>
+    <string name="select_brick_to_remove_it">"seleziona un mattone per eliminarlo"</string>
+    <string name="insert_bricks_to_delete_them">"inserisci dei mattoni per eliminarli"</string>
+    <string name="save_level_no_brick">"per salvare inserisci almeno un brick nella griglia"</string>
 
+
+    <!-- label upload levels -->
+    <string name="select_level_created">modifica o elimina livelli</string>
+
+
+    <!-- label cerca livelli condivisi -->
+    <string name="select_level_to_play">seleziona un livello per giocarci</string>
+    <string name="author_level">autore: </string>
+    <string name="load_level_to_search">caricamento livelli condivisi</string>
+
+
+    <!-- messaggi di caricamento  -->
     <string name="save_level">salvataggio in corso</string>
     <string name="load_levels_created">caricamento livelli creati</string>
     <string name="load_level_selected">caricamento livello selezionato</string>

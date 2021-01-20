@@ -156,7 +156,7 @@ public abstract class Editor extends View implements
                 if(switchSelection) switchSelection = false; else switchSelection = true;
                 if(existPreviousOneSelection()) {
                     if(iSlotSelectedEmpty(indexSlotSelected)) {
-                        promptUtils.showMessage(PromptUtils.SELECTION_MESSAGE_BRICK);
+                        promptUtils.showMessage(getResources().getString(R.string.select_brick));
                         setParamsSelection(false,false);
                         switchSelection = false;
                     } else if(!isBrickSelectedTheSameOf(indexSlotSelected)) {
@@ -175,13 +175,13 @@ public abstract class Editor extends View implements
                     if(!iSlotSelectedEmpty(indexSlotSelected)) {
                         validateSelectionTo(indexSlotSelected);
                     } else {
-                        promptUtils.showMessage(PromptUtils.SELECTION_MESSAGE_BRICK);
+                        promptUtils.showMessage(getResources().getString(R.string.select_brick));
                     }
                 }
 
 
             } else {
-                promptUtils.showMessage(PromptUtils.SELECTION_MESSAGE_BRICK);
+                promptUtils.showMessage(getResources().getString(R.string.select_brick));
                 if(existPreviousOneSelection()){
                     setParamsSelection(false,false);
                 } else {
@@ -278,18 +278,18 @@ public abstract class Editor extends View implements
             brickSelectedIndex = -1;
             selectionBrick = false;
             brickEditorSelected.setBrick(invisibleSkin);
-            promptUtils.showMessage(PromptUtils.DELETE_MESSAGE_BRICK);
+            promptUtils.showMessage(getResources().getString(R.string.deleted_selected_brick));
         } else {
-            promptUtils.showMessage(PromptUtils.DELETE_MESSAGE_FAILURE);
+            promptUtils.showMessage(getResources().getString(R.string.select_brick_to_remove_it));
         }
 
     }
 
     public void clearBricks() {
         if(GridHasNoBricks()){
-            promptUtils.showMessage(PromptUtils.DELETE_ALL_MESSAGE_FAILURE);
+            promptUtils.showMessage(getResources().getString(R.string.all_bricks_are_deleted));
         } else {
-            promptUtils.showMessage(PromptUtils.DELETE_ALL_MESSAGE_BRICK);
+            promptUtils.showMessage(getResources().getString(R.string.insert_bricks_to_delete_them));
         }
         for(BrickEditor brick: brickEditorArrayList) { brick.setBrick(edgeSkin); }
         brickSelectedIndex = -1;

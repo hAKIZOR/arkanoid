@@ -50,5 +50,11 @@
     <string name="select_level_to_play">select a level to play</string>
     <string name="author_level">author:</string>
     <string name="load_level_to_search">load shared levels</string>
+    <string name="select_brick">select a brick</string>
+    <string name="deleted_selected_brick">brick selected is deleted</string>
+    <string name="all_bricks_are_deleted">all bricks are deleted</string>
+    <string name="select_brick_to_remove_it">select a brick to delete it</string>
+    <string name="insert_bricks_to_delete_them">insert bricks to delete them</string>
+    <string name="save_level_no_brick">insert more than one brick to save</string>
 
 </resources>

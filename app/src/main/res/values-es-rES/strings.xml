@@ -50,4 +50,9 @@
     <string name="select_level_to_play">selecciona un nivel para jugar</string>
     <string name="author_level">"autor: "</string>
     <string name="load_level_to_search">cargando niveles compartidos</string>
+    <string name="select_brick">seleccione un ladrillo</string>
+    <string name="deleted_selected_brick">ladrillo seleccionado eliminado</string>
+    <string name="all_bricks_are_deleted">todos los ladrillos insertados se eliminan</string>
+    <string name="select_brick_to_remove_it">seleccione un ladrillo para quitarlo</string>
+    <string name="insert_bricks_to_delete_them">inserta ladrillos para limpiarlos</string>
 </resources>
