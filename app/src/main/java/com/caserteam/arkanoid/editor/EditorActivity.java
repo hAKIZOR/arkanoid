@@ -65,7 +65,6 @@ public class EditorActivity extends AppCompatActivity  implements
     public static final String STATE_CURRENT_USER = "currentUser";
     public static final String STATE_NAME_LEVEL = "nameLevel";
     public static final String STATE_STRUCTURE = "structure";
-    public static final String STATE_NICKNAME = "nickname";
     private String nickname;
     private boolean fullScreen = false;
     private Editor editor;
@@ -81,9 +80,6 @@ public class EditorActivity extends AppCompatActivity  implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        preferences = getSharedPreferences(LoginActivity.KEY_PREFERENCES_USER_INFORMATION,MODE_PRIVATE);
-        nickname = preferences.getString(LoginActivity.KEY_NICKNAME_PREFERENCES,"");
 
         initializeSessionOption();
 
@@ -110,6 +106,9 @@ public class EditorActivity extends AppCompatActivity  implements
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         account = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
+
+        preferences = getSharedPreferences(LoginActivity.KEY_PREFERENCES_USER_INFORMATION,MODE_PRIVATE);
+        nickname = preferences.getString(LoginActivity.KEY_NICKNAME_PREFERENCES,"");
     }
 
 

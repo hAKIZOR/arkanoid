@@ -17,6 +17,7 @@
         <activity android:name=".multiplayer.MultiplayerActivity" />
         <activity android:name=".editor.ui_upload_check.UploadLevelActivity" />
         <activity android:name=".editor.EditorActivity" />
+        <activity android:name=".editor.ui_game.GameSearchedActivity" />
         <activity android:name=".RegistrationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

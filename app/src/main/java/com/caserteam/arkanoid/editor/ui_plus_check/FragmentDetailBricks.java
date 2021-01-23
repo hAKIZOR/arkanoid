@@ -26,6 +26,14 @@ public class FragmentDetailBricks extends Fragment {
     private ImageButton buttonRed;
     private ImageButton buttonPurple;
     private ImageButton buttonYellow;
+    private ImageButton buttonBlue2;
+    private ImageButton buttonLime2;
+    private ImageButton buttonGreen2;
+    private ImageButton buttonOrange2;
+    private ImageButton buttonAqua2;
+    private ImageButton buttonRed2;
+    private ImageButton buttonPurple2;
+    private ImageButton buttonYellow2;
 
     @Nullable
     @Override
@@ -40,6 +48,14 @@ public class FragmentDetailBricks extends Fragment {
         buttonRed = v.findViewById(R.id.imageButtonRed);
         buttonPurple = v.findViewById(R.id.imageButtonPurple);
         buttonYellow = v.findViewById(R.id.imageButtonYellow);
+        buttonBlue2 = v.findViewById(R.id.imageButtonBlue2);
+        buttonLime2 = v.findViewById(R.id.imageButtonLime2);
+        buttonGreen2 = v.findViewById(R.id.imageButtonGreen2);
+        buttonOrange2 = v.findViewById(R.id.imageButtonOrange2);
+        buttonAqua2 = v.findViewById(R.id.imageButtonAqua2);
+        buttonRed2 = v.findViewById(R.id.imageButtonRed2);
+        buttonPurple2 = v.findViewById(R.id.imageButtonPurple2);
+        buttonYellow2 = v.findViewById(R.id.imageButtonYellow2);
 
         callClickListenerOf(buttonBlue, BrickEditor.BRICK_BLUE);
         callClickListenerOf(buttonLime, BrickEditor.BRICK_LIME);
@@ -49,6 +65,14 @@ public class FragmentDetailBricks extends Fragment {
         callClickListenerOf(buttonRed, BrickEditor.BRICK_RED);
         callClickListenerOf(buttonPurple, BrickEditor.BRICK_PURPLE);
         callClickListenerOf(buttonYellow, BrickEditor.BRICK_YELLOW);
+        callClickListenerOf(buttonBlue2, BrickEditor.BRICK_BLUE2);
+        callClickListenerOf(buttonLime2, BrickEditor.BRICK_LIME2);
+        callClickListenerOf(buttonGreen2, BrickEditor.BRICK_GREEN2);
+        callClickListenerOf(buttonOrange2, BrickEditor.BRICK_ORANGE2);
+        callClickListenerOf(buttonAqua2, BrickEditor.BRICK_AQUA2);
+        callClickListenerOf(buttonRed2, BrickEditor.BRICK_RED2);
+        callClickListenerOf(buttonPurple2, BrickEditor.BRICK_PURPLE2);
+        callClickListenerOf(buttonYellow2, BrickEditor.BRICK_YELLOW2);
 
         return v;
     }

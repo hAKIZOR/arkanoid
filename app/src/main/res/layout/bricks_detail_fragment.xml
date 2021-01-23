@@ -15,7 +15,7 @@
         app:layout_constraintVertical_bias="0.237">
 
         <TableRow
-            android:id="@+id/tableRow2"
+            android:id="@+id/tableRow1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -50,7 +50,7 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/tableRow3"
+            android:id="@+id/tableRow2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -81,6 +81,74 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 app:srcCompat="@drawable/brick_yellow" />
+
+        </TableRow>
+        <TableRow
+            android:id="@+id/tableRow3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageButton
+                android:id="@+id/imageButtonBlue2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/brick_blue2" />
+
+            <ImageButton
+                android:id="@+id/imageButtonGreen2"
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/brick_green2" />
+
+            <ImageButton
+                android:id="@+id/imageButtonLime2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/brick_lime2" />
+
+            <ImageButton
+                android:id="@+id/imageButtonOrange2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/brick_orange2" />
+
+        </TableRow>
+        <TableRow
+            android:id="@+id/tableRow4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageButton
+                android:id="@+id/imageButtonAqua2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/brick_aqua2" />
+
+            <ImageButton
+                android:id="@+id/imageButtonRed2"
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/brick_red2" />
+
+            <ImageButton
+                android:id="@+id/imageButtonPurple2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/brick_purple2" />
+
+            <ImageButton
+                android:id="@+id/imageButtonYellow2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/brick_yellow2" />
 
         </TableRow>
     </TableLayout>

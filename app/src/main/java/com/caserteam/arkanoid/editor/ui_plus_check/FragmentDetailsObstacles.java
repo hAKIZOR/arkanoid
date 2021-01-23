@@ -28,12 +28,21 @@ public class FragmentDetailsObstacles extends Fragment {
         View v = inflater.inflate(R.layout.obstacles_detail_fragment,container,false);
 
         buttonObstacleSkin1Show = v.findViewById(R.id.imageButtonObstacle1);
+        buttonObstacleSkin2Show = v.findViewById(R.id.imageButtonObstacle1);
 
         buttonObstacleSkin1Show.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.Q)
             @Override
             public void onClick(View view) {
                 mListener.onObstacleClicked(BrickEditor.BRICK_OSTACLE1);
+            }
+        });
+
+        buttonObstacleSkin2Show.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.Q)
+            @Override
+            public void onClick(View view) {
+                mListener.onObstacleClicked(BrickEditor.BRICK_BROWN_OSTACLE);
             }
         });
 

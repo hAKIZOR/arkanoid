@@ -1,4 +1,4 @@
-package com.caserteam.arkanoid.multiplayer.gameClasses;
+package com.caserteam.arkanoid.editor.ui_game;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -8,24 +8,20 @@ import android.view.View;
 
 import com.caserteam.arkanoid.R;
 
-public class Ball extends View {
+public class BallGameSearched extends View {
 
-    private float sizeBallWidth;
-    private float sizeBallHeight;
-    private static float HALFBALL;
+    private static final float SIZEBALL = 35;
+    private static final float HALFBALL = SIZEBALL/2;
     protected float xSpeed;
     protected float ySpeed;
     private float x;
     private float y;
     private Bitmap skin;
 
-    public Ball (Context context, float x, float y, int a,float sizeBallWidth,float sizeBallHeight) {
+    public BallGameSearched(Context context, float x, float y, int a) {
         super(context);
         this.x = x;
         this.y = y;
-        this.sizeBallWidth = sizeBallWidth;
-        this.sizeBallHeight = sizeBallHeight;
-        HALFBALL = sizeBallWidth/2;
         createSpeed();
         skin(a);
     }
@@ -34,7 +30,7 @@ public class Ball extends View {
         switch (a) {
             case 0:
                 skin = BitmapFactory.decodeResource(getResources(), R.drawable.redball); //<-- SPAZIO VUOTO
-                skin = Bitmap.createScaledBitmap(skin,(int) sizeBallWidth,(int) sizeBallHeight, false);
+                skin = Bitmap.createScaledBitmap(skin, (int)SIZEBALL, (int)SIZEBALL, false);
                 break;
         }
     }
@@ -81,7 +77,7 @@ public class Ball extends View {
 
     //cambia direzione a seconda della parte di paddle che ha toccato
     //cambia de dirección según la pared que ha golpeado y la velocidad
-    protected void changeDirectionPaddle(Paddle paddle) {
+    protected void changeDirectionPaddle(PaddleGameSearched paddle) {
 
         if (this.x>=paddle.getX() && this.x<paddle.getX()+paddle.getWidthp()/7) {
             setSpeed(-13, -14);
@@ -166,7 +162,7 @@ public class Ball extends View {
 
     //se la palla entra in collisione con un mattone, cambia direzione
     //si la bola choca con un ladrillo, cambia de dirección
-    protected boolean hitBrick(Brick b) {
+    protected boolean hitBrick(BrickGameSearched b) {
         boolean result=false;
 
         for(int i=0; i<b.getPoints().size(); i++){
@@ -225,20 +221,8 @@ public class Ball extends View {
         return ySpeed;
     }
 
-    public float getSizeBallWidth() {
-        return sizeBallWidth;
-    }
-
-    public void setSizeBallWidth(float sizeBallWidth) {
-        this.sizeBallWidth = sizeBallWidth;
-    }
-
-    public float getSizeBallHeight() {
-        return sizeBallHeight;
-    }
-
-    public void setSizeBallHeight(float sizeBallHeight) {
-        this.sizeBallHeight = sizeBallHeight;
+    public static float getSIZEBALL() {
+        return SIZEBALL;
     }
 
     public static float getHALFBALL() {

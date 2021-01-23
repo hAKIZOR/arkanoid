@@ -56,5 +56,8 @@
     <string name="select_brick_to_remove_it">select a brick to delete it</string>
     <string name="insert_bricks_to_delete_them">insert bricks to delete them</string>
     <string name="save_level_no_brick">insert more than one brick to save</string>
+    <string name="win_game">you win!</string>
+    <string name="win_game_arcade">Congratulations, you have completed all levels!</string>
+    <string name="lose_game">you lose!</string>
 
 </resources>

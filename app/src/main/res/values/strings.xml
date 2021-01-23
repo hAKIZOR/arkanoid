@@ -3,7 +3,10 @@
     <string name="package_name" translatable="false">com.caserteam.arkanoid</string>
     <string name="sign_out_button" translatable="false">Log Out</string>
     <string name="firebase_root" translatable="false">https://arkanoid-d46b0-default-rtdb.europe-west1.firebasedatabase.app</string>
-
+    <string name="win_game">Hai vinto!</string>
+    <string name="lose_game">hai perso!</string>
+    <string name="game_over" translatable="false">Game Over!</string>
+    <string name="win_game_arcade"> Complimenti, hai completato tutti i livelli!</string>
 
     <!-- label registrazione utente -->
     <string name="inserisci_un_nickname">Inserisci un Nickname</string>

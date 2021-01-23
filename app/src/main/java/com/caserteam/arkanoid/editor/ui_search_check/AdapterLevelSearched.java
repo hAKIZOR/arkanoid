@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.caserteam.arkanoid.R;
 import com.caserteam.arkanoid.editor.EditorActivity;
+import com.caserteam.arkanoid.editor.ui_game.GameSearchedActivity;
 import com.caserteam.arkanoid.editor.ui_upload_check.AsyncTaskLoadResult;
 import com.caserteam.arkanoid.editor.ui_upload_check.LevelCreatedModel;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -41,6 +42,7 @@ class AdapterLevelSearched extends ArrayAdapter<LevelSearchedModel> {
     FirebaseFirestore db;
     private static final String TAG = "LevelsSearchActivity";
     private static final String FIELD_NAME_LEVEL = "nomeLivello";
+
 
 
     public AdapterLevelSearched(Context context, int resource, ArrayList<LevelSearchedModel> levelsSearched,
@@ -78,6 +80,9 @@ class AdapterLevelSearched extends ArrayAdapter<LevelSearchedModel> {
             @Override
             public void onClick(View view) {
                 //faccio partire il livello così da permettere al giocatore di giocarci
+                Intent intent = new Intent(activity, GameSearchedActivity.class);
+                intent.putExtra(LevelsSearchActivity.STRUCTURE_GAME_EXTRA,structure);
+                activity.startActivity(intent);
             }
         });
 

@@ -5,8 +5,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TableLayout
-        android:layout_width="99dp"
-        android:layout_height="179dp"
+        android:layout_width="219dp"
+        android:layout_height="137dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
@@ -26,6 +26,13 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/brick_grey" />
+
+            <ImageButton
+                android:id="@+id/imageButtonObstacle2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/brick_brown3" />
 
 
         </TableRow>

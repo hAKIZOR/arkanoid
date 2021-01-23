@@ -7,6 +7,7 @@ import android.view.View;
 import com.caserteam.arkanoid.R;
 
 public class BrickEditor extends View {
+
     public static final int BRICK_GREEN = 2;
     public static final int BRICK_ORANGE = 3;
     public static final int BRICK_LIME = 4;
@@ -15,14 +16,21 @@ public class BrickEditor extends View {
     public static final int BRICK_YELLOW = 7;
     public static final int BRICK_AQUA = 8;
     public static final int BRICK_BLUE = 9;
-    public static final int BRICK_OSTACLE1 = 10;
+    public static final int BRICK_GREEN2 = 10;
+    public static final int BRICK_ORANGE2 = 11;
+    public static final int BRICK_LIME2 = 12;
+    public static final int BRICK_PURPLE2 = 13;
+    public static final int BRICK_RED2 = 14;
+    public static final int BRICK_YELLOW2 = 15;
+    public static final int BRICK_AQUA2 = 16;
+    public static final int BRICK_BLUE2 = 17;
+    public static final int BRICK_BROWN_OSTACLE = 18;
+    public static final int BRICK_OSTACLE1 = 20;
 
 
     private Bitmap brick;
     private float x;
     private float y;
-    private int soundName;
-
 
     public BrickEditor(Context context, float x, float y, Bitmap skin){
         super(context);
@@ -71,6 +79,33 @@ public class BrickEditor extends View {
             case BRICK_BLUE:
                 brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_blue);
                 break;
+            case BRICK_GREEN2:
+                brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_green2);
+                break;
+            case BRICK_ORANGE2:
+                brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_orange2);
+                break;
+            case BRICK_LIME2:
+                brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_lime2);
+                break;
+            case BRICK_PURPLE2:
+                brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_purple2);
+                break;
+            case BRICK_RED2:
+                brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_red2);
+                break;
+            case BRICK_YELLOW2:
+                brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_yellow2);
+                break;
+            case BRICK_AQUA2:
+                brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_aqua2);
+                break;
+            case BRICK_BLUE2:
+                brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_blue2);
+                break;
+            case BRICK_BROWN_OSTACLE:
+                brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_brown3);
+                break;
             case BRICK_OSTACLE1:
                 brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_grey);
                 break;
@@ -86,6 +121,15 @@ public class BrickEditor extends View {
         if ( BitmapFactory.decodeResource(getResources(), R.drawable.brick_yellow).sameAs(skin)) { return BRICK_YELLOW; }
         if ( BitmapFactory.decodeResource(getResources(), R.drawable.brick_aqua).sameAs(skin)) { return BRICK_AQUA; }
         if ( BitmapFactory.decodeResource(getResources(), R.drawable.brick_blue).sameAs(skin)) { return BRICK_BLUE; }
+        if (BitmapFactory.decodeResource(getResources(), R.drawable.brick_green2).sameAs(skin)) { return BRICK_GREEN2; }
+        if (BitmapFactory.decodeResource(getResources(), R.drawable.brick_orange2).sameAs(skin)) { return BRICK_ORANGE2; }
+        if (BitmapFactory.decodeResource(getResources(), R.drawable.brick_lime2).sameAs(skin)) { return BRICK_LIME2; }
+        if (BitmapFactory.decodeResource(getResources(), R.drawable.brick_purple2).sameAs(skin)) { return BRICK_PURPLE2; }
+        if ( BitmapFactory.decodeResource(getResources(), R.drawable.brick_red2).sameAs(skin)) { return BRICK_RED2; }
+        if ( BitmapFactory.decodeResource(getResources(), R.drawable.brick_yellow2).sameAs(skin)) { return BRICK_YELLOW2; }
+        if ( BitmapFactory.decodeResource(getResources(), R.drawable.brick_aqua2).sameAs(skin)) { return BRICK_AQUA2; }
+        if ( BitmapFactory.decodeResource(getResources(), R.drawable.brick_blue2).sameAs(skin)) { return BRICK_BLUE2; }
+        if ( BitmapFactory.decodeResource(getResources(), R.drawable.brick_brown3).sameAs(skin)) { return BRICK_BROWN_OSTACLE; }
         if ( BitmapFactory.decodeResource(getResources(), R.drawable.brick_grey).sameAs(skin)) { return BRICK_OSTACLE1; }
         return 0;
     }
@@ -117,8 +161,5 @@ public class BrickEditor extends View {
         this.brick = brick;
     }
 
-    public int getSoundName() {
-        return soundName;
-    }
 
 }

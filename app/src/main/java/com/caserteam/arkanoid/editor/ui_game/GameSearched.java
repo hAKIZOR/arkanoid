@@ -1,10 +1,8 @@
-package com.caserteam.arkanoid.multiplayer.gameClasses;
+package com.caserteam.arkanoid.editor.ui_game;
 
+import android.app.Activity;
 import android.content.Context;
-import android.content.res.AssetFileDescriptor;
-import android.content.res.AssetManager;
-import android.database.Cursor;
-import android.database.SQLException;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -12,66 +10,59 @@ import android.hardware.SensorManager;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.caserteam.arkanoid.DatabaseHelper;
 import com.caserteam.arkanoid.IOUtils;
+import com.caserteam.arkanoid.R;
 import com.caserteam.arkanoid.Settings;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
+import com.caserteam.arkanoid.editor.BrickEditor;
+import com.caserteam.arkanoid.editor.ui_search_check.LevelsSearchActivity;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.xml.validation.Validator;
-
-import androidx.annotation.NonNull;
 import androidx.core.view.GestureDetectorCompat;
 
 
-public class Game extends View implements
+public class GameSearched extends View implements
         SensorEventListener,
         View.OnTouchListener,
-        GestureDetector.OnGestureListener{
+        GestureDetector.OnGestureListener,
+        ButtonPause.ButtonPauseListener{
     private static final String DEBUG_STRING = "Game";
 
 
     private static final int DIMENSION = 90;
+    private static final String TAG = "Game";
     private int lifes;
     private int score;
     private int numberLevel = 1;
     private Level level;
     private ArrayList<Level> levels;
-    private ArrayList<Brick> brickList;
+    private ArrayList<BrickGameSearched> brickList;
     private ArrayList<PowerUp> powerUps;
     private ArrayList<LaserSound> laserDropped;
-    protected float minPositionPaddle;
-    protected float maxPositionPaddle;
-
-    protected String fieldXPaddle1;
-    protected String fieldXPaddle2;
-    protected String fieldSizeXPlayer1;
-    protected String fieldSizeXPlayer2;
-    protected String fieldSizeYPlayer1;
-    protected String fieldSizeYPlayer2;
-    protected String fieldxBall;
-    protected String fieldyBall;
-    protected String fieldxSpeedBall;
-    protected String fieldySpeedBall;
-    protected String fieldStarted;
-
-    protected float dpi2;
-    protected float size2X;
-    protected float size2Y;
 
 
-    protected boolean start;
+
+    private ButtonPause fabButtonPause;
+
+
+
+    private boolean pause = false;
+
+    //variabili di gestione loop
+    private static final int TIMINGFORWIN = 1000; // tempo di loop max, oltre questo tempo la partita viene automaticamente vinta
+    private static final int MINBRICKFORTIMING = 4; // numero di mattoni minimo per poter iniziare il timing durante il loop
+    private int timing = 0;
+    private int counterBrickTiming = 0;
+
+
+    private boolean start;
     private boolean gameOver;
 
     //variabili per la gestione del powerUp handsPiano
@@ -93,10 +84,9 @@ public class Game extends View implements
         return accelerometer;
     }
 
-    protected Context context;
-    protected Ball ball;
-    protected Paddle paddle;
-    protected Paddle paddle2;
+    private Context context;
+    private BallGameSearched ball;
+    private PaddleGameSearched paddle;
     private PowerUp powerUp;
 
     private int sizeX;
@@ -114,22 +104,22 @@ public class Game extends View implements
     private float paddingLeftGame;
     private float paddingTopGame;
 
+    private ButtonPause buttonPause;
+
     private int nS=1; //variabile usata per completare il nome del sound nel caricamento
     SoundPool soundPool;
     int[] soundNote = {-1, -1, -1, -1, -1, -1, -1, -1};
     AudioAttributes audioAttributes;
-    protected String playerRole;
-    protected DatabaseReference roomRef;
-    protected DisplayMetrics metrics;
+    private String structure;
 
-    public Game(Context context, int lifes, int score, String playerRole,DatabaseReference roomRef) {
+    GameSearchedListener gameSearchedListener;
+
+
+    public GameSearched(Context context, int lifes, int score) {
         super(context);
-        this.roomRef = roomRef;
+
         //impostare contesto
         this.context = context;
-
-        paddle = new Paddle(context,0, 0, 0);
-        paddle2 = new Paddle(context,0, 0, 0);
 
         loadControlSystemFromFile();
         //impostare vite, punteggi e livelli
@@ -140,69 +130,19 @@ public class Game extends View implements
         powerUps= new ArrayList<>();
         laserDropped= new ArrayList<>();
 
-        this.playerRole = playerRole;
-
-        metrics = getResources().getDisplayMetrics();
-
 
 
         //avviare un GameOver per scoprire se la partita è in piedi e se il giocatore non l'ha persa
         start = false;
         gameOver = false;
 
+        //crea palla e paddle
+        ball = new BallGameSearched(context,0, 0, 0);
+        paddle = new PaddleGameSearched(context,0, 0, 0);
 
+        //inizializzo soundPool
+        soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 1);
 
-
-
-        //crea lista di livelli dal DB locale
-        Cursor c = null;
-
-        try {
-            DatabaseHelper myDbHelper = new DatabaseHelper(context);
-            myDbHelper.openDataBase();
-            c = myDbHelper.query("levels", null, null, null, null, null, null);
-            if (c.moveToFirst()) {
-                do {
-                    ArrayList<Integer> list = new ArrayList<Integer>(DIMENSION);
-
-                    String[] splitList = c.getString(2).split(",");
-
-                    for(int i=0;  i < splitList.length; i++){
-                        list.add(Integer.parseInt(String.valueOf(splitList[i])));
-                    }
-                    levels.add(level = new Level(list,Integer.parseInt(c.getString(0)),c.getString(1)));
-                } while (c.moveToNext());
-            }
-
-            c.close();
-            myDbHelper.close();
-
-        } catch (IOException e){
-
-        } catch (SQLException sqle) {
-            throw sqle;
-        }
-        // fine caricamento da DB ----------------------------------------------
-
-            Log.e("sdk","DENTRO ELSE");
-            soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 1);
-
-        try{
-            // Create objects of the 2 required classes
-            AssetManager assetManager = context.getAssets();
-            AssetFileDescriptor descriptor;
-
-            // Load our fx in memory ready for use
-            for(int i=0; i<8; i++) {
-                Log.e("error", ""+nS);
-                descriptor = assetManager.openFd("sound"+nS+".mp3");
-                soundNote[i] = soundPool.load(descriptor, 0);
-                nS++;
-            }
-        }catch(IOException e){
-            // Print an error message to the console
-            Log.e("error", "failed to load sound files");
-        }
 
 
     }
@@ -217,6 +157,7 @@ public class Game extends View implements
             i.printStackTrace();
             return;
         } catch (ClassNotFoundException c) {
+            System.out.println("Employee class not found");
             c.printStackTrace();
             return;
         }
@@ -244,7 +185,7 @@ public class Game extends View implements
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < columns; j++) {
                 if(level.getA(a)!=0) {
-                    brickList.add(new Brick(context,  (brickBase * j) + paddingLeftGame, (brickHeight* i) + paddingTopGame, level.getA(a),brickBase,brickHeight));
+                    brickList.add(new BrickGameSearched(context,  (brickBase * j) + paddingLeftGame, (brickHeight* i) + paddingTopGame, level.getA(a),brickBase,brickHeight));
                 }
                 a++;
             }
@@ -262,10 +203,6 @@ public class Game extends View implements
         } else if ((ball.getY()+ ball.getySpeed() >= paddle.getY()-40)&&(ball.getY()+ ball.getySpeed() <= paddle.getY()+40) ){
             if ((ball.getX() < paddle.getX() + paddle.getWidthp() && ball.getX() > paddle.getX()) || (ball.getX() + ball.getHALFBALL() < paddle.getX() + paddle.getWidthp() && ball.getX() + ball.getHALFBALL() > paddle.getX())) {
                 ball.changeDirectionPaddle(paddle);
-            }
-
-            if ((ball.getX() < paddle2.getX() + paddle2.getWidthp() && ball.getX() > paddle2.getX()) || (ball.getX() + ball.getHALFBALL() < paddle2.getX() + paddle2.getWidthp() && ball.getX() + ball.getHALFBALL() > paddle2.getX())) {
-                ball.changeDirectionPaddle(paddle2);
             }
 
         }else if((ball.getY() + ball.getySpeed() >= sizeY - 70)&&(ball.getY() + ball.getySpeed() <= sizeY)){
@@ -304,62 +241,94 @@ public class Game extends View implements
             ball.setX(sizeX / 2);
             ball.setY(sizeY - 280);
             ball.createSpeed();
-            ball.increaseSpeed(level.getNumberLevel());
             start = false;
         }
-        paddle.resetPaddle((float) (sizeX * (0.1)));
+        paddle.resetPaddle();
     }
 
 
 
     // ogni passaggio controlla se c'è una collisione, una perdita o una vittoria, ecc.
     public void update() {
-
         if (start) {
             win();
             checkBoards();
+            //ball.hitPaddle(paddle.getX(), paddle.getY());
+            counterBrickTiming = brickList.size();
+            for (int i = 0; i < brickList.size(); i++) {
+                BrickGameSearched b = brickList.get(i);
+                if (ball.hitBrick(b)) {
+                        if (b.getHitted()==b.getHit()) {
+                                if (generatePowerUp(b.getX(), b.getY()).getPower() != null) {
+                                    powerUps.add(this.powerUp);
+                                }
+                                soundPool.play(soundNote[b.getSoundName() - 1], 1, 1, 0, 0, 1);
+                                brickList.remove(i);
 
-            if(sizeY < size2Y) {
-                ball.move();
-                roomRef.child(fieldxBall).setValue((ball.getX()*size2X)/sizeX);
-                roomRef.child(fieldyBall).setValue((ball.getY()*size2Y)/sizeY);
-                roomRef.child(fieldxSpeedBall).setValue(ball.getxSpeed());
-                roomRef.child(fieldySpeedBall).setValue(ball.getySpeed());
+                        } else {
+                            brickList.get(i).hittedOnce();
+                            brickList.get(i).setSkinById(b.getSkin());
+                        }
+
+
+                        score = score + 80;
+                        timing = 0;
+                        break;
+
+                }
+
+
             }
-
 
 
             for (int i = 0; i < brickList.size(); i++) {
-                Brick b = brickList.get(i);
-                if (ball.hitBrick(b)) {
-                    if (b.getHitted()==b.getHit()) {
+                BrickGameSearched b = brickList.get(i);
 
-                        soundPool.play(soundNote[b.getSoundName() - 1], 1, 1, 0, 0, 1);
+                for(int j = 0; j < laserDropped.size(); j++){
+                if (laserDropped.get(j).hitBrick(b.getX(), b.getY())) {
+
+
+                        if (generatePowerUp(b.getX(), b.getY()).getPower() != null) {
+                            powerUps.add(this.powerUp);
+                        }
+                        soundPool.play(soundNote[b.getSoundName()], 1, 1, 0, 0, 1);
                         brickList.remove(i);
 
-                    } else {
-                        brickList.get(i).hittedOnce();
-                        brickList.get(i).setSkinById(b.getSkin());
-                    }
-                    break;
+                    laserDropped.remove(j);
+                    score = score + 80;
+                }
                 }
             }
 
+            checkWinForLoop();
 
+            for (int y= 0; y < powerUps.size(); y++) {
+                checkGetPowerUp(powerUps.get(y));
+            }
 
-
-
-        }else{
-            if(playerRole.equals("player1")) {
-                roomRef.child(fieldxBall).setValue((ball.getX()*size2X)/sizeX);
-                roomRef.child(fieldyBall).setValue((ball.getY()*size2Y)/sizeY);
-                roomRef.child(fieldxSpeedBall).setValue(ball.getxSpeed());
-                roomRef.child(fieldySpeedBall).setValue(ball.getySpeed());
+            ball.move();
+            for (int j = 0; j < powerUps.size(); j++) {
+                powerUps.get(j).move();
+            }
+            for (int j = 0; j < laserDropped.size(); j++) {
+                laserDropped.get(j).move();
             }
         }
     }
 
+    // controlla una vittoria automatica nel caso di loop per tot secondi e con un minimo di mattoni
+    public void checkWinForLoop(){
+        if(counterBrickTiming<=MINBRICKFORTIMING && counterBrickTiming == brickList.size()){
+            timing++;
+        }
 
+        if(timing>TIMINGFORWIN){
+            score = score + (80*brickList.size());
+            brickList.clear();
+            laserDropped.clear();
+            win();
+        }
+    }
 
     // crea random powerUp dopo la rottura del mattone
     public PowerUp generatePowerUp(float x , float y){
@@ -373,33 +342,21 @@ public class Game extends View implements
         return laserSound;
     }
 
-    //imposta il gioco per iniziare
-    public void resetLevel() {
-        ball.setX(sizeX / 2);
-        ball.setY(sizeY - 280);
-        ball.createSpeed();
-        powerUps.clear();
-        laserDropped.clear();
-        handsPianoRemaining = 0;
-        brickList = new ArrayList<Brick>();
-
-        generateBricks(context, getLevels().get(getNumberLevel()-1),getColumns(),getRow(),getBrickBase(),getBrickHeight(),getPaddingLeftGame(),getPaddingTopGame());
-    }
 
     //scopri se il giocatore ha vinto o meno
     private void win() {
         if (levelCompleted()) {
-            ++numberLevel;
-
-            resetLevel();
-            ball.increaseSpeed(numberLevel);
-            start = false;
+            gameOver = true;
         }
     }
 
 
 
-    public void pauseGame() { if(sManager!= null) sManager.unregisterListener(this); }
+    public void pauseGame() {
+        if(sManager!= null){
+            sManager.unregisterListener(this);
+        }
+    }
 
     public void resumeGame() {
         if(sManager!= null) sManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_GAME);
@@ -417,18 +374,10 @@ public class Game extends View implements
     //serve a sospendere il gioco in caso di un nuovo gioco
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-
         if (isGameOver() == true && isStart() == false) {
-            setScore(0);
-            setLifes(3);
-            resetLevel();
-            setGameOver(false);
 
         } else {
-            if(playerRole.equals("player1")){
             setStart(true);
-            roomRef.child(fieldStarted).setValue(true);
-            }
         }
         return false;
     }
@@ -477,39 +426,19 @@ public class Game extends View implements
     @Override
     public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
     if(accelerometer==null) {
-
-        if(e2.getY() > (sizeY*0.75)) {
-            if ((e2.getX() - (paddle.getWidthp()/2) >= minPositionPaddle && (e2.getX() - (paddle.getWidthp()/2)<= (maxPositionPaddle - paddle.getWidthp())))){
-                float p = (e2.getX() * size2X) / sizeX;
-                sendToDb((float) (p - (size2X*(0.1)/2)));
+        if ((e2.getX() - (paddle.getWidthp()/2)>=leftBoard && (e2.getX() - (paddle.getWidthp()/2)<= (rightBoard - paddle.getWidthp())))){
+            if(e2.getY()>(sizeY*0.75)) {
                 paddle.setX(e2.getX() - (paddle.getWidthp()/2));
-
-
-
-            } else if ((e2.getX() - (paddle.getWidthp()/2) < minPositionPaddle)) {
-
-                if(playerRole.equals("player2")){
-                    sendToDb((float) (size2X/2));
-                } else {
-                    sendToDb(minPositionPaddle);
-                }
-
-                paddle.setX(minPositionPaddle);
-
-            } else if ((e2.getX() - (paddle.getWidthp()/2) > (maxPositionPaddle - paddle.getWidthp()))){
-
-                if(playerRole.equals("player1")){
-                    sendToDb((float) ((size2X/2)-(size2X*(0.1))));
-                } else {
-                    sendToDb((float) ((size2X)-(size2X*(0.1))));
-                }
-
-                paddle.setX(maxPositionPaddle-paddle.getWidthp());
-
             }
-
+        }else if ((e2.getX() - (paddle.getWidthp()/2) < leftBoard)){
+            if(e2.getY()>(sizeY*0.75)) {
+                paddle.setX(leftBoard);
+            }
+        }else if ((e2.getX() - (paddle.getWidthp()/2) > (rightBoard - paddle.getWidthp()))){
+            if(e2.getY() > (sizeY*0.75)) {
+                paddle.setX(rightBoard-paddle.getWidthp());
+            }
         }
-
     }
         return false;
     }
@@ -523,9 +452,9 @@ public class Game extends View implements
         return false;
     }
 
-    public void setBrickList(ArrayList<Brick> brickList) { this.brickList = brickList; }
+    public void setBrickList(ArrayList<BrickGameSearched> brickList) { this.brickList = brickList; }
 
-    public ArrayList<Brick> getBrickList() { return brickList; }
+    public ArrayList<BrickGameSearched> getBrickList() { return brickList; }
 
     public Level getLevel() {
         return levels.get(numberLevel-1);
@@ -543,11 +472,11 @@ public class Game extends View implements
         return score;
     }
 
-    public Ball getBall() { return ball; }
+    public BallGameSearched getBall() { return ball; }
 
     public void setBall() { this.ball = ball; }
 
-    public Paddle getPaddle() { return paddle; }
+    public PaddleGameSearched getPaddle() { return paddle; }
 
     public void setPaddle() { this.paddle = paddle; }
 
@@ -649,12 +578,12 @@ public class Game extends View implements
                     break;
             case 3:
                     if(paddle.getWidthp() < paddle.getMaxWidth()) {
-                        paddle.setWidthp(paddle.getWidthp() + 50);
+                        paddle.setWidth(paddle.getWidthp() + 50);
                     }
                     break;
             case 4:
                 if(paddle.getWidthp() > paddle.getMinWidth()) {
-                    paddle.setWidthp(paddle.getWidthp() - 50);
+                    paddle.setWidth(paddle.getWidthp() - 50);
                 }
                 break;
             case 5:
@@ -675,7 +604,7 @@ public class Game extends View implements
             gameOver = true;
             start = false;
             numberLevel=1;
-            paddle.resetPaddle((float) (sizeX * (0.1)));
+            paddle.resetPaddle();
             invalidate();
         } else {
             lifes--;
@@ -684,7 +613,7 @@ public class Game extends View implements
 
     public void handsPianoPower(double xSelected, double ySelected) {
         int i, indexMin = 0;
-        Brick brick;
+        BrickGameSearched brick;
         double distance;
         double minDistance = Math.sqrt(Math.pow(brickList.get(0).getX() - xSelected, 2) + Math.pow(brickList.get(0).getY() - ySelected, 2));
 
@@ -740,7 +669,7 @@ public class Game extends View implements
     public boolean levelCompleted(){
         boolean completed=true;
         for(int i =0; i<brickList.size(); i++){
-            if(brickList.get(i).getSkin()!=20){
+            if(brickList.get(i).getSkin()!=BrickGameSearched.BRICK_OSTACLE1) {
                 completed = false;
             }
         }
@@ -754,15 +683,71 @@ public class Game extends View implements
     public int getLaserSoundRemaining() {
         return laserSoundRemaining;
     }
-    public float convertDpToPx(Context context, float dp) {
-        return dp * context.getResources().getDisplayMetrics().density;
-    }
-    public float convertPxToDp(Context context, float px) {
-        return px / context.getResources().getDisplayMetrics().density;
-    }
-    protected void sendToDb(float p1) {
 
-        roomRef.child(fieldXPaddle1).setValue(p1);
+    public String getStructure() {
+        return structure;
     }
 
+    public void setStructure(String structure) {
+        this.structure = structure;
+    }
+    public boolean isPaused() {
+        return pause;
+    }
+
+    public void setPause(boolean pause) {
+        this.pause = pause;
+    }
+
+    protected void generateLevelFromStructure(Context context, int columnsGrid, int rowsGrid, float brickWidth, float brickHeight, float paddingTopGrid, float paddingLeftGrid,String structure) {
+        String [] list = structure.split(",");
+        int indexList = 0;
+        for (int i = 0; i < rowsGrid; i++) {
+            for (int j = 0; j < columnsGrid; j++) {
+                if(!list[indexList].equals("1")) {
+                    Log.d("noedge--->", String.valueOf(indexList));
+                    brickList.add(new BrickGameSearched(context, brickWidth * j + paddingLeftGrid, brickHeight * i + paddingTopGrid, Integer.parseInt(list[indexList]), brickBase, brickHeight));
+                }
+                indexList ++;
+            }
+        }
+
+    }
+    public ButtonPause getFabButtonPause() {
+        return fabButtonPause;
+    }
+
+    public void setFabButtonPause(ButtonPause fabButtonPause) {
+        this.fabButtonPause = fabButtonPause;
+    }
+    public void initializeButtonPause(Activity activity){
+        fabButtonPause = new ButtonPause.Builder(activity)
+                .withDrawable(getResources().getDrawable(R.drawable.plus,null))
+                .withButtonColor(R.color.white)
+                .withGravity(Gravity.BOTTOM | Gravity.RIGHT)
+                .withMargins(0, 0, 0, 0)
+                .create();
+        fabButtonPause.setButtonPauseListener(this);
+    }
+
+    public void setGameSearchedListener(GameSearchedListener gameSearchedListener) {
+        this.gameSearchedListener = gameSearchedListener;
+    }
+
+    @Override
+    public void onButtonPauseClicked() {
+        Log.d(TAG,"----------> cliccato pausa!");
+        if(pause){
+            pause= false;
+        } else {
+            pause = true;
+        }
+    }
+
+    public interface GameSearchedListener{
+        void  onGameOver();
+        void  onWinGame();
+        void  onPauseGame();
+        void onResumeGame();
+    }
 }

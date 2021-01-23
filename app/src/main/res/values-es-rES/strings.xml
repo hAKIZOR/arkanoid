@@ -55,4 +55,8 @@
     <string name="all_bricks_are_deleted">todos los ladrillos insertados se eliminan</string>
     <string name="select_brick_to_remove_it">seleccione un ladrillo para quitarlo</string>
     <string name="insert_bricks_to_delete_them">inserta ladrillos para limpiarlos</string>
+    <string name="win_game">ganaste!</string>
+    <string name="win_game_arcade">¡Felicitaciones, has completado todos los niveles!</string>
+    <string name="save_level_no_brick">to save insert at least one brick in the grid</string>
+    <string name="lose_game">perdiste!</string>
 </resources>

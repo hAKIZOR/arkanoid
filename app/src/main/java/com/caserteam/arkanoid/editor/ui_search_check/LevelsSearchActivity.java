@@ -29,6 +29,7 @@ public class LevelsSearchActivity extends AppCompatActivity {
     private LoadingDialog loadingDialog;
     private  String nickname;
     public static final String COLLECTION_SHARED_LEVEL = "livelliCondivisi";
+    public static final String STRUCTURE_GAME_EXTRA = "structure";
 
     public static final String FIELD_NICKNAME = "nickname";
     public static final String FIELD_NAME_LEVEL = "nomeLivello";
