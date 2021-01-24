@@ -14,13 +14,12 @@ import android.hardware.SensorEvent;
 import android.view.Display;
 import android.view.WindowManager;
 
-import com.caserteam.arkanoid.R;
-
 import androidx.core.content.res.ResourcesCompat;
 
+import com.caserteam.arkanoid.R;
 
 
-public class GameViewPortrait extends Game{
+public class GameViewPortrait extends Game {
 
     private Bitmap background;
     private Display display;
@@ -29,10 +28,13 @@ public class GameViewPortrait extends Game{
     private RectF r;
 
 
+
+
     public GameViewPortrait(Context context,int lifes, int score){
         super(context, lifes, score);
         paint = new Paint();
         setBackground(context);
+
         setSens(2); // <-- setta la sensitività dell'accellerometro
         setSizeX(size.x);
         setSizeY(size.y);
@@ -67,6 +69,7 @@ public class GameViewPortrait extends Game{
                 generateBricks(context, getLevels().get(getNumberLevel()-1),getColumns(),getRow(),getBrickBase(),getBrickHeight(),getPaddingLeftGame(),getPaddingTopGame());
             }
         }
+
         this.setOnTouchListener(this);
     }
 
@@ -114,7 +117,7 @@ public class GameViewPortrait extends Game{
             canvas.drawBitmap(p.getPower(), p.getX(), p.getY(), paint);
         }
 
-        //disegna powerUp
+        //disegna powerUp Laser
         paint.setColor(Color.GREEN);
         for(int j = 0; j < getLaserDropped().size(); j++){
             LaserSound p = getLaserDropped().get(j);
@@ -134,10 +137,20 @@ public class GameViewPortrait extends Game{
 
         // in caso di sconfitta stampa "GameOver"
         if (isGameOver()) {
-            paint.setColor(Color.RED);
-            paint.setTextSize(100);
-            canvas.drawText("Game over!", size.x / 4, size.y / 2, paint);
+            if(levelCompleted()){
+                gameListener.onWinGame();
+            } else {
+                gameListener.onGameOver();
+            }
         }
+        /*if(isPaused()){
+            Log.d("Game","----------> pause true");
+            getFabButtonPause().setButtonPauseDrawable(getResources().getDrawable(R.drawable.pause_off,null));
+            gameSearchedListener.onPauseGame();
+        } else {
+            getFabButtonPause().setButtonPauseDrawable(getResources().getDrawable(R.drawable.pause_on,null));
+            gameSearchedListener.onPauseGame();
+        }*/
     }
 
     //cambiare accelerometro
@@ -157,4 +170,7 @@ public class GameViewPortrait extends Game{
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
     }
+
+
+
 }

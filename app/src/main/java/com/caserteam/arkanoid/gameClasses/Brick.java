@@ -11,6 +11,25 @@ import java.util.ArrayList;
 
 public class Brick extends View {
 
+    public static final int BRICK_GREEN = 2;
+    public static final int BRICK_ORANGE = 3;
+    public static final int BRICK_LIME = 4;
+    public static final int BRICK_PURPLE = 5;
+    public static final int BRICK_RED = 6;
+    public static final int BRICK_YELLOW = 7;
+    public static final int BRICK_AQUA = 8;
+    public static final int BRICK_BLUE = 9;
+    public static final int BRICK_GREEN2 = 10;
+    public static final int BRICK_ORANGE2 = 11;
+    public static final int BRICK_LIME2 = 12;
+    public static final int BRICK_PURPLE2 = 13;
+    public static final int BRICK_RED2 = 14;
+    public static final int BRICK_YELLOW2 = 15;
+    public static final int BRICK_AQUA2 = 16;
+    public static final int BRICK_BLUE2 = 17;
+    public static final int BRICK_BROWN_OSTACLE = 18;
+    public static final int BRICK_OSTACLE1 = 20;
+
     private Bitmap brick;
 
     private float x;
@@ -77,47 +96,47 @@ public class Brick extends View {
                 soundName=7;
                 hit=0;
                 break;
-            case 2:
+            case BRICK_GREEN:
                 brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_green);
                 soundName=2;
                 hit=0;
                 break;
-            case 3:
+            case BRICK_ORANGE:
                 brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_orange);
                 soundName=3;
                 hit=0;
                 break;
-            case 4:
+            case BRICK_LIME:
                 brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_lime);
                 soundName=4;
                 hit=0;
                 break;
-            case 5:
+            case BRICK_PURPLE:
                 brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_purple);
                 soundName=5;
                 hit=0;
                 break;
-            case 6:
+            case BRICK_RED:
                 brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_red);
                 soundName=6;
                 hit=0;
                 break;
-            case 7:
+            case BRICK_YELLOW:
                 brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_yellow);
                 soundName=7;
                 hit=0;
                 break;
-            case 8:
+            case BRICK_AQUA:
                 brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_aqua);
                 soundName=7;
                 hit=0;
                 break;
-            case 9:
+            case BRICK_BLUE:
                 brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_blue);
                 soundName=7;
                 hit=0;
                 break;
-            case 10:
+            case BRICK_GREEN2:
                 if (hitted==0){
                     brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_green);
                     soundName=2;
@@ -127,7 +146,7 @@ public class Brick extends View {
                     soundName=2;
                 }
                 break;
-            case 11:
+            case BRICK_ORANGE2:
                 if (hitted==0){
                 brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_orange);
                 soundName=3;
@@ -137,7 +156,7 @@ public class Brick extends View {
                     soundName=3;
                 }
                 break;
-            case 12:
+            case BRICK_LIME2:
                 if (hitted==0){
                     brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_lime);
                     soundName=4;
@@ -147,7 +166,7 @@ public class Brick extends View {
                     soundName=4;
                 }
                 break;
-            case 13:
+            case BRICK_PURPLE2:
                 if (hitted==0){
                     brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_purple);
                     soundName=5;
@@ -157,7 +176,7 @@ public class Brick extends View {
                     soundName=5;
                 }
                 break;
-            case 14:
+            case BRICK_RED2:
                 if (hitted==0){
                     brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_red);
                     soundName=6;
@@ -167,7 +186,7 @@ public class Brick extends View {
                     soundName=6;
                 }
                 break;
-            case 15:
+            case BRICK_YELLOW2:
                 if (hitted==0){
                     brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_yellow);
                     soundName=7;
@@ -177,7 +196,7 @@ public class Brick extends View {
                     soundName=7;
                 }
                 break;
-            case 16:
+            case BRICK_AQUA2:
                 if (hitted==0){
                     brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_aqua);
                     soundName=7;
@@ -187,7 +206,7 @@ public class Brick extends View {
                     soundName=7;
                 }
                 break;
-            case 17:
+            case BRICK_BLUE2:
                 if (hitted==0){
                     brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_blue);
                     soundName=7;
@@ -197,7 +216,7 @@ public class Brick extends View {
                     soundName=7;
                 }
                 break;
-            case 18:
+            case BRICK_BROWN_OSTACLE:
                 if (hitted==0){
                     brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_brown);
                     soundName=7;
@@ -210,7 +229,7 @@ public class Brick extends View {
                 soundName=7;
                 }
                 break;
-            case 20:
+            case BRICK_OSTACLE1:
                 brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_grey);
                 hit=-1; // -1 OSTACOLO
                 soundName=7;

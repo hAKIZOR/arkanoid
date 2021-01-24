@@ -15,14 +15,12 @@ import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 
-import com.caserteam.arkanoid.R;
-
 import androidx.core.content.res.ResourcesCompat;
 
-import java.util.ArrayList;
+import com.caserteam.arkanoid.R;
 
 
-public class GameViewLandscape extends Game{
+public class GameViewLandscape extends Game {
 
     private Bitmap background;
 
@@ -68,12 +66,8 @@ public class GameViewLandscape extends Game{
         setPaddingLeftGame((float) (size.x * (0.20)));
 
         //caricamento del livello con la generazione dei mattoni
-        for(Level l: getLevels()) {
-            if(l.getNumberLevel()==getNumberLevel()) {
+        generateLevelFromStructure(context,getColumns(),getRow(),getBrickBase(),getBrickHeight(),getPaddingTopGame(),getPaddingLeftGame(),getStructure());
 
-                generateBricks(context, getLevels().get(getNumberLevel()),getColumns(),getRow(),getBrickHeight(),getBrickBase(),getPaddingLeftGame(),getPaddingTopGame());
-            }
-        }
         this.setOnTouchListener(this);
     }
 
@@ -172,7 +166,7 @@ public class GameViewLandscape extends Game{
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
     }
 
-    @Override
+    /*@Override
     //imposta il gioco per iniziare
     public void resetLevel() {
         getBall().setX(getSizeX() / 2);
@@ -180,9 +174,9 @@ public class GameViewLandscape extends Game{
         getBall().createSpeed();
         getPowerUps().clear();
         getLaserDropped().clear();
-        setBrickList(new ArrayList<Brick>());
+        setBrickList(new ArrayList<BrickGameSearched>());
 
         generateBricks(getContext(), getLevels().get(getNumberLevel()-1),getColumns(),getRow(),getBrickHeight(),getBrickBase(),getPaddingLeftGame(),getPaddingTopGame());
-    }
+    }*/
 
 }

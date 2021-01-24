@@ -18,7 +18,7 @@ public class Ball extends View {
     private float y;
     private Bitmap skin;
 
-    public Ball (Context context, float x, float y, int a) {
+    public Ball(Context context, float x, float y, int a) {
         super(context);
         this.x = x;
         this.y = y;

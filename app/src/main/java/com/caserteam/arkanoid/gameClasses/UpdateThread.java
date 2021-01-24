@@ -12,10 +12,12 @@ public class UpdateThread extends Thread {
     public void run() {
         while (true) {
             try {
-                sleep(20);
+                sleep(30);
             } catch (Exception ex) {
             }
             updateHandler.sendEmptyMessage(0);
         }
     }
+
 }
+
