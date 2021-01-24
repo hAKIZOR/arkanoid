@@ -2,9 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="300dp"
+    android:layout_width="500dp"
 
-    android:layout_height="300dp"
+    android:layout_height="500dp"
     android:layout_gravity="center"
     android:visibility="visible">
 
@@ -24,8 +24,8 @@
 
             <ImageView
                 android:id="@+id/imageResultGame"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="188dp"
+                android:layout_height="212dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.49"
@@ -35,10 +35,12 @@
 
             <TextView
                 android:id="@+id/resultGameTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="184dp"
+                android:layout_height="68dp"
                 android:layout_marginBottom="128dp"
+                android:gravity="center"
                 android:text="resultGame"
+                android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.495"
@@ -47,8 +49,8 @@
 
             <Button
                 android:id="@+id/buttonGoOn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="117dp"
+                android:layout_height="61dp"
                 android:text="@string/avanti"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

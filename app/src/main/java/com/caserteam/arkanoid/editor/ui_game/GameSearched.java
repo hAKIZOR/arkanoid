@@ -41,8 +41,6 @@ public class GameSearched extends View implements
     private int lifes;
     private int score;
     private int numberLevel = 1;
-    private Level level;
-    private ArrayList<Level> levels;
     private ArrayList<BrickGameSearched> brickList;
     private ArrayList<PowerUp> powerUps;
     private ArrayList<LaserSound> laserDropped;
@@ -126,7 +124,7 @@ public class GameSearched extends View implements
         this.lifes = lifes;
         this.score = score;
         brickList = new ArrayList<>();
-        levels = new ArrayList<>();
+
         powerUps= new ArrayList<>();
         laserDropped= new ArrayList<>();
 
@@ -179,18 +177,7 @@ public class GameSearched extends View implements
 
     }
 
-    // riempire l'elenco con i mattoni
-    public void generateBricks(Context context, Level level, int columns, int row, float brickBase, float brickHeight, float paddingLeftGame, float paddingTopGame ) {
-        int a=0;
-        for (int i = 0; i < row; i++) {
-            for (int j = 0; j < columns; j++) {
-                if(level.getA(a)!=0) {
-                    brickList.add(new BrickGameSearched(context,  (brickBase * j) + paddingLeftGame, (brickHeight* i) + paddingTopGame, level.getA(a),brickBase,brickHeight));
-                }
-                a++;
-            }
-        }
-    }
+
 
     //controllare che la palla non abbia toccato il bordo
     private void checkBoards() {
@@ -456,9 +443,6 @@ public class GameSearched extends View implements
 
     public ArrayList<BrickGameSearched> getBrickList() { return brickList; }
 
-    public Level getLevel() {
-        return levels.get(numberLevel-1);
-    }
 
     public boolean isGameOver() {
         return gameOver;
@@ -532,13 +516,6 @@ public class GameSearched extends View implements
         this.numberLevel = numberLevel;
     }
 
-    public ArrayList<Level> getLevels() {
-        return levels;
-    }
-
-    public void setLevels(ArrayList<Level> levels) {
-        this.levels = levels;
-    }
 
     public int getSens() { return sens; }
 
@@ -722,8 +699,8 @@ public class GameSearched extends View implements
     }
     public void initializeButtonPause(Activity activity){
         fabButtonPause = new ButtonPause.Builder(activity)
-                .withDrawable(getResources().getDrawable(R.drawable.plus,null))
-                .withButtonColor(R.color.white)
+                .withDrawable(getResources().getDrawable(R.drawable.pause_on,null))
+                .withButtonColor(R.color.teal_200)
                 .withGravity(Gravity.BOTTOM | Gravity.RIGHT)
                 .withMargins(0, 0, 0, 0)
                 .create();
@@ -742,12 +719,13 @@ public class GameSearched extends View implements
         } else {
             pause = true;
         }
+        gameSearchedListener.onPauseGame(pause);
     }
 
     public interface GameSearchedListener{
         void  onGameOver();
         void  onWinGame();
-        void  onPauseGame();
+        void  onPauseGame(boolean pause);
         void onResumeGame();
     }
 }

@@ -143,14 +143,14 @@ public class GameViewPortrait extends GameSearched {
                 gameSearchedListener.onGameOver();
             }
         }
-        if(isPaused()){
+        /*if(isPaused()){
             Log.d("Game","----------> pause true");
-            getFabButtonPause().setButtonPauseDrawable(getResources().getDrawable(R.drawable.minus,null));
+            getFabButtonPause().setButtonPauseDrawable(getResources().getDrawable(R.drawable.pause_off,null));
             gameSearchedListener.onPauseGame();
         } else {
-            getFabButtonPause().setButtonPauseDrawable(getResources().getDrawable(R.drawable.plus,null));
+            getFabButtonPause().setButtonPauseDrawable(getResources().getDrawable(R.drawable.pause_on,null));
             gameSearchedListener.onPauseGame();
-        }
+        }*/
     }
 
     //cambiare accelerometro

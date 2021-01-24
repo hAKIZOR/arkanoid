@@ -25,10 +25,10 @@ public class GameSearchedActivity extends AppCompatActivity implements GameSearc
 
     private static final String TAG = "GameSearchedActivity";
     private GameSearched game;
-    private UpdateThread myThread;
     private HandlerThread thread;
     private Handler updateHandler;
     private GameSearched.GameSearchedListener listener;
+    private DialogPauseGame dialogPauseGame;
     private GestureDetectorCompat gestureDetector;
     private String structure;
 
@@ -64,7 +64,8 @@ public class GameSearchedActivity extends AppCompatActivity implements GameSearc
         } else {
             game = new GameViewLandscape(getApplicationContext(),3,0);
         }
-        game.setGameSearchedListener(this);
+        listener = this;
+        game.setGameSearchedListener(listener);
 
         gestureDetector = game.getGestureDetector();
 
@@ -81,8 +82,6 @@ public class GameSearchedActivity extends AppCompatActivity implements GameSearc
             public void handleMessage(Message msg) {
                 Log.d(TAG,"PASSO");
                 switch (msg.what){
-
-
                     case 2:
                         DialogResultGame dialogWinGame = new DialogResultGame(getResources().getString(R.string.win_game),GameSearchedActivity.this);
                         dialogWinGame.show(getSupportFragmentManager(),"dialogWinGame");
@@ -115,10 +114,7 @@ public class GameSearchedActivity extends AppCompatActivity implements GameSearc
                             e.printStackTrace();
                         }
                     }
-
-
                 }
-
             }
 
         });
@@ -212,6 +208,9 @@ public class GameSearchedActivity extends AppCompatActivity implements GameSearc
     }
     @Override
     public void onResumeGame() {
+        dialogPauseGame.dismiss();
+        game.setPause(false);
+        game.getFabButtonPause().setButtonPauseDrawable(getResources().getDrawable(R.drawable.pause_on,null));
 
     }
     @Override
@@ -222,14 +221,15 @@ public class GameSearchedActivity extends AppCompatActivity implements GameSearc
     }
 
     @Override
-    public void onPauseGame() {
-
-
+    public void onPauseGame(boolean pause) {
+        if(pause) {
+            game.getFabButtonPause().setButtonPauseDrawable(getResources().getDrawable(R.drawable.pause_off,null));
+            dialogPauseGame = new DialogPauseGame(GameSearchedActivity.this,listener);
+            dialogPauseGame.show(getSupportFragmentManager(),"dialogPauseGame");
+        }
     }
 
-    public UpdateThread getMyThread() {
-        return myThread;
-    }
+
 
     @Override
     protected void onDestroy() {

@@ -33,7 +33,6 @@ public class DialogResultGame extends DialogFragment {
     private ImageView imageView;
     private Activity activity;
     private Button buttonGoOn;
-    private UpdateThread thread;
     public DialogResultGame(String textResult, Activity activity) {
         this.textResult = textResult;
         this.activity = activity;
