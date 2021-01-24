@@ -21,6 +21,7 @@ import com.caserteam.arkanoid.R;
 import com.caserteam.arkanoid.Settings;
 import com.caserteam.arkanoid.editor.BrickEditor;
 import com.caserteam.arkanoid.editor.ui_search_check.LevelsSearchActivity;
+import com.caserteam.arkanoid.gameClasses.GameListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -110,7 +111,7 @@ public class GameSearched extends View implements
     AudioAttributes audioAttributes;
     private String structure;
 
-    GameSearchedListener gameSearchedListener;
+    GameListener gameSearchedListener;
 
 
     public GameSearched(Context context, int lifes, int score) {
@@ -707,7 +708,7 @@ public class GameSearched extends View implements
         fabButtonPause.setButtonPauseListener(this);
     }
 
-    public void setGameSearchedListener(GameSearchedListener gameSearchedListener) {
+    public void setGameSearchedListener(GameListener gameSearchedListener) {
         this.gameSearchedListener = gameSearchedListener;
     }
 
@@ -722,10 +723,5 @@ public class GameSearched extends View implements
         gameSearchedListener.onPauseGame(pause);
     }
 
-    public interface GameSearchedListener{
-        void  onGameOver();
-        void  onWinGame();
-        void  onPauseGame(boolean pause);
-        void onResumeGame();
-    }
+
 }

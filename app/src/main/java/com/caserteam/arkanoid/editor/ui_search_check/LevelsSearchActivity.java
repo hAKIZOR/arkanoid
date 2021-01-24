@@ -51,7 +51,7 @@ public class LevelsSearchActivity extends AppCompatActivity {
         loadingDialog = new LoadingDialog(LevelsSearchActivity.this);
         loadingDialog.startDialog(getResources().getString(R.string.load_level_to_search));
 
-        nickname = getIntent().getStringExtra(EditorActivity.STATE_CURRENT_USER);
+        nickname = getIntent().getStringExtra(EditorActivity.STATE_CURRENT_USER_NICKNAME);
         db = FirebaseFirestore.getInstance();
 
         db.collection(COLLECTION_SHARED_LEVEL).get().addOnCompleteListener(

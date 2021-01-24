@@ -3,6 +3,7 @@ package com.caserteam.arkanoid.editor.ui_upload_check;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,15 +36,19 @@ class AdapterLevelCreated extends ArrayAdapter<LevelCreatedModel> {
     private String pathCollection;
     private static final String TAG = "UploadLevelActivity";
     private static final String FIELD_NAME_LEVEL = "nomeLivello";
+    private static final String FIELD_NICKNAME = "nickname";
+    public static final String SHARED_LEVELS = "livelliCondivisi";
+    private String nickname;
 
 
-    public AdapterLevelCreated(Context context, int resource, ArrayList<LevelCreatedModel> levelCreateds, Activity activity, String pathCollectioon){
+    public AdapterLevelCreated(Context context, int resource, ArrayList<LevelCreatedModel> levelCreateds, Activity activity, String pathCollectioon,String nickname){
         super(context,resource,levelCreateds);
         this.mContext = context;
         this.mResource = resource;
         this.levelCreateds = levelCreateds;
         this.activity = activity;
         this.pathCollection = pathCollectioon;
+        this.nickname = nickname;
     }
 
 
@@ -78,7 +83,27 @@ class AdapterLevelCreated extends ArrayAdapter<LevelCreatedModel> {
             public void onClick(View view) {
 
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
-                // Create a reference to the cities collection
+                // elimino il livello dalla sezione dei livelli condivisi
+                db.collection(SHARED_LEVELS)
+                        .whereEqualTo(FIELD_NICKNAME,nickname)
+                        .whereEqualTo(FIELD_NAME_LEVEL,nameLevel)
+                        .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()) {
+
+                            String id = null;
+                            for (DocumentSnapshot document : task.getResult()) {
+                                id = document.getId();
+                            }
+                            db.collection(SHARED_LEVELS).document(id).delete();
+
+                        } else {
+                            Log.d(TAG,"upload non riuscito");
+                        }
+                    }
+                });
+                // elimino dalla collezioni dei propri livelli
                 db.collection(pathCollection)
                         .whereEqualTo(FIELD_NAME_LEVEL,nameLevel)
                         .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

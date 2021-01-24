@@ -16,18 +16,19 @@ import android.view.View;
 import com.caserteam.arkanoid.R;
 import com.caserteam.arkanoid.editor.ui_search_check.LevelsSearchActivity;
 import com.caserteam.arkanoid.gameClasses.Game;
+import com.caserteam.arkanoid.gameClasses.GameListener;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GestureDetectorCompat;
 
-public class GameSearchedActivity extends AppCompatActivity implements GameSearched.GameSearchedListener {
+public class GameSearchedActivity extends AppCompatActivity implements GameListener {
 
 
     private static final String TAG = "GameSearchedActivity";
     private GameSearched game;
     private HandlerThread thread;
     private Handler updateHandler;
-    private GameSearched.GameSearchedListener listener;
+    private GameListener listener;
     private DialogPauseGame dialogPauseGame;
     private GestureDetectorCompat gestureDetector;
     private String structure;
@@ -54,7 +55,7 @@ public class GameSearchedActivity extends AppCompatActivity implements GameSearc
         if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
             game = new GameViewPortrait(getApplicationContext(),3,0,structure);
         } else {
-            game = new GameViewLandscape(getApplicationContext(),3,0);
+            game = new GameViewLandscape(getApplicationContext(),3,0,structure);
         }
         listener = this;
         game.setGameSearchedListener(listener);

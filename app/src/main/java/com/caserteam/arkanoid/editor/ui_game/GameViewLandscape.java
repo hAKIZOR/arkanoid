@@ -33,8 +33,9 @@ public class GameViewLandscape extends GameSearched {
     private RectF r;
 
 
-    public GameViewLandscape(Context context, int lifes, int score){
+    public GameViewLandscape(Context context, int lifes, int score,String structure){
         super(context, lifes, score);
+        setStructure(structure);
         paint = new Paint();
         setSens(4); // <-- setta la sensitività dell'accellerometro
         setBackground(context);
@@ -143,9 +144,11 @@ public class GameViewLandscape extends GameSearched {
 
         // in caso di sconfitta stampa "GameOver"
         if (isGameOver()) {
-            paint.setColor(Color.RED);
-            paint.setTextSize(100);
-            canvas.drawText("Game over!", size.x / 4, size.y / 2, paint);
+            if(levelCompleted()){
+                gameSearchedListener.onWinGame();
+            } else {
+                gameSearchedListener.onGameOver();
+            }
         }
     }
 

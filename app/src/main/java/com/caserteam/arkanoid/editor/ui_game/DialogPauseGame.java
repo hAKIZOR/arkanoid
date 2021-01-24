@@ -14,6 +14,8 @@ import android.widget.ImageButton;
 import com.caserteam.arkanoid.R;
 import com.caserteam.arkanoid.editor.ui_search_check.LevelsSearchActivity;
 import com.caserteam.arkanoid.editor.ui_upload_check.LoadingDialog;
+import com.caserteam.arkanoid.gameClasses.Game;
+import com.caserteam.arkanoid.gameClasses.GameListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
@@ -31,8 +33,9 @@ public class DialogPauseGame extends DialogFragment{
     ImageButton buttonResume ;
     ImageButton buttonExitGame;
     Activity activity;
-    GameSearched.GameSearchedListener listener;
-    public DialogPauseGame(Activity activity, GameSearched.GameSearchedListener listener) {
+    GameListener listener;
+
+    public DialogPauseGame(Activity activity, GameListener listener) {
         this.activity = activity;
         this.listener = listener;
     }
@@ -55,8 +58,6 @@ public class DialogPauseGame extends DialogFragment{
        buttonExitGame.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
-               Intent intent = new Intent(activity, LevelsSearchActivity.class);
-               activity.startActivity(intent);
                activity.finish();
            }
        });

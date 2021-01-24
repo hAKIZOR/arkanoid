@@ -25,6 +25,7 @@ import com.caserteam.arkanoid.DatabaseHelper;
 import com.caserteam.arkanoid.IOUtils;
 import com.caserteam.arkanoid.R;
 import com.caserteam.arkanoid.Settings;
+import com.caserteam.arkanoid.editor.ui_game.ButtonPause;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -804,14 +805,11 @@ public class Game extends View implements
         gameListener.onPauseGame(pause);
     }
 
-    public interface GameListener{
-        void  onGameOver();
-        void  onWinGame();
-        void  onPauseGame(boolean pause);
-        void onResumeGame();
-    }
+
 
     public ArrayList<Level> getLevels() {
         return levels;
     }
+
+
 }

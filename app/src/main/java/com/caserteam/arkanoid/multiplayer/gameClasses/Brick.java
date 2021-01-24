@@ -8,6 +8,7 @@ import android.view.View;
 import com.caserteam.arkanoid.R;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Brick extends View {
 
@@ -36,6 +37,11 @@ public class Brick extends View {
 
 
 
+    }
+    public Brick(Context context,float x,float y){
+        super(context);
+        this.x=x;
+        this.y=y;
     }
     private void generatePoints(float x, float y,float base, float height){
 
@@ -129,8 +135,8 @@ public class Brick extends View {
                 break;
             case 11:
                 if (hitted==0){
-                brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_orange);
-                soundName=3;
+                    brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_orange);
+                    soundName=3;
                     hit=1;
                 }else if(hitted==1){
                     brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_orange2);
@@ -206,8 +212,8 @@ public class Brick extends View {
                     brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_brown2);
                     soundName=7;
                 }else if(hitted==2){
-                brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_brown3);
-                soundName=7;
+                    brick = BitmapFactory.decodeResource(getResources(), R.drawable.brick_brown3);
+                    soundName=7;
                 }
                 break;
             case 20:
@@ -283,6 +289,20 @@ public class Brick extends View {
 
     public int getHit() {
         return hit;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Brick brick = (Brick) o;
+        return Float.compare(brick.x, x) == 0 &&
+                Float.compare(brick.y, y) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y);
     }
 }
 

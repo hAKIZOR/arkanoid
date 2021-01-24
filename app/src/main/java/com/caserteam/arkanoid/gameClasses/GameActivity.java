@@ -15,16 +15,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GestureDetectorCompat;
 
 import com.caserteam.arkanoid.R;
+import com.caserteam.arkanoid.editor.ui_game.DialogPauseGame;
+import com.caserteam.arkanoid.editor.ui_game.DialogResultGame;
 import com.caserteam.arkanoid.editor.ui_search_check.LevelsSearchActivity;
 
-public class GameActivity extends AppCompatActivity implements Game.GameListener {
+public class GameActivity extends AppCompatActivity implements GameListener {
 
 
     private static final String TAG = "GameSearchedActivity";
     private Game game;
     private HandlerThread thread;
     private Handler updateHandler;
-    private Game.GameListener listener;
+    private GameListener listener;
     private DialogPauseGame dialogPauseGame;
     private GestureDetectorCompat gestureDetector;
 
@@ -61,6 +63,7 @@ public class GameActivity extends AppCompatActivity implements Game.GameListener
     private void startGame() {
 
         setContentView(game);
+        getSupportActionBar().hide();
         thread = new HandlerThread ("MyHandlerThread");
         thread.start();
         Looper looper = thread.getLooper ();

@@ -32,6 +32,7 @@ import okhttp3.internal.cache.DiskLruCache;
 
 public class GameViewPortrait extends Game implements ValueEventListener {
 
+    private static final String TAG = "sizeYPlayer1" ;
     private Bitmap background;
     private Display display;
     private Point size;
@@ -46,9 +47,7 @@ public class GameViewPortrait extends Game implements ValueEventListener {
         setSens(2); // <-- setta la sensitività dell'accellerometro
         setSizeX(size.x);
         setSizeY(size.y);
-
-        //crea palla e paddle
-        ball = new Ball(context,0, 0, 0,(float) (size.x * (0.05)),(float) (size.y * (0.03)));
+        ball = new Ball(context,0, 0, 0,getSizeX(),getSizeY());
         super.roomRef.addValueEventListener(this);
 
         //setta posizione della palla
@@ -64,7 +63,7 @@ public class GameViewPortrait extends Game implements ValueEventListener {
         if(playerRole.equals("player1")) {
             paddle.setX((size.x/2) - (paddle.getWidthp()));
             paddle.setY((float) (size.y - (size.y / 50)));
-            Log.d("Game", "x---->" + String.valueOf(size.x - ((size.x/4))));
+            Log.d("Game", "x---->" + String.valueOf(size.x -((size.x/4))));
             paddle2.setX(size.x/2);
             paddle2.setY((float) (size.y - (size.y / 50)));
 
@@ -82,7 +81,9 @@ public class GameViewPortrait extends Game implements ValueEventListener {
             fieldySpeedBall="ySpeedBall";
             fieldStarted="started";
 
+
             roomRef.child(fieldSizeXPlayer1).setValue(size.x);
+
             roomRef.child(fieldSizeXPlayer2).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -99,6 +100,21 @@ public class GameViewPortrait extends Game implements ValueEventListener {
                 }
             });
 
+            roomRef.child(fieldSizeYPlayer2).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    float value = Float.parseFloat(snapshot.getValue().toString());
+                    if( value != 0){
+                        size2Y=value;
+                        roomRef.child(fieldSizeYPlayer2).removeEventListener(this);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
         } else {
             paddle.setX((size.x/2));
             paddle.setY((float) (size.y - (size.y / 50)));
@@ -124,7 +140,7 @@ public class GameViewPortrait extends Game implements ValueEventListener {
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     float value = Float.parseFloat(snapshot.getValue().toString());
                     if( value != 0){
-                        sendToDb((float) (value/2));
+                        sendToDb(value/2);
                         roomRef.child(fieldSizeXPlayer2).removeEventListener(this);
                     }
                 }
@@ -135,24 +151,10 @@ public class GameViewPortrait extends Game implements ValueEventListener {
                 }
             });
 
+            roomRef.child(fieldSizeYPlayer1).setValue(size.y);
+
         }
 
-        roomRef.child(fieldSizeYPlayer1).setValue(size.y);
-        roomRef.child(fieldSizeYPlayer2).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                float value = Float.parseFloat(snapshot.getValue().toString());
-                if( value != 0){
-                    size2Y=value;
-                    roomRef.child(fieldSizeYPlayer2).removeEventListener(this);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
 
 
         //setto i bordi
@@ -219,9 +221,9 @@ public class GameViewPortrait extends Game implements ValueEventListener {
         int molt=1;
         for (int i = 0; i < getBrickList().size(); i++) {
 
-                Brick b = getBrickList().get(i);
-                r = new RectF(b.getX(), b.getY(), b.getX() + getBrickBase(), b.getY()+ getBrickHeight());
-                canvas.drawBitmap(b.getBrick(), null, r, paint);
+            Brick b = getBrickList().get(i);
+            r = new RectF(b.getX(), b.getY(), b.getX() + getBrickBase(), b.getY()+ getBrickHeight());
+            canvas.drawBitmap(b.getBrick(), null, r, paint);
         }
 
         //disegna powerUp
@@ -282,26 +284,24 @@ public class GameViewPortrait extends Game implements ValueEventListener {
         */
 
         size2X = Float.parseFloat(snapshot.child(fieldSizeXPlayer2).getValue().toString());
-        size2Y = Float.parseFloat(snapshot.child(fieldSizeYPlayer2).getValue().toString());
+        size2Y = Float.parseFloat(snapshot.child(fieldSizeXPlayer2).getValue().toString());
         float xPaddle = Float.parseFloat(snapshot.child(fieldXPaddle2).getValue().toString());
+
         paddle2.setX(xPaddle);
 
-        Log.d("(sizeY,size2Y) --> ",getSizeY() + "   " + size2Y);
-
-        float ballX = Float.parseFloat(snapshot.child(fieldxBall).getValue().toString());
-        float ballY = Float.parseFloat(snapshot.child(fieldyBall).getValue().toString());
-        float ballspeedX = Integer.parseInt(snapshot.child(fieldxSpeedBall).getValue().toString());
-        float ballspeedY = Integer.parseInt(snapshot.child(fieldySpeedBall).getValue().toString());
-        boolean startValue =Boolean.parseBoolean(snapshot.child(fieldStarted).getValue().toString());
-
-        if((getSizeY() < size2Y) && ((ballX != 0) && (ballY != 0))) {
-            ball.setX(ballX);
-            ball.setY(ballY);
-            ball.setSpeed(ballspeedX,ballspeedY);
-            start = startValue;
+        if(playerRole.equals("player2")){
+            ball.setX(Float.parseFloat(snapshot.child(fieldxBall).getValue().toString()));
+            ball.setY(Float.parseFloat(snapshot.child(fieldyBall).getValue().toString()));
+            ball.setSpeed(Integer.parseInt(snapshot.child(fieldxSpeedBall).getValue().toString()),Integer.parseInt(snapshot.child(fieldySpeedBall).getValue().toString()));
+            start = Boolean.parseBoolean(snapshot.child(fieldStarted).getValue().toString());
+            Brick b= new Brick(context,(Float.parseFloat(snapshot.child("brickX").getValue().toString())),(Float.parseFloat(snapshot.child("brickY").getValue().toString())));
+            for(int i = 0; i < brickList.size(); i++){
+                if(brickList.get(i).equals(b)){
+                    soundPool.play(soundNote[b.getSoundName() - 1], 1, 1, 0, 0, 1);
+                    brickList.remove(i);
+                }
+            }
         }
-
-
 
     }
 

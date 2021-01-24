@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.caserteam.arkanoid.editor.EditorActivity;
 import com.caserteam.arkanoid.R;
+import com.caserteam.arkanoid.editor.editor_module.Editor;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -21,6 +22,8 @@ public class UploadLevelActivity extends AppCompatActivity
     private ArrayList<LevelCreatedModel> levelCreateds;
     private String pathOfCollection;
     private LoadingDialog loadingDialog;
+    private String nickname;
+    private String currentUser;
     public static final String COLLECTION_USERS = "utenti";
     public static final String COLLECTION_LEVELS = "livelli";
     private static final String TAG = "UploadLevelActivity";
@@ -34,8 +37,10 @@ public class UploadLevelActivity extends AppCompatActivity
         getSupportActionBar().setTitle(R.string.select_level_created);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        String currentUser = getIntent().getStringExtra(EditorActivity.STATE_CURRENT_USER);
+        currentUser = getIntent().getStringExtra(EditorActivity.STATE_CURRENT_USER);
         pathOfCollection = COLLECTION_USERS + "/" + currentUser + "/" +COLLECTION_LEVELS;
+
+        nickname = getIntent().getStringExtra(EditorActivity.STATE_CURRENT_USER_NICKNAME);
 
         loadingDialog = new LoadingDialog(UploadLevelActivity.this);
         loadingDialog.startDialog(getResources().getString(R.string.load_levels_created));
@@ -61,7 +66,12 @@ public class UploadLevelActivity extends AppCompatActivity
         this.levelCreateds = levelCreateds;
 
         //aggiorno l'adapter per poi settare la listView che contiene i livelli
-        adapterLevelCreated = new AdapterLevelCreated(UploadLevelActivity.this,R.layout.row_layout_levels_created,levelCreateds,UploadLevelActivity.this,pathOfCollection);
+        adapterLevelCreated = new AdapterLevelCreated(
+                UploadLevelActivity.this,
+                R.layout.row_layout_levels_created,levelCreateds,
+                UploadLevelActivity.this,
+                pathOfCollection,nickname);
+
         listViewLevels.setAdapter(adapterLevelCreated);
         loadingDialog.dismissDialog();
         listViewLevels.setOnItemClickListener(new AdapterView.OnItemClickListener() {

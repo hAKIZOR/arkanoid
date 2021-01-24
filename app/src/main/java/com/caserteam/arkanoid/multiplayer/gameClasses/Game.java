@@ -48,7 +48,7 @@ public class Game extends View implements
     private int numberLevel = 1;
     private Level level;
     private ArrayList<Level> levels;
-    private ArrayList<Brick> brickList;
+    protected ArrayList<Brick> brickList;
     private ArrayList<PowerUp> powerUps;
     private ArrayList<LaserSound> laserDropped;
     protected float minPositionPaddle;
@@ -65,6 +65,11 @@ public class Game extends View implements
     protected String fieldxSpeedBall;
     protected String fieldySpeedBall;
     protected String fieldStarted;
+
+    protected String brickBasePlayer2="brickBasePlayer2";
+    protected String paddingLeftGamePlayer2="paddingLeftGamePlayer2";
+    protected String paddingTopGamePlayer2= "paddingTopGamePlayer2";
+    protected String brickHeightPlayer2="brickHeightPlayer2";
 
     protected float dpi2;
     protected float size2X;
@@ -128,9 +133,6 @@ public class Game extends View implements
         //impostare contesto
         this.context = context;
 
-        paddle = new Paddle(context,0, 0, 0);
-        paddle2 = new Paddle(context,0, 0, 0);
-
         loadControlSystemFromFile();
         //impostare vite, punteggi e livelli
         this.lifes = lifes;
@@ -144,9 +146,18 @@ public class Game extends View implements
 
         metrics = getResources().getDisplayMetrics();
 
+
+
         //avviare un GameOver per scoprire se la partita è in piedi e se il giocatore non l'ha persa
         start = false;
         gameOver = false;
+
+        //crea palla e paddle
+
+        paddle = new Paddle(context,0, 0, 0);
+        paddle2 = new Paddle(context,0, 0, 0);
+
+
 
         //crea lista di livelli dal DB locale
         Cursor c = null;
@@ -178,8 +189,8 @@ public class Game extends View implements
         }
         // fine caricamento da DB ----------------------------------------------
 
-            Log.e("sdk","DENTRO ELSE");
-            soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 1);
+        Log.e("sdk","DENTRO ELSE");
+        soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 1);
 
         try{
             // Create objects of the 2 required classes
@@ -211,6 +222,7 @@ public class Game extends View implements
             i.printStackTrace();
             return;
         } catch (ClassNotFoundException c) {
+            System.out.println("Employee class not found");
             c.printStackTrace();
             return;
         }
@@ -234,13 +246,130 @@ public class Game extends View implements
 
     // riempire l'elenco con i mattoni
     public void generateBricks(Context context, Level level, int columns, int row, float brickBase, float brickHeight, float paddingLeftGame, float paddingTopGame ) {
-        int a=0;
-        for (int i = 0; i < row; i++) {
-            for (int j = 0; j < columns; j++) {
-                if(level.getA(a)!=0) {
-                    brickList.add(new Brick(context,  (brickBase * j) + paddingLeftGame, (brickHeight* i) + paddingTopGame, level.getA(a),brickBase,brickHeight));
+
+
+        if (playerRole.equals("player1")){
+
+            int a=0;
+            for (int i = 0; i < row; i++) {
+                for (int j = 0; j < columns; j++) {
+                    if(level.getA(a)!=0) {
+                        brickList.add(new Brick(context,  (brickBase * j) + paddingLeftGame, (brickHeight* i) + paddingTopGame, level.getA(a),brickBase,brickHeight));
+                    }
+                    a++;
                 }
-                a++;
+            }
+
+            roomRef.child("sizeXPlayer2").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    float value = Float.parseFloat(snapshot.getValue().toString());
+                    if( value != 0){
+                        size2X=value;
+                        roomRef.child("sizeXPlayer2").removeEventListener(this);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+            roomRef.child("sizeYPlayer2").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    float value = Float.parseFloat(snapshot.getValue().toString());
+                    if( value != 0){
+                        size2Y=value;
+                        roomRef.child("sizeYPlayer2").removeEventListener(this);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
+            roomRef.child(brickBasePlayer2).setValue((getBrickBase()*1080)/1080);
+            roomRef.child(brickHeightPlayer2).setValue((getBrickHeight()*2088)/2062);
+            roomRef.child(paddingLeftGamePlayer2).setValue((getPaddingLeftGame()*1080)/1080);
+            roomRef.child(paddingTopGamePlayer2).setValue((getPaddingTopGame()*2088)/2062);
+
+        }else{
+
+
+            roomRef.child(brickBasePlayer2).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    float value = Float.parseFloat(snapshot.getValue().toString());
+                    if( value != 0){
+                        setBrickBase(value);
+                        roomRef.child(brickBasePlayer2).removeEventListener(this);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
+            roomRef.child(brickHeightPlayer2).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    float value = Float.parseFloat(snapshot.getValue().toString());
+                    if( value != 0){
+                        setBrickHeight(value);
+                        roomRef.child(brickHeightPlayer2).removeEventListener(this);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
+            roomRef.child(paddingLeftGamePlayer2).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    float value = Float.parseFloat(snapshot.getValue().toString());
+                    if( value != 0){
+                        setpaddingLeftGame(value);
+                        roomRef.child(paddingLeftGamePlayer2).removeEventListener(this);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+            roomRef.child(paddingTopGamePlayer2).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    float value = Float.parseFloat(snapshot.getValue().toString());
+                    if( value != 0){
+                        setpaddingTopGame(value);
+                        roomRef.child(paddingTopGamePlayer2).removeEventListener(this);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
+            int a=0;
+            for (int i = 0; i < row; i++) {
+                for (int j = 0; j < columns; j++) {
+                    if(level.getA(a)!=0) {
+                        brickList.add(new Brick(context,  (brickBase * j) + paddingLeftGame, (brickHeight* i) + paddingTopGame, level.getA(a),brickBase,brickHeight));
+                    }
+                    a++;
+                }
             }
         }
     }
@@ -308,26 +437,22 @@ public class Game extends View implements
 
     // ogni passaggio controlla se c'è una collisione, una perdita o una vittoria, ecc.
     public void update() {
-
         if (start) {
             win();
             checkBoards();
-
-            Log.d("Game","-------> size x del secondo schermo" + size2X);
-            Log.d("Game","-------> size y del secondo schermo" + size2Y);
-            if(sizeY > size2Y) {
-                ball.move();
-                roomRef.child(fieldxBall).setValue((ball.getX()*sizeX)/size2X);
-                roomRef.child(fieldyBall).setValue((ball.getY()*sizeY)/size2Y);
-                roomRef.child(fieldxSpeedBall).setValue(ball.getxSpeed());
-                roomRef.child(fieldySpeedBall).setValue(ball.getySpeed());
-            }
-
-
-
+            ball.move();
+            Log.d("Game","-----> sizeXplayer2" + size2X);
+            Log.d("Game","-----> sizeYplayer2" + size2Y);
             for (int i = 0; i < brickList.size(); i++) {
                 Brick b = brickList.get(i);
                 if (ball.hitBrick(b)) {
+
+                    if(playerRole.equals("player1")){
+
+                        roomRef.child("brickX").setValue((float)( b.getX()*size2X)/sizeX);
+                        roomRef.child("brickY").setValue((float)(b.getY()*size2Y)/sizeY);
+
+                    }
                     if (b.getHitted()==b.getHit()) {
 
                         soundPool.play(soundNote[b.getSoundName() - 1], 1, 1, 0, 0, 1);
@@ -341,10 +466,20 @@ public class Game extends View implements
                 }
             }
 
+
+
+            if(playerRole.equals("player1")) {
+                ball.move();
+                roomRef.child(fieldxBall).setValue((ball.getX()*size2X)/sizeX);
+                roomRef.child(fieldyBall).setValue((ball.getY()*size2Y)/sizeY);
+                roomRef.child(fieldxSpeedBall).setValue(ball.getxSpeed());
+                roomRef.child(fieldySpeedBall).setValue(ball.getySpeed());
+            }
+
         }else{
-            if(sizeY > size2Y) {
-                roomRef.child(fieldxBall).setValue((ball.getX()*sizeX)/size2X);
-                roomRef.child(fieldyBall).setValue((ball.getY()*sizeY)/size2Y);
+            if(playerRole.equals("player1")) {
+                roomRef.child(fieldxBall).setValue((ball.getX()*size2X)/sizeX);
+                roomRef.child(fieldyBall).setValue((ball.getY()*size2Y)/sizeY);
                 roomRef.child(fieldxSpeedBall).setValue(ball.getxSpeed());
                 roomRef.child(fieldySpeedBall).setValue(ball.getySpeed());
             }
@@ -418,8 +553,8 @@ public class Game extends View implements
 
         } else {
             if(playerRole.equals("player1")){
-            setStart(true);
-            roomRef.child(fieldStarted).setValue(true);
+                setStart(true);
+                roomRef.child(fieldStarted).setValue(true);
             }
         }
         return false;
@@ -468,41 +603,41 @@ public class Game extends View implements
 
     @Override
     public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-    if(accelerometer==null) {
+        if(accelerometer==null) {
 
-        if(e2.getY() > (sizeY*0.75)) {
-            if ((e2.getX() - (paddle.getWidthp()/2) >= minPositionPaddle && (e2.getX() - (paddle.getWidthp()/2)<= (maxPositionPaddle - paddle.getWidthp())))){
-                float p = (e2.getX() * size2X) / sizeX;
-                sendToDb((float) (p - (size2X*(0.1)/2)));
-                paddle.setX(e2.getX() - (paddle.getWidthp()/2));
+            if(e2.getY() > (sizeY*0.75)) {
+                if ((e2.getX() - (paddle.getWidthp()/2) >= minPositionPaddle && (e2.getX() - (paddle.getWidthp()/2)<= (maxPositionPaddle - paddle.getWidthp())))){
+                    float p = (e2.getX() * size2X) / sizeX;
+                    sendToDb((float) (p - (size2X*(0.1)/2)));
+                    paddle.setX(e2.getX() - (paddle.getWidthp()/2));
 
 
 
-            } else if ((e2.getX() - (paddle.getWidthp()/2) < minPositionPaddle)) {
+                } else if ((e2.getX() - (paddle.getWidthp()/2) < minPositionPaddle)) {
 
-                if(playerRole.equals("player2")){
-                    sendToDb((float) (size2X/2));
-                } else {
-                    sendToDb(minPositionPaddle);
+                    if(playerRole.equals("player2")){
+                        sendToDb((float) (size2X/2));
+                    } else {
+                        sendToDb(minPositionPaddle);
+                    }
+
+                    paddle.setX(minPositionPaddle);
+
+                } else if ((e2.getX() - (paddle.getWidthp()/2) > (maxPositionPaddle - paddle.getWidthp()))){
+
+                    if(playerRole.equals("player1")){
+                        sendToDb((float) ((size2X/2)-(size2X*(0.1))));
+                    } else {
+                        sendToDb((float) ((size2X)-(size2X*(0.1))));
+                    }
+
+                    paddle.setX(maxPositionPaddle-paddle.getWidthp());
+
                 }
-
-                paddle.setX(minPositionPaddle);
-
-            } else if ((e2.getX() - (paddle.getWidthp()/2) > (maxPositionPaddle - paddle.getWidthp()))){
-
-                if(playerRole.equals("player1")){
-                    sendToDb((float) ((size2X/2)-(size2X*(0.1))));
-                } else {
-                    sendToDb((float) ((size2X)-(size2X*(0.1))));
-                }
-
-                paddle.setX(maxPositionPaddle-paddle.getWidthp());
 
             }
 
         }
-
-    }
         return false;
     }
 
@@ -579,6 +714,8 @@ public class Game extends View implements
         this.brickBase = brickBase;
     }
 
+
+
     public float getBrickHeight() {
         return brickHeight;
     }
@@ -586,6 +723,23 @@ public class Game extends View implements
     public void setBrickHeight(float brickHeight) {
         this.brickHeight = brickHeight;
     }
+
+    public float getpaddingLeftGame() {
+        return paddingLeftGame;
+    }
+
+    public void setpaddingLeftGame(float paddingLeftGame) {
+        this.paddingLeftGame = paddingLeftGame;
+    }
+    public float getpaddingTopGame() {
+        return paddingTopGame;
+    }
+
+    public void setpaddingTopGame(float paddingTopGame) {
+        this.paddingTopGame = paddingTopGame;
+    }
+
+
 
     public int getNumberLevel() {
         return numberLevel;
@@ -634,16 +788,16 @@ public class Game extends View implements
     public void powerUpEffect(PowerUp powerUp){
         switch(powerUp.getTypePower()){
             case 1:
-                    lifes++;
-                    break;
+                lifes++;
+                break;
             case 2:
-                    checkLivesAfterEffects();
-                    break;
+                checkLivesAfterEffects();
+                break;
             case 3:
-                    if(paddle.getWidthp() < paddle.getMaxWidth()) {
-                        paddle.setWidthp(paddle.getWidthp() + 50);
-                    }
-                    break;
+                if(paddle.getWidthp() < paddle.getMaxWidth()) {
+                    paddle.setWidthp(paddle.getWidthp() + 50);
+                }
+                break;
             case 4:
                 if(paddle.getWidthp() > paddle.getMinWidth()) {
                     paddle.setWidthp(paddle.getWidthp() - 50);
@@ -753,6 +907,12 @@ public class Game extends View implements
         return px / context.getResources().getDisplayMetrics().density;
     }
     protected void sendToDb(float p1) {
+        /*
+        ((Dpi2 + size2) * p1) / (Dpi1 + size1))
+        */
+
+        //float value = (p1 * size2) / sizeX;
+        //float value = ((dpi2 + size2) * p1) / (metrics.densityDpi + sizeX);
 
         roomRef.child(fieldXPaddle1).setValue(p1);
     }

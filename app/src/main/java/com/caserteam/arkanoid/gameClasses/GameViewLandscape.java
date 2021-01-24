@@ -66,7 +66,12 @@ public class GameViewLandscape extends Game {
         setPaddingLeftGame((float) (size.x * (0.20)));
 
         //caricamento del livello con la generazione dei mattoni
-        generateLevelFromStructure(context,getColumns(),getRow(),getBrickBase(),getBrickHeight(),getPaddingTopGame(),getPaddingLeftGame(),getStructure());
+
+        for(Level l: getLevels()) {
+            if(l.getNumberLevel()==getNumberLevel()) {
+                generateBricks(context, getLevels().get(getNumberLevel()-1),getColumns(),getRow(),getBrickHeight(),getBrickBase(),getPaddingLeftGame(),getPaddingTopGame());
+            }
+        }
 
         this.setOnTouchListener(this);
     }
@@ -141,9 +146,11 @@ public class GameViewLandscape extends Game {
 
         // in caso di sconfitta stampa "GameOver"
         if (isGameOver()) {
-            paint.setColor(Color.RED);
-            paint.setTextSize(100);
-            canvas.drawText("Game over!", size.x / 4, size.y / 2, paint);
+            if(levelCompleted()){
+                gameListener.onWinGame();
+            } else {
+                gameListener.onGameOver();
+            }
         }
     }
 

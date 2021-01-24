@@ -65,6 +65,7 @@ public class EditorActivity extends AppCompatActivity  implements
     public static final String STATE_CURRENT_USER = "currentUser";
     public static final String STATE_NAME_LEVEL = "nameLevel";
     public static final String STATE_STRUCTURE = "structure";
+    public static final String STATE_CURRENT_USER_NICKNAME = "currentUserNickname";
     private String nickname;
     private boolean fullScreen = false;
     private Editor editor;
@@ -195,6 +196,7 @@ public class EditorActivity extends AppCompatActivity  implements
                 */
                 Intent intent = new Intent(EditorActivity.this, UploadLevelActivity.class);
                 intent.putExtra(STATE_CURRENT_USER,account.getEmail());
+                intent.putExtra(STATE_CURRENT_USER_NICKNAME,nickname);
                 startActivity(intent);
 
                 break;
@@ -233,7 +235,7 @@ public class EditorActivity extends AppCompatActivity  implements
                    Al click di questo tasto deve essere possibile il caricamento di tutti livelli creati da altri utenti mediante un'altra activity
                 */
                 Intent intent2 = new Intent(EditorActivity.this, LevelsSearchActivity.class);
-                intent2.putExtra(STATE_CURRENT_USER,nickname);
+                intent2.putExtra(STATE_CURRENT_USER_NICKNAME,nickname);
                 startActivity(intent2);
 
                 return true;

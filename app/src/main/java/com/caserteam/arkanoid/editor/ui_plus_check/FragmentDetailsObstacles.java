@@ -28,7 +28,7 @@ public class FragmentDetailsObstacles extends Fragment {
         View v = inflater.inflate(R.layout.obstacles_detail_fragment,container,false);
 
         buttonObstacleSkin1Show = v.findViewById(R.id.imageButtonObstacle1);
-        buttonObstacleSkin2Show = v.findViewById(R.id.imageButtonObstacle1);
+        buttonObstacleSkin2Show = v.findViewById(R.id.imageButtonObstacle2);
 
         buttonObstacleSkin1Show.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.Q)

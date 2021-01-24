@@ -59,8 +59,6 @@ public class DialogResultGame extends DialogFragment {
         buttonGoOn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(activity, LevelsSearchActivity.class);
-                activity.startActivity(intent);
                 activity.finish();
             }
         });

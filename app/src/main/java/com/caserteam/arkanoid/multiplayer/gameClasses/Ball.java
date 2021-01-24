@@ -10,22 +10,25 @@ import com.caserteam.arkanoid.R;
 
 public class Ball extends View {
 
-    private float sizeBallWidth;
-    private float sizeBallHeight;
-    private static float HALFBALL;
+
+    private double sizeball;
+    private double halfball;
     protected float xSpeed;
     protected float ySpeed;
     private float x;
     private float y;
     private Bitmap skin;
+    private float sizeX;
+    private float sizeY;
 
-    public Ball (Context context, float x, float y, int a,float sizeBallWidth,float sizeBallHeight) {
+    public Ball (Context context, float x, float y, int a,float sizeX,float sizeY) {
         super(context);
         this.x = x;
         this.y = y;
-        this.sizeBallWidth = sizeBallWidth;
-        this.sizeBallHeight = sizeBallHeight;
-        HALFBALL = sizeBallWidth/2;
+        this.sizeX=sizeX;
+        this.sizeY=sizeY;
+        this.sizeball= (0.017*(sizeX*sizeY))/1000;
+        this.halfball= sizeball/2;
         createSpeed();
         skin(a);
     }
@@ -34,7 +37,7 @@ public class Ball extends View {
         switch (a) {
             case 0:
                 skin = BitmapFactory.decodeResource(getResources(), R.drawable.redball); //<-- SPAZIO VUOTO
-                skin = Bitmap.createScaledBitmap(skin,(int) sizeBallWidth,(int) sizeBallHeight, false);
+                skin = Bitmap.createScaledBitmap(skin, (int)sizeball, (int)sizeball, false);
                 break;
         }
     }
@@ -161,7 +164,7 @@ public class Ball extends View {
     //averigua si la pelota está cerca de un ladrillo
     private boolean isClosedBrick(float brickX, float brickY) {
         double d = Math.sqrt(Math.pow(brickX - this.x, 2) + Math.pow(brickY - this.y, 2));
-        return d < HALFBALL;
+        return d < halfball;
     }
 
     //se la palla entra in collisione con un mattone, cambia direzione
@@ -170,11 +173,11 @@ public class Ball extends View {
         boolean result=false;
 
         for(int i=0; i<b.getPoints().size(); i++){
-        if (isClosedBrick(b.getPoints().get(i).getX(), b.getPoints().get(i).getY())) {
-            changeDirectionBrick(b.checkPointSide(b.getPoints().get(i).getX(),b.getPoints().get(i).getY()));
-            result = true;
-            break;
-        }
+            if (isClosedBrick(b.getPoints().get(i).getX(), b.getPoints().get(i).getY())) {
+                changeDirectionBrick(b.checkPointSide(b.getPoints().get(i).getX(),b.getPoints().get(i).getY()));
+                result = true;
+                break;
+            }
         }
 
         return result;
@@ -210,11 +213,11 @@ public class Ball extends View {
     public float getY() { return y; }
 
     public void setX(float x) {
-        this.x = x-HALFBALL;
+        this.x = (float) (x-halfball);
     }
 
     public void setY(float y) {
-        this.y = y+HALFBALL;
+        this.y = (float) (y+halfball);
     }
 
     public float getxSpeed() {
@@ -225,24 +228,12 @@ public class Ball extends View {
         return ySpeed;
     }
 
-    public float getSizeBallWidth() {
-        return sizeBallWidth;
+    public  double getSIZEBALL() {
+        return sizeball;
     }
 
-    public void setSizeBallWidth(float sizeBallWidth) {
-        this.sizeBallWidth = sizeBallWidth;
-    }
-
-    public float getSizeBallHeight() {
-        return sizeBallHeight;
-    }
-
-    public void setSizeBallHeight(float sizeBallHeight) {
-        this.sizeBallHeight = sizeBallHeight;
-    }
-
-    public static float getHALFBALL() {
-        return HALFBALL;
+    public  double getHALFBALL() {
+        return halfball;
     }
 
     public void setSpeed( float xSpeed, float ySpeed){
