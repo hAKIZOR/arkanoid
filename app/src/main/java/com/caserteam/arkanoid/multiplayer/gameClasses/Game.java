@@ -144,15 +144,9 @@ public class Game extends View implements
 
         metrics = getResources().getDisplayMetrics();
 
-
-
         //avviare un GameOver per scoprire se la partita è in piedi e se il giocatore non l'ha persa
         start = false;
         gameOver = false;
-
-
-
-
 
         //crea lista di livelli dal DB locale
         Cursor c = null;
@@ -319,10 +313,12 @@ public class Game extends View implements
             win();
             checkBoards();
 
-            if(sizeY < size2Y) {
+            Log.d("Game","-------> size x del secondo schermo" + size2X);
+            Log.d("Game","-------> size y del secondo schermo" + size2Y);
+            if(sizeY > size2Y) {
                 ball.move();
-                roomRef.child(fieldxBall).setValue((ball.getX()*size2X)/sizeX);
-                roomRef.child(fieldyBall).setValue((ball.getY()*size2Y)/sizeY);
+                roomRef.child(fieldxBall).setValue((ball.getX()*sizeX)/size2X);
+                roomRef.child(fieldyBall).setValue((ball.getY()*sizeY)/size2Y);
                 roomRef.child(fieldxSpeedBall).setValue(ball.getxSpeed());
                 roomRef.child(fieldySpeedBall).setValue(ball.getySpeed());
             }
@@ -345,14 +341,10 @@ public class Game extends View implements
                 }
             }
 
-
-
-
-
         }else{
-            if(playerRole.equals("player1")) {
-                roomRef.child(fieldxBall).setValue((ball.getX()*size2X)/sizeX);
-                roomRef.child(fieldyBall).setValue((ball.getY()*size2Y)/sizeY);
+            if(sizeY > size2Y) {
+                roomRef.child(fieldxBall).setValue((ball.getX()*sizeX)/size2X);
+                roomRef.child(fieldyBall).setValue((ball.getY()*sizeY)/size2Y);
                 roomRef.child(fieldxSpeedBall).setValue(ball.getxSpeed());
                 roomRef.child(fieldySpeedBall).setValue(ball.getySpeed());
             }

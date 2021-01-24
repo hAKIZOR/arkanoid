@@ -294,7 +294,7 @@ public class GameViewPortrait extends Game implements ValueEventListener {
         float ballspeedY = Integer.parseInt(snapshot.child(fieldySpeedBall).getValue().toString());
         boolean startValue =Boolean.parseBoolean(snapshot.child(fieldStarted).getValue().toString());
 
-        if((getSizeY() > size2Y) && ((ballX != 0) && (ballY != 0))) {
+        if((getSizeY() < size2Y) && ((ballX != 0) && (ballY != 0))) {
             ball.setX(ballX);
             ball.setY(ballY);
             ball.setSpeed(ballspeedX,ballspeedY);
