@@ -16,7 +16,7 @@
         android:src="@drawable/ic_brick2" />
 
     <TextView
-        android:id="@+id/nameLevel"
+        android:id="@+id/nicknamePlayer"
         style="@style/TextAppearance.AppCompat.Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

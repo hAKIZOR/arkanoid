@@ -13,6 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Arkanoid">
         <activity android:name=".editor.ui_search_check.LevelsSearchActivity"></activity>
+        <activity android:name=".ui.leaderboard.LeaderBoardActivity"></activity>
         <activity android:name=".multiplayer.gameClasses.ActualGameActivity" />
         <activity android:name=".multiplayer.MultiplayerActivity" />
         <activity android:name=".editor.ui_upload_check.UploadLevelActivity" />
@@ -28,10 +29,6 @@
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".LeaderBoardActivity"
-            android:label="@string/title_activity_leader_board"
-            android:theme="@style/Theme.Arkanoid.NoActionBar" />
         <activity android:name=".gameClasses.GameActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

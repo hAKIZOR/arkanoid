@@ -28,14 +28,14 @@
                 tools:layout_editor_absoluteY="402dp">
 
                 <com.google.android.material.tabs.TabItem
-                    android:id="@+id/tabMattoni"
+                    android:id="@+id/tabLocal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:icon="@drawable/ic_brick" />
 
 
                 <com.google.android.material.tabs.TabItem
-                    android:id="@+id/tabOstacles"
+                    android:id="@+id/tabGlobal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:icon="@drawable/ic_obstacle" />

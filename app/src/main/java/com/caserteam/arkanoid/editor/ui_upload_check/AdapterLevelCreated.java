@@ -3,7 +3,6 @@ package com.caserteam.arkanoid.editor.ui_upload_check;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,7 +60,7 @@ class AdapterLevelCreated extends ArrayAdapter<LevelCreatedModel> {
         String structure = getItem(position).getStruttura();
         String nameLevel = getItem(position).getNomeLivello();
 
-        TextView textViewLevel = convertView.findViewById(R.id.nameLevel);
+        TextView textViewLevel = convertView.findViewById(R.id.nicknamePlayer);
         textViewLevel.setText(nameLevel);
 
         ImageButton buttonEdit = (ImageButton) convertView.findViewById(R.id.editButton);

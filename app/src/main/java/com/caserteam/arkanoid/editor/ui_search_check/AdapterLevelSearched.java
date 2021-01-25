@@ -3,26 +3,16 @@ package com.caserteam.arkanoid.editor.ui_search_check;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.caserteam.arkanoid.R;
-import com.caserteam.arkanoid.editor.EditorActivity;
 import com.caserteam.arkanoid.editor.ui_game.GameSearchedActivity;
-import com.caserteam.arkanoid.editor.ui_upload_check.AsyncTaskLoadResult;
-import com.caserteam.arkanoid.editor.ui_upload_check.LevelCreatedModel;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
@@ -72,7 +62,7 @@ class AdapterLevelSearched extends ArrayAdapter<LevelSearchedModel> {
         textViewLevel = convertView.findViewById(R.id.textViewAuthor);
         textViewLevel.setText(activity.getResources().getString(R.string.author_level) + autore);
 
-        textViewLevel = convertView.findViewById(R.id.nameLevel);
+        textViewLevel = convertView.findViewById(R.id.nicknamePlayer);
         textViewLevel.setText(nameLevel);
 
         buttonPlay = (ImageButton) convertView.findViewById(R.id.playButton);

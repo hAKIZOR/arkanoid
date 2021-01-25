@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="false"
+    android:focusable="false"
+    android:focusableInTouchMode="false"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/nicknamePlayer"
+        style="@style/TextAppearance.AppCompat.Title"
+        android:layout_width="139dp"
+        android:layout_height="48dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="15dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="242dp"
+        android:layout_toRightOf="@+id/image"
+        android:fontFamily="@font/font"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="nickname "
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/scorePlayer"
+        android:layout_width="188dp"
+        android:layout_height="76dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="189dp"
+        android:layout_marginEnd="18dp"
+        android:gravity="center|left"
+        android:text="score: "
+        android:textSize="14sp" />
+
+</RelativeLayout>
