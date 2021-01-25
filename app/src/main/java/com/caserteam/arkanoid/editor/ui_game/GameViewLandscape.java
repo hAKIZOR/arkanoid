@@ -17,6 +17,7 @@ import android.view.WindowManager;
 
 import com.caserteam.arkanoid.R;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import androidx.core.content.res.ResourcesCompat;
@@ -147,7 +148,11 @@ public class GameViewLandscape extends GameSearched {
             if(levelCompleted()){
                 gameSearchedListener.onWinGame();
             } else {
-                gameSearchedListener.onGameOver();
+                try {
+                    gameSearchedListener.onGameOver();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

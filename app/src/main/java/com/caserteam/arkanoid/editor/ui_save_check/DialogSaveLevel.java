@@ -1,7 +1,6 @@
 package com.caserteam.arkanoid.editor.ui_save_check;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +9,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.caserteam.arkanoid.editor.PromptUtils;
-import com.caserteam.arkanoid.editor.editor_module.Editor;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -26,11 +23,10 @@ import java.util.Map;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import com.caserteam.arkanoid.editor.EditorActivity;
+
 import com.caserteam.arkanoid.R;
 import com.caserteam.arkanoid.editor.ui_upload_check.LoadingDialog;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.SetOptions;
 
 public class DialogSaveLevel extends DialogFragment {
     private static final String USERS_COLLECTION = "utenti";
@@ -66,7 +62,7 @@ public class DialogSaveLevel extends DialogFragment {
 
 
        imageButtonClose = v.findViewById(R.id.imageButtonClose);
-       buttonSave = v.findViewById(R.id.buttonCreateRoom);
+       buttonSave = v.findViewById(R.id.buttonSaveGuestScore);
        editTextLevelName = v.findViewById(R.id.editTextCodeRoom);
 
         if(nameLevel != null){

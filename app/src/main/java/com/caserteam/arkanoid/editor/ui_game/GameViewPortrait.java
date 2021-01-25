@@ -22,6 +22,8 @@ import com.caserteam.arkanoid.editor.FloatingActionButtonPlus;
 
 import androidx.core.content.res.ResourcesCompat;
 
+import java.io.IOException;
+
 
 public class GameViewPortrait extends GameSearched {
 
@@ -140,7 +142,11 @@ public class GameViewPortrait extends GameSearched {
             if(levelCompleted()){
                 gameSearchedListener.onWinGame();
             } else {
-                gameSearchedListener.onGameOver();
+                try {
+                    gameSearchedListener.onGameOver();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
         /*if(isPaused()){

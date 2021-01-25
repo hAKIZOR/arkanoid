@@ -30,7 +30,7 @@ public class DialogCodeRoom extends DialogFragment {
         View v = inflater.inflate(R.layout.room_code_dialog,container,false);
         imageButtonClose = v.findViewById(R.id.imageButtonClose);
         editTextRoomCode = v.findViewById(R.id.editTextCodeRoom);
-        buttonCreateRoom = v.findViewById(R.id.buttonCreateRoom);
+        buttonCreateRoom = v.findViewById(R.id.buttonSaveGuestScore);
         buttonJoinRoom = v.findViewById(R.id.buttonJoinRoom);
 
         buttonJoinRoom.setOnClickListener(new View.OnClickListener() {

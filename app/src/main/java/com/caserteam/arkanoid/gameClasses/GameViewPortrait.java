@@ -18,6 +18,8 @@ import androidx.core.content.res.ResourcesCompat;
 
 import com.caserteam.arkanoid.R;
 
+import java.io.IOException;
+
 
 public class GameViewPortrait extends Game {
 
@@ -139,11 +141,19 @@ public class GameViewPortrait extends Game {
         if (isGameOver()) {
             if(levelCompleted()){
                 if(getNumberLevel()<=15) {
-                    gameListener.onWinLevel();
+                    try {
+                        gameListener.onWinLevel();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }else gameListener.onWinGame();
 
             } else {
-                gameListener.onGameOver();
+                try {
+                    gameListener.onGameOver();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
 

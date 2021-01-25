@@ -19,6 +19,8 @@ import androidx.core.content.res.ResourcesCompat;
 
 import com.caserteam.arkanoid.R;
 
+import java.io.IOException;
+
 
 public class GameViewLandscape extends Game {
 
@@ -149,7 +151,11 @@ public class GameViewLandscape extends Game {
             if(levelCompleted()){
                 gameListener.onWinGame();
             } else {
-                gameListener.onGameOver();
+                try {
+                    gameListener.onGameOver();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

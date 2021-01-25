@@ -32,12 +32,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (dbExist) {
         } else {
             final String createDbStatement;
+            final String createDbStatement1;
             final String createDbStatement2;
             try{
                 createDbStatement = ResourceUtils.getRawAsString(myContext,R.raw.levels);
+
                 DatabaseUtils.createDbFromSqlStatements(myContext,DB_NAME,10,createDbStatement);
+                createDbStatement1 = ResourceUtils.getRawAsString(myContext,R.raw.leaderboard);
                 createDbStatement2 = ResourceUtils.getRawAsString(myContext,R.raw.insertlevels);
                 openDataBase();
+                myDataBase.execSQL(createDbStatement1);
                 myDataBase.execSQL(createDbStatement2);
                 myDataBase.close();
 
