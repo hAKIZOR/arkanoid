@@ -98,6 +98,11 @@ public class FragmentListScore extends Fragment {
         lModel.add(new LeaderBoardModel("topolino","200"));
         lModel.add(new LeaderBoardModel("minnie","100"));
         lModel.add(new LeaderBoardModel("topolino","200"));
+        lModel.add(new LeaderBoardModel("minnie","100"));
+        lModel.add(new LeaderBoardModel("topolino","200"));
+        lModel.add(new LeaderBoardModel("minnie","100"));
+        lModel.add(new LeaderBoardModel("topolino","200"));
+
         //setto l'adapter
         adapterListViewScore = new AdapterListViewScore(context,R.layout.row_layout_leader_board,lModel);
         listScore.setAdapter(adapterListViewScore);
@@ -114,6 +119,11 @@ public class FragmentListScore extends Fragment {
         lModel.add(new LeaderBoardModel("pluto","200"));
         lModel.add(new LeaderBoardModel("pippo","100"));
         lModel.add(new LeaderBoardModel("pluto","200"));
+        lModel.add(new LeaderBoardModel("pippo","100"));
+        lModel.add(new LeaderBoardModel("pluto","200"));
+        lModel.add(new LeaderBoardModel("pippo","100"));
+        lModel.add(new LeaderBoardModel("pippo","100"));
+
         //setto l'adapter
         adapterListViewScore = new AdapterListViewScore(context,R.layout.row_layout_leader_board,lModel);
         listScore.setAdapter(adapterListViewScore);

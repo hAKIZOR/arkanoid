@@ -1,40 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clickable="false"
     android:focusable="false"
     android:focusableInTouchMode="false"
-    android:padding="16dp">
+    android:padding="5dp">
 
-    <TextView
-        android:id="@+id/nicknamePlayer"
-        style="@style/TextAppearance.AppCompat.Title"
-        android:layout_width="139dp"
-        android:layout_height="48dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="15dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="242dp"
-        android:layout_toRightOf="@+id/image"
-        android:fontFamily="@font/font"
-        android:gravity="center"
-        android:singleLine="true"
-        android:text="nickname "
-        android:textSize="14sp" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="403dp"
+        android:layout_height="43dp">
 
-    <TextView
-        android:id="@+id/scorePlayer"
-        android:layout_width="188dp"
-        android:layout_height="76dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="189dp"
-        android:layout_marginEnd="18dp"
-        android:gravity="center|left"
-        android:text="score: "
-        android:textSize="14sp" />
+        <TextView
+            android:id="@+id/scorePlayer"
+            android:layout_width="102dp"
+            android:layout_height="17dp"
+            android:gravity="center|left"
+            android:text="score: "
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.9"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.615" />
+
+        <TextView
+            android:id="@+id/nicknamePlayer"
+            style="@style/TextAppearance.AppCompat.Title"
+            android:layout_width="132dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/font"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="nickname "
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/scorePlayer"
+            app:layout_constraintHorizontal_bias="0.21"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </RelativeLayout>
