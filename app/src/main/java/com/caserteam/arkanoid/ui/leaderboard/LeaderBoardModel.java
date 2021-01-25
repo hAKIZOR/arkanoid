@@ -9,6 +9,9 @@ public class LeaderBoardModel {
         this.score = score;
     }
 
+    public LeaderBoardModel() {
+
+    }
 
 
     public String getNickname() {

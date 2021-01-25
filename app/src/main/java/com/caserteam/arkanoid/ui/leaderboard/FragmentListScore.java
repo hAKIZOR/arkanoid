@@ -1,6 +1,7 @@
 package com.caserteam.arkanoid.ui.leaderboard;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,13 +18,23 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.caserteam.arkanoid.DatabaseHelper;
 import com.caserteam.arkanoid.R;
 import com.caserteam.arkanoid.editor.ui_plus_check.FragmentDetailBricks;
 import com.caserteam.arkanoid.editor.ui_plus_check.FragmentDetailsObstacles;
 import com.caserteam.arkanoid.editor.ui_plus_check.FragmentVoid;
+import com.caserteam.arkanoid.gameClasses.Level;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -62,7 +73,11 @@ public class FragmentListScore extends Fragment {
                 switch (position){
                     case TAB_LOCAL:
                         //clicco il tab di classifica locale
-                        setLocalListView(v);
+                        try {
+                            setLocalListView(v);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                         break;
                     case TAB_GLOBAL:
                         //clicco il tab di classifica globale
@@ -89,40 +104,41 @@ public class FragmentListScore extends Fragment {
 
     private void setGlobalListView(View view) {
         listScore = (ListView) view.findViewById(R.id.listScore);
-
+        lModel = new ArrayList<>();
         // riempio l'arrayList di valori
-        lModel = new ArrayList<LeaderBoardModel>();
-        lModel.add(new LeaderBoardModel("minnie","100"));
-        lModel.add(new LeaderBoardModel("topolino","200"));
-        lModel.add(new LeaderBoardModel("minnie","100"));
-        lModel.add(new LeaderBoardModel("topolino","200"));
-        lModel.add(new LeaderBoardModel("minnie","100"));
-        lModel.add(new LeaderBoardModel("topolino","200"));
-        lModel.add(new LeaderBoardModel("minnie","100"));
-        lModel.add(new LeaderBoardModel("topolino","200"));
-        lModel.add(new LeaderBoardModel("minnie","100"));
-        lModel.add(new LeaderBoardModel("topolino","200"));
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("leaderboard").orderBy("score", Query.Direction.DESCENDING).limit(10).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+            for(DocumentSnapshot documentSnapshot: task.getResult()){
+                lModel.add(documentSnapshot.toObject(LeaderBoardModel.class));
 
+            }
+                adapterListViewScore = new AdapterListViewScore(context,R.layout.row_layout_leader_board,lModel);
+                listScore.setAdapter(adapterListViewScore);
+            }
+        });
         //setto l'adapter
-        adapterListViewScore = new AdapterListViewScore(context,R.layout.row_layout_leader_board,lModel);
-        listScore.setAdapter(adapterListViewScore);
+
+
     }
 
-    private void setLocalListView(View view) {
+    private void setLocalListView(View view) throws IOException {
         listScore = (ListView) view.findViewById(R.id.listScore);
+        lModel = new ArrayList<>();
+        Cursor c = null;
+        DatabaseHelper myDbHelper = new DatabaseHelper(context);
+        myDbHelper.openDataBase();
+        c = myDbHelper.query("leaderboard", null, null, null, null, null, "score"+" DESC");
 
         // riempio l'arrayList di valori
-        lModel = new ArrayList<LeaderBoardModel>();
-        lModel.add(new LeaderBoardModel("pippo","100"));
-        lModel.add(new LeaderBoardModel("pluto","200"));
-        lModel.add(new LeaderBoardModel("pippo","100"));
-        lModel.add(new LeaderBoardModel("pluto","200"));
-        lModel.add(new LeaderBoardModel("pippo","100"));
-        lModel.add(new LeaderBoardModel("pluto","200"));
-        lModel.add(new LeaderBoardModel("pippo","100"));
-        lModel.add(new LeaderBoardModel("pluto","200"));
-        lModel.add(new LeaderBoardModel("pippo","100"));
-        lModel.add(new LeaderBoardModel("pippo","100"));
+        while(c.moveToNext()) {
+            lModel.add(new LeaderBoardModel(c.getString(c.getColumnIndexOrThrow("nickname")),c.getString(c.getColumnIndexOrThrow("score"))));
+        }
+
+        c.close();
+        myDbHelper.close();
+
 
         //setto l'adapter
         adapterListViewScore = new AdapterListViewScore(context,R.layout.row_layout_leader_board,lModel);
