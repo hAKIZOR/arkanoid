@@ -59,4 +59,5 @@
     <string name="win_game_arcade">¡Felicitaciones, has completado todos los niveles!</string>
     <string name="save_level_no_brick">to save insert at least one brick in the grid</string>
     <string name="lose_game">perdiste!</string>
+    <string name="menu_pause">Menú de pausa</string>
 </resources>

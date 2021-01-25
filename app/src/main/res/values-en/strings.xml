@@ -59,5 +59,6 @@
     <string name="win_game">you win!</string>
     <string name="win_game_arcade">Congratulations, you have completed all levels!</string>
     <string name="lose_game">you lose!</string>
+    <string name="menu_pause">Pause menu</string>
 
 </resources>

@@ -702,7 +702,7 @@ public class GameSearched extends View implements
         fabButtonPause = new ButtonPause.Builder(activity)
                 .withDrawable(getResources().getDrawable(R.drawable.pause_on,null))
                 .withButtonColor(R.color.teal_200)
-                .withGravity(Gravity.BOTTOM | Gravity.RIGHT)
+                .withGravity(Gravity.BOTTOM | Gravity.CENTER)
                 .withMargins(0, 0, 0, 0)
                 .create();
         fabButtonPause.setButtonPauseListener(this);

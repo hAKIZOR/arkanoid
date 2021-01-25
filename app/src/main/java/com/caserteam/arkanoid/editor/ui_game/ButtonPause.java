@@ -49,6 +49,7 @@ public class ButtonPause extends View{
 
     public void setButtonPauseDrawable(Drawable buttonPauseDrawable) {
         mBitmap = ((BitmapDrawable) buttonPauseDrawable).getBitmap();
+
         invalidate();
     }
 
@@ -68,8 +69,7 @@ public class ButtonPause extends View{
     @Override
     protected void onDraw(Canvas canvas) {
         setClickable(true);
-        canvas.drawCircle(getWidth() / 2, getHeight() / 2, (float) (getWidth() / 2.6), mButtonPaint);
-        canvas.drawBitmap(mBitmap, (float)((getWidth() - mBitmap.getWidth()) / 3), (float)((getHeight() - mBitmap.getHeight()) / 3), mDrawablePaint);
+        canvas.drawBitmap(mBitmap, (float) mBitmap.getWidth(), (float) mBitmap.getHeight(), mDrawablePaint);
     }
 
     @Override

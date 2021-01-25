@@ -7,6 +7,7 @@
     <string name="lose_game">hai perso!</string>
     <string name="game_over" translatable="false">Game Over!</string>
     <string name="win_game_arcade"> Complimenti, hai completato tutti i livelli!</string>
+    <string name="menu_pause"> Menù di pausa</string>
 
     <!-- label registrazione utente -->
     <string name="inserisci_un_nickname">Inserisci un Nickname</string>

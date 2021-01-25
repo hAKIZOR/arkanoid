@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="350dp"
 
-    android:layout_height="300dp"
+    android:layout_height="150dp"
     android:layout_gravity="center"
     android:visibility="visible">
 
@@ -24,29 +24,46 @@
 
             <ImageButton
                 android:id="@+id/imageButtonResume"
-                android:layout_width="110dp"
-                android:layout_height="110dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:background="@drawable/ic_play"
                 android:clickable="true"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.716"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.821" />
+                app:layout_constraintVertical_bias="0.68" />
 
             <ImageButton
                 android:id="@+id/imageButtonExitGame"
-                android:layout_width="110dp"
-                android:layout_height="110dp"
-                android:layout_marginTop="72dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="44dp"
                 android:background="@drawable/ic_exit_game"
                 android:clickable="true"
                 android:rotation="180"
-                app:layout_constraintBottom_toTopOf="@+id/imageButtonResume"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/imageButtonResume"
+                app:layout_constraintHorizontal_bias="0.421"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="1.0" />
+                app:layout_constraintVertical_bias="0.68" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="274dp"
+                android:layout_height="51dp"
+                android:layout_marginBottom="36dp"
+                android:gravity="center"
+                android:text="@string/menu_pause"
+                android:textSize="30sp"
+                app:layout_constraintBottom_toTopOf="@+id/imageButtonExitGame"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.503"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

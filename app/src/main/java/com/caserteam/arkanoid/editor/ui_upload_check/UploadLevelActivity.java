@@ -43,7 +43,7 @@ public class UploadLevelActivity extends AppCompatActivity
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         currentUser = getIntent().getStringExtra(EditorActivity.STATE_CURRENT_USER);
-        pathOfCollection = COLLECTION_USERS + "/" + currentUser + "/" +COLLECTION_LEVELS;
+        pathOfCollection = COLLECTION_USERS + "/" + currentUser + "/" + COLLECTION_LEVELS;
 
         nickname = getIntent().getStringExtra(EditorActivity.STATE_CURRENT_USER_NICKNAME);
 
