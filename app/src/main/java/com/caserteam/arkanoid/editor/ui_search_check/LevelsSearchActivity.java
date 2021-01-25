@@ -3,12 +3,15 @@ package com.caserteam.arkanoid.editor.ui_search_check;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.caserteam.arkanoid.MenuActivity;
 import com.caserteam.arkanoid.R;
 import com.caserteam.arkanoid.editor.EditorActivity;
 import com.caserteam.arkanoid.editor.editor_module.Editor;
@@ -43,7 +46,8 @@ public class LevelsSearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_levels_search);
 
         getSupportActionBar().setTitle(R.string.select_level_to_play);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         listViewLevelsSearched = findViewById(R.id.listLevelsToPlay);
         levelsSearched = new ArrayList<LevelSearchedModel>();
@@ -82,5 +86,16 @@ public class LevelsSearchActivity extends AppCompatActivity {
                 });
 
 
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                Intent intent = new Intent(LevelsSearchActivity.this, EditorActivity.class);
+                startActivity(intent);
+                finish();
+                break;
+        }
+        return true;
     }
 }

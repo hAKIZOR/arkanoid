@@ -1,13 +1,17 @@
 package com.caserteam.arkanoid.editor.ui_upload_check;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.caserteam.arkanoid.MenuActivity;
 import com.caserteam.arkanoid.editor.EditorActivity;
 import com.caserteam.arkanoid.R;
 import com.caserteam.arkanoid.editor.editor_module.Editor;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -35,7 +39,8 @@ public class UploadLevelActivity extends AppCompatActivity
         listViewLevels = findViewById(R.id.listLevels);
 
         getSupportActionBar().setTitle(R.string.select_level_created);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         currentUser = getIntent().getStringExtra(EditorActivity.STATE_CURRENT_USER);
         pathOfCollection = COLLECTION_USERS + "/" + currentUser + "/" +COLLECTION_LEVELS;
@@ -50,6 +55,17 @@ public class UploadLevelActivity extends AppCompatActivity
         taskLoadingLevel.execute();
 
 
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                Intent intent = new Intent(UploadLevelActivity.this, EditorActivity.class);
+                startActivity(intent);
+                finish();
+                break;
+        }
+        return true;
     }
 
     @Override
