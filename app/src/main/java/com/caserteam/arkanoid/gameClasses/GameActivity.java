@@ -1,5 +1,6 @@
 package com.caserteam.arkanoid.gameClasses;
 
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -10,14 +11,28 @@ import android.os.Message;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GestureDetectorCompat;
 
+import com.caserteam.arkanoid.LoginActivity;
 import com.caserteam.arkanoid.R;
 import com.caserteam.arkanoid.editor.ui_game.DialogPauseGame;
 import com.caserteam.arkanoid.editor.ui_game.DialogResultGame;
 import com.caserteam.arkanoid.editor.ui_search_check.LevelsSearchActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class GameActivity extends AppCompatActivity implements GameListener {
 
@@ -29,6 +44,7 @@ public class GameActivity extends AppCompatActivity implements GameListener {
     private GameListener listener;
     private DialogPauseGame dialogPauseGame;
     private GestureDetectorCompat gestureDetector;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,8 +152,8 @@ public class GameActivity extends AppCompatActivity implements GameListener {
 
     @Override
     public void onGameOver() {
-
-        updateHandler.sendEmptyMessage(3);
+        saveScore();
+        //updateHandler.sendEmptyMessage(3);
 
     }
     @Override
@@ -151,6 +167,13 @@ public class GameActivity extends AppCompatActivity implements GameListener {
     public void onWinGame() {
 
         updateHandler.sendEmptyMessage(2);
+
+    }
+
+    @Override
+    public void onWinLevel() {
+        saveScore();
+        //updateHandler.sendEmptyMessage(2);
 
     }
 
@@ -224,6 +247,73 @@ public class GameActivity extends AppCompatActivity implements GameListener {
     protected void onDestroy() {
         thread.quit();
         super.onDestroy();
+
+    }
+
+    private void saveScore(){
+        db = FirebaseFirestore.getInstance();
+        SharedPreferences account = getSharedPreferences(LoginActivity.KEY_PREFERENCES_USER_INFORMATION,MODE_PRIVATE);
+        String accountName = account.getString(LoginActivity.KEY_NICKNAME_PREFERENCES,"");
+        DocumentSnapshot ref = null;
+        Map<String, String> leaderboard = new HashMap<>();
+        leaderboard.put("nickname",accountName);
+        leaderboard.put("score",String.valueOf(game.getScore()));
+
+        db.collection("leaderboard")
+                .whereEqualTo("nickname",accountName)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()) {
+                            String id = null;
+                            int oldScore = 0;
+                            for (DocumentSnapshot document : task.getResult()) {
+                                id = document.getId();
+                                oldScore = Integer.parseInt(document.getString("score"));
+                            }
+                            if(id != null && oldScore<game.getScore()) {
+                                db.collection("leaderboard").document(id).delete();
+                                db.collection("leaderboard")
+                                        .add(leaderboard)
+                                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                            @Override
+                                            public void onSuccess(DocumentReference documentReference) {
+                                                DialogResultGame dialogWinGame = new DialogResultGame("Complimenti hai effettuato un nuovo Record", GameActivity.this);
+                                                dialogWinGame.show(getSupportFragmentManager(),"dialogNewScore");
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Toast.makeText(getApplicationContext(),"Errore di Sistema nel caricamento dello score",Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                            }else if(id == null) {
+                                db.collection("leaderboard")
+                                        .add(leaderboard)
+                                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                            @Override
+                                            public void onSuccess(DocumentReference documentReference) {
+                                                DialogResultGame dialogWinGame = new DialogResultGame("Complimenti hai effettuato un nuovo Record", GameActivity.this);
+                                                dialogWinGame.show(getSupportFragmentManager(),"dialogNewScore");
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Toast.makeText(getApplicationContext(),"Errore di Sistema nel caricamento dello score",Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                            }
+
+                        }
+                    }
+                });
+
+
+
+
 
     }
 }

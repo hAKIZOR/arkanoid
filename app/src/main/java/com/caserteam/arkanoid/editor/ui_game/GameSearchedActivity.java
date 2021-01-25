@@ -142,6 +142,12 @@ public class GameSearchedActivity extends AppCompatActivity implements GameListe
         updateHandler.sendEmptyMessage(3);
 
     }
+
+    @Override
+    public void onWinLevel() {
+
+    }
+
     @Override
     public void onResumeGame() {
         dialogPauseGame.dismiss();

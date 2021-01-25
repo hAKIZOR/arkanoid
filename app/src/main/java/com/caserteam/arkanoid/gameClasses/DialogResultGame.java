@@ -45,6 +45,9 @@ public class DialogResultGame extends DialogFragment {
             imageView.setBackground(activity.getResources().getDrawable(R.drawable.ic_win_arcade,null));
         } else if(textResult.equals(activity.getResources().getString(R.string.lose_game))) {
             imageView.setBackground(activity.getResources().getDrawable(R.drawable.ic_lose_multiplayer,null));
+        } else if(textResult.equals("Complimenti hai effettuato un nuovo Record")){
+            imageView.setBackground(activity.getResources().getDrawable(R.drawable.ic_win_multiplayer,null));
+
         }
         buttonGoOn.setOnClickListener(new View.OnClickListener() {
             @Override

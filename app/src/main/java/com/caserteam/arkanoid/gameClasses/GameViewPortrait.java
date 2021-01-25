@@ -138,7 +138,10 @@ public class GameViewPortrait extends Game {
         // in caso di sconfitta stampa "GameOver"
         if (isGameOver()) {
             if(levelCompleted()){
-                gameListener.onWinGame();
+                if(getNumberLevel()<=15) {
+                    gameListener.onWinLevel();
+                }else gameListener.onWinGame();
+
             } else {
                 gameListener.onGameOver();
             }
