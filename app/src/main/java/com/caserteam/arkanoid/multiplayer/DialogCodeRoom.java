@@ -29,8 +29,8 @@ public class DialogCodeRoom extends DialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.room_code_dialog,container,false);
         imageButtonClose = v.findViewById(R.id.imageButtonClose);
-        editTextRoomCode = v.findViewById(R.id.editTextCodeRoom);
-        buttonCreateRoom = v.findViewById(R.id.buttonSaveGuestScore);
+        editTextRoomCode = v.findViewById(R.id.editTextNicknameInsert);
+        buttonCreateRoom = v.findViewById(R.id.buttonCreateRoom);
         buttonJoinRoom = v.findViewById(R.id.buttonJoinRoom);
 
         buttonJoinRoom.setOnClickListener(new View.OnClickListener() {
@@ -86,4 +86,3 @@ public class DialogCodeRoom extends DialogFragment {
         this.dismiss();
     }
 }
-

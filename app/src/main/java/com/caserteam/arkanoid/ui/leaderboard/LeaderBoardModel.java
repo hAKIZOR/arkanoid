@@ -2,9 +2,9 @@ package com.caserteam.arkanoid.ui.leaderboard;
 
 public class LeaderBoardModel {
     private String nickname;
-    private String score;
+    private int score;
 
-    public LeaderBoardModel(String nickname, String score){
+    public LeaderBoardModel(String nickname, int score){
         this.nickname = nickname;
         this.score = score;
     }
@@ -22,11 +22,11 @@ public class LeaderBoardModel {
         this.nickname = nickname;
     }
 
-    public String getScore() {
+    public int getScore() {
         return score;
     }
 
-    public void setScore(String score) {
+    public void setScore(int score) {
         this.score = score;
     }
     @Override

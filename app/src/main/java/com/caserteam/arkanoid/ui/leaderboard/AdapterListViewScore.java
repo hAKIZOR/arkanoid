@@ -40,7 +40,7 @@ public class AdapterListViewScore extends ArrayAdapter<LeaderBoardModel> {
         TextView textViewScore = convertView.findViewById(R.id.scorePlayer);
 
         String nickname = getItem(position).getNickname();
-        String score = getItem(position).getScore();
+        String score = String.valueOf(getItem(position).getScore());
 
         textViewNickname.setText(nickname);
         textViewScore.setText(score);

@@ -52,6 +52,7 @@ public  class LoginActivity extends AppCompatActivity {
         public static final String KEY_PREFERENCES_USER_INFORMATION ="UserInformation";
         public static final String KEY_NICKNAME_PREFERENCES = "nickname";
         private static final String USERS_COLLECTION = "utenti";
+        public static final String NICKNAME_GUEST_PLAYER = "GuestPlayer";
         SharedPreferences preferences ;
 
 
@@ -89,7 +90,7 @@ public  class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
-                    preferences.edit().putString(KEY_NICKNAME_PREFERENCES,"Guest").commit();
+                    preferences.edit().putString(KEY_NICKNAME_PREFERENCES,NICKNAME_GUEST_PLAYER).commit();
                     startActivity(intent);
                 }
             });

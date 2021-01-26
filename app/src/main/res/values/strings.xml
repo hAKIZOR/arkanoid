@@ -8,6 +8,8 @@
     <string name="game_over" translatable="false">Game Over!</string>
     <string name="win_game_arcade"> Complimenti, hai completato tutti i livelli!</string>
     <string name="menu_pause"> Menù di pausa</string>
+    <string name="success_record">Complimenti, hai effettuato un nuovo Record</string>
+    <string name="failure_record">Peccato! non hai superato il tuo record di punti:   </string>
 
     <!-- label registrazione utente -->
     <string name="inserisci_un_nickname">Inserisci un Nickname</string>

@@ -77,11 +77,11 @@ public class GameSearchedActivity extends AppCompatActivity implements GameListe
                 Log.d(TAG,"PASSO");
                 switch (msg.what){
                     case 2:
-                        DialogResultGame dialogWinGame = new DialogResultGame(getResources().getString(R.string.win_game),GameSearchedActivity.this);
+                        DialogResultGame dialogWinGame = new DialogResultGame(getResources().getString(R.string.win_game),GameSearchedActivity.this,String.valueOf(game.getScore()));
                         dialogWinGame.show(getSupportFragmentManager(),"dialogWinGame");
                         break;
                     case 3:
-                        DialogResultGame dialogLoseGame = new DialogResultGame(getResources().getString(R.string.lose_game),GameSearchedActivity.this);
+                        DialogResultGame dialogLoseGame = new DialogResultGame(getResources().getString(R.string.lose_game),GameSearchedActivity.this,String.valueOf(game.getScore()));
                         dialogLoseGame.show(getSupportFragmentManager(),"dialogLoseGame");
                         break;
                 }

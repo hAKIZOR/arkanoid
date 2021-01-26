@@ -7,8 +7,11 @@
     android:background="@color/purple_200">
 
     <TableLayout
-        android:layout_width="404dp"
-        android:layout_height="237dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tabMaxWidth="0dp"
+        app:tabGravity="fill"
+        app:tabMode="fixed"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.569"

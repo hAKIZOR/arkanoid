@@ -7,45 +7,50 @@
     android:layout_height="match_parent"
     tools:context=".ui.leaderboard.LeaderBoardActivity">
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabLayoutLocalGlobal"
-        android:layout_width="411dp"
-        android:layout_height="69dp"
-        app:layout_constraintBottom_toTopOf="@+id/listScore"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        tools:ignore="MissingConstraints">
-
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/tabLocal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Local" />
-
-
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/tabGlobal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Global" />
-
-
-    </com.google.android.material.tabs.TabLayout>
-
-    <ListView
-        android:id="@+id/listScore"
-        android:layout_width="414dp"
-        android:layout_height="609dp"
-        android:scrollingCache="false"
-        android:smoothScrollbar="true"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayoutLocalGlobal"
+            android:layout_width="match_parent"
+            android:layout_height="62dp"
+            app:tabGravity="fill"
+            app:tabMaxWidth="0dp"
+            app:tabMode="fixed"
+            tools:ignore="MissingConstraints">
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tabLocal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Local" />
+
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tabGlobal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Global" />
+
+
+        </com.google.android.material.tabs.TabLayout>
+
+        <ListView
+            android:id="@+id/listScore"
+            android:layout_width="match_parent"
+            android:layout_height="672dp"
+            android:scrollingCache="false"
+            android:smoothScrollbar="true">
+
+        </ListView>
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

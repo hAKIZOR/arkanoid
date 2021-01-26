@@ -8,7 +8,6 @@ import android.view.View;
 import com.caserteam.arkanoid.R;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class Brick extends View {
 
@@ -37,11 +36,6 @@ public class Brick extends View {
 
 
 
-    }
-    public Brick(Context context,float x,float y){
-        super(context);
-        this.x=x;
-        this.y=y;
     }
     private void generatePoints(float x, float y,float base, float height){
 
@@ -290,19 +284,4 @@ public class Brick extends View {
     public int getHit() {
         return hit;
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Brick brick = (Brick) o;
-        return Float.compare(brick.x, x) == 0 &&
-                Float.compare(brick.y, y) == 0;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(x, y);
-    }
 }
-

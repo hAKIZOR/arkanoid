@@ -60,5 +60,7 @@
     <string name="win_game_arcade">Congratulations, you have completed all levels!</string>
     <string name="lose_game">you lose!</string>
     <string name="menu_pause">Pause menu</string>
+    <string name="success_record">Congratulations, you have made a new record</string>
+    <string name="failure_record">"Too bad! you have not exceeded your points record: "</string>
 
 </resources>

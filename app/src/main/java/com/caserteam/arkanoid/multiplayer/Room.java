@@ -1,10 +1,8 @@
 package com.caserteam.arkanoid.multiplayer;
 
-import com.caserteam.arkanoid.multiplayer.gameClasses.Brick;
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 @IgnoreExtraProperties
@@ -24,12 +22,6 @@ public class Room {
     public boolean started;
     public int score;
     public int life;
-    public float brickBasePlayer2;
-    public float paddingLeftGamePlayer2;
-    public float paddingTopGamePlayer2;
-    public float brickHeightPlayer2;
-    public float brickX;
-    public float brickY;
 
     public Room() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
@@ -37,8 +29,7 @@ public class Room {
 
     public Room( String player1, String player2, int xSpeedBall,
                  int ySpeedBall,float xBall,float yBall,float xPaddlePlayer1, float xPaddlePlayer2,boolean started,
-                 float sizeXPlayer1, float sizeXPlayer2, float sizeYPlayer1,float sizeYPlayer2, int score, int life, float brickBasePlayer2,float paddingLeftGamePlayer2, float paddingTopGamePlayer2,float brickHeightPlayer2,
-                 float brickX,float brickY) {
+                 float sizeXPlayer1, float sizeXPlayer2, float sizeYPlayer1,float sizeYPlayer2, int score, int life) {
         this.player1 = player1;
         this.player2 = player2;
         this.xSpeedBall = xSpeedBall;
@@ -54,12 +45,6 @@ public class Room {
         this.started=started;
         this.score=score;
         this.life=life;
-        this.brickBasePlayer2=brickBasePlayer2;
-        this.paddingLeftGamePlayer2=paddingLeftGamePlayer2;
-        this.paddingTopGamePlayer2=paddingTopGamePlayer2;
-        this.brickHeightPlayer2=brickHeightPlayer2;
-        this.brickX=brickY;
-        this.brickY=brickY;
     }
 
     @Exclude
@@ -80,13 +65,6 @@ public class Room {
         result.put("started",started);
         result.put("score",score);
         result.put("life",life);
-        result.put("brickBasePlayer2",brickBasePlayer2);
-        result.put("paddingLeftGamePlayer2",paddingLeftGamePlayer2);
-        result.put("paddingTopGamePlayer2",paddingTopGamePlayer2);
-        result.put("brickHeightPlayer2",brickHeightPlayer2);
-        result.put("brickX",brickX);
-        result.put("brickY",brickY);
-
 
         return result;
     }

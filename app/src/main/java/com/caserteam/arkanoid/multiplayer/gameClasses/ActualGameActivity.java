@@ -5,11 +5,17 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
 import com.caserteam.arkanoid.LoginActivity;
+import com.caserteam.arkanoid.R;
+import com.caserteam.arkanoid.editor.ui_game.DialogResultGame;
+import com.caserteam.arkanoid.gameClasses.GameActivity;
 import com.caserteam.arkanoid.multiplayer.MultiplayerActivity;
 import com.caserteam.arkanoid.multiplayer.Room;
 import com.google.firebase.database.DatabaseReference;
@@ -25,7 +31,7 @@ public class ActualGameActivity extends AppCompatActivity {
 
 
     private Game game;
-    private UpdateThread myThread;
+    private HandlerThread thread;
     private Handler updateHandler;
     private GestureDetectorCompat gestureDetector;
     private Room room;
@@ -59,29 +65,39 @@ public class ActualGameActivity extends AppCompatActivity {
         setContentView(game);
 
 
-
-
-        // creare un nuova partita
-
-
-
         // crea handler e thread
-        createHandler();
-        myThread = new UpdateThread(updateHandler);
-        myThread.start();
+        thread = new HandlerThread ("MyHandlerThread");
+        thread.start();
+        Looper looper = thread.getLooper ();
+        updateHandler = new Handler(looper) {
+            @Override
+            public void handleMessage(Message msg) {
+
+            }
+        };
+        //setto l'esecuzione dell'handler
+        updateHandler.post (new Runnable () {
+            @Override
+            public void run() {
+                while (!game.isGameOver()){
+                    try {
+                        thread.sleep(30);
+
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    game.invalidate();
+                    game.update();
+
+                }
+            }
+
+        });
         getSupportActionBar().hide();
     }
 
-    private void createHandler() {
-        updateHandler = new Handler() {
-            @SuppressLint("HandlerLeak")
-            public void handleMessage(Message msg) {
-                game.invalidate();
-                game.update();
-                super.handleMessage(msg);
-            }
-        };
-    }
+
 
 
     protected void onPause() {
@@ -92,6 +108,18 @@ public class ActualGameActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         game.resumeGame();
+    }
+    @Override
+    protected void onStop() {
+        thread.quit();
+        super.onStop();
+
+    }
+    @Override
+    protected void onDestroy() {
+        thread.quit();
+        super.onDestroy();
+
     }
 
     @Override

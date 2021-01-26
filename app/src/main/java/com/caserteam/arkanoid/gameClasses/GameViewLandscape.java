@@ -145,6 +145,7 @@ public class GameViewLandscape extends Game {
         canvas.drawText("PT:" + getScore(), (float) (size.x-(size.x*(0.98))), 150, paint);
         canvas.drawText("LSR:" + getLaserSoundRemaining(), (float) (size.x-(size.x*(0.98))), 220, paint);
         canvas.drawText("PIANO:" + getHandsPianoRemaining(), (float) (size.x-(size.x*(0.98))), 290, paint);
+        canvas.drawText("LEVEL:" + getNumberLevel(), (float) (size.x-(size.x*(0.98))), 370, paint);
 
         // in caso di sconfitta stampa "GameOver"
         if (isGameOver()) {

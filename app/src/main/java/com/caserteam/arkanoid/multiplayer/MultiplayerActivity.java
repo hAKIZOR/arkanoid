@@ -165,7 +165,7 @@ public class MultiplayerActivity extends AppCompatActivity implements
 
                 } else {
                     //esiste nelle rooms una room con il codice inserito
-                   showErrorMessage(getResources().getString(R.string.error_exist_room));
+                    showErrorMessage(getResources().getString(R.string.error_exist_room));
                 }
             }
 
@@ -183,7 +183,7 @@ public class MultiplayerActivity extends AppCompatActivity implements
     public void createRoom(LoadingDialog load, String code, String nickname, DataSnapshot roomToHaveAccess) {
         // creazione della stanza con i relativi controlli
         DatabaseReference roomRef = firebaseDatabase.getReference(ROOMS_NODE + "/" + code);
-        room = new Room(nickname,EMPTY_STRING,0,0,0,0,0,0,false,0,0,0,0,0,3,0,0,0,0,0,0);
+        room = new Room(nickname,EMPTY_STRING,0,0,0,0,0,0,false,0,0,0,0,0,3);
 
         roomRef.setValue(room, new DatabaseReference.CompletionListener() {
             @Override
@@ -193,13 +193,13 @@ public class MultiplayerActivity extends AppCompatActivity implements
                     public void onDataChange(@NonNull DataSnapshot fieldPlayer2) {
                         if(fieldPlayer2.getValue() != null){
                             if(! fieldPlayer2.getValue().equals(EMPTY_STRING)){
-                                    // il giocatore accede alla stanza poichè passa tutti i controlli sulla disponibilità del posto in stanza
-                                    load.dismissDialog();
-                                    Intent intent = new Intent(MultiplayerActivity.this,ActualGameActivity.class);
-                                    intent.putExtra(STATE_CODE,code);
-                                    intent.putExtra(CODE_PLAYER_EXTRA,PLAYER1_NODE);
-                                    ref.child(PLAYER2_NODE).removeEventListener(this);
-                                    startActivity(intent);
+                                // il giocatore accede alla stanza poichè passa tutti i controlli sulla disponibilità del posto in stanza
+                                load.dismissDialog();
+                                Intent intent = new Intent(MultiplayerActivity.this,ActualGameActivity.class);
+                                intent.putExtra(STATE_CODE,code);
+                                intent.putExtra(CODE_PLAYER_EXTRA,PLAYER1_NODE);
+                                ref.child(PLAYER2_NODE).removeEventListener(this);
+                                startActivity(intent);
                             }
                         } else {
                             ref.child(PLAYER2_NODE).removeEventListener(this);
@@ -242,5 +242,3 @@ public class MultiplayerActivity extends AppCompatActivity implements
         Toast.makeText(MultiplayerActivity.this,message,Toast.LENGTH_SHORT).show();
     }
 }
-
-

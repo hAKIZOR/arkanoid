@@ -783,7 +783,7 @@ public class Game extends View implements
     public void initializeButtonPause(Activity activity){
         fabButtonPause = new ButtonPause.Builder(activity)
                 .withDrawable(getResources().getDrawable(R.drawable.pause_on,null))
-                .withGravity(Gravity.BOTTOM | Gravity.CENTER)
+                .withGravity(Gravity.BOTTOM | Gravity.LEFT)
                 .withMargins(0, 0, 0, 0)
                 .create();
         fabButtonPause.setButtonPauseListener(this);

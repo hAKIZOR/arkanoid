@@ -6,12 +6,12 @@ import android.content.Context;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -47,8 +47,8 @@ public class DialogSaveGuestScore extends DialogFragment {
        View v = inflater.inflate(R.layout.guest_score_fragment_dialog,container,false);
 
 
-       buttonSave = v.findViewById(R.id.buttonSaveGuestScore);
-       editTextPlayerName = v.findViewById(R.id.editTextCodeRoom);
+       buttonSave = v.findViewById(R.id.buttonCreateRoom);
+       editTextPlayerName = v.findViewById(R.id.editTextNicknameInsert);
 
         if(nickname != null){
             editTextPlayerName.setText(nickname);
@@ -62,6 +62,7 @@ public class DialogSaveGuestScore extends DialogFragment {
                     dbHelper = new DatabaseHelper(context);
                     SQLiteDatabase db = dbHelper.getWritableDatabase();
                     ContentValues values = new ContentValues();
+                    Log.d("dialogSaveGuestScore",String.valueOf(score));
                     values.put("score", score);
                     values.put("nickname", editTextPlayerName.getText().toString());
                     db.insertOrThrow("leaderboard", null, values);

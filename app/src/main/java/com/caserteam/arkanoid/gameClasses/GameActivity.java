@@ -42,7 +42,9 @@ import java.util.Map;
 
 public class GameActivity extends AppCompatActivity implements GameListener {
 
-
+    private static final String FIELD_NICKNAME = "nickname";
+    public static final String FIELD_SCORE = "score";
+    public static final String COLLECTION_LEADERBOARD ="leaderboard";
     private static final String TAG = "GameSearchedActivity";
     private Game game;
     private HandlerThread thread;
@@ -97,11 +99,11 @@ public class GameActivity extends AppCompatActivity implements GameListener {
                 Log.d(TAG,"PASSO");
                 switch (msg.what){
                     case 2:
-                        DialogResultGame dialogWinGame = new DialogResultGame(getResources().getString(R.string.win_game), GameActivity.this);
+                        DialogResultGame dialogWinGame = new DialogResultGame(getResources().getString(R.string.win_game), GameActivity.this,String.valueOf(game.getScore()));
                         dialogWinGame.show(getSupportFragmentManager(),"dialogWinGame");
                         break;
                     case 3:
-                        DialogResultGame dialogLoseGame = new DialogResultGame(getResources().getString(R.string.lose_game), GameActivity.this);
+                        DialogResultGame dialogLoseGame = new DialogResultGame(getResources().getString(R.string.lose_game), GameActivity.this,String.valueOf(game.getScore()));
                         dialogLoseGame.show(getSupportFragmentManager(),"dialogLoseGame");
                         break;
                 }
@@ -261,69 +263,84 @@ public class GameActivity extends AppCompatActivity implements GameListener {
         SharedPreferences account = getSharedPreferences(LoginActivity.KEY_PREFERENCES_USER_INFORMATION,MODE_PRIVATE);
         String accountName = account.getString(LoginActivity.KEY_NICKNAME_PREFERENCES,"");
         DocumentSnapshot ref = null;
-        Map<String, String> leaderboard = new HashMap<>();
-        leaderboard.put("nickname",accountName);
-        leaderboard.put("score",String.valueOf(game.getScore()));
+        int finalScore = game.getScore();
 
-        if(!accountName.equals("Guest")) {
-            db.collection("leaderboard")
-                    .whereEqualTo("nickname", accountName)
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                String id = null;
-                                int oldScore = 0;
-                                for (DocumentSnapshot document : task.getResult()) {
-                                    id = document.getId();
-                                    oldScore = Integer.parseInt(document.getString("score"));
-                                }
-                                if (id != null && oldScore < game.getScore()) {
-                                    db.collection("leaderboard").document(id).delete();
-                                    db.collection("leaderboard")
-                                            .add(leaderboard)
-                                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                                @Override
-                                                public void onSuccess(DocumentReference documentReference) {
-                                                    DialogResultGame dialogWinGame = new DialogResultGame("Complimenti hai effettuato un nuovo Record", GameActivity.this);
-                                                    dialogWinGame.show(getSupportFragmentManager(), "dialogNewScore");
-                                                }
-                                            })
-                                            .addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    Toast.makeText(getApplicationContext(), "Errore di Sistema nel caricamento dello score", Toast.LENGTH_SHORT).show();
-                                                }
-                                            });
-                                } else if (id == null) {
-                                    db.collection("leaderboard")
-                                            .add(leaderboard)
-                                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                                @Override
-                                                public void onSuccess(DocumentReference documentReference) {
-                                                    DialogResultGame dialogWinGame = new DialogResultGame("Complimenti hai effettuato un nuovo Record", GameActivity.this);
-                                                    dialogWinGame.show(getSupportFragmentManager(), "dialogNewScore");
-                                                }
-                                            })
-                                            .addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    Toast.makeText(getApplicationContext(), "Errore di Sistema nel caricamento dello score", Toast.LENGTH_SHORT).show();
-                                                }
-                                            });
-                                }
-
-                            }
-                        }
-                    });
-
-
+        if(!accountName.equals(LoginActivity.NICKNAME_GUEST_PLAYER)) {
+            updateRecordInRemoteDB(finalScore,accountName);
         }else {
-
-            DialogSaveGuestScore dialogSaveGuestScore = new DialogSaveGuestScore(game.getScore(),this, GameActivity.this);
-            dialogSaveGuestScore.show(getSupportFragmentManager(),"dialogNewGuestScore");
-
+            updateRecordInLocalDB(finalScore);
         }
+
+    }
+
+    private void updateRecordInLocalDB(int finalScore) {
+        DialogSaveGuestScore dialogSaveGuestScore = new DialogSaveGuestScore(finalScore,this, GameActivity.this);
+        dialogSaveGuestScore.show(getSupportFragmentManager(),"dialogNewGuestScore");
+    }
+
+    private void updateRecordInRemoteDB(int finalScore,String accountName) {
+        Map<String, Object> leaderboard = new HashMap<>();
+        leaderboard.put(FIELD_NICKNAME,accountName);
+        leaderboard.put(FIELD_SCORE,finalScore);
+
+        db.collection(COLLECTION_LEADERBOARD)
+                .whereEqualTo(FIELD_NICKNAME, accountName)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            String id = null;
+                            int record = 0;
+                            for (DocumentSnapshot document : task.getResult()) {
+                                id = document.getId();
+                                record = document.getDouble("score").intValue();
+                            }
+                            if (id != null && record <= finalScore) {
+                                //sovrascrivi il record
+                                db.collection(COLLECTION_LEADERBOARD).document(id).delete();
+                                db.collection(COLLECTION_LEADERBOARD)
+                                        .add(leaderboard)
+                                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                            @Override
+                                            public void onSuccess(DocumentReference documentReference) {
+                                                DialogResultGame dialogHighScore = new DialogResultGame(getResources().getString(R.string.success_record), GameActivity.this,String.valueOf(finalScore));
+                                                dialogHighScore.show(getSupportFragmentManager(), "dialogNewScore");
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Toast.makeText(getApplicationContext(), "Errore nel caricamento dello score", Toast.LENGTH_SHORT).show();
+                                                finish();
+                                            }
+                                        });
+                            } else if (id == null) {
+                                // crea un nuovo record
+                                db.collection(COLLECTION_LEADERBOARD)
+                                        .add(leaderboard)
+                                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                            @Override
+                                            public void onSuccess(DocumentReference documentReference) {
+                                                DialogResultGame dialogHighScore = new DialogResultGame(getResources().getString(R.string.success_record), GameActivity.this,String.valueOf(finalScore));
+                                                dialogHighScore.show(getSupportFragmentManager(), "dialogNewScore");
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Toast.makeText(getApplicationContext(), "Errore nel caricamento dello score", Toast.LENGTH_SHORT).show();
+                                                finish();
+                                            }
+                                        });
+                            } else if ( record > finalScore){
+                                //non aggiorna nulla nel leaderboard perchè il record non è stato battuto
+                                DialogResultGame dialogLowScore = new DialogResultGame(getResources().getString(R.string.failure_record) , GameActivity.this,String.valueOf(record));
+                                dialogLowScore.show(getSupportFragmentManager(), "dialogNewScore");
+                            }
+
+                        }
+                    }
+                });
     }
 }

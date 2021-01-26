@@ -24,28 +24,27 @@
 
             <ImageView
                 android:id="@+id/imageResultGame"
-                android:layout_width="188dp"
-                android:layout_height="212dp"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.49"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.08"></ImageView>
+                app:layout_constraintVertical_bias="0.064"></ImageView>
 
             <TextView
                 android:id="@+id/resultGameTextView"
-                android:layout_width="184dp"
-                android:layout_height="68dp"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
                 android:layout_marginBottom="128dp"
                 android:gravity="center"
                 android:text="resultGame"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.495"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageResultGame" />
+                app:layout_constraintTop_toBottomOf="@+id/imageResultGame"
+                app:layout_constraintVertical_bias="0.264" />
 
             <Button
                 android:id="@+id/buttonGoOn"
@@ -54,9 +53,22 @@
                 android:text="@string/avanti"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.501"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/resultGameTextView"
-                app:layout_constraintVertical_bias="0.431" />
+                app:layout_constraintVertical_bias="0.807" />
+
+            <TextView
+                android:id="@+id/textViewScore"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:gravity="center"
+                android:text="score"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toTopOf="@+id/buttonGoOn"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/resultGameTextView" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

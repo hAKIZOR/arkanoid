@@ -62,8 +62,8 @@ public class DialogSaveLevel extends DialogFragment {
 
 
        imageButtonClose = v.findViewById(R.id.imageButtonClose);
-       buttonSave = v.findViewById(R.id.buttonSaveGuestScore);
-       editTextLevelName = v.findViewById(R.id.editTextCodeRoom);
+       buttonSave = v.findViewById(R.id.buttonCreateRoom);
+       editTextLevelName = v.findViewById(R.id.editTextNicknameInsert);
 
         if(nameLevel != null){
             editTextLevelName.setText(nameLevel);

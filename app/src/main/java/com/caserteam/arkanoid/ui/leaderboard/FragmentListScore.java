@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
@@ -23,8 +24,10 @@ import com.caserteam.arkanoid.R;
 import com.caserteam.arkanoid.editor.ui_plus_check.FragmentDetailBricks;
 import com.caserteam.arkanoid.editor.ui_plus_check.FragmentDetailsObstacles;
 import com.caserteam.arkanoid.editor.ui_plus_check.FragmentVoid;
+import com.caserteam.arkanoid.editor.ui_upload_check.LoadingDialog;
 import com.caserteam.arkanoid.gameClasses.Level;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
@@ -37,9 +40,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.io.IOException;
 import java.util.ArrayList;
 
-/**
- * A placeholder fragment containing a simple view.
- */
+
 public class FragmentListScore extends Fragment {
     private TabLayout tabLayout;
     private ListView listScore;
@@ -84,6 +85,7 @@ public class FragmentListScore extends Fragment {
                         setGlobalListView(v);
                         break;
 
+
                 }
                 
             }
@@ -105,17 +107,29 @@ public class FragmentListScore extends Fragment {
     private void setGlobalListView(View view) {
         listScore = (ListView) view.findViewById(R.id.listScore);
         lModel = new ArrayList<>();
+        LoadingDialog loadingDialog = new LoadingDialog(getActivity());
+        loadingDialog.startDialog("caricamento");
         // riempio l'arrayList di valori
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("leaderboard").orderBy("score", Query.Direction.DESCENDING).limit(10).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-            for(DocumentSnapshot documentSnapshot: task.getResult()){
-                lModel.add(documentSnapshot.toObject(LeaderBoardModel.class));
+                for(DocumentSnapshot documentSnapshot: task.getResult()){
+                    lModel.add(documentSnapshot.toObject(LeaderBoardModel.class));
+                }
+                loadingDialog.dismissDialog();
+                if(lModel.size() > 0) {
+                    adapterListViewScore = new AdapterListViewScore(context,R.layout.row_layout_leader_board,lModel);
+                    listScore.setAdapter(adapterListViewScore);
+                } else {
+                    Toast.makeText(context,"nessun giocatore presente nella classifica",Toast.LENGTH_SHORT);
+                }
 
             }
-                adapterListViewScore = new AdapterListViewScore(context,R.layout.row_layout_leader_board,lModel);
-                listScore.setAdapter(adapterListViewScore);
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(context,"impossibile caricare i dati",Toast.LENGTH_SHORT);
             }
         });
         //setto l'adapter
@@ -133,7 +147,7 @@ public class FragmentListScore extends Fragment {
 
         // riempio l'arrayList di valori
         while(c.moveToNext()) {
-            lModel.add(new LeaderBoardModel(c.getString(c.getColumnIndexOrThrow("nickname")),c.getString(c.getColumnIndexOrThrow("score"))));
+            lModel.add(new LeaderBoardModel(c.getString(c.getColumnIndexOrThrow("nickname")),c.getColumnIndexOrThrow("score")));
         }
 
         c.close();

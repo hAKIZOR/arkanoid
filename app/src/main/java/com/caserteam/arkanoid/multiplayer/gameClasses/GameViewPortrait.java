@@ -11,8 +11,6 @@ import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
-import android.media.MediaPlayer;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
@@ -24,15 +22,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
 
-import okhttp3.internal.cache.DiskLruCache;
 
+public class GameViewPortrait extends Game {
 
-public class GameViewPortrait extends Game implements ValueEventListener {
-
-    private static final String TAG = "sizeYPlayer1" ;
     private Bitmap background;
     private Display display;
     private Point size;
@@ -41,13 +35,16 @@ public class GameViewPortrait extends Game implements ValueEventListener {
 
 
     public GameViewPortrait(Context context,int lifes, int score,String playerRole, DatabaseReference roomRef){
-        super(context, lifes, score,playerRole,roomRef);
+        super(context, lifes, score,roomRef);
         paint = new Paint();
         setBackground(context);
         setSens(2); // <-- setta la sensitività dell'accellerometro
-        setSizeX(size.x);
-        setSizeY(size.y);
-        ball = new Ball(context,0, 0, 0,getSizeX(),getSizeY());
+        setSizeXThisDevice(size.x);
+        setSizeYThisDevice(size.y);
+
+        this.playerRole = playerRole;
+        //crea palla e paddle
+        ball = new Ball(context,0, 0, 0,(float) (size.x * (0.05)),(float) (size.y * (0.03)));
         super.roomRef.addValueEventListener(this);
 
         //setta posizione della palla
@@ -60,37 +57,37 @@ public class GameViewPortrait extends Game implements ValueEventListener {
         paddle.setWidthp((float) (size.x * (0.1)));
         paddle2.setWidthp((float) (size.x * (0.1)));
 
+
+
         if(playerRole.equals("player1")) {
             paddle.setX((size.x/2) - (paddle.getWidthp()));
             paddle.setY((float) (size.y - (size.y / 50)));
-            Log.d("Game", "x---->" + String.valueOf(size.x -((size.x/4))));
+            Log.d("Game", "x---->" + String.valueOf(size.x - ((size.x/4))));
             paddle2.setX(size.x/2);
             paddle2.setY((float) (size.y - (size.y / 50)));
 
             minPositionPaddle = 0;
             maxPositionPaddle = size.x/2;
-            fieldXPaddle1 = "xPaddlePlayer1";
-            fieldXPaddle2 = "xPaddlePlayer2";
-            fieldSizeXPlayer1 = "sizeXPlayer1";
-            fieldSizeXPlayer2 = "sizeXPlayer2";
-            fieldSizeYPlayer1 = "sizeYPlayer1";
-            fieldSizeYPlayer2 = "sizeYPlayer2";
+            fieldXPaddleThisDevice = "xPaddlePlayer1";
+            fieldXPaddleOtherDevice = "xPaddlePlayer2";
+            fieldSizeXPlayerThisDevice = "sizeXPlayer1";
+            fieldSizeXPlayerOtherDevice = "sizeXPlayer2";
+            fieldSizeYPlayerThisDevice = "sizeYPlayer1";
+            fieldSizeYPlayerOtherDevice = "sizeYPlayer2";
             fieldxBall="xBall";
             fieldyBall="yBall";
             fieldxSpeedBall="xSpeedBall";
             fieldySpeedBall="ySpeedBall";
             fieldStarted="started";
 
-
-            roomRef.child(fieldSizeXPlayer1).setValue(size.x);
-
-            roomRef.child(fieldSizeXPlayer2).addValueEventListener(new ValueEventListener() {
+            roomRef.child(fieldSizeXPlayerThisDevice).setValue(size.x);
+            roomRef.child(fieldSizeXPlayerOtherDevice).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     float value = Float.parseFloat(snapshot.getValue().toString());
                     if( value != 0){
                         sendToDb((float) ((value/2) - (value*(0.1))));
-                        roomRef.child(fieldSizeXPlayer2).removeEventListener(this);
+                        roomRef.child(fieldSizeXPlayerOtherDevice).removeEventListener(this);
                     }
                 }
 
@@ -100,48 +97,35 @@ public class GameViewPortrait extends Game implements ValueEventListener {
                 }
             });
 
-            roomRef.child(fieldSizeYPlayer2).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    float value = Float.parseFloat(snapshot.getValue().toString());
-                    if( value != 0){
-                        size2Y=value;
-                        roomRef.child(fieldSizeYPlayer2).removeEventListener(this);
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
         } else {
             paddle.setX((size.x/2));
             paddle.setY((float) (size.y - (size.y / 50)));
             paddle2.setX((size.x/2) - (paddle.getWidthp()));
             paddle2.setY((float) (size.y - (size.y / 50)));
+
             minPositionPaddle = size.x/2;
             maxPositionPaddle = size.x;
-            fieldXPaddle1 = "xPaddlePlayer2";
-            fieldXPaddle2 = "xPaddlePlayer1";
+
+            fieldXPaddleThisDevice = "xPaddlePlayer2";
+            fieldXPaddleOtherDevice = "xPaddlePlayer1";
             fieldxBall="xBall";
             fieldyBall="yBall";
             fieldxSpeedBall="xSpeedBall";
             fieldySpeedBall="ySpeedBall";
             fieldStarted="started";
-            fieldSizeXPlayer1 = "sizeXPlayer2";
-            fieldSizeXPlayer2 = "sizeXPlayer1";
-            fieldSizeYPlayer1 = "sizeYPlayer2";
-            fieldSizeYPlayer2 = "sizeYPlayer1";
+            fieldSizeXPlayerThisDevice = "sizeXPlayer2";
+            fieldSizeXPlayerOtherDevice = "sizeXPlayer1";
+            fieldSizeYPlayerThisDevice = "sizeYPlayer2";
+            fieldSizeYPlayerOtherDevice = "sizeYPlayer1";
 
-            roomRef.child(fieldSizeXPlayer1).setValue(size.x);
-            roomRef.child(fieldSizeXPlayer2).addValueEventListener(new ValueEventListener() {
+            roomRef.child(fieldSizeXPlayerThisDevice).setValue(size.x);
+            roomRef.child(fieldSizeXPlayerOtherDevice).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     float value = Float.parseFloat(snapshot.getValue().toString());
                     if( value != 0){
-                        sendToDb(value/2);
-                        roomRef.child(fieldSizeXPlayer2).removeEventListener(this);
+                        sendToDb((float) (value/2));
+                        roomRef.child(fieldSizeXPlayerThisDevice).removeEventListener(this);
                     }
                 }
 
@@ -151,17 +135,30 @@ public class GameViewPortrait extends Game implements ValueEventListener {
                 }
             });
 
-            roomRef.child(fieldSizeYPlayer1).setValue(size.y);
-
         }
 
+        roomRef.child(fieldSizeYPlayerThisDevice).setValue(size.y);
+        roomRef.child(fieldSizeYPlayerOtherDevice).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                float value = Float.parseFloat(snapshot.getValue().toString());
+                if( value != 0){
+                    sizeYOtherDevice = value;
+                    roomRef.child(fieldSizeYPlayerOtherDevice).removeEventListener(this);
+                }
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         //setto i bordi
         setUpBoard(150);
         setDownBoard(size.y);
         setLeftBoard(0);
-        setRightBoard(getSizeX() - 60);
+        setRightBoard(getSizeXThisDevice() - 60);
 
         //setto colonne e righe dei mattoni
         setColumns(9);
@@ -265,7 +262,6 @@ public class GameViewPortrait extends Game implements ValueEventListener {
     public void onSensorChanged(SensorEvent event) {
         /*if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
             getPaddle().setX(getPaddle().getX() - (event.values[0] * getSens()));
-
             if (getPaddle().getX() + event.values[0] > size.x - getPaddle().getWidthp()) {
                 getPaddle().setX(size.x - getPaddle().getWidthp());
             } else if (getPaddle().getX() - event.values[0] <= 20) {
@@ -277,36 +273,6 @@ public class GameViewPortrait extends Game implements ValueEventListener {
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
     }
-    @Override
-    public void onDataChange(@NonNull DataSnapshot snapshot) {
-        /*
-        prendere il valore dal database così com'è
-        */
 
-        size2X = Float.parseFloat(snapshot.child(fieldSizeXPlayer2).getValue().toString());
-        size2Y = Float.parseFloat(snapshot.child(fieldSizeXPlayer2).getValue().toString());
-        float xPaddle = Float.parseFloat(snapshot.child(fieldXPaddle2).getValue().toString());
 
-        paddle2.setX(xPaddle);
-
-        if(playerRole.equals("player2")){
-            ball.setX(Float.parseFloat(snapshot.child(fieldxBall).getValue().toString()));
-            ball.setY(Float.parseFloat(snapshot.child(fieldyBall).getValue().toString()));
-            ball.setSpeed(Integer.parseInt(snapshot.child(fieldxSpeedBall).getValue().toString()),Integer.parseInt(snapshot.child(fieldySpeedBall).getValue().toString()));
-            start = Boolean.parseBoolean(snapshot.child(fieldStarted).getValue().toString());
-            Brick b= new Brick(context,(Float.parseFloat(snapshot.child("brickX").getValue().toString())),(Float.parseFloat(snapshot.child("brickY").getValue().toString())));
-            for(int i = 0; i < brickList.size(); i++){
-                if(brickList.get(i).equals(b)){
-                    soundPool.play(soundNote[b.getSoundName() - 1], 1, 1, 0, 0, 1);
-                    brickList.remove(i);
-                }
-            }
-        }
-
-    }
-
-    @Override
-    public void onCancelled(@NonNull DatabaseError error) {
-
-    }
 }

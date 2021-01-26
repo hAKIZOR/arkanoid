@@ -38,7 +38,8 @@ import androidx.core.view.GestureDetectorCompat;
 public class Game extends View implements
         SensorEventListener,
         View.OnTouchListener,
-        GestureDetector.OnGestureListener{
+        GestureDetector.OnGestureListener,
+        ValueEventListener{
     private static final String DEBUG_STRING = "Game";
 
 
@@ -48,32 +49,27 @@ public class Game extends View implements
     private int numberLevel = 1;
     private Level level;
     private ArrayList<Level> levels;
-    protected ArrayList<Brick> brickList;
+    private ArrayList<Brick> brickList;
     private ArrayList<PowerUp> powerUps;
     private ArrayList<LaserSound> laserDropped;
     protected float minPositionPaddle;
     protected float maxPositionPaddle;
 
-    protected String fieldXPaddle1;
-    protected String fieldXPaddle2;
-    protected String fieldSizeXPlayer1;
-    protected String fieldSizeXPlayer2;
-    protected String fieldSizeYPlayer1;
-    protected String fieldSizeYPlayer2;
+    protected String fieldXPaddleThisDevice;
+    protected String fieldXPaddleOtherDevice;
+    protected String fieldSizeXPlayerThisDevice;
+    protected String fieldSizeXPlayerOtherDevice;
+    protected String fieldSizeYPlayerThisDevice;
+    protected String fieldSizeYPlayerOtherDevice;
     protected String fieldxBall;
     protected String fieldyBall;
     protected String fieldxSpeedBall;
     protected String fieldySpeedBall;
     protected String fieldStarted;
 
-    protected String brickBasePlayer2="brickBasePlayer2";
-    protected String paddingLeftGamePlayer2="paddingLeftGamePlayer2";
-    protected String paddingTopGamePlayer2= "paddingTopGamePlayer2";
-    protected String brickHeightPlayer2="brickHeightPlayer2";
-
     protected float dpi2;
-    protected float size2X;
-    protected float size2Y;
+    protected float sizeXOtherDevice;
+    protected float sizeYOtherDevice;
 
 
     protected boolean start;
@@ -104,8 +100,8 @@ public class Game extends View implements
     protected Paddle paddle2;
     private PowerUp powerUp;
 
-    private int sizeX;
-    private int sizeY;
+    private int sizeXThisDevice;
+    private int sizeYThisDevice;
     private float brickBase;
     private float brickHeight;
 
@@ -127,11 +123,14 @@ public class Game extends View implements
     protected DatabaseReference roomRef;
     protected DisplayMetrics metrics;
 
-    public Game(Context context, int lifes, int score, String playerRole,DatabaseReference roomRef) {
+    public Game(Context context, int lifes, int score,DatabaseReference roomRef) {
         super(context);
         this.roomRef = roomRef;
         //impostare contesto
         this.context = context;
+
+        paddle = new Paddle(context,0, 0, 0);
+        paddle2 = new Paddle(context,0, 0, 0);
 
         loadControlSystemFromFile();
         //impostare vite, punteggi e livelli
@@ -142,8 +141,6 @@ public class Game extends View implements
         powerUps= new ArrayList<>();
         laserDropped= new ArrayList<>();
 
-        this.playerRole = playerRole;
-
         metrics = getResources().getDisplayMetrics();
 
 
@@ -152,10 +149,7 @@ public class Game extends View implements
         start = false;
         gameOver = false;
 
-        //crea palla e paddle
 
-        paddle = new Paddle(context,0, 0, 0);
-        paddle2 = new Paddle(context,0, 0, 0);
 
 
 
@@ -222,7 +216,6 @@ public class Game extends View implements
             i.printStackTrace();
             return;
         } catch (ClassNotFoundException c) {
-            System.out.println("Employee class not found");
             c.printStackTrace();
             return;
         }
@@ -246,130 +239,13 @@ public class Game extends View implements
 
     // riempire l'elenco con i mattoni
     public void generateBricks(Context context, Level level, int columns, int row, float brickBase, float brickHeight, float paddingLeftGame, float paddingTopGame ) {
-
-
-        if (playerRole.equals("player1")){
-
-            int a=0;
-            for (int i = 0; i < row; i++) {
-                for (int j = 0; j < columns; j++) {
-                    if(level.getA(a)!=0) {
-                        brickList.add(new Brick(context,  (brickBase * j) + paddingLeftGame, (brickHeight* i) + paddingTopGame, level.getA(a),brickBase,brickHeight));
-                    }
-                    a++;
+        int a=0;
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < columns; j++) {
+                if(level.getA(a)!=0) {
+                    brickList.add(new Brick(context,  (brickBase * j) + paddingLeftGame, (brickHeight* i) + paddingTopGame, level.getA(a),brickBase,brickHeight));
                 }
-            }
-
-            roomRef.child("sizeXPlayer2").addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    float value = Float.parseFloat(snapshot.getValue().toString());
-                    if( value != 0){
-                        size2X=value;
-                        roomRef.child("sizeXPlayer2").removeEventListener(this);
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
-            roomRef.child("sizeYPlayer2").addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    float value = Float.parseFloat(snapshot.getValue().toString());
-                    if( value != 0){
-                        size2Y=value;
-                        roomRef.child("sizeYPlayer2").removeEventListener(this);
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
-
-            roomRef.child(brickBasePlayer2).setValue((getBrickBase()*1080)/1080);
-            roomRef.child(brickHeightPlayer2).setValue((getBrickHeight()*2088)/2062);
-            roomRef.child(paddingLeftGamePlayer2).setValue((getPaddingLeftGame()*1080)/1080);
-            roomRef.child(paddingTopGamePlayer2).setValue((getPaddingTopGame()*2088)/2062);
-
-        }else{
-
-
-            roomRef.child(brickBasePlayer2).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    float value = Float.parseFloat(snapshot.getValue().toString());
-                    if( value != 0){
-                        setBrickBase(value);
-                        roomRef.child(brickBasePlayer2).removeEventListener(this);
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
-
-            roomRef.child(brickHeightPlayer2).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    float value = Float.parseFloat(snapshot.getValue().toString());
-                    if( value != 0){
-                        setBrickHeight(value);
-                        roomRef.child(brickHeightPlayer2).removeEventListener(this);
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
-
-            roomRef.child(paddingLeftGamePlayer2).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    float value = Float.parseFloat(snapshot.getValue().toString());
-                    if( value != 0){
-                        setpaddingLeftGame(value);
-                        roomRef.child(paddingLeftGamePlayer2).removeEventListener(this);
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
-            roomRef.child(paddingTopGamePlayer2).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    float value = Float.parseFloat(snapshot.getValue().toString());
-                    if( value != 0){
-                        setpaddingTopGame(value);
-                        roomRef.child(paddingTopGamePlayer2).removeEventListener(this);
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
-
-            int a=0;
-            for (int i = 0; i < row; i++) {
-                for (int j = 0; j < columns; j++) {
-                    if(level.getA(a)!=0) {
-                        brickList.add(new Brick(context,  (brickBase * j) + paddingLeftGame, (brickHeight* i) + paddingTopGame, level.getA(a),brickBase,brickHeight));
-                    }
-                    a++;
-                }
+                a++;
             }
         }
     }
@@ -391,7 +267,7 @@ public class Game extends View implements
                 ball.changeDirectionPaddle(paddle2);
             }
 
-        }else if((ball.getY() + ball.getySpeed() >= sizeY - 70)&&(ball.getY() + ball.getySpeed() <= sizeY)){
+        }else if((ball.getY() + ball.getySpeed() >= sizeYThisDevice - 70)&&(ball.getY() + ball.getySpeed() <= sizeYThisDevice)){
 
             checkLives();
 
@@ -400,12 +276,12 @@ public class Game extends View implements
 
     // controllo collisione powerup paddle
     private void checkGetPowerUp(PowerUp powerUp) {
-        if ((powerUp.getY()+ 45 + powerUp.getySpeed() >= sizeY - 200)&&(powerUp.getY()+ 45 + powerUp.getySpeed() <= sizeY - 185) ){
+        if ((powerUp.getY()+ 45 + powerUp.getySpeed() >= sizeYThisDevice - 200)&&(powerUp.getY()+ 45 + powerUp.getySpeed() <= sizeYThisDevice - 185) ){
             if ((powerUp.getX() < paddle.getX() + paddle.getWidthp() && powerUp.getX() > paddle.getX()) || (powerUp.getX() + 48 < paddle.getX() + paddle.getWidthp() && powerUp.getX() + 48 > paddle.getX())) {
                 powerUpEffect(powerUp);
                 this.powerUps.remove(powerUp);
             }
-        }else if((powerUp.getY() + powerUp.getySpeed() >= sizeY - 70)&&(powerUp.getY() + powerUp.getySpeed() <= sizeY - 50)){
+        }else if((powerUp.getY() + powerUp.getySpeed() >= sizeYThisDevice - 70)&&(powerUp.getY() + powerUp.getySpeed() <= sizeYThisDevice - 50)){
 
 
             this.powerUps.remove(powerUp);
@@ -424,35 +300,37 @@ public class Game extends View implements
             lifes--;
 
             powerUps.clear();
-            ball.setX(sizeX / 2);
-            ball.setY(sizeY - 280);
+            ball.setX(sizeXThisDevice / 2);
+            ball.setY(sizeYThisDevice - 280);
             ball.createSpeed();
             ball.increaseSpeed(level.getNumberLevel());
             start = false;
         }
-        paddle.resetPaddle((float) (sizeX * (0.1)));
+        paddle.resetPaddle((float) (sizeXThisDevice * (0.1)));
     }
 
 
 
     // ogni passaggio controlla se c'è una collisione, una perdita o una vittoria, ecc.
     public void update() {
+
         if (start) {
             win();
             checkBoards();
-            ball.move();
-            Log.d("Game","-----> sizeXplayer2" + size2X);
-            Log.d("Game","-----> sizeYplayer2" + size2Y);
+
+            if(sizeYThisDevice > sizeYOtherDevice) {
+                ball.move();
+                roomRef.child(fieldxBall).setValue((ball.getX()*sizeXOtherDevice)/sizeXThisDevice);
+                roomRef.child(fieldyBall).setValue((ball.getY()*sizeYOtherDevice)/sizeYThisDevice);
+                roomRef.child(fieldxSpeedBall).setValue(ball.getxSpeed());
+                roomRef.child(fieldySpeedBall).setValue(ball.getySpeed());
+            }
+
+
+
             for (int i = 0; i < brickList.size(); i++) {
                 Brick b = brickList.get(i);
                 if (ball.hitBrick(b)) {
-
-                    if(playerRole.equals("player1")){
-
-                        roomRef.child("brickX").setValue((float)( b.getX()*size2X)/sizeX);
-                        roomRef.child("brickY").setValue((float)(b.getY()*size2Y)/sizeY);
-
-                    }
                     if (b.getHitted()==b.getHit()) {
 
                         soundPool.play(soundNote[b.getSoundName() - 1], 1, 1, 0, 0, 1);
@@ -468,18 +346,12 @@ public class Game extends View implements
 
 
 
-            if(playerRole.equals("player1")) {
-                ball.move();
-                roomRef.child(fieldxBall).setValue((ball.getX()*size2X)/sizeX);
-                roomRef.child(fieldyBall).setValue((ball.getY()*size2Y)/sizeY);
-                roomRef.child(fieldxSpeedBall).setValue(ball.getxSpeed());
-                roomRef.child(fieldySpeedBall).setValue(ball.getySpeed());
-            }
+
 
         }else{
-            if(playerRole.equals("player1")) {
-                roomRef.child(fieldxBall).setValue((ball.getX()*size2X)/sizeX);
-                roomRef.child(fieldyBall).setValue((ball.getY()*size2Y)/sizeY);
+            if(sizeYThisDevice > sizeYOtherDevice) {
+                roomRef.child(fieldxBall).setValue((ball.getX()*sizeXOtherDevice)/sizeXThisDevice);
+                roomRef.child(fieldyBall).setValue((ball.getY()*sizeYOtherDevice)/sizeYThisDevice);
                 roomRef.child(fieldxSpeedBall).setValue(ball.getxSpeed());
                 roomRef.child(fieldySpeedBall).setValue(ball.getySpeed());
             }
@@ -502,8 +374,8 @@ public class Game extends View implements
 
     //imposta il gioco per iniziare
     public void resetLevel() {
-        ball.setX(sizeX / 2);
-        ball.setY(sizeY - 280);
+        ball.setX(sizeXThisDevice / 2);
+        ball.setY(sizeYThisDevice - 280);
         ball.createSpeed();
         powerUps.clear();
         laserDropped.clear();
@@ -544,6 +416,8 @@ public class Game extends View implements
     //serve a sospendere il gioco in caso di un nuovo gioco
     @Override
     public boolean onTouch(View v, MotionEvent event) {
+        Log.d("(sizeY,size2Y) --> ",getSizeYThisDevice() + "   " + sizeYOtherDevice);
+        Log.d("(sizeX,size2X) --> ",getSizeXThisDevice() + "   " + sizeXOtherDevice);
 
         if (isGameOver() == true && isStart() == false) {
             setScore(0);
@@ -605,10 +479,10 @@ public class Game extends View implements
     public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
         if(accelerometer==null) {
 
-            if(e2.getY() > (sizeY*0.75)) {
+            if(e2.getY() > (sizeYThisDevice*0.75)) {
                 if ((e2.getX() - (paddle.getWidthp()/2) >= minPositionPaddle && (e2.getX() - (paddle.getWidthp()/2)<= (maxPositionPaddle - paddle.getWidthp())))){
-                    float p = (e2.getX() * size2X) / sizeX;
-                    sendToDb((float) (p - (size2X*(0.1)/2)));
+                    float p = (e2.getX() * sizeXOtherDevice) / sizeXThisDevice;
+                    sendToDb((float) (p - (sizeXOtherDevice*(0.1)/2)));
                     paddle.setX(e2.getX() - (paddle.getWidthp()/2));
 
 
@@ -616,7 +490,7 @@ public class Game extends View implements
                 } else if ((e2.getX() - (paddle.getWidthp()/2) < minPositionPaddle)) {
 
                     if(playerRole.equals("player2")){
-                        sendToDb((float) (size2X/2));
+                        sendToDb((float) (sizeXOtherDevice/2));
                     } else {
                         sendToDb(minPositionPaddle);
                     }
@@ -626,9 +500,9 @@ public class Game extends View implements
                 } else if ((e2.getX() - (paddle.getWidthp()/2) > (maxPositionPaddle - paddle.getWidthp()))){
 
                     if(playerRole.equals("player1")){
-                        sendToDb((float) ((size2X/2)-(size2X*(0.1))));
+                        sendToDb((float) ((sizeXOtherDevice/2)-(sizeXOtherDevice*(0.1))));
                     } else {
-                        sendToDb((float) ((size2X)-(size2X*(0.1))));
+                        sendToDb((float) ((sizeXOtherDevice)-(sizeXOtherDevice*(0.1))));
                     }
 
                     paddle.setX(maxPositionPaddle-paddle.getWidthp());
@@ -698,13 +572,13 @@ public class Game extends View implements
         this.gameOver = gameOver;
     }
 
-    public int getSizeX() { return sizeX; }
+    public int getSizeXThisDevice() { return sizeXThisDevice; }
 
-    public void setSizeX(int sizeX) { this.sizeX = sizeX; }
+    public void setSizeXThisDevice(int sizeX) { this.sizeXThisDevice = sizeX; }
 
-    public int getSizeY() { return sizeY; }
+    public int getSizeYThisDevice() { return sizeYThisDevice; }
 
-    public void setSizeY(int sizeY) { this.sizeY = sizeY; }
+    public void setSizeYThisDevice(int sizeY) { this.sizeYThisDevice = sizeY; }
 
     public float getBrickBase() {
         return brickBase;
@@ -714,8 +588,6 @@ public class Game extends View implements
         this.brickBase = brickBase;
     }
 
-
-
     public float getBrickHeight() {
         return brickHeight;
     }
@@ -723,23 +595,6 @@ public class Game extends View implements
     public void setBrickHeight(float brickHeight) {
         this.brickHeight = brickHeight;
     }
-
-    public float getpaddingLeftGame() {
-        return paddingLeftGame;
-    }
-
-    public void setpaddingLeftGame(float paddingLeftGame) {
-        this.paddingLeftGame = paddingLeftGame;
-    }
-    public float getpaddingTopGame() {
-        return paddingTopGame;
-    }
-
-    public void setpaddingTopGame(float paddingTopGame) {
-        this.paddingTopGame = paddingTopGame;
-    }
-
-
 
     public int getNumberLevel() {
         return numberLevel;
@@ -821,7 +676,7 @@ public class Game extends View implements
             gameOver = true;
             start = false;
             numberLevel=1;
-            paddle.resetPaddle((float) (sizeX * (0.1)));
+            paddle.resetPaddle((float) (sizeXThisDevice * (0.1)));
             invalidate();
         } else {
             lifes--;
@@ -907,14 +762,36 @@ public class Game extends View implements
         return px / context.getResources().getDisplayMetrics().density;
     }
     protected void sendToDb(float p1) {
-        /*
-        ((Dpi2 + size2) * p1) / (Dpi1 + size1))
-        */
 
-        //float value = (p1 * size2) / sizeX;
-        //float value = ((dpi2 + size2) * p1) / (metrics.densityDpi + sizeX);
-
-        roomRef.child(fieldXPaddle1).setValue(p1);
+        roomRef.child(fieldXPaddleThisDevice).setValue(p1);
     }
 
+
+    @Override
+    public void onDataChange(@NonNull DataSnapshot snapshot) {
+        sizeXOtherDevice = Float.parseFloat(snapshot.child(fieldSizeXPlayerOtherDevice).getValue().toString());
+        sizeYOtherDevice = Float.parseFloat(snapshot.child(fieldSizeYPlayerOtherDevice).getValue().toString());
+        float xPaddle = Float.parseFloat(snapshot.child(fieldXPaddleOtherDevice).getValue().toString());
+        paddle2.setX(xPaddle);
+
+
+
+        float ballX = Float.parseFloat(snapshot.child(fieldxBall).getValue().toString());
+        float ballY = Float.parseFloat(snapshot.child(fieldyBall).getValue().toString());
+        float ballspeedX = Integer.parseInt(snapshot.child(fieldxSpeedBall).getValue().toString());
+        float ballspeedY = Integer.parseInt(snapshot.child(fieldySpeedBall).getValue().toString());
+        boolean startValue =Boolean.parseBoolean(snapshot.child(fieldStarted).getValue().toString());
+
+        if(getSizeYThisDevice() < sizeYOtherDevice) {
+            ball.setX(ballX);
+            ball.setY(ballY);
+            ball.setSpeed(ballspeedX,ballspeedY);
+            start = startValue;
+    }
+}
+
+    @Override
+    public void onCancelled(@NonNull DatabaseError error) {
+
+    }
 }

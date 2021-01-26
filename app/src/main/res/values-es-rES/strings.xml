@@ -60,4 +60,6 @@
     <string name="save_level_no_brick">to save insert at least one brick in the grid</string>
     <string name="lose_game">perdiste!</string>
     <string name="menu_pause">Menú de pausa</string>
+    <string name="success_record">Felicitaciones, ha hecho un nuevo récord.</string>
+    <string name="failure_record">"¡Pecado! no ha superado su récord de puntos: "</string>
 </resources>

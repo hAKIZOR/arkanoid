@@ -136,6 +136,7 @@ public class GameViewPortrait extends Game {
         canvas.drawText("PT:" + getScore(), 200, 100, paint);
         canvas.drawText("LSR:" + getLaserSoundRemaining(), 550, 100, paint);
         canvas.drawText("PIANO:" + getHandsPianoRemaining(), 800, 100, paint);
+        canvas.drawText("Level: " + getNumberLevel(), (float) (size.x-(size.x*(0.60))), (float) (size.y), paint);
 
         // in caso di sconfitta stampa "GameOver"
         if (isGameOver()) {
