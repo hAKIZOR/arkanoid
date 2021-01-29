@@ -1,5 +1,6 @@
 package com.caserteam.arkanoid.multiplayer.gameClasses;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -49,7 +50,7 @@ public class GameViewPortrait extends Game {
 
         //setta posizione della palla
         getBall().setX(size.x / 2);
-        getBall().setY(size.y - 280);
+        getBall().setY((float) (size.y *(0.8)));
 
 
         //setto le posizioni iniziali dei paddle
@@ -86,7 +87,7 @@ public class GameViewPortrait extends Game {
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     float value = Float.parseFloat(snapshot.getValue().toString());
                     if( value != 0){
-                        sendToDb((float) ((value/2) - (value*(0.1))));
+                        roomRef.child(fieldXPaddleThisDevice).setValue((float) ((value/2) - (value*(0.1))));
                         roomRef.child(fieldSizeXPlayerOtherDevice).removeEventListener(this);
                     }
                 }
@@ -124,7 +125,7 @@ public class GameViewPortrait extends Game {
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     float value = Float.parseFloat(snapshot.getValue().toString());
                     if( value != 0){
-                        sendToDb((float) (value/2));
+                        roomRef.child(fieldXPaddleThisDevice).setValue(value/2);
                         roomRef.child(fieldSizeXPlayerThisDevice).removeEventListener(this);
                     }
                 }
@@ -138,39 +139,25 @@ public class GameViewPortrait extends Game {
         }
 
         roomRef.child(fieldSizeYPlayerThisDevice).setValue(size.y);
-        roomRef.child(fieldSizeYPlayerOtherDevice).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                float value = Float.parseFloat(snapshot.getValue().toString());
-                if( value != 0){
-                    sizeYOtherDevice = value;
-                    roomRef.child(fieldSizeYPlayerOtherDevice).removeEventListener(this);
-                }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
 
         //setto i bordi
-        setUpBoard(150);
+        setUpBoard((int) (size.y*(0.06)));
         setDownBoard(size.y);
         setLeftBoard(0);
-        setRightBoard(getSizeXThisDevice() - 60);
+        setRightBoard(size.x);
 
         //setto colonne e righe dei mattoni
         setColumns(9);
         setRow(10);
 
         //setto altezza e base del mattone
-        setBrickBase((size.x-40)/getColumns());
-        setBrickHeight((size.y-1200)/getRow());
+        setBrickBase((float) (size.x * 0.10));
+        setBrickHeight((float) (size.y * 0.03));
 
         //setto il padding del campo di gioco
-        setPaddingLeftGame(20);
-        setPaddingTopGame(150);
+        setPaddingLeftGame((float) (size.x*(0.05)));
+        setPaddingTopGame((float) (size.y*(0.06)));
 
         for(Level l: getLevels()) {
             if(l.getNumberLevel()==getNumberLevel()) {
@@ -196,7 +183,10 @@ public class GameViewPortrait extends Game {
 
     protected void onDraw(Canvas canvas) {
         // crea uno sfondo solo una volta
-        canvas.drawBitmap(background, 0, 0, paint);
+        @SuppressLint("DrawAllocation")
+        Bitmap backgroundScaled = Bitmap.createScaledBitmap(background, size.x, size.y, true);
+        canvas.drawBitmap(backgroundScaled, 0, 0, paint);
+
         // disegna la pallina
         paint.setColor(Color.RED);
         paint.setAntiAlias(true);

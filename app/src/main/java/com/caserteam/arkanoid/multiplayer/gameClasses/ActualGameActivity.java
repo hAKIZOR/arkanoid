@@ -51,6 +51,7 @@ public class ActualGameActivity extends AppCompatActivity {
         HashMap<String,String> data = new HashMap<>();
         data.putAll((Map<String,String>) preferences.getAll());
         nickname = data.get(LoginActivity.KEY_NICKNAME_PREFERENCES);
+
         counter=0;
 
         code = getIntent().getStringExtra(MultiplayerActivity.STATE_CODE);
@@ -103,21 +104,26 @@ public class ActualGameActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         game.pauseGame();
+        game.removeListener();
+        thread.quit();
     }
 
     protected void onResume() {
         super.onResume();
         game.resumeGame();
+
     }
     @Override
     protected void onStop() {
         thread.quit();
+        game.removeListener();
         super.onStop();
 
     }
     @Override
     protected void onDestroy() {
         thread.quit();
+        game.removeListener();
         super.onDestroy();
 
     }
