@@ -10,22 +10,18 @@ import com.caserteam.arkanoid.R;
 
 public class Ball extends View {
 
-    private float sizeBallWidth;
-    private float sizeBallHeight;
-    private static float HALFBALL;
+    private static final float SIZEBALL = 35;
+    private static final float HALFBALL = SIZEBALL/2;
     protected float xSpeed;
     protected float ySpeed;
     private float x;
     private float y;
     private Bitmap skin;
 
-    public Ball (Context context, float x, float y, int a,float sizeBallWidth,float sizeBallHeight) {
+    public Ball(Context context, float x, float y, int a) {
         super(context);
         this.x = x;
         this.y = y;
-        this.sizeBallWidth = sizeBallWidth;
-        this.sizeBallHeight = sizeBallHeight;
-        HALFBALL = sizeBallWidth/2;
         createSpeed();
         skin(a);
     }
@@ -34,7 +30,7 @@ public class Ball extends View {
         switch (a) {
             case 0:
                 skin = BitmapFactory.decodeResource(getResources(), R.drawable.redball); //<-- SPAZIO VUOTO
-                skin = Bitmap.createScaledBitmap(skin,(int) sizeBallWidth,(int) sizeBallHeight, false);
+                skin = Bitmap.createScaledBitmap(skin, (int)SIZEBALL, (int)SIZEBALL, false);
                 break;
         }
     }
@@ -170,11 +166,11 @@ public class Ball extends View {
         boolean result=false;
 
         for(int i=0; i<b.getPoints().size(); i++){
-            if (isClosedBrick(b.getPoints().get(i).getX(), b.getPoints().get(i).getY())) {
-                changeDirectionBrick(b.checkPointSide(b.getPoints().get(i).getX(),b.getPoints().get(i).getY()));
-                result = true;
-                break;
-            }
+        if (isClosedBrick(b.getPoints().get(i).getX(), b.getPoints().get(i).getY())) {
+            changeDirectionBrick(b.checkPointSide(b.getPoints().get(i).getX(),b.getPoints().get(i).getY()));
+            result = true;
+            break;
+        }
         }
 
         return result;
@@ -225,20 +221,8 @@ public class Ball extends View {
         return ySpeed;
     }
 
-    public float getSizeBallWidth() {
-        return sizeBallWidth;
-    }
-
-    public void setSizeBallWidth(float sizeBallWidth) {
-        this.sizeBallWidth = sizeBallWidth;
-    }
-
-    public float getSizeBallHeight() {
-        return sizeBallHeight;
-    }
-
-    public void setSizeBallHeight(float sizeBallHeight) {
-        this.sizeBallHeight = sizeBallHeight;
+    public static float getSIZEBALL() {
+        return SIZEBALL;
     }
 
     public static float getHALFBALL() {

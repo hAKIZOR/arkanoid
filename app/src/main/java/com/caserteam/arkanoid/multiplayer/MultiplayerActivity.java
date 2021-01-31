@@ -14,12 +14,12 @@ import android.widget.Toast;
 import com.caserteam.arkanoid.LoginActivity;
 import com.caserteam.arkanoid.R;
 import com.caserteam.arkanoid.editor.ui_upload_check.LoadingDialog;
+import com.caserteam.arkanoid.multiplayer.gameClasses.ActualGameActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import  com.caserteam.arkanoid.multiplayer.gameClasses.ActualGameActivity;
 
 import java.util.HashMap;
 import java.util.Map;

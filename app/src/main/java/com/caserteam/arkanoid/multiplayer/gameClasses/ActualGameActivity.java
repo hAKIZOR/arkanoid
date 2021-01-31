@@ -18,6 +18,8 @@ import com.caserteam.arkanoid.editor.ui_game.DialogResultGame;
 import com.caserteam.arkanoid.gameClasses.GameActivity;
 import com.caserteam.arkanoid.multiplayer.MultiplayerActivity;
 import com.caserteam.arkanoid.multiplayer.Room;
+import com.caserteam.arkanoid.multiplayer.gameClasses.Game;
+import com.caserteam.arkanoid.multiplayer.gameClasses.GameViewPortrait;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -104,7 +106,6 @@ public class ActualGameActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         game.pauseGame();
-        game.removeListener();
         thread.quit();
     }
 
@@ -116,14 +117,12 @@ public class ActualGameActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         thread.quit();
-        game.removeListener();
         super.onStop();
 
     }
     @Override
     protected void onDestroy() {
         thread.quit();
-        game.removeListener();
         super.onDestroy();
 
     }
