@@ -50,10 +50,11 @@ public class GameViewPortrait extends Game {
         getPaddle().setY(getSizeY() - 200);
 
         //setto i bordi
-        setUpBoard(size.y - getSizeY() + 150);
+        setUpBoard(((size.y-getSizeY())/2)+150);
         setDownBoard(getSizeY());
         setLeftBoard((size.x-getSizeX())/2);
         setRightBoard(size.x - (size.x-getSizeX())/2);
+
 
         //setto colonne e righe dei mattoni
         setColumns(9);
@@ -64,7 +65,7 @@ public class GameViewPortrait extends Game {
         setBrickHeight((getSizeY()-1200)/getRow());
 
         //setto il padding del campo di gioco
-        setPaddingLeftGame(((size.x-getSizeX())/2)); //20
+        setPaddingLeftGame(((size.x-getSizeX())/2)+22); //20
         setPaddingTopGame(((size.y-getSizeY())/2)+150);
 
         for(Level l: getLevels()) {
@@ -90,7 +91,12 @@ public class GameViewPortrait extends Game {
 
     protected void onDraw(Canvas canvas) {
         // crea uno sfondo solo una volta
-        canvas.drawBitmap(background, 0, 0, paint);
+        //canvas.drawBitmap(background, 0, 0, paint);
+        paint.setColor(Color.WHITE);
+        canvas.drawLine(getLeftBoard(),getUpBoard(),getLeftBoard(),getDownBoard(),paint);
+        canvas.drawLine(getRightBoard(),getUpBoard(),getRightBoard(),getDownBoard(),paint);
+        canvas.drawLine(getLeftBoard(),getUpBoard(),getRightBoard(),getUpBoard(),paint);
+        canvas.drawLine(getLeftBoard(),getDownBoard(),getRightBoard(),getDownBoard(),paint);
         // disegna la pallina
         paint.setColor(Color.RED);
         paint.setAntiAlias(true);

@@ -2,7 +2,10 @@ package com.caserteam.arkanoid;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -39,6 +42,7 @@ public class MenuActivity extends AppCompatActivity {
     private static final String FIRST_RUN_STATE ="firstrun";
     private GoogleSignInClient mGoogleSignInClient;
     SharedPreferences prefs = null;
+    MediaPlayer buttonSoundClick;
 
 
     @Override
@@ -78,6 +82,8 @@ public class MenuActivity extends AppCompatActivity {
         buttonMultiplayer.setAnimation(animationTop);
         buttonLeaderBoard.setAnimation(animationBottom);
         buttonEditor.setAnimation(animationBottom);
+        buttonSoundClick = MediaPlayer.create(this,R.raw.button_sound);
+        buttonSoundClick.setLooping(false);
 
 
         try {
@@ -120,6 +126,7 @@ public class MenuActivity extends AppCompatActivity {
         buttonLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                buttonSoundClick.start();
 
                 Intent myIntent = new Intent(MenuActivity.this, LoginActivity.class);
                 myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -132,7 +139,7 @@ public class MenuActivity extends AppCompatActivity {
         buttonArcade.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                buttonSoundClick.start();
                 Intent myIntent = new Intent(MenuActivity.this, GameActivity.class);
                 startActivity(myIntent);
             }
@@ -140,6 +147,7 @@ public class MenuActivity extends AppCompatActivity {
          buttonLeaderBoard.setOnClickListener( new View.OnClickListener() {
              @Override
              public void onClick(View v) {
+                 buttonSoundClick.start();
                  Intent myIntent = new Intent(MenuActivity.this, LeaderBoardActivity.class);
                  MenuActivity.this.startActivity(myIntent);
              }
@@ -148,7 +156,7 @@ public class MenuActivity extends AppCompatActivity {
         buttonSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                buttonSoundClick.start();
                 Intent myIntent = new Intent(MenuActivity.this, SettingsActivity.class);
                 MenuActivity.this.startActivity(myIntent);
             }
@@ -158,7 +166,9 @@ public class MenuActivity extends AppCompatActivity {
         buttonEditor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                buttonSoundClick.start();
                 if(account!=null){
+
                 Intent intent = new Intent(MenuActivity.this, EditorActivity.class);
                 startActivity(intent);
                 }else  {
@@ -173,6 +183,7 @@ public class MenuActivity extends AppCompatActivity {
         buttonMultiplayer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                buttonSoundClick.start();
                 if(account!=null){
                     Intent intent = new Intent(MenuActivity.this, MultiplayerActivity.class);
                     startActivity(intent);
@@ -219,14 +230,7 @@ public class MenuActivity extends AppCompatActivity {
         super.onResume();
         Log.d(TAG,"onResume()");
         if (prefs.getBoolean(this.FIRST_RUN_INSTALLATION_STATE, true)) {
-            // Do first run stuff here then set 'firstrun' as false
-            // using the following line to edit/commit prefs
             prefs.edit().putBoolean(this.FIRST_RUN_INSTALLATION_STATE, false).commit();
-        }
-        if (prefs.getBoolean(this.FIRST_RUN_STATE, true)) {
-            // Do first run stuff here then set 'firstrun' as false
-            // using the following line to edit/commit prefs
-            prefs.edit().putBoolean(this.FIRST_RUN_STATE, false).commit();
         }
     }
 

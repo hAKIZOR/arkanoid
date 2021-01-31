@@ -64,6 +64,9 @@ public class ActualGameActivity extends AppCompatActivity {
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         game = new GameViewPortrait(this, 3, 0, playerRole, roomRef);
+
+        float scale = getResources().getDisplayMetrics().density * 200;
+        game.setCameraDistance(scale);
         gestureDetector = game.getGestureDetector();
         setContentView(game);
 

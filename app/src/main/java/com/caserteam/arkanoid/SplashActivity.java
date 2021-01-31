@@ -3,6 +3,7 @@ package com.caserteam.arkanoid;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -18,7 +19,7 @@ public class SplashActivity extends AppCompatActivity {
     private ImageView logo;
     private TextView name_app,developed,credits;
     private static int SPLASH_SCREEN_TIME=3000;
-
+    MediaPlayer mpintro;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +42,9 @@ public class SplashActivity extends AppCompatActivity {
         name_app.setAnimation(bottomAnim);
         developed.setAnimation(bottomAnim);
         credits.setAnimation(bottomAnim);
+        mpintro = MediaPlayer.create(this,R.raw.principal_sound);
+        mpintro.setLooping(true);
+        mpintro.start();
 
         new Handler().postDelayed(new Runnable() {
             @Override
