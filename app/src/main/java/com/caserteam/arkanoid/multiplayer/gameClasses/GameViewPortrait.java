@@ -52,8 +52,8 @@ public class GameViewPortrait extends Game {
         //setto i bordi
         setUpBoard(size.y - getSizeY() + 150);
         setDownBoard(getSizeY());
-        setLeftBoard(0);
-        setRightBoard(getSizeX());
+        setLeftBoard((size.x-getSizeX())/2);
+        setRightBoard(size.x - (size.x-getSizeX())/2);
 
         //setto colonne e righe dei mattoni
         setColumns(9);
@@ -64,8 +64,8 @@ public class GameViewPortrait extends Game {
         setBrickHeight((getSizeY()-1200)/getRow());
 
         //setto il padding del campo di gioco
-        setPaddingLeftGame(20);
-        setPaddingTopGame(150);
+        setPaddingLeftGame(((size.x-getSizeX())/2)); //20
+        setPaddingTopGame(((size.y-getSizeY())/2)+150);
 
         for(Level l: getLevels()) {
             if(l.getNumberLevel()==getNumberLevel()) {
