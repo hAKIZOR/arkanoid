@@ -71,11 +71,30 @@ public class Game extends View implements
 
     private Context context;
     private Ball ball;
-    private Paddle paddle;
+    protected Paddle paddle;
+
     private int sizeX;
     private int sizeY;
     private float brickBase;
     private float brickHeight;
+
+
+    //variabili multiplayer
+    protected Paddle paddle2;
+    protected String fieldXPaddleThisDevice;
+    protected String fieldXPaddleOtherDevice;
+    protected String fieldSizeXPlayerThisDevice;
+    protected String fieldSizeXPlayerOtherDevice;
+    protected String fieldSizeYPlayerThisDevice;
+    protected String fieldSizeYPlayerOtherDevice;
+    protected String fieldxBall;
+    protected String fieldyBall;
+    protected String fieldxSpeedBall;
+    protected String fieldySpeedBall;
+    protected String fieldStarted;
+    protected float minPositionPaddle;
+    protected float maxPositionPaddle;
+
 
     private int upBoard;
     private int downBoard;

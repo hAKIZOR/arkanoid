@@ -11,13 +11,18 @@ import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
+import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 
+import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
 
 import com.caserteam.arkanoid.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 
@@ -46,8 +51,42 @@ public class GameViewPortrait extends Game {
         //setta posizione della palla e della barra
         getBall().setX(getSizeX() / 2);
         getBall().setY(getSizeY() - 280);
-        getPaddle().setX(getSizeX() / 2);
-        getPaddle().setY(getSizeY() - 200);
+        fieldxBall="xBall";
+        fieldyBall="yBall";
+        fieldxSpeedBall="xSpeedBall";
+        fieldySpeedBall="ySpeedBall";
+        fieldStarted="started";
+
+        if(playerRole.equals("player1")) {
+            paddle.setX((size.x/2) - (paddle.getWidthp()));
+            paddle.setY((float) (size.y - (size.y / 50)));
+            Log.d("Game", "x---->" + String.valueOf(size.x - ((size.x/4))));
+            paddle2.setX(size.x/2);
+            paddle2.setY((float) (size.y - (size.y / 50)));
+
+            minPositionPaddle = 0;
+            maxPositionPaddle = size.x/2;
+
+            fieldXPaddleThisDevice = "xPaddlePlayer1";
+            fieldXPaddleOtherDevice = "xPaddlePlayer2";
+
+
+        }else {
+            paddle.setX((size.x/2));
+            paddle.setY((float) (size.y - (size.y / 50)));
+            paddle2.setX((size.x/2) - (paddle.getWidthp()));
+            paddle2.setY((float) (size.y - (size.y / 50)));
+
+            minPositionPaddle = size.x/2;
+            maxPositionPaddle = size.x;
+
+            fieldXPaddleThisDevice = "xPaddlePlayer2";
+            fieldXPaddleOtherDevice = "xPaddlePlayer1";
+
+
+        }
+
+
 
         //setto i bordi
         setUpBoard(((size.y-getSizeY())/2)+150);
