@@ -47,6 +47,7 @@ public class FragmentListScore extends Fragment {
     private ArrayList<LeaderBoardModel> lModel;
     private AdapterListViewScore adapterListViewScore;
     private Context context;
+    private View v;
     public static final int TAB_LOCAL = 0;
     public static final int TAB_GLOBAL = 1;
 
@@ -61,7 +62,9 @@ public class FragmentListScore extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_leader_board,container,false);
+        v = inflater.inflate(R.layout.fragment_leader_board,container,false);
+
+        initializeFirstListBeforeAnyTabClick();
 
         tabLayout = (TabLayout) v.findViewById(R.id.tabLayoutLocalGlobal);
 
@@ -104,6 +107,17 @@ public class FragmentListScore extends Fragment {
         return v;
     }
 
+    private void initializeFirstListBeforeAnyTabClick() {
+        try {
+            setLocalListView(v);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
     private void setGlobalListView(View view) {
         listScore = (ListView) view.findViewById(R.id.listScore);
         lModel = new ArrayList<>();
@@ -132,7 +146,6 @@ public class FragmentListScore extends Fragment {
                 Toast.makeText(context,"impossibile caricare i dati",Toast.LENGTH_SHORT);
             }
         });
-        //setto l'adapter
 
 
     }

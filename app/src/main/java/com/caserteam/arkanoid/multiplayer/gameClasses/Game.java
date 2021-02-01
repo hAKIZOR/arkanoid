@@ -321,7 +321,7 @@ public class Game extends View implements
 
     private void setValuesOtherDevice() {
         Float ballxOther = (ball.getX()-leftBoard);
-        Float ballyOther = (ball.getY() - downBoard);
+        Float ballyOther = (ball.getY()-downBoard);
         roomRef.child(fieldxBall).setValue(ballxOther);
         roomRef.child(fieldyBall).setValue(ballyOther);
         roomRef.child(fieldxSpeedBall).setValue(ball.getxSpeed());
