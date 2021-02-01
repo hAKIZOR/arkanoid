@@ -314,7 +314,6 @@ public class Game extends View implements
             }
         }else {
             if(playerRole.equals("player1")){
-                ball.move();
                 setValuesOtherDevice();
             }
         }
