@@ -160,7 +160,7 @@ public class FragmentListScore extends Fragment {
 
         // riempio l'arrayList di valori
         while(c.moveToNext()) {
-            lModel.add(new LeaderBoardModel(c.getString(c.getColumnIndexOrThrow("nickname")),c.getColumnIndexOrThrow("score")));
+            lModel.add(new LeaderBoardModel(c.getString(c.getColumnIndexOrThrow("nickname")),c.getInt(c.getColumnIndexOrThrow("score"))));
         }
 
         c.close();
