@@ -48,9 +48,15 @@ public class GameViewPortrait extends Game {
         setSizeY(1920);
 
 
-        //setta posizione della palla e della barra
+        //setta posizione della palla
         getBall().setX(getSizeX() / 2);
         getBall().setY(getSizeY() - 280);
+
+        //setto i bordi
+        setUpBoard(((size.y-getSizeY())/2)+150);
+        setDownBoard(getSizeY());
+        setLeftBoard((size.x-getSizeX())/2);
+        setRightBoard(size.x - (size.x-getSizeX())/2);
 
         fieldxBall="xBall";
         fieldyBall="yBall";
@@ -68,7 +74,7 @@ public class GameViewPortrait extends Game {
             paddle2.setX(size.x/2);
             paddle2.setY((float) (getDownBoard() - (getSizeY()/50)));
 
-            minPositionPaddle = 0;
+            minPositionPaddle = 0+getLeftBoard();
             maxPositionPaddle = size.x/2;
 
             fieldXPaddleThisDevice = "xPaddlePlayer1";
@@ -77,12 +83,12 @@ public class GameViewPortrait extends Game {
 
         }else {
             paddle.setX((size.x/2));
-            paddle.setY((float) (size.y - (size.y / 50)));
+            paddle.setY((float) (getDownBoard() - (getSizeY()/50)));
             paddle2.setX((size.x/2) - (paddle.getWidthp()));
-            paddle2.setY((float) (size.y - (size.y / 50)));
+            paddle2.setY((float) (getDownBoard() - (getSizeY()/50)));
 
             minPositionPaddle = size.x/2;
-            maxPositionPaddle = size.x;
+            maxPositionPaddle = getRightBoard();
 
             fieldXPaddleThisDevice = "xPaddlePlayer2";
             fieldXPaddleOtherDevice = "xPaddlePlayer1";
@@ -92,11 +98,7 @@ public class GameViewPortrait extends Game {
 
 
 
-        //setto i bordi
-        setUpBoard(((size.y-getSizeY())/2)+150);
-        setDownBoard(getSizeY());
-        setLeftBoard((size.x-getSizeX())/2);
-        setRightBoard(size.x - (size.x-getSizeX())/2);
+
 
 
         //setto colonne e righe dei mattoni
