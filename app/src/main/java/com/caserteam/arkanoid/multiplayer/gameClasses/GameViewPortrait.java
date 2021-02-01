@@ -63,10 +63,10 @@ public class GameViewPortrait extends Game {
 
         if(playerRole.equals("player1")) {
             paddle.setX((size.x/2) - (paddle.getWidthp()));
-            paddle.setY((float) (size.y - (size.y / 50)));
+            paddle.setY((float) (getDownBoard() - (getSizeY()/50)));
             Log.d("Game", "x---->" + String.valueOf(size.x - ((size.x/4))));
             paddle2.setX(size.x/2);
-            paddle2.setY((float) (size.y - (size.y / 50)));
+            paddle2.setY((float) (getDownBoard() - (getSizeY()/50)));
 
             minPositionPaddle = 0;
             maxPositionPaddle = size.x/2;

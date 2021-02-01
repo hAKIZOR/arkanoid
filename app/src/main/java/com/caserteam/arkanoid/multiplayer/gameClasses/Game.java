@@ -149,6 +149,7 @@ public class Game extends View implements
         //crea palla e paddle
         ball = new Ball(context,0, 0, 0);
         paddle = new Paddle(context,0, 0, 0);
+        paddle2 = new Paddle(context,0, 0, 0);
 
         //crea lista di livelli dal DB locale
         Cursor c = null;
@@ -313,8 +314,8 @@ public class Game extends View implements
 
     //imposta il gioco per iniziare
     public void resetLevel() {
-        ball.setX(sizeX / 2);
-        ball.setY(sizeY - 280);
+        ball.setX((rightBoard+leftBoard) / 2);
+        ball.setY(downBoard - 280);
         ball.createSpeed();
         brickList = new ArrayList<Brick>();
 
