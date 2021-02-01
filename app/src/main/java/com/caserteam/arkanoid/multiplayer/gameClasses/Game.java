@@ -312,6 +312,11 @@ public class Game extends View implements
 
 
             }
+        }else {
+            if(playerRole.equals("player1")){
+                ball.move();
+                setValuesOtherDevice();
+            }
         }
     }
 
@@ -670,8 +675,8 @@ public class Game extends View implements
         paddle2.setX(leftBoard+xPaddle);
 
         if(playerRole.equals("player2")) {
-            float ballX = Integer.parseInt(snapshot.child(fieldxBall).getValue().toString());
-            float ballY = Integer.parseInt(snapshot.child(fieldyBall).getValue().toString());
+            float ballX = Float.parseFloat(snapshot.child(fieldxBall).getValue().toString());
+            float ballY = Float.parseFloat(snapshot.child(fieldyBall).getValue().toString());
             float ballspeedX = Integer.parseInt(snapshot.child(fieldxSpeedBall).getValue().toString());
             float ballspeedY = Integer.parseInt(snapshot.child(fieldySpeedBall).getValue().toString());
             boolean startValue =Boolean.parseBoolean(snapshot.child(fieldStarted).getValue().toString());
