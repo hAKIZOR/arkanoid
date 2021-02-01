@@ -19,6 +19,7 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.core.view.GestureDetectorCompat;
 
 import com.caserteam.arkanoid.DatabaseHelper;
@@ -26,7 +27,10 @@ import com.caserteam.arkanoid.IOUtils;
 import com.caserteam.arkanoid.R;
 import com.caserteam.arkanoid.Settings;
 import com.caserteam.arkanoid.editor.ui_game.ButtonPause;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,6 +40,7 @@ public class Game extends View implements
         SensorEventListener,
         View.OnTouchListener,
         GestureDetector.OnGestureListener,
+        ValueEventListener,
         ButtonPause.ButtonPauseListener{
     private static final String DEBUG_STRING = "Game";
 
@@ -94,6 +99,8 @@ public class Game extends View implements
     protected String fieldStarted;
     protected float minPositionPaddle;
     protected float maxPositionPaddle;
+    protected DatabaseReference roomRef;
+    protected String playerRole;
 
 
     private int upBoard;
@@ -129,6 +136,10 @@ public class Game extends View implements
         this.score = score;
         levels = new ArrayList<>();
         brickList = new ArrayList<>();
+
+        //impostare valori multiplayer
+        this.playerRole=playerRole;
+        this.roomRef=roomRef;
 
 
         //avviare un GameOver per scoprire se la partita è in piedi e se il giocatore non l'ha persa
@@ -372,23 +383,43 @@ public class Game extends View implements
         return gestureDetector;
     }
 
-    @Override
     public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-    if(accelerometer==null) {
-        if ((e2.getX() - (paddle.getWidthp()/2)>=leftBoard && (e2.getX() - (paddle.getWidthp()/2)<= (rightBoard - paddle.getWidthp())))){
-            if(e2.getY()>(sizeY*0.75)) {
-                paddle.setX(e2.getX() - (paddle.getWidthp()/2));
+        if(accelerometer==null) {
+
+            if(e2.getY() > (downBoard-(sizeY*0.25))) {
+
+                if ((e2.getX() - (paddle.getWidthp()/2) >= minPositionPaddle && (e2.getX() - (paddle.getWidthp()/2)<= (maxPositionPaddle - paddle.getWidthp())))){
+                    float p = (e2.getX() - leftBoard);
+                    roomRef.child(fieldXPaddleThisDevice).setValue(p);
+                    paddle.setX(e2.getX() - (paddle.getWidthp()/2));
+
+
+                } else if ((e2.getX() - (paddle.getWidthp()/2) < minPositionPaddle)) {
+
+                    if(playerRole.equals("player2")){
+                        roomRef.child(fieldXPaddleThisDevice).setValue((sizeX/2));
+                    } else {
+                        roomRef.child(fieldXPaddleThisDevice).setValue(minPositionPaddle);
+
+                    }
+
+                    paddle.setX(minPositionPaddle);
+
+                } else if ((e2.getX() - (paddle.getWidthp()/2) > (maxPositionPaddle - paddle.getWidthp()))){
+
+                    if(playerRole.equals("player1")){
+                        roomRef.child(fieldXPaddleThisDevice).setValue((float) ((sizeX/2)-(paddle.getWidthp())));
+                    } else {
+                        roomRef.child(fieldXPaddleThisDevice).setValue((float) ((sizeX)-(paddle.getWidthp())));
+                    }
+
+                    paddle.setX(maxPositionPaddle-paddle.getWidthp());
+
+                }
+
             }
-        }else if ((e2.getX() - (paddle.getWidthp()/2) < leftBoard)){
-            if(e2.getY()>(sizeY*0.75)) {
-                paddle.setX(leftBoard);
-            }
-        }else if ((e2.getX() - (paddle.getWidthp()/2) > (rightBoard - paddle.getWidthp()))){
-            if(e2.getY() > (sizeY*0.75)) {
-                paddle.setX(rightBoard-paddle.getWidthp());
-            }
+
         }
-    }
         return false;
     }
 
@@ -611,6 +642,32 @@ public class Game extends View implements
 
     public ArrayList<Level> getLevels() {
         return levels;
+    }
+
+    @Override
+    public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+        float xPaddle = Float.parseFloat(snapshot.child(fieldXPaddleOtherDevice).getValue().toString());
+        paddle2.setX(leftBoard+xPaddle);
+
+
+       /* float ballX = Integer.parseInt(snapshot.child(fieldxBall).getValue().toString());
+        float ballY = Integer.parseInt(snapshot.child(fieldyBall).getValue().toString());
+        float ballspeedX = Integer.parseInt(snapshot.child(fieldxSpeedBall).getValue().toString());
+        float ballspeedY = Integer.parseInt(snapshot.child(fieldySpeedBall).getValue().toString());
+        boolean startValue =Boolean.parseBoolean(snapshot.child(fieldStarted).getValue().toString());
+
+        if(getSizeYThisDevice() < sizeYOtherDevice) {
+            ball.setX(ballX);
+            ball.setY(ballY);
+            ball.setSpeed(ballspeedX,ballspeedY);
+            start = startValue;
+        }*/
+    }
+
+    @Override
+    public void onCancelled(@NonNull DatabaseError error) {
+
     }
 
 

@@ -51,11 +51,15 @@ public class GameViewPortrait extends Game {
         //setta posizione della palla e della barra
         getBall().setX(getSizeX() / 2);
         getBall().setY(getSizeY() - 280);
+
         fieldxBall="xBall";
         fieldyBall="yBall";
         fieldxSpeedBall="xSpeedBall";
         fieldySpeedBall="ySpeedBall";
         fieldStarted="started";
+
+        paddle.setWidth((int) (getSizeX()*0.1));
+        paddle2.setWidth((int) (getSizeX()*0.1));
 
         if(playerRole.equals("player1")) {
             paddle.setX((size.x/2) - (paddle.getWidthp()));
