@@ -140,7 +140,7 @@ public class Game extends View implements
         //impostare valori multiplayer
         this.playerRole=playerRole;
         this.roomRef=roomRef;
-
+        roomRef.addValueEventListener(this);
 
         //avviare un GameOver per scoprire se la partita è in piedi e se il giocatore non l'ha persa
         start = false;
@@ -264,17 +264,21 @@ public class Game extends View implements
 
         if (lifes == 1) {
             gameOver = true;
-            start = false;
             numberLevel=1;
             invalidate();
         } else{
             lifes--;
 
-            ball.setX(sizeX / 2);
-            ball.setY(sizeY - 280);
+            ball.setX((sizeX / 2) + leftBoard);
+            ball.setY(downBoard - 280);
             ball.createSpeed();
-            start = false;
         }
+
+        if(playerRole.equals("player1")) {
+            start = false;
+            roomRef.child(fieldStarted).setValue(false);
+        }
+
         paddle.resetPaddle();
     }
 
@@ -286,7 +290,10 @@ public class Game extends View implements
             win();
             checkBoards();
             //ball.hitPaddle(paddle.getX(), paddle.getY());
-
+            if(playerRole.equals("player1")){
+                ball.move();
+                setValuesOtherDevice();
+            }
             for (int i = 0; i < brickList.size(); i++) {
                 Brick b = brickList.get(i);
                 if (ball.hitBrick(b)) {
@@ -305,11 +312,16 @@ public class Game extends View implements
 
 
             }
-
-
-            ball.move();
-
         }
+    }
+
+    private void setValuesOtherDevice() {
+        Float ballxOther = (ball.getX()-leftBoard);
+        Float ballyOther = (ball.getY() - downBoard);
+        roomRef.child(fieldxBall).setValue(ballxOther);
+        roomRef.child(fieldyBall).setValue(ballyOther);
+        roomRef.child(fieldxSpeedBall).setValue(ball.getxSpeed());
+        roomRef.child(fieldySpeedBall).setValue(ball.getySpeed());
     }
 
     //imposta il gioco per iniziare
@@ -329,7 +341,10 @@ public class Game extends View implements
 
             resetLevel();
             ball.increaseSpeed(numberLevel);
-            start = false;
+            if(playerRole.equals("player1")) {
+                start = false;
+                roomRef.child(fieldStarted).setValue(false);
+            }
         }
     }
 
@@ -360,7 +375,10 @@ public class Game extends View implements
         if (isGameOver() == true && isStart() == false) {
 
         } else {
-            setStart(true);
+            if(playerRole.equals("player1")) {
+                setStart(true);
+                roomRef.child(fieldStarted).setValue(true);
+            }
         }
         return false;
     }
@@ -651,19 +669,19 @@ public class Game extends View implements
         float xPaddle = Float.parseFloat(snapshot.child(fieldXPaddleOtherDevice).getValue().toString());
         paddle2.setX(leftBoard+xPaddle);
 
+        if(playerRole.equals("player2")) {
+            float ballX = Integer.parseInt(snapshot.child(fieldxBall).getValue().toString());
+            float ballY = Integer.parseInt(snapshot.child(fieldyBall).getValue().toString());
+            float ballspeedX = Integer.parseInt(snapshot.child(fieldxSpeedBall).getValue().toString());
+            float ballspeedY = Integer.parseInt(snapshot.child(fieldySpeedBall).getValue().toString());
+            boolean startValue =Boolean.parseBoolean(snapshot.child(fieldStarted).getValue().toString());
 
-       /* float ballX = Integer.parseInt(snapshot.child(fieldxBall).getValue().toString());
-        float ballY = Integer.parseInt(snapshot.child(fieldyBall).getValue().toString());
-        float ballspeedX = Integer.parseInt(snapshot.child(fieldxSpeedBall).getValue().toString());
-        float ballspeedY = Integer.parseInt(snapshot.child(fieldySpeedBall).getValue().toString());
-        boolean startValue =Boolean.parseBoolean(snapshot.child(fieldStarted).getValue().toString());
-
-        if(getSizeYThisDevice() < sizeYOtherDevice) {
-            ball.setX(ballX);
-            ball.setY(ballY);
+            ball.setX(ballX+leftBoard);
+            ball.setY(ballY+downBoard);
             ball.setSpeed(ballspeedX,ballspeedY);
             start = startValue;
-        }*/
+        }
+
     }
 
     @Override
