@@ -3,8 +3,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/Text_menu"
+    android:background="@drawable/background"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+   <!-- <FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/background_one"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/background"/>
+
+        <ImageView
+            android:id="@+id/background_two"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/background"/>
+
+    </FrameLayout> -->
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -24,6 +44,7 @@
             android:layout_marginTop="16dp"
             android:text="ArkanMusic"
             android:textAlignment="center"
+            android:textColor="#FFFFFF"
             android:textSize="36sp" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -53,7 +74,6 @@
                 android:contentDescription="TODO"
                 android:rotation="180"
                 android:src="@drawable/ic_baseline_login_24"
-                app:backgroundTint="@color/purple_500"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -62,6 +82,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Benvenuto"
+                android:textColor="#FFFFFF"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.498"
@@ -89,7 +110,8 @@
             android:layout_marginBottom="20dp"
             android:fontFamily="@font/font"
             android:text="@string/menu_principale"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textColor="#FFFFFF" />
 
         <Button
             android:id="@+id/button_arcade"
