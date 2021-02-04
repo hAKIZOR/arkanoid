@@ -79,14 +79,7 @@ public class AsyncTaskLoadResult extends AsyncTask<Void, Void, ArrayList<LevelCr
         super.onPostExecute(result);
 
     }
-
-    public void setLevelCreateds(ArrayList<LevelCreatedModel> levelCreateds) {
-        this.levelCreateds = levelCreateds;
-    }
-
-    public ArrayList<LevelCreatedModel> getLevelCreateds() {
-        return levelCreateds;
-    }
+    
     public  interface ListenerAsyncData {
          void onDataOfLevelCreatedChange(ArrayList<LevelCreatedModel> levelCreateds);
     }

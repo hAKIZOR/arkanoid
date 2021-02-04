@@ -52,7 +52,7 @@ public class DialogResultGame extends DialogFragment {
         buttonGoOn = (Button) v.findViewById(R.id.buttonGoOn);
 
         textViewResult.setText(textResult);
-        textViewScore.setText("score: " + score);
+        textViewScore.setText(score);
 
         if(textResult.equals(activity.getResources().getString(R.string.win_game))) {
             imageView.setBackground(activity.getResources().getDrawable(R.drawable.ic_win_multiplayer,null));

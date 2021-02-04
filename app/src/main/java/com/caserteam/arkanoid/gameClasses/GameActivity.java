@@ -99,11 +99,11 @@ public class GameActivity extends AppCompatActivity implements GameListener {
                 Log.d(TAG,"PASSO");
                 switch (msg.what){
                     case 2:
-                        DialogResultGame dialogWinGame = new DialogResultGame(getResources().getString(R.string.win_game), GameActivity.this,String.valueOf(game.getScore()));
-                        dialogWinGame.show(getSupportFragmentManager(),"dialogWinGame");
+                        DialogResultGame dialogHighScore = new DialogResultGame(getResources().getString(R.string.success_record), GameActivity.this,"score: " + game.getScore());
+                        dialogHighScore.show(getSupportFragmentManager(), "dialogNewScore");
                         break;
                     case 3:
-                        DialogResultGame dialogLoseGame = new DialogResultGame(getResources().getString(R.string.lose_game), GameActivity.this,String.valueOf(game.getScore()));
+                        DialogResultGame dialogLoseGame = new DialogResultGame(getResources().getString(R.string.lose_game), GameActivity.this,"score: " + game.getScore());
                         dialogLoseGame.show(getSupportFragmentManager(),"dialogLoseGame");
                         break;
                 }
@@ -304,14 +304,13 @@ public class GameActivity extends AppCompatActivity implements GameListener {
                                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                             @Override
                                             public void onSuccess(DocumentReference documentReference) {
-                                                DialogResultGame dialogHighScore = new DialogResultGame(getResources().getString(R.string.success_record), GameActivity.this,String.valueOf(finalScore));
-                                                dialogHighScore.show(getSupportFragmentManager(), "dialogNewScore");
+                                                updateHandler.sendEmptyMessage(2);
                                             }
                                         })
                                         .addOnFailureListener(new OnFailureListener() {
                                             @Override
                                             public void onFailure(@NonNull Exception e) {
-                                                Toast.makeText(getApplicationContext(), "Errore nel caricamento dello score", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(getApplicationContext(), "Errore nel salvataggio dello score", Toast.LENGTH_SHORT).show();
                                                 finish();
                                             }
                                         });
@@ -322,20 +321,19 @@ public class GameActivity extends AppCompatActivity implements GameListener {
                                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                             @Override
                                             public void onSuccess(DocumentReference documentReference) {
-                                                DialogResultGame dialogHighScore = new DialogResultGame(getResources().getString(R.string.success_record), GameActivity.this,String.valueOf(finalScore));
-                                                dialogHighScore.show(getSupportFragmentManager(), "dialogNewScore");
+                                                updateHandler.sendEmptyMessage(2);
                                             }
                                         })
                                         .addOnFailureListener(new OnFailureListener() {
                                             @Override
                                             public void onFailure(@NonNull Exception e) {
-                                                Toast.makeText(getApplicationContext(), "Errore nel caricamento dello score", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(getApplicationContext(), "Errore nel salvataggio dello score", Toast.LENGTH_SHORT).show();
                                                 finish();
                                             }
                                         });
                             } else if ( record > finalScore){
                                 //non aggiorna nulla nel leaderboard perchè il record non è stato battuto
-                                DialogResultGame dialogLowScore = new DialogResultGame(getResources().getString(R.string.failure_record) , GameActivity.this,String.valueOf(record));
+                                DialogResultGame dialogLowScore = new DialogResultGame(getResources().getString(R.string.failure_record) , GameActivity.this,"record: " + record);
                                 dialogLowScore.show(getSupportFragmentManager(), "dialogNewScore");
                             }
 

@@ -1,17 +1,22 @@
 package com.caserteam.arkanoid.gameClasses;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
+import android.util.DisplayMetrics;
 import android.view.Display;
+import android.view.KeyCharacterMap;
+import android.view.KeyEvent;
 import android.view.WindowManager;
 
 import androidx.core.content.res.ResourcesCompat;
@@ -28,7 +33,8 @@ public class GameViewPortrait extends Game {
     private Point size;
     private Paint paint;
     private RectF r;
-
+    private int screen_height;
+    private int screen_width;
 
 
 
@@ -77,19 +83,42 @@ public class GameViewPortrait extends Game {
 
     // impostare lo sfondo
     private void setBackground(Context context) {
-        background = Bitmap.createBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.background_score));
+        int navBarHeight = 0;
+
+        Resources resources = context.getResources();
+        int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            navBarHeight = resources.getDimensionPixelSize(resourceId);
+        }
+        size = new Point();
+        DisplayMetrics dm = new DisplayMetrics();
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         display = wm.getDefaultDisplay();
-        size = new Point();
-        display.getSize(size);
+        display.getMetrics(dm);
+        boolean hasPhysicalHomeKey = KeyCharacterMap.deviceHasKey(KeyEvent.KEYCODE_HOME);
+        if (android.os.Build.VERSION.SDK_INT >= 17){
+            display.getRealSize(size);
+            screen_width = size.x;
+            screen_height = size.y;
+        } else if (hasPhysicalHomeKey){
+            screen_height = dm.heightPixels;
+        } else {
+            screen_height = dm.heightPixels + navBarHeight;
+        }
 
+        background = Bitmap.createBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.background_score));
         paint.setColor(Color.RED);
 
     }
 
     protected void onDraw(Canvas canvas) {
+
         // crea uno sfondo solo una volta
-        canvas.drawBitmap(background, 0, 0, paint);
+        Rect dest = new Rect(0, 0, screen_width, screen_height);
+        Paint paint = new Paint();
+        paint.setFilterBitmap(true);
+        canvas.drawBitmap(background, null, dest, paint);
+
         // disegna la pallina
         paint.setColor(Color.RED);
         paint.setAntiAlias(true);
