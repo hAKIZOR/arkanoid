@@ -46,8 +46,6 @@ public class MenuActivity extends AppCompatActivity {
     private GoogleSignInClient mGoogleSignInClient;
     SharedPreferences prefs = null;
     MediaPlayer buttonSoundClick;
-    private ViewGroup parent;
-    private ImageView imgInner, imgOutter;
 
 
     @Override
@@ -75,10 +73,11 @@ public class MenuActivity extends AppCompatActivity {
         Button buttonEditor = findViewById(R.id.button_editor);
         Button buttonMultiplayer = findViewById(R.id.button_multiplayer);
 
-        //ImageView backgroundOne = (ImageView) findViewById(R.id.background_one);
-        //ImageView backgroundTwo = (ImageView) findViewById(R.id.background_two);
+        ImageView backgroundOne = (ImageView) findViewById(R.id.background_one);
+        ImageView backgroundTwo = (ImageView) findViewById(R.id.background_two);
 
-        //setImageLoop(backgroundOne,backgroundTwo);
+
+        setImageLoop(backgroundOne,backgroundTwo);
 
         Animation animationScale = AnimationUtils.loadAnimation(this, R.anim.scale_animation);
         Animation animationBottom = AnimationUtils.loadAnimation(this, R.anim.bottom_animation);
@@ -213,7 +212,7 @@ public class MenuActivity extends AppCompatActivity {
         final ValueAnimator animator = ValueAnimator.ofFloat(0.0f, 1.0f);
         animator.setRepeatCount(ValueAnimator.INFINITE);
         animator.setInterpolator(new LinearInterpolator());
-        animator.setDuration(10000L);
+        animator.setDuration(20000L);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -222,6 +221,7 @@ public class MenuActivity extends AppCompatActivity {
                 final float translationY = height * progress;
                 backgroundOne.setTranslationY(translationY);
                 backgroundTwo.setTranslationY(translationY - height);
+
             }
         });
         animator.start();
