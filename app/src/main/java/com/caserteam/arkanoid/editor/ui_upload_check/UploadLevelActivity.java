@@ -2,6 +2,7 @@ package com.caserteam.arkanoid.editor.ui_upload_check;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NavUtils;
 
 import com.caserteam.arkanoid.MenuActivity;
 import com.caserteam.arkanoid.editor.EditorActivity;
@@ -60,9 +61,7 @@ public class UploadLevelActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home:
-                Intent intent = new Intent(UploadLevelActivity.this, EditorActivity.class);
-                startActivity(intent);
-                finish();
+                NavUtils.navigateUpFromSameTask(this);
                 break;
         }
         return true;

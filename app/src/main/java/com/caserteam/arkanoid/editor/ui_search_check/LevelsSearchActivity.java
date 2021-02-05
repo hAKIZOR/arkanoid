@@ -2,6 +2,7 @@ package com.caserteam.arkanoid.editor.ui_search_check;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NavUtils;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -91,9 +92,7 @@ public class LevelsSearchActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home:
-                Intent intent = new Intent(LevelsSearchActivity.this, EditorActivity.class);
-                startActivity(intent);
-                finish();
+                NavUtils.navigateUpFromSameTask (this);
                 break;
         }
         return true;

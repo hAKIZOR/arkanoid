@@ -23,6 +23,8 @@ import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.NavUtils;
+
 import com.caserteam.arkanoid.editor.EditorActivity;
 import com.caserteam.arkanoid.R;
 
@@ -68,11 +70,10 @@ class AdapterLevelCreated extends ArrayAdapter<LevelCreatedModel> {
             @Override
             public void onClick(View view) {
                 Toast.makeText(mContext,"cliccato il livello"+ nameLevel,Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(mContext, EditorActivity.class);
+                Intent intent = NavUtils.getParentActivityIntent(activity);
                 intent.putExtra(EditorActivity.STATE_STRUCTURE, structure);
                 intent.putExtra(EditorActivity.STATE_NAME_LEVEL, nameLevel);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                mContext.startActivity(intent);
+                NavUtils.navigateUpTo(activity,intent);
 
             }
         });

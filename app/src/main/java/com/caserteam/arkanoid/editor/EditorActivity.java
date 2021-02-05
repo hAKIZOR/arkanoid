@@ -27,6 +27,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 
 
 import android.annotation.SuppressLint;
+import android.app.TaskStackBuilder;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -226,10 +227,15 @@ public class EditorActivity extends AppCompatActivity  implements
                 break;
             case android.R.id.home:
 
-                Intent intent1 = new Intent(EditorActivity.this, MenuActivity.class);
-                startActivity(intent1);
-                finish();
-                return true;
+                Intent upIntent = NavUtils.getParentActivityIntent (this);
+                if (NavUtils.shouldUpRecreateTask (this, upIntent)){
+                    Log.d("EditorActivity", "passo true");
+                    TaskStackBuilder.create(this)
+                            .addNextIntentWithParentStack(upIntent).
+                            startActivities();
+                } else{ Log.d("EditorActivity", "passo false");NavUtils.navigateUpTo(this, upIntent); }
+                    return true;
+
             case R.id.menu_main_search:
                 /*
                    Al click di questo tasto deve essere possibile il caricamento di tutti livelli creati da altri utenti mediante un'altra activity

@@ -26,6 +26,7 @@ import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.NavUtils;
 import androidx.fragment.app.DialogFragment;
 
 public class DialogPauseGame extends DialogFragment{
@@ -58,7 +59,7 @@ public class DialogPauseGame extends DialogFragment{
        buttonExitGame.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
-               activity.finish();
+               NavUtils.navigateUpFromSameTask(activity);
            }
        });
        return v;
