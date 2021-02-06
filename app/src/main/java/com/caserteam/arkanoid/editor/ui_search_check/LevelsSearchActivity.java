@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.caserteam.arkanoid.MenuActivity;
 import com.caserteam.arkanoid.R;
@@ -71,6 +72,9 @@ public class LevelsSearchActivity extends AppCompatActivity {
                                     levelsSearched.add(levelShared.toObject(LevelSearchedModel.class));
                                 }
                             }
+                            int count = levelsSearched.size();
+                            String quantity = getResources().getQuantityString(R.plurals.numberOfLevelSearched,count,count);
+                            Toast.makeText(LevelsSearchActivity.this, quantity ,Toast.LENGTH_LONG).show();
                             //aggiorno l'adapter per poi settare la listView che contiene i livelli
 
                             adapterLevelSearched = new AdapterLevelSearched(LevelsSearchActivity.this,R.layout.row_layout_leves_to_play,

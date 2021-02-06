@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -78,6 +79,10 @@ public class UploadLevelActivity extends AppCompatActivity
         al fine di aggiornare la visualizzazione e il database a fronte di un eliminazione di item nella listView
         passando il modello di dati intrinseco alla variabile levelCreateds
          */
+        int count = levelCreateds.size();
+        String quantity = getResources().getQuantityString(R.plurals.numberOfLevelCreated,count,count);
+        Toast.makeText(this, quantity ,Toast.LENGTH_LONG).show();
+
         this.levelCreateds = levelCreateds;
 
         //aggiorno l'adapter per poi settare la listView che contiene i livelli

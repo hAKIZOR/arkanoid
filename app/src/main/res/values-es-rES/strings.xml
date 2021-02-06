@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="menu_principale" translatable="false">" Menu' principal"</string>
     <string name="impostazioni" translatable="false">" Ajustes"</string>
     <string name="editor_livelli">" Editor de niveles"</string>
@@ -62,4 +62,15 @@
     <string name="menu_pause">Menú de pausa</string>
     <string name="success_record">Felicitaciones, ha hecho un nuevo récord.</string>
     <string name="failure_record">"¡Pecado! no ha superado su récord de puntos: "</string>
+
+    <plurals name="numberOfLevelSearched">
+        <item quantity="zero">no se encontraron niveles compartidos</item>
+        <item quantity="one">%d nivel compartido encontrado</item>
+        <item quantity="other">%d niveles compartidos encontrados</item>
+    </plurals>
+    <plurals name="numberOfLevelCreated">
+        <item quantity="zero" >no se encontró ningún nivel creado</item>
+        <item quantity="one">%d nivel creado encontrado</item>
+        <item quantity="other">%d niveles creados encontrados</item>
+    </plurals>
 </resources>

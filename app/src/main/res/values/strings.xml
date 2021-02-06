@@ -107,5 +107,16 @@
     <string name="cancel_button">annulla</string>
     <string name="salva">Salva</string>
 
+    <plurals name="numberOfLevelSearched">
+        <item quantity="zero">nessun livello condiviso trovato</item>
+        <item quantity="one">%d livello condiviso trovato</item>
+        <item quantity="other">%d livelli condivisi trovati</item>
+    </plurals>
+    <plurals name="numberOfLevelCreated">
+        <item quantity="zero">nessun livello creato trovato</item>
+        <item quantity="one">%d livello creato trovato</item>
+        <item quantity="other">%d livelli creati trovati</item>
+    </plurals>
+
 
 </resources>

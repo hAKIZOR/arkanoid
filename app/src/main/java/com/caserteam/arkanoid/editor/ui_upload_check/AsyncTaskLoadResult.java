@@ -2,7 +2,10 @@ package com.caserteam.arkanoid.editor.ui_upload_check;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
+import com.caserteam.arkanoid.R;
+import com.caserteam.arkanoid.editor.ui_search_check.LevelsSearchActivity;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -60,6 +63,8 @@ public class AsyncTaskLoadResult extends AsyncTask<Void, Void, ArrayList<LevelCr
             for(DocumentSnapshot documentSnapshot : task.getResult()){
                 levelCreateds.add(documentSnapshot.toObject(LevelCreatedModel.class));
             }
+
+
         }
 
         return levelCreateds;
@@ -74,6 +79,7 @@ public class AsyncTaskLoadResult extends AsyncTask<Void, Void, ArrayList<LevelCr
     @Override
     protected void onPostExecute(ArrayList<LevelCreatedModel> result) {
         listenerAsyncData = (ListenerAsyncData) context;
+
         // attivo la chiamata a fronte della modifica nel model di dati contenuto in result
         listenerAsyncData.onDataOfLevelCreatedChange(result);
         super.onPostExecute(result);

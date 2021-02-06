@@ -63,4 +63,15 @@
     <string name="success_record">Congratulations, you have made a new record</string>
     <string name="failure_record">"Too bad! you have not exceeded your points record: "</string>
 
+    <plurals name="numberOfLevelSearched">
+        <item quantity="zero">no searched level found</item>
+        <item quantity="one">%d shared level found</item>
+        <item quantity="other">%d shared levels found</item>
+    </plurals>
+    <plurals name="numberOfLevelCreated">
+        <item quantity="zero">no created level found</item>
+        <item quantity="one">%d created level found</item>
+        <item quantity="other">%d created levels found</item>
+    </plurals>
+
 </resources>
