@@ -42,8 +42,7 @@ import static com.caserteam.arkanoid.AppContractClass.*;
 
 public class MenuActivity extends AppCompatActivity {
     private static final String TAG = "MenuActivity = ";
-    private static final String FIRST_RUN_INSTALLATION_STATE ="firstruninstallation";
-    private static final String FIRST_RUN_STATE ="firstrun";
+
     private GoogleSignInClient mGoogleSignInClient;
     SharedPreferences prefs = null;
     MediaPlayer buttonSoundClick;
@@ -112,13 +111,13 @@ public class MenuActivity extends AppCompatActivity {
             String systemLanguage = Locale.getDefault().getLanguage();
             int languageToSet = Settings.lang.valueOf(systemLanguage).ordinal();
 
-            if (prefs.getBoolean(this.FIRST_RUN_INSTALLATION_STATE, true)){
+            if (prefs.getBoolean(FIRST_RUN_INSTALLATION_STATE, true)){
                 Log.d(TAG, "primo avvio");
 
                 Settings settings = new Settings(1,languageToSet ,1);
                 IOUtils.writeObjectToFile(this,FILE_NAME,settings);
 
-            } else if(prefs.getBoolean(this.FIRST_RUN_STATE,true)){
+            } else if(prefs.getBoolean(FIRST_RUN_STATE,true)){
 
                 Settings settings = IOUtils.readObjectFromFile(this,FILE_NAME);
                 settings.setLanguage(languageToSet);
@@ -256,15 +255,15 @@ public class MenuActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        prefs.edit().putBoolean(this.FIRST_RUN_STATE, true).commit();
+        prefs.edit().putBoolean(FIRST_RUN_STATE, true).commit();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         Log.d(TAG,"onResume()");
-        if (prefs.getBoolean(this.FIRST_RUN_INSTALLATION_STATE, true)) {
-            prefs.edit().putBoolean(this.FIRST_RUN_INSTALLATION_STATE, false).commit();
+        if (prefs.getBoolean(FIRST_RUN_INSTALLATION_STATE, true)) {
+            prefs.edit().putBoolean(FIRST_RUN_INSTALLATION_STATE, false).commit();
         }
     }
 

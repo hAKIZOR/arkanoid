@@ -16,7 +16,7 @@ import androidx.fragment.app.DialogFragment;
 import com.caserteam.arkanoid.R;
 
 public class DialogCodeRoom extends DialogFragment {
-    private static final String PATH_COLLECTION = "utenti/Davide/livelli";
+
     DialogCodeRoomListener dialogCodeRoomListener;
     private ImageButton imageButtonClose;
     private Button buttonCreateRoom;

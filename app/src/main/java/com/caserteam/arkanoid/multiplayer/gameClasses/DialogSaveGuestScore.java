@@ -24,8 +24,7 @@ import com.caserteam.arkanoid.R;
 import java.io.IOException;
 
 public class DialogSaveGuestScore extends DialogFragment {
-    private static final String USERS_COLLECTION = "utenti";
-    private static final String LEVELS_COLLECTION = "livelli";
+
 
     private Button buttonSave;
     private EditText editTextPlayerName;

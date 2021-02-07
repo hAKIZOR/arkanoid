@@ -73,6 +73,9 @@ public final class AppContractClass {
 
     public static final String COLLECTION_SHARED_LEVELS = "livelliCondivisi";
 
+    public static final String FIRST_RUN_INSTALLATION_STATE ="firstruninstallation";
+    public static final String FIRST_RUN_STATE ="firstrun";
+
     public AppContractClass() {}
 
 
