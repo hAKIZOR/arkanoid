@@ -28,7 +28,7 @@ import java.util.Map;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GestureDetectorCompat;
-
+import static com.caserteam.arkanoid.AppContractClass.*;
 public class ActualGameActivity extends AppCompatActivity {
 
 
@@ -49,16 +49,16 @@ public class ActualGameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        preferences = getSharedPreferences(LoginActivity.KEY_PREFERENCES_USER_INFORMATION,MODE_PRIVATE);
+        preferences = getSharedPreferences(KEY_PREFERENCES_USER_INFORMATION,MODE_PRIVATE);
         HashMap<String,String> data = new HashMap<>();
         data.putAll((Map<String,String>) preferences.getAll());
-        nickname = data.get(LoginActivity.KEY_NICKNAME_PREFERENCES);
+        nickname = data.get(KEY_NICKNAME_PREFERENCES);
 
         counter=0;
 
-        code = getIntent().getStringExtra(MultiplayerActivity.STATE_CODE);
-        playerRole = getIntent().getStringExtra(MultiplayerActivity.CODE_PLAYER_EXTRA);
-        roomRef =  FirebaseDatabase.getInstance(MultiplayerActivity.ROOT).getReference("rooms/"+code);
+        code = getIntent().getStringExtra(CODE_ROOM_EXTRA);
+        playerRole = getIntent().getStringExtra(CODE_PLAYER_EXTRA);
+        roomRef =  FirebaseDatabase.getInstance(ROOT_DB_REALTIME_DATABASE).getReference("rooms/"+code);
 
         //imposta l'orientamento dello schermo
 

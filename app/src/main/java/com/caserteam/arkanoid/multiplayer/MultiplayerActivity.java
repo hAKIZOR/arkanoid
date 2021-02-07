@@ -23,18 +23,13 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 import java.util.Map;
+import static com.caserteam.arkanoid.AppContractClass.*;
 
 public class MultiplayerActivity extends AppCompatActivity implements
         DialogCodeRoom.DialogCodeRoomListener,
         LoadingDialog.LoadingDialogClickListener {
     private static final String TAG = "MultiplayerActivity";
-    public static final String ROOT = "https://arkanoid-d46b0-default-rtdb.europe-west1.firebasedatabase.app/";
-    public static final String STATE_CODE = "gameCode";
-    public static final String CODE_PLAYER_EXTRA = "player";
-    public static final String ROOMS_NODE = "rooms";
-    public static final String PLAYER1_NODE = "player1";
-    public static final String PLAYER2_NODE = "player2";
-    public static final String EMPTY_STRING ="";
+
 
     DatabaseReference roomsRef;
     FirebaseDatabase firebaseDatabase;
@@ -48,9 +43,9 @@ public class MultiplayerActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_multiplayer);
 
-        preferences = getSharedPreferences(LoginActivity.KEY_PREFERENCES_USER_INFORMATION,MODE_PRIVATE);
+        preferences = getSharedPreferences(KEY_PREFERENCES_USER_INFORMATION,MODE_PRIVATE);
 
-        firebaseDatabase = FirebaseDatabase.getInstance(ROOT);
+        firebaseDatabase = FirebaseDatabase.getInstance(ROOT_DB_REALTIME_DATABASE);
 
         roomsRef = firebaseDatabase.getReference(ROOMS_NODE);
 
@@ -84,7 +79,7 @@ public class MultiplayerActivity extends AppCompatActivity implements
         DatabaseReference player2Ref = firebaseDatabase.getReference(ROOMS_NODE+ "/" + code + "/" + PLAYER2_NODE);
         HashMap<String,String> data = new HashMap<>();
         data.putAll((Map<String,String>) preferences.getAll());
-        String nickname = data.get(LoginActivity.KEY_NICKNAME_PREFERENCES);
+        String nickname = data.get(KEY_NICKNAME_PREFERENCES);
 
         roomsRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -100,7 +95,7 @@ public class MultiplayerActivity extends AppCompatActivity implements
                                     loadingDialog.dismissDialog();
                                     //accedo al gioco
                                     Intent intent = new Intent(MultiplayerActivity.this, ActualGameActivity.class);
-                                    intent.putExtra(STATE_CODE,code);
+                                    intent.putExtra(CODE_ROOM_EXTRA,code);
                                     intent.putExtra(CODE_PLAYER_EXTRA,PLAYER2_NODE);
                                     roomsRef.removeEventListener(thisValueEventListener);
                                     startActivity(intent);
@@ -144,7 +139,7 @@ public class MultiplayerActivity extends AppCompatActivity implements
 
         HashMap<String,String> data = new HashMap<>();
         data.putAll((Map<String,String>) preferences.getAll());
-        String nickname = data.get(LoginActivity.KEY_NICKNAME_PREFERENCES);
+        String nickname = data.get(KEY_NICKNAME_PREFERENCES);
 
         addRoomsEventListener(loadingDialog,code,nickname);
 
@@ -196,7 +191,7 @@ public class MultiplayerActivity extends AppCompatActivity implements
                                 // il giocatore accede alla stanza poichè passa tutti i controlli sulla disponibilità del posto in stanza
                                 load.dismissDialog();
                                 Intent intent = new Intent(MultiplayerActivity.this,ActualGameActivity.class);
-                                intent.putExtra(STATE_CODE,code);
+                                intent.putExtra(CODE_ROOM_EXTRA,code);
                                 intent.putExtra(CODE_PLAYER_EXTRA,PLAYER1_NODE);
                                 ref.child(PLAYER2_NODE).removeEventListener(this);
                                 startActivity(intent);

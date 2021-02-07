@@ -36,7 +36,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
-
+import static com.caserteam.arkanoid.AppContractClass.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -48,8 +48,7 @@ public class FragmentListScore extends Fragment {
     private AdapterListViewScore adapterListViewScore;
     private Context context;
     private View v;
-    public static final int TAB_LOCAL = 0;
-    public static final int TAB_GLOBAL = 1;
+
 
     public FragmentListScore(){
         super();

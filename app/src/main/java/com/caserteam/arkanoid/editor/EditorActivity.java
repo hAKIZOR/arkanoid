@@ -43,6 +43,7 @@ import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import static  com.caserteam.arkanoid.AppContractClass.*;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -63,10 +64,7 @@ public class EditorActivity extends AppCompatActivity  implements
         FloatingActionButtonMinus.FloatingActionButtonMinusListener
 
 {
-    public static final String STATE_CURRENT_USER = "currentUser";
-    public static final String STATE_NAME_LEVEL = "nameLevel";
-    public static final String STATE_STRUCTURE = "structure";
-    public static final String STATE_CURRENT_USER_NICKNAME = "currentUserNickname";
+
     private String nickname;
     private boolean fullScreen = false;
     private Editor editor;
@@ -109,20 +107,20 @@ public class EditorActivity extends AppCompatActivity  implements
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         account = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
 
-        preferences = getSharedPreferences(LoginActivity.KEY_PREFERENCES_USER_INFORMATION,MODE_PRIVATE);
-        nickname = preferences.getString(LoginActivity.KEY_NICKNAME_PREFERENCES,"");
+        preferences = getSharedPreferences(KEY_PREFERENCES_USER_INFORMATION,MODE_PRIVATE);
+        nickname = preferences.getString(KEY_NICKNAME_PREFERENCES,"");
     }
 
 
     private void initializeEditor(Bundle savedInstanceState) {
         Log.d("EditorActivity","passo");
         if(savedInstanceState != null){
-            nameLevel = savedInstanceState.getString(STATE_NAME_LEVEL);
-            structure = savedInstanceState.getString(STATE_STRUCTURE);
+            nameLevel = savedInstanceState.getString(NAME_LEVEL_EXTRA);
+            structure = savedInstanceState.getString(STRUCTURE_GAME_EXTRA);
 
         } else {
-            structure = getIntent().getStringExtra(STATE_STRUCTURE);
-            nameLevel = getIntent().getStringExtra(STATE_NAME_LEVEL);
+            structure = getIntent().getStringExtra(STRUCTURE_GAME_EXTRA);
+            nameLevel = getIntent().getStringExtra(NAME_LEVEL_EXTRA);
         }
 
         if(structure != null){
@@ -196,8 +194,8 @@ public class EditorActivity extends AppCompatActivity  implements
                    Al click di questo tasto deve essere possibile il caricamento dei propri livelli mediante un'altra activity
                 */
                 Intent intent = new Intent(EditorActivity.this, UploadLevelActivity.class);
-                intent.putExtra(STATE_CURRENT_USER,account.getEmail());
-                intent.putExtra(STATE_CURRENT_USER_NICKNAME,nickname);
+                intent.putExtra(CURRENT_USER_EMAIL_EXTRA,account.getEmail());
+                intent.putExtra(CURRENT_USER_NICKNAME_EXTRA,nickname);
                 startActivity(intent);
 
                 break;
@@ -241,7 +239,7 @@ public class EditorActivity extends AppCompatActivity  implements
                    Al click di questo tasto deve essere possibile il caricamento di tutti livelli creati da altri utenti mediante un'altra activity
                 */
                 Intent intent2 = new Intent(EditorActivity.this, LevelsSearchActivity.class);
-                intent2.putExtra(STATE_CURRENT_USER_NICKNAME,nickname);
+                intent2.putExtra(CURRENT_USER_NICKNAME_EXTRA,nickname);
                 startActivity(intent2);
 
                 return true;
@@ -314,9 +312,9 @@ public class EditorActivity extends AppCompatActivity  implements
     public void onSaveInstanceState(@NonNull Bundle outState) {
         structure = editor.convertListBrickToString();
         if(structure!=null) {
-            Log.d(STATE_STRUCTURE, structure);
-            outState.putString(STATE_NAME_LEVEL, nameLevel);
-            outState.putString(STATE_STRUCTURE, structure);
+            Log.d(STRUCTURE_GAME_EXTRA, structure);
+            outState.putString(NAME_LEVEL_EXTRA, nameLevel);
+            outState.putString(STRUCTURE_GAME_EXTRA, structure);
         }
 
         super.onSaveInstanceState(outState);

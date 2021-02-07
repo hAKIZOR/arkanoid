@@ -6,11 +6,11 @@ import android.graphics.BitmapFactory;
 import android.view.View;
 import com.caserteam.arkanoid.R;
 
+import static com.caserteam.arkanoid.AppContractClass.*;
+
 public class PaddleEditor extends View {
 
-    public static final int PADDLE_SKIN1 = 1;
-    public static final int PADDLE_SKIN2 = 2;
-    public static final int PADDLE_SKIN3 = 3;
+
     private Bitmap paddleSkin;
     private float x;
     private float y;

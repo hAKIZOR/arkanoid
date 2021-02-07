@@ -29,6 +29,7 @@ import com.caserteam.arkanoid.editor.ui_game.ButtonPause;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import static com.caserteam.arkanoid.AppContractClass.*;
 
 
 public class Game extends View implements
@@ -202,7 +203,7 @@ public class Game extends View implements
 
         Settings settings = null;
         try {
-            settings = (Settings) IOUtils.readObjectFromFile(context,Settings.FILE_NAME);
+            settings = (Settings) IOUtils.readObjectFromFile(context,FILE_NAME);
         } catch (IOException i) {
             i.printStackTrace();
             return;
@@ -215,12 +216,12 @@ public class Game extends View implements
         Log.d(DEBUG_STRING,String.valueOf(settings.getControlMode()));
         switch (settings.getControlMode()){
 
-            case Settings.SYSTEM_CONTROL_SENSOR:
+            case SYSTEM_CONTROL_SENSOR:
                 sManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
                 accelerometer = sManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
                 gestureDetector = new GestureDetectorCompat(context,this);
                 break;
-            case Settings.SYSTEM_CONTROL_SCROLL:
+            case SYSTEM_CONTROL_SCROLL:
                 gestureDetector = new GestureDetectorCompat(context,this);
                 sManager = null;
                 accelerometer = null;
@@ -715,7 +716,7 @@ public class Game extends View implements
     public boolean levelCompleted(){
         boolean completed=true;
         for(int i =0; i<brickList.size(); i++){
-            if(brickList.get(i).getSkin()!= Brick.BRICK_OSTACLE1) {
+            if(brickList.get(i).getSkin()!= BRICK_OSTACLE1) {
                 completed = false;
             }
         }

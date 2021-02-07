@@ -20,6 +20,7 @@ import com.caserteam.arkanoid.gameClasses.GameListener;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GestureDetectorCompat;
+import static com.caserteam.arkanoid.AppContractClass.*;
 
 public class GameSearchedActivity extends AppCompatActivity implements GameListener {
 
@@ -46,7 +47,7 @@ public class GameSearchedActivity extends AppCompatActivity implements GameListe
     }
 
     private void initializeGame() {
-        structure = getIntent().getStringExtra(LevelsSearchActivity.STRUCTURE_GAME_EXTRA);
+        structure = getIntent().getStringExtra(STRUCTURE_GAME_EXTRA);
         loadLevelFromStucture(structure);
 
     }

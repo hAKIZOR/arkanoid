@@ -27,14 +27,10 @@ import androidx.fragment.app.DialogFragment;
 import com.caserteam.arkanoid.R;
 import com.caserteam.arkanoid.editor.ui_upload_check.LoadingDialog;
 import com.google.firebase.firestore.QuerySnapshot;
+import static com.caserteam.arkanoid.AppContractClass.*;
 
 public class DialogSaveLevel extends DialogFragment {
-    private static final String USERS_COLLECTION = "utenti";
-    private static final String LEVELS_COLLECTION = "livelli";
-    private static final String SHARED_LEVEL = "livelliCondivisi";
-    public static final String FIELD_NAME_LEVEL = "nomeLivello";
-    public static final String FIELD_NICKNAME = "nickname";
-    public static final String FIELD_STRUCTURE = "struttura";
+
     private ImageButton imageButtonClose;
     private Button buttonSave;
     private EditText editTextLevelName;
@@ -58,7 +54,7 @@ public class DialogSaveLevel extends DialogFragment {
        View v = inflater.inflate(R.layout.level_save_fragment_dialog,container,false);
 
 
-       mainPathCollectionLevels = USERS_COLLECTION+ "/" + email + "/" + LEVELS_COLLECTION;
+       mainPathCollectionLevels = COLLECTION_USERS + "/" + email + "/" + COLLECTION_LEVELS;
 
 
        imageButtonClose = v.findViewById(R.id.imageButtonClose);

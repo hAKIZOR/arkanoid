@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 
 import com.caserteam.arkanoid.editor.BrickEditor;
 import com.caserteam.arkanoid.R;
+import static com.caserteam.arkanoid.AppContractClass.*;
 
 public class FragmentDetailsObstacles extends Fragment {
     private FragmentDetailsObstaclesListener mListener;
@@ -34,7 +35,7 @@ public class FragmentDetailsObstacles extends Fragment {
             @RequiresApi(api = Build.VERSION_CODES.Q)
             @Override
             public void onClick(View view) {
-                mListener.onObstacleClicked(BrickEditor.BRICK_OSTACLE1);
+                mListener.onObstacleClicked(BRICK_OSTACLE1);
             }
         });
 
@@ -42,7 +43,7 @@ public class FragmentDetailsObstacles extends Fragment {
             @RequiresApi(api = Build.VERSION_CODES.Q)
             @Override
             public void onClick(View view) {
-                mListener.onObstacleClicked(BrickEditor.BRICK_BROWN_OSTACLE);
+                mListener.onObstacleClicked(BRICK_BROWN_OSTACLE);
             }
         });
 

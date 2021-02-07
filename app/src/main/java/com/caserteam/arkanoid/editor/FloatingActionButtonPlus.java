@@ -21,8 +21,7 @@ import android.widget.FrameLayout;
 
 public class FloatingActionButtonPlus extends View{
 
-    public static final int ORIENTATION_PORTRAIT = 0;
-    public static final int ORIENTATION_LANDSCAPE = 1;
+
 
     final static OvershootInterpolator overshootInterpolator = new OvershootInterpolator();
     final static AccelerateInterpolator accelerateInterpolator = new AccelerateInterpolator();

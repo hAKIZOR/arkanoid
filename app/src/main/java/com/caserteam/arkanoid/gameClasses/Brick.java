@@ -8,27 +8,9 @@ import android.view.View;
 import com.caserteam.arkanoid.R;
 
 import java.util.ArrayList;
+import static  com.caserteam.arkanoid.AppContractClass.*;
 
 public class Brick extends View {
-
-    public static final int BRICK_GREEN = 2;
-    public static final int BRICK_ORANGE = 3;
-    public static final int BRICK_LIME = 4;
-    public static final int BRICK_PURPLE = 5;
-    public static final int BRICK_RED = 6;
-    public static final int BRICK_YELLOW = 7;
-    public static final int BRICK_AQUA = 8;
-    public static final int BRICK_BLUE = 9;
-    public static final int BRICK_GREEN2 = 10;
-    public static final int BRICK_ORANGE2 = 11;
-    public static final int BRICK_LIME2 = 12;
-    public static final int BRICK_PURPLE2 = 13;
-    public static final int BRICK_RED2 = 14;
-    public static final int BRICK_YELLOW2 = 15;
-    public static final int BRICK_AQUA2 = 16;
-    public static final int BRICK_BLUE2 = 17;
-    public static final int BRICK_BROWN_OSTACLE = 18;
-    public static final int BRICK_OSTACLE1 = 20;
 
     private Bitmap brick;
 

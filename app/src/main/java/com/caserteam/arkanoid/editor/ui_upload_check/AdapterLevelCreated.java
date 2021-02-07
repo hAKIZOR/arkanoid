@@ -27,6 +27,7 @@ import androidx.core.app.NavUtils;
 
 import com.caserteam.arkanoid.editor.EditorActivity;
 import com.caserteam.arkanoid.R;
+import static com.caserteam.arkanoid.AppContractClass.*;
 
 class AdapterLevelCreated extends ArrayAdapter<LevelCreatedModel> {
 
@@ -36,9 +37,7 @@ class AdapterLevelCreated extends ArrayAdapter<LevelCreatedModel> {
     private Activity activity;
     private String pathCollection;
     private static final String TAG = "UploadLevelActivity";
-    private static final String FIELD_NAME_LEVEL = "nomeLivello";
-    private static final String FIELD_NICKNAME = "nickname";
-    public static final String SHARED_LEVELS = "livelliCondivisi";
+
     private String nickname;
 
 
@@ -71,8 +70,8 @@ class AdapterLevelCreated extends ArrayAdapter<LevelCreatedModel> {
             public void onClick(View view) {
                 Toast.makeText(mContext,"cliccato il livello"+ nameLevel,Toast.LENGTH_SHORT).show();
                 Intent intent = NavUtils.getParentActivityIntent(activity);
-                intent.putExtra(EditorActivity.STATE_STRUCTURE, structure);
-                intent.putExtra(EditorActivity.STATE_NAME_LEVEL, nameLevel);
+                intent.putExtra(STRUCTURE_GAME_EXTRA, structure);
+                intent.putExtra(NAME_LEVEL_EXTRA, nameLevel);
                 NavUtils.navigateUpTo(activity,intent);
 
             }
@@ -84,7 +83,7 @@ class AdapterLevelCreated extends ArrayAdapter<LevelCreatedModel> {
 
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
                 // elimino il livello dalla sezione dei livelli condivisi
-                db.collection(SHARED_LEVELS)
+                db.collection(COLLECTION_SHARED_LEVELS)
                         .whereEqualTo(FIELD_NICKNAME,nickname)
                         .whereEqualTo(FIELD_NAME_LEVEL,nameLevel)
                         .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -96,7 +95,7 @@ class AdapterLevelCreated extends ArrayAdapter<LevelCreatedModel> {
                             for (DocumentSnapshot document : task.getResult()) {
                                 id = document.getId();
                             }
-                            db.collection(SHARED_LEVELS).document(id).delete();
+                            db.collection(COLLECTION_SHARED_LEVELS).document(id).delete();
 
                         } else {
                             Log.d(TAG,"upload non riuscito");

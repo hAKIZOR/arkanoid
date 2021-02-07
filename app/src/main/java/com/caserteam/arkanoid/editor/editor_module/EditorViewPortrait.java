@@ -12,6 +12,7 @@ import com.caserteam.arkanoid.editor.BallEditor;
 import com.caserteam.arkanoid.editor.BrickEditor;
 import com.caserteam.arkanoid.editor.PaddleEditor;
 import com.caserteam.arkanoid.R;
+import static com.caserteam.arkanoid.AppContractClass.*;
 
 public class EditorViewPortrait extends Editor{
     private static final int ROWS_GRID = 10;
@@ -27,11 +28,11 @@ public class EditorViewPortrait extends Editor{
 
        this.activity = activity;
        actionBarHeight = getHeightOfActionBar();
-       paddleEditor = new PaddleEditor(context,0,0, PaddleEditor.PADDLE_SKIN1);
+       paddleEditor = new PaddleEditor(context,0,0, PADDLE_SKIN1);
        paddleEditor.setX(initialPosition[0]);
        paddleEditor.setY(initialPosition[1]);
 
-       ballEditor = new BallEditor(context,0,0, BallEditor.BALL_SKIN1);
+       ballEditor = new BallEditor(context,0,0, BALL_SKIN1);
        ballEditor.setX(initialPosition[2]);
        ballEditor.setY(initialPosition[3]);
 
@@ -64,11 +65,11 @@ public class EditorViewPortrait extends Editor{
 
         this.activity = activity;
         actionBarHeight = getHeightOfActionBar();
-        paddleEditor = new PaddleEditor(context,0,0, PaddleEditor.PADDLE_SKIN1);
+        paddleEditor = new PaddleEditor(context,0,0, PADDLE_SKIN1);
         paddleEditor.setX(initialPosition[0]);
         paddleEditor.setY(initialPosition[1]);
 
-        ballEditor = new BallEditor(context,0,0, BallEditor.BALL_SKIN1);
+        ballEditor = new BallEditor(context,0,0, BALL_SKIN1);
         ballEditor.setX(initialPosition[2]);
         ballEditor.setY(initialPosition[3]);
 

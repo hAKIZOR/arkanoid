@@ -34,7 +34,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
-
+import static com.caserteam.arkanoid.AppContractClass.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,9 +42,6 @@ import java.util.Map;
 
 public class GameActivity extends AppCompatActivity implements GameListener {
 
-    private static final String FIELD_NICKNAME = "nickname";
-    public static final String FIELD_SCORE = "score";
-    public static final String COLLECTION_LEADERBOARD ="leaderboard";
     private static final String TAG = "GameSearchedActivity";
     private Game game;
     private HandlerThread thread;
@@ -260,12 +257,12 @@ public class GameActivity extends AppCompatActivity implements GameListener {
 
     private void saveScore() throws IOException {
         db = FirebaseFirestore.getInstance();
-        SharedPreferences account = getSharedPreferences(LoginActivity.KEY_PREFERENCES_USER_INFORMATION,MODE_PRIVATE);
-        String accountName = account.getString(LoginActivity.KEY_NICKNAME_PREFERENCES,"");
+        SharedPreferences account = getSharedPreferences(KEY_PREFERENCES_USER_INFORMATION,MODE_PRIVATE);
+        String accountName = account.getString(KEY_NICKNAME_PREFERENCES,"");
         DocumentSnapshot ref = null;
         int finalScore = game.getScore();
 
-        if(!accountName.equals(LoginActivity.NICKNAME_GUEST_PLAYER)) {
+        if(!accountName.equals(NICKNAME_GUEST_PLAYER)) {
             updateRecordInRemoteDB(finalScore,accountName);
         }else {
             updateRecordInLocalDB(finalScore);

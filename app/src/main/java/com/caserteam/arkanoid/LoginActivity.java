@@ -38,7 +38,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-
+import static com.caserteam.arkanoid.AppContractClass.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -52,10 +52,7 @@ public  class LoginActivity extends AppCompatActivity {
         private int RC_SIGN_IN = 1;
         GoogleSignInAccount account;
         DatabaseReference roomRef;
-        public static final String KEY_PREFERENCES_USER_INFORMATION ="UserInformation";
-        public static final String KEY_NICKNAME_PREFERENCES = "nickname";
-        private static final String USERS_COLLECTION = "utenti";
-        public static final String NICKNAME_GUEST_PLAYER = "GuestPlayer";
+
         SharedPreferences preferences ;
 
 
@@ -218,7 +215,7 @@ public  class LoginActivity extends AppCompatActivity {
                 Uri personPhoto = account.getPhotoUrl();
 
 
-                db.collection(USERS_COLLECTION).document(personEmail)
+                db.collection(COLLECTION_USERS).document(personEmail)
                         .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {

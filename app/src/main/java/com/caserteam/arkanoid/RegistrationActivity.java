@@ -28,6 +28,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import static com.caserteam.arkanoid.AppContractClass.*;
 
 public class RegistrationActivity extends AppCompatActivity {
     private static final String TAG = "RegistrationActivity = ";
@@ -75,7 +76,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
         Map<String, Object> utente = new HashMap<>();
         utente.put("nickname", nicknameInserted);
-        SharedPreferences preferences = getSharedPreferences(LoginActivity.KEY_PREFERENCES_USER_INFORMATION,MODE_PRIVATE);
+        SharedPreferences preferences = getSharedPreferences(KEY_PREFERENCES_USER_INFORMATION,MODE_PRIVATE);
         db.collection("utenti").document(account.getEmail())
                 .set(utente)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -84,7 +85,7 @@ public class RegistrationActivity extends AppCompatActivity {
                         Log.d(TAG, "DocumentSnapshot successfully written!");
                         Intent myIntent = new Intent(RegistrationActivity.this, LoginActivity.class);
                         myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        preferences.edit().putString(LoginActivity.KEY_NICKNAME_PREFERENCES,nicknameInserted).commit();
+                        preferences.edit().putString(KEY_NICKNAME_PREFERENCES,nicknameInserted).commit();
 
                         startActivity(myIntent);
                     }

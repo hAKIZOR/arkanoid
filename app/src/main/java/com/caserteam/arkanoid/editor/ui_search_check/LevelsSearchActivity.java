@@ -25,6 +25,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import static com.caserteam.arkanoid.AppContractClass.*;
 import java.util.ArrayList;
 
 public class LevelsSearchActivity extends AppCompatActivity {
@@ -33,12 +34,8 @@ public class LevelsSearchActivity extends AppCompatActivity {
     private ListView listViewLevelsSearched;
     private LoadingDialog loadingDialog;
     private  String nickname;
-    public static final String COLLECTION_SHARED_LEVEL = "livelliCondivisi";
-    public static final String STRUCTURE_GAME_EXTRA = "structure";
 
-    public static final String FIELD_NICKNAME = "nickname";
-    public static final String FIELD_NAME_LEVEL = "nomeLivello";
-    public static final String FIELD_NAME_STRUCTURE_LEVEL = "struttura";
+
 
     private FirebaseFirestore db;
 
@@ -57,10 +54,10 @@ public class LevelsSearchActivity extends AppCompatActivity {
         loadingDialog = new LoadingDialog(LevelsSearchActivity.this);
         loadingDialog.startDialog(getResources().getString(R.string.load_level_to_search));
 
-        nickname = getIntent().getStringExtra(EditorActivity.STATE_CURRENT_USER_NICKNAME);
+        nickname = getIntent().getStringExtra(CURRENT_USER_NICKNAME_EXTRA);
         db = FirebaseFirestore.getInstance();
 
-        db.collection(COLLECTION_SHARED_LEVEL).get().addOnCompleteListener(
+        db.collection(COLLECTION_SHARED_LEVELS).get().addOnCompleteListener(
                 new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -78,7 +75,7 @@ public class LevelsSearchActivity extends AppCompatActivity {
                             //aggiorno l'adapter per poi settare la listView che contiene i livelli
 
                             adapterLevelSearched = new AdapterLevelSearched(LevelsSearchActivity.this,R.layout.row_layout_leves_to_play,
-                            levelsSearched,LevelsSearchActivity.this,COLLECTION_SHARED_LEVEL);
+                            levelsSearched,LevelsSearchActivity.this,COLLECTION_SHARED_LEVELS);
                             listViewLevelsSearched.setAdapter(adapterLevelSearched);
                             loadingDialog.dismissDialog();
 

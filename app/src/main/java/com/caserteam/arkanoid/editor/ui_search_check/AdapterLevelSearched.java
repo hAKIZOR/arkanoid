@@ -18,6 +18,7 @@ import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import static com.caserteam.arkanoid.AppContractClass.*;
 
 class AdapterLevelSearched extends ArrayAdapter<LevelSearchedModel> {
 
@@ -71,7 +72,7 @@ class AdapterLevelSearched extends ArrayAdapter<LevelSearchedModel> {
             public void onClick(View view) {
                 //faccio partire il livello così da permettere al giocatore di giocarci
                 Intent intent = new Intent(activity, GameSearchedActivity.class);
-                intent.putExtra(LevelsSearchActivity.STRUCTURE_GAME_EXTRA,structure);
+                intent.putExtra(STRUCTURE_GAME_EXTRA,structure);
                 activity.startActivity(intent);
             }
         });

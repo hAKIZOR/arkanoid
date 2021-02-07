@@ -38,6 +38,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import static com.caserteam.arkanoid.AppContractClass.*;
 
 public class MenuActivity extends AppCompatActivity {
     private static final String TAG = "MenuActivity = ";
@@ -96,10 +97,10 @@ public class MenuActivity extends AppCompatActivity {
 
 
         try {
-            SharedPreferences preferences = getSharedPreferences(LoginActivity.KEY_PREFERENCES_USER_INFORMATION,MODE_PRIVATE);
+            SharedPreferences preferences = getSharedPreferences(KEY_PREFERENCES_USER_INFORMATION,MODE_PRIVATE);
             Map<String,String> data = new HashMap<>();
             data.putAll((Map<String,String>) preferences.getAll());
-            name.setText(getResources().getString(R.string.welcome_text) + " " + data.get(LoginActivity.KEY_NICKNAME_PREFERENCES));
+            name.setText(getResources().getString(R.string.welcome_text) + " " + data.get(KEY_NICKNAME_PREFERENCES));
             Picasso.get().load(account.getPhotoUrl()).into(photoProfile);
         } catch (Exception e){
 
@@ -115,13 +116,13 @@ public class MenuActivity extends AppCompatActivity {
                 Log.d(TAG, "primo avvio");
 
                 Settings settings = new Settings(1,languageToSet ,1);
-                IOUtils.writeObjectToFile(this,Settings.FILE_NAME,settings);
+                IOUtils.writeObjectToFile(this,FILE_NAME,settings);
 
             } else if(prefs.getBoolean(this.FIRST_RUN_STATE,true)){
 
-                Settings settings = IOUtils.readObjectFromFile(this,Settings.FILE_NAME);
+                Settings settings = IOUtils.readObjectFromFile(this,FILE_NAME);
                 settings.setLanguage(languageToSet);
-                IOUtils.writeObjectToFile(this,Settings.FILE_NAME,settings);
+                IOUtils.writeObjectToFile(this,FILE_NAME,settings);
 
             }
 

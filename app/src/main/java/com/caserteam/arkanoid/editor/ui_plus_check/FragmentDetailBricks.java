@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import com.caserteam.arkanoid.editor.BrickEditor;
 import com.caserteam.arkanoid.R;
+import static com.caserteam.arkanoid.AppContractClass.*;
 
 public class FragmentDetailBricks extends Fragment {
     private FragmentDetailBricksListener mListener;
@@ -57,22 +58,22 @@ public class FragmentDetailBricks extends Fragment {
         buttonPurple2 = v.findViewById(R.id.imageButtonPurple2);
         buttonYellow2 = v.findViewById(R.id.imageButtonYellow2);
 
-        callClickListenerOf(buttonBlue, BrickEditor.BRICK_BLUE);
-        callClickListenerOf(buttonLime, BrickEditor.BRICK_LIME);
-        callClickListenerOf(buttonGreen, BrickEditor.BRICK_GREEN);
-        callClickListenerOf(buttonOrange, BrickEditor.BRICK_ORANGE);
-        callClickListenerOf(buttonAqua, BrickEditor.BRICK_AQUA);
-        callClickListenerOf(buttonRed, BrickEditor.BRICK_RED);
-        callClickListenerOf(buttonPurple, BrickEditor.BRICK_PURPLE);
-        callClickListenerOf(buttonYellow, BrickEditor.BRICK_YELLOW);
-        callClickListenerOf(buttonBlue2, BrickEditor.BRICK_BLUE2);
-        callClickListenerOf(buttonLime2, BrickEditor.BRICK_LIME2);
-        callClickListenerOf(buttonGreen2, BrickEditor.BRICK_GREEN2);
-        callClickListenerOf(buttonOrange2, BrickEditor.BRICK_ORANGE2);
-        callClickListenerOf(buttonAqua2, BrickEditor.BRICK_AQUA2);
-        callClickListenerOf(buttonRed2, BrickEditor.BRICK_RED2);
-        callClickListenerOf(buttonPurple2, BrickEditor.BRICK_PURPLE2);
-        callClickListenerOf(buttonYellow2, BrickEditor.BRICK_YELLOW2);
+        callClickListenerOf(buttonBlue, BRICK_BLUE);
+        callClickListenerOf(buttonLime, BRICK_LIME);
+        callClickListenerOf(buttonGreen, BRICK_GREEN);
+        callClickListenerOf(buttonOrange, BRICK_ORANGE);
+        callClickListenerOf(buttonAqua, BRICK_AQUA);
+        callClickListenerOf(buttonRed, BRICK_RED);
+        callClickListenerOf(buttonPurple, BRICK_PURPLE);
+        callClickListenerOf(buttonYellow, BRICK_YELLOW);
+        callClickListenerOf(buttonBlue2, BRICK_BLUE2);
+        callClickListenerOf(buttonLime2, BRICK_LIME2);
+        callClickListenerOf(buttonGreen2,BRICK_GREEN2);
+        callClickListenerOf(buttonOrange2, BRICK_ORANGE2);
+        callClickListenerOf(buttonAqua2, BRICK_AQUA2);
+        callClickListenerOf(buttonRed2, BRICK_RED2);
+        callClickListenerOf(buttonPurple2, BRICK_PURPLE2);
+        callClickListenerOf(buttonYellow2, BRICK_YELLOW2);
 
         return v;
     }

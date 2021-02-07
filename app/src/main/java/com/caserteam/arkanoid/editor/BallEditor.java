@@ -5,10 +5,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.View;
 import com.caserteam.arkanoid.R;
+import static com.caserteam.arkanoid.AppContractClass.*;
 
 public class BallEditor extends View{
 
-    public static final int BALL_SKIN1 = 1;
+
     private Bitmap ballSkin;
     protected float xSpeed;
     protected float ySpeed;

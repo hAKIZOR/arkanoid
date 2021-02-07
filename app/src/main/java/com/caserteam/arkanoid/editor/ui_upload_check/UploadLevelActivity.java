@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
+import static com.caserteam.arkanoid.AppContractClass.*;
 
 import java.util.ArrayList;
 
@@ -30,8 +31,7 @@ public class UploadLevelActivity extends AppCompatActivity
     private LoadingDialog loadingDialog;
     private String nickname;
     private String currentUser;
-    public static final String COLLECTION_USERS = "utenti";
-    public static final String COLLECTION_LEVELS = "livelli";
+
     private static final String TAG = "UploadLevelActivity";
 
     @Override
@@ -44,10 +44,10 @@ public class UploadLevelActivity extends AppCompatActivity
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        currentUser = getIntent().getStringExtra(EditorActivity.STATE_CURRENT_USER);
+        currentUser = getIntent().getStringExtra(CURRENT_USER_EMAIL_EXTRA);
         pathOfCollection = COLLECTION_USERS + "/" + currentUser + "/" + COLLECTION_LEVELS;
 
-        nickname = getIntent().getStringExtra(EditorActivity.STATE_CURRENT_USER_NICKNAME);
+        nickname = getIntent().getStringExtra(CURRENT_USER_NICKNAME_EXTRA);
 
         loadingDialog = new LoadingDialog(UploadLevelActivity.this);
         loadingDialog.startDialog(getResources().getString(R.string.load_levels_created));
@@ -94,12 +94,7 @@ public class UploadLevelActivity extends AppCompatActivity
 
         listViewLevels.setAdapter(adapterLevelCreated);
         loadingDialog.dismissDialog();
-        listViewLevels.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.d(TAG,"item" + adapterLevelCreated.getItem(i).toString());
-            }
-        });
+
 
     }
 

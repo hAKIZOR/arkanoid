@@ -13,7 +13,7 @@ import android.widget.RadioGroup;
 import android.widget.Switch;
 
 import androidx.appcompat.app.AppCompatActivity;
-
+import static com.caserteam.arkanoid.AppContractClass.*;
 import java.util.Locale;
 
 import java.io.*;
@@ -21,9 +21,9 @@ import java.io.*;
 
 public class SettingsActivity extends AppCompatActivity {
     private static final String DEBUG_STRING = "SettingsActivity = ";
-    private static final int ITALIANO =  Settings.lang.valueOf(Settings.LANGUAGE_IT).ordinal();
-    private static final int INGLESE =  Settings.lang.valueOf(Settings.LANGUAGE_ENG).ordinal();
-    private static final int SPAGNOLO =  Settings.lang.valueOf(Settings.LANGUAGE_ESP).ordinal();
+    private static final int ITALIANO =  Settings.lang.valueOf(LANGUAGE_IT).ordinal();
+    private static final int INGLESE =  Settings.lang.valueOf(LANGUAGE_ENG).ordinal();
+    private static final int SPAGNOLO =  Settings.lang.valueOf(LANGUAGE_ESP).ordinal();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +79,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         //Deserializzazione dell'oggetto Settings
 
-            Settings settings =  IOUtils.readObjectFromFile(this,Settings.FILE_NAME);
+            Settings settings =  IOUtils.readObjectFromFile(this,FILE_NAME);
 
             if(settings != null){
                 Log.d(DEBUG_STRING,"dati caricati " + settings.toString());
@@ -93,13 +93,13 @@ public class SettingsActivity extends AppCompatActivity {
                 }
 
 
-                if(settings.getAudio() == Settings.AUDIO_ON){
+                if(settings.getAudio() == AUDIO_ON){
                     switchAudioControl.setChecked(true);
                 } else {
                     switchAudioControl.setChecked(false);
                 }
 
-                if(settings.getControlMode() == Settings.SYSTEM_CONTROL_SENSOR)
+                if(settings.getControlMode() == SYSTEM_CONTROL_SENSOR)
                 { switchGameControl.setChecked(true);}
                 else {switchGameControl.setChecked(false);}
             }
@@ -114,7 +114,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         Log.d(DEBUG_STRING,"dati da salvare " + settingstmp.toString());
         Log.e(DEBUG_STRING,"salvataggio in corso...");
-        IOUtils.writeObjectToFile(SettingsActivity.this,Settings.FILE_NAME,settingstmp);
+        IOUtils.writeObjectToFile(SettingsActivity.this,FILE_NAME,settingstmp);
         Log.e(DEBUG_STRING,"salvataggio completato");
 
     }
@@ -124,19 +124,19 @@ public class SettingsActivity extends AppCompatActivity {
         int  language = 0; //initialize tmp variable
         switch (checkedLanguage) {
             case R.id.radioEng:
-                setAppLocale(Settings.LANGUAGE_ENG);
-                language = Settings.lang.valueOf(Settings.LANGUAGE_ENG).ordinal();
+                setAppLocale(LANGUAGE_ENG);
+                language = Settings.lang.valueOf(LANGUAGE_ENG).ordinal();
                 System.out.println("EN");
                 break;
             case R.id.radioIta:
                 setAppLocale("");
-                language = Settings.lang.valueOf(Settings.LANGUAGE_IT).ordinal();
+                language = Settings.lang.valueOf(LANGUAGE_IT).ordinal();
 
                 System.out.println("IT");
                 break;
             case R.id.radioEsp:
-                setAppLocale(Settings.LANGUAGE_ESP);
-                language = Settings.lang.valueOf(Settings.LANGUAGE_ESP).ordinal();
+                setAppLocale(LANGUAGE_ESP);
+                language = Settings.lang.valueOf(LANGUAGE_ESP).ordinal();
                 System.out.println("ES");
                 break;
         }
@@ -145,20 +145,20 @@ public class SettingsActivity extends AppCompatActivity {
     public int setAudioControl(boolean audioChecked) {
         if(audioChecked) {
             //audio on
-            return Settings.AUDIO_ON;
+            return AUDIO_ON;
         } else {
             //audio off
-            return Settings.AUDIO_OFF;
+            return AUDIO_OFF;
         }
 
     }
     public int setGameControl(boolean gameControl) {
         if(gameControl) {
             //game control sensor
-            return Settings.SYSTEM_CONTROL_SENSOR;
+            return SYSTEM_CONTROL_SENSOR;
         } else {
             // game control slider
-            return Settings.SYSTEM_CONTROL_SCROLL;
+            return SYSTEM_CONTROL_SCROLL;
         }
     }
 
