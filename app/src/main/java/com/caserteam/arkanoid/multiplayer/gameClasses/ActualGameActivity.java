@@ -23,13 +23,14 @@ import com.caserteam.arkanoid.multiplayer.gameClasses.GameViewPortrait;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GestureDetectorCompat;
 import static com.caserteam.arkanoid.AppContractClass.*;
-public class ActualGameActivity extends AppCompatActivity {
+public class ActualGameActivity extends AppCompatActivity implements GameListener {
 
 
     private Game game;
@@ -58,7 +59,7 @@ public class ActualGameActivity extends AppCompatActivity {
 
         code = getIntent().getStringExtra(CODE_ROOM_EXTRA);
         playerRole = getIntent().getStringExtra(CODE_PLAYER_EXTRA);
-        roomRef =  FirebaseDatabase.getInstance(ROOT_DB_REALTIME_DATABASE).getReference("rooms/"+code);
+        roomRef =  FirebaseDatabase.getInstance(ROOT_DB_REALTIME_DATABASE).getReference(ROOMS_NODE+ "/" +code);
 
         //imposta l'orientamento dello schermo
 
@@ -171,5 +172,28 @@ public class ActualGameActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onGameOver() throws IOException {
 
+    }
+
+    @Override
+    public void onWinLevel() throws IOException {
+
+    }
+
+    @Override
+    public void onWinGame() {
+
+    }
+
+    @Override
+    public void onPauseGame(boolean pause) {
+
+    }
+
+    @Override
+    public void onResumeGame() {
+
+    }
 }

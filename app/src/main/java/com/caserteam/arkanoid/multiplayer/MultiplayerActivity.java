@@ -192,7 +192,7 @@ public class MultiplayerActivity extends AppCompatActivity implements
                                 load.dismissDialog();
                                 Intent intent = new Intent(MultiplayerActivity.this,ActualGameActivity.class);
                                 intent.putExtra(CODE_ROOM_EXTRA,code);
-                                intent.putExtra(CODE_PLAYER_EXTRA,PLAYER1_NODE);
+                                intent.putExtra(CODE_PLAYER_EXTRA,ROLE_PLAYER1);
                                 ref.child(PLAYER2_NODE).removeEventListener(this);
                                 startActivity(intent);
                             }

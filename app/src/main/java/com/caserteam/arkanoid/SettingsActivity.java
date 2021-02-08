@@ -111,11 +111,7 @@ public class SettingsActivity extends AppCompatActivity {
     public void saveSettingsInFile(int gameControl, int language,int audio) throws IOException {
 
         Settings settingstmp = new Settings(gameControl,language,audio);
-
-        Log.d(DEBUG_STRING,"dati da salvare " + settingstmp.toString());
-        Log.e(DEBUG_STRING,"salvataggio in corso...");
         IOUtils.writeObjectToFile(SettingsActivity.this,FILE_NAME,settingstmp);
-        Log.e(DEBUG_STRING,"salvataggio completato");
 
     }
 

@@ -76,6 +76,9 @@ public final class AppContractClass {
     public static final String FIRST_RUN_INSTALLATION_STATE ="firstruninstallation";
     public static final String FIRST_RUN_STATE ="firstrun";
 
+    public static final String ROLE_PLAYER1 = "player1";
+    public static final String ROLE_PLAYER2 = "player2";
+
     public AppContractClass() {}
 
 

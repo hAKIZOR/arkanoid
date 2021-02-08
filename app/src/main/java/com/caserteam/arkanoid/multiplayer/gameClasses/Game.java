@@ -34,6 +34,7 @@ import com.google.firebase.database.ValueEventListener;
 import static com.caserteam.arkanoid.AppContractClass.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import static com.caserteam.arkanoid.AppContractClass.*;
 
 
 public class Game extends View implements
@@ -88,10 +89,6 @@ public class Game extends View implements
     protected Paddle paddle2;
     protected String fieldXPaddleThisDevice;
     protected String fieldXPaddleOtherDevice;
-    protected String fieldSizeXPlayerThisDevice;
-    protected String fieldSizeXPlayerOtherDevice;
-    protected String fieldSizeYPlayerThisDevice;
-    protected String fieldSizeYPlayerOtherDevice;
     protected String fieldxBall;
     protected String fieldyBall;
     protected String fieldxSpeedBall;
@@ -251,7 +248,7 @@ public class Game extends View implements
                 ball.changeDirectionPaddle(paddle);
             }
 
-        }else if((ball.getY() + ball.getySpeed() >= sizeY - 70)&&(ball.getY() + ball.getySpeed() <= sizeY)){
+        }else if((ball.getY() + ball.getySpeed() >= sizeY - 70)&&(ball.getY() + ball.getySpeed() <= downBoard)){
 
             checkLives();
 
@@ -274,9 +271,11 @@ public class Game extends View implements
             ball.createSpeed();
         }
 
-        if(playerRole.equals("player1")) {
+        if(playerRole.equals(ROLE_PLAYER1)) {
             start = false;
             roomRef.child(fieldStarted).setValue(false);
+        } else {
+            start = false;
         }
 
         paddle.resetPaddle();
@@ -287,10 +286,11 @@ public class Game extends View implements
     // ogni passaggio controlla se c'è una collisione, una perdita o una vittoria, ecc.
     public void update() {
         if (start) {
-            win();
-            checkBoards();
+
             //ball.hitPaddle(paddle.getX(), paddle.getY());
-            if(playerRole.equals("player1")){
+            if(playerRole.equals(ROLE_PLAYER1)){
+                win();
+                checkBoards();
                 ball.move();
                 setValuesOtherDevice();
             }
@@ -313,15 +313,15 @@ public class Game extends View implements
 
             }
         }else {
-            if(playerRole.equals("player1")){
+            if(playerRole.equals(ROLE_PLAYER1)){
                 setValuesOtherDevice();
             }
         }
     }
 
     private void setValuesOtherDevice() {
-        Float ballxOther = (ball.getX()-leftBoard);
-        Float ballyOther = (ball.getY()-downBoard);
+        float ballxOther = (ball.getX() - leftBoard);
+        float ballyOther = (ball.getY() - upBoard);
         roomRef.child(fieldxBall).setValue(ballxOther);
         roomRef.child(fieldyBall).setValue(ballyOther);
         roomRef.child(fieldxSpeedBall).setValue(ball.getxSpeed());
@@ -342,10 +342,9 @@ public class Game extends View implements
     private void win() {
         if (levelCompleted()) {
             ++numberLevel;
-
             resetLevel();
             ball.increaseSpeed(numberLevel);
-            if(playerRole.equals("player1")) {
+            if(playerRole.equals(ROLE_PLAYER1)) {
                 start = false;
                 roomRef.child(fieldStarted).setValue(false);
             }
@@ -379,7 +378,7 @@ public class Game extends View implements
         if (isGameOver() == true && isStart() == false) {
 
         } else {
-            if(playerRole.equals("player1")) {
+            if(playerRole.equals(ROLE_PLAYER1)) {
                 setStart(true);
                 roomRef.child(fieldStarted).setValue(true);
             }
@@ -419,10 +418,10 @@ public class Game extends View implements
 
                 } else if ((e2.getX() - (paddle.getWidthp()/2) < minPositionPaddle)) {
 
-                    if(playerRole.equals("player2")){
+                    if(playerRole.equals(ROLE_PLAYER2)){
                         roomRef.child(fieldXPaddleThisDevice).setValue((sizeX/2));
                     } else {
-                        roomRef.child(fieldXPaddleThisDevice).setValue(minPositionPaddle);
+                        roomRef.child(fieldXPaddleThisDevice).setValue(0);
 
                     }
 
@@ -430,7 +429,7 @@ public class Game extends View implements
 
                 } else if ((e2.getX() - (paddle.getWidthp()/2) > (maxPositionPaddle - paddle.getWidthp()))){
 
-                    if(playerRole.equals("player1")){
+                    if(playerRole.equals(ROLE_PLAYER1)){
                         roomRef.child(fieldXPaddleThisDevice).setValue((float) ((sizeX/2)-(paddle.getWidthp())));
                     } else {
                         roomRef.child(fieldXPaddleThisDevice).setValue((float) ((sizeX)-(paddle.getWidthp())));
@@ -671,17 +670,17 @@ public class Game extends View implements
     public void onDataChange(@NonNull DataSnapshot snapshot) {
 
         float xPaddle = Float.parseFloat(snapshot.child(fieldXPaddleOtherDevice).getValue().toString());
-        paddle2.setX(leftBoard+xPaddle);
+        paddle2.setX(leftBoard + xPaddle);
 
-        if(playerRole.equals("player2")) {
+        if(playerRole.equals(ROLE_PLAYER2)) {
             float ballX = Float.parseFloat(snapshot.child(fieldxBall).getValue().toString());
             float ballY = Float.parseFloat(snapshot.child(fieldyBall).getValue().toString());
             float ballspeedX = Integer.parseInt(snapshot.child(fieldxSpeedBall).getValue().toString());
             float ballspeedY = Integer.parseInt(snapshot.child(fieldySpeedBall).getValue().toString());
-            boolean startValue =Boolean.parseBoolean(snapshot.child(fieldStarted).getValue().toString());
+            boolean startValue = Boolean.parseBoolean(snapshot.child(fieldStarted).getValue().toString());
 
-            ball.setX(ballX+leftBoard);
-            ball.setY(ballY+downBoard);
+            ball.setX((float) (ballX + leftBoard + 17.5));
+            ball.setY((float) ((ballY + upBoard) - 17.5));
             ball.setSpeed(ballspeedX,ballspeedY);
             start = startValue;
         }
