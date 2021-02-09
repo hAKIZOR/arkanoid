@@ -414,7 +414,7 @@ public class Game extends View implements
             if(e2.getY() > (downBoard-(sizeY*0.25))) {
 
                 if ((e2.getX() - (paddle.getWidthp()/2) >= minPositionPaddle && (e2.getX() - (paddle.getWidthp()/2)<= (maxPositionPaddle - paddle.getWidthp())))){
-                    float p = (e2.getX() - leftBoard);
+                    float p = (e2.getX() - leftBoard) - (paddle.getWidthp()/2);
                     roomRef.child(fieldXPaddleThisDevice).setValue(p);
                     paddle.setX(e2.getX() - (paddle.getWidthp()/2));
 
@@ -673,7 +673,7 @@ public class Game extends View implements
     public void onDataChange(@NonNull DataSnapshot snapshot) {
 
         float xPaddle = Float.parseFloat(snapshot.child(fieldXPaddleOtherDevice).getValue().toString());
-        paddle2.setX(leftBoard + xPaddle);
+        paddle2.setX((leftBoard + xPaddle));
 
         if(playerRole.equals(ROLE_PLAYER2)) {
             float ballX = Float.parseFloat(snapshot.child(fieldxBall).getValue().toString());
