@@ -76,10 +76,10 @@ public class GameViewPortrait extends Game {
 
         if(playerRole.equals(ROLE_PLAYER1)) {
             paddle.setX((screen_width/2) - (paddle.getWidthp()));
-            paddle.setY((float) (getDownBoard() - (getSizeY()/50)));
+            paddle.setY((float) (getDownBoard() - (getSizeY()/20)));
             Log.d("Game", "x---->" + String.valueOf(screen_width - ((screen_width/4))));
             paddle2.setX(screen_width/2);
-            paddle2.setY((float) (getDownBoard() - (getSizeY()/50)));
+            paddle2.setY((float) (getDownBoard() - (getSizeY()/20)));
 
             minPositionPaddle = getLeftBoard();
             maxPositionPaddle = screen_width/2;
@@ -100,9 +100,9 @@ public class GameViewPortrait extends Game {
         }else {
 
             paddle.setX((screen_width/2));
-            paddle.setY((float) (getDownBoard() - (getSizeY()/50)));
+            paddle.setY((float) (getDownBoard() - (getSizeY()/20)));
             paddle2.setX((screen_width/2) - (paddle.getWidthp()));
-            paddle2.setY((float) (getDownBoard() - (getSizeY()/50)));
+            paddle2.setY((float) (getDownBoard() - (getSizeY()/20)));
 
             minPositionPaddle = screen_width/2;
             maxPositionPaddle = getRightBoard();
