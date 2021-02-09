@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.caserteam.arkanoid.audio.BackgroundSoundService;
 import com.caserteam.arkanoid.editor.EditorActivity;
 import com.caserteam.arkanoid.gameClasses.GameActivity;
 import com.caserteam.arkanoid.multiplayer.MultiplayerActivity;
@@ -149,6 +150,7 @@ public class MenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 buttonSoundClick.start();
+                stopService(new Intent(MenuActivity.this, BackgroundSoundService.class));
                 Intent myIntent = new Intent(MenuActivity.this, GameActivity.class);
                 startActivity(myIntent);
             }

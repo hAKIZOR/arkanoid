@@ -1,6 +1,7 @@
 package com.caserteam.arkanoid.gameClasses;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
@@ -23,6 +24,7 @@ import androidx.core.view.GestureDetectorCompat;
 import com.caserteam.arkanoid.DatabaseHelper;
 import com.caserteam.arkanoid.LoginActivity;
 import com.caserteam.arkanoid.R;
+import com.caserteam.arkanoid.audio.BackgroundSoundService;
 import com.caserteam.arkanoid.editor.ui_game.DialogPauseGame;
 import com.caserteam.arkanoid.editor.ui_game.DialogResultGame;
 import com.caserteam.arkanoid.editor.ui_search_check.LevelsSearchActivity;

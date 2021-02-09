@@ -14,6 +14,7 @@ import androidx.fragment.app.DialogFragment;
 
 import com.caserteam.arkanoid.MenuActivity;
 import com.caserteam.arkanoid.R;
+import com.caserteam.arkanoid.audio.BackgroundSoundService;
 import com.caserteam.arkanoid.editor.ui_search_check.LevelsSearchActivity;
 
 public class DialogPauseGame extends DialogFragment{
@@ -45,6 +46,8 @@ public class DialogPauseGame extends DialogFragment{
        buttonExitGame.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
+               Intent svc = new Intent(activity, BackgroundSoundService.class);
+               activity.startService(svc);
                Intent intent = new Intent(activity, MenuActivity.class);
                activity.startActivity(intent);
                activity.finish();

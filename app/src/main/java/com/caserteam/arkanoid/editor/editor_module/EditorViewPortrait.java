@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.Log;
 import android.util.TypedValue;
@@ -112,7 +114,11 @@ public class EditorViewPortrait extends Editor{
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        canvas.drawBitmap(background, 0, 0, paint);
+        // crea uno sfondo solo una volta
+        Rect dest = new Rect(0, 0, screen_width, screen_height);
+        Paint paint = new Paint();
+        paint.setFilterBitmap(true);
+        canvas.drawBitmap(background, null, dest, paint);
 
         canvas.drawBitmap(ballEditor.getBallSkin(), ballEditor.getX(), ballEditor.getY(), paint);
 

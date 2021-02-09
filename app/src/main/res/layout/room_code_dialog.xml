@@ -11,7 +11,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="340dp"
         android:layout_height="217dp"
-        app:cardBackgroundColor="#CDDC39"
+        app:cardBackgroundColor="@android:color/holo_orange_dark"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp"
                 android:text="@string/create_or_join_room"
-                android:textColor="#673AB7"
+                android:textColor="#0066ff"
                 android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -50,9 +50,9 @@
                 android:layout_height="39dp"
                 android:layout_marginTop="24dp"
                 android:ems="10"
-                android:maxLength="10"
                 android:hint="@string/insert_room"
                 android:inputType="textPersonName"
+                android:maxLength="10"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textCreateRoom" />

@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.caserteam.arkanoid.R;
+import com.caserteam.arkanoid.audio.BackgroundSoundService;
 import com.caserteam.arkanoid.editor.ui_search_check.LevelsSearchActivity;
 
 public class DialogResultGame extends DialogFragment {
@@ -52,6 +53,8 @@ public class DialogResultGame extends DialogFragment {
         buttonGoOn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent service = new Intent(activity, BackgroundSoundService.class);
+                activity.startService(service);
                 Intent intent = new Intent(activity, LevelsSearchActivity.class);
                 activity.startActivity(intent);
                 activity.finish();

@@ -3,6 +3,7 @@ package com.caserteam.arkanoid.gameClasses;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import androidx.fragment.app.DialogFragment;
 
 import com.caserteam.arkanoid.DatabaseHelper;
 import com.caserteam.arkanoid.R;
+import com.caserteam.arkanoid.audio.BackgroundSoundService;
 
 import java.io.IOException;
 
@@ -57,6 +59,8 @@ public class DialogSaveGuestScore extends DialogFragment {
         buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent service = new Intent(activity, BackgroundSoundService.class);
+                activity.startService(service);
                 DatabaseHelper dbHelper = null;
                 try {
                     dbHelper = new DatabaseHelper(context);

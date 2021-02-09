@@ -51,18 +51,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-/*
-TO DO:
-- implementazione visiva dell'Editor in modalità Landscape
-- switch del landscape con il floating action button
-- garantire lo svolgimento delle selezioni, aggiunte e rimozioni anche in modalità landscape
-*/
+
 public class EditorActivity extends AppCompatActivity  implements
         FragmentDetailBricks.FragmentDetailBricksListener,
         FragmentDetailsObstacles.FragmentDetailsObstaclesListener,
         FloatingActionButtonPlus.FloatingActionButtonPlusListener,
         FloatingActionButtonMinus.FloatingActionButtonMinusListener
-
 {
 
     private String nickname;
@@ -319,5 +313,8 @@ public class EditorActivity extends AppCompatActivity  implements
 
         super.onSaveInstanceState(outState);
     }
+
+
+
 
 }

@@ -12,7 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Arkanoid">
-
+        <service android:enabled="true" android:name="com.caserteam.arkanoid.audio.BackgroundSoundService" />
         <activity android:name=".editor.ui_search_check.LevelsSearchActivity"
             android:parentActivityName="com.caserteam.arkanoid.editor.EditorActivity">
             <meta-data

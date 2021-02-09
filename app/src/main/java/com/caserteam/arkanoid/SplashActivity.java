@@ -12,6 +12,8 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.caserteam.arkanoid.audio.BackgroundSoundService;
+
 public class SplashActivity extends AppCompatActivity {
 
     //
@@ -42,9 +44,9 @@ public class SplashActivity extends AppCompatActivity {
         name_app.setAnimation(bottomAnim);
         developed.setAnimation(bottomAnim);
         credits.setAnimation(bottomAnim);
-        mpintro = MediaPlayer.create(this,R.raw.principal_sound);
-        mpintro.setLooping(true);
-        mpintro.start();
+
+        Intent svc = new Intent(this, BackgroundSoundService.class);
+        startService(svc);
 
         new Handler().postDelayed(new Runnable() {
             @Override

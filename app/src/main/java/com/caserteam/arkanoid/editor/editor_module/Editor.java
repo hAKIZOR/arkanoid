@@ -3,6 +3,7 @@ package com.caserteam.arkanoid.editor.editor_module;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -10,10 +11,13 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.RectF;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.GestureDetector;
 import android.view.Gravity;
+import android.view.KeyCharacterMap;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -60,6 +64,9 @@ public abstract class Editor extends View implements
 
     protected float brickWidth;
     protected float brickHeight;
+
+    protected int screen_width;
+    protected int screen_height;
 
     protected float paddleWidth;
     protected float paddleHeight;
@@ -240,11 +247,32 @@ public abstract class Editor extends View implements
 
     // impostare lo sfondo
     private void setBackground(Context context) {
-        background = Bitmap.createBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.background_editor));
+        int navBarHeight = 0;
+
+        Resources resources = context.getResources();
+        int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            navBarHeight = resources.getDimensionPixelSize(resourceId);
+        }
+        size = new Point();
+        DisplayMetrics dm = new DisplayMetrics();
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         display = wm.getDefaultDisplay();
-        size = new Point();
-        display.getSize(size);
+        display.getMetrics(dm);
+        boolean hasPhysicalHomeKey = KeyCharacterMap.deviceHasKey(KeyEvent.KEYCODE_HOME);
+        if (android.os.Build.VERSION.SDK_INT >= 17){
+            display.getRealSize(size);
+            screen_width = size.x;
+            screen_height = size.y;
+        } else if (hasPhysicalHomeKey){
+            screen_height = dm.heightPixels;
+        } else {
+            screen_height = dm.heightPixels + navBarHeight;
+        }
+
+        background = Bitmap.createBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.background_editor));
+
+
     }
 
     public Bitmap addBorder(Bitmap bmp, int borderSize) {

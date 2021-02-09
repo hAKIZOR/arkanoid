@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.caserteam.arkanoid.R;
+import com.caserteam.arkanoid.audio.BackgroundSoundService;
 import com.caserteam.arkanoid.editor.ui_search_check.LevelsSearchActivity;
 import com.caserteam.arkanoid.editor.ui_upload_check.LoadingDialog;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -25,6 +26,7 @@ import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.NavUtils;
 import androidx.fragment.app.DialogFragment;
 
 public class DialogResultGame extends DialogFragment {
@@ -69,7 +71,9 @@ public class DialogResultGame extends DialogFragment {
         buttonGoOn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                activity.finish();
+                Intent service = new Intent(activity, BackgroundSoundService.class);
+                activity.startService(service);
+                NavUtils.navigateUpFromSameTask(activity);
             }
         });
 

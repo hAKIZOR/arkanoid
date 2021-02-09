@@ -59,6 +59,7 @@ public class DialogPauseGame extends DialogFragment{
        buttonExitGame.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
+
                NavUtils.navigateUpFromSameTask(activity);
            }
        });
