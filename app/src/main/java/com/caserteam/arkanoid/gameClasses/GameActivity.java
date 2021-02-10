@@ -21,13 +21,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GestureDetectorCompat;
 
-import com.caserteam.arkanoid.DatabaseHelper;
-import com.caserteam.arkanoid.LoginActivity;
 import com.caserteam.arkanoid.R;
-import com.caserteam.arkanoid.audio.BackgroundSoundService;
-import com.caserteam.arkanoid.editor.ui_game.DialogPauseGame;
-import com.caserteam.arkanoid.editor.ui_game.DialogResultGame;
-import com.caserteam.arkanoid.editor.ui_search_check.LevelsSearchActivity;
+import com.caserteam.arkanoid.gameClasses.DialogPauseGame;
+import com.caserteam.arkanoid.gameClasses.DialogResultGame;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;

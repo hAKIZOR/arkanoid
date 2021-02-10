@@ -7,8 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,9 +26,12 @@ public class DialogResultGame extends DialogFragment {
     private ImageView imageView;
     private Activity activity;
     private Button buttonGoOn;
-    public DialogResultGame(String textResult, Activity activity) {
+    private ImageButton shareButton;
+    private String score;
+    public DialogResultGame(String textResult, Activity activity, String score) {
         this.textResult = textResult;
         this.activity = activity;
+        this.score = score;
     }
 
 
@@ -37,6 +42,7 @@ public class DialogResultGame extends DialogFragment {
         textViewResult = (TextView) v.findViewById(R.id.resultGameTextView);
         imageView =(ImageView) v.findViewById(R.id.imageResultGame);
         buttonGoOn = (Button) v.findViewById(R.id.buttonGoOn);
+        shareButton = (ImageButton) v.findViewById(R.id.shareButton);
 
         textViewResult.setText(textResult);
 
@@ -58,6 +64,21 @@ public class DialogResultGame extends DialogFragment {
                 Intent intent = new Intent(activity, LevelsSearchActivity.class);
                 activity.startActivity(intent);
                 activity.finish();
+            }
+        });
+
+        shareButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Intent sendIntent = new Intent(Intent.ACTION_SEND);
+                sendIntent.setType("text/plain");
+                sendIntent.putExtra(Intent.EXTRA_TEXT, "Ciao amico guarda il mio nuovo Record sul fantastico gioco ArkanMusic:"+ score +"! Sai fare di meglio?");
+
+                try {
+                    activity.startActivity(sendIntent);
+                } catch (android.content.ActivityNotFoundException ex) {
+                    Toast.makeText(activity,"Whatsapp have not been installed.",Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
