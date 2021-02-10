@@ -17,19 +17,19 @@
              android:scaleType="fitXY"
              android:src="@drawable/sfondophone" />
 
-        <ImageView
-            android:id="@+id/background_two"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="fitXY"
-            android:src="@drawable/sfondophone" />
+         <ImageView
+             android:id="@+id/background_two"
+             android:layout_width="match_parent"
+             android:scaleType="fitXY"
+             android:layout_height="match_parent"
+             android:src="@drawable/sfondophone" />
 
-    </FrameLayout>
+     </FrameLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="412dp"
-        android:layout_height="451dp"
+        android:layout_width="605dp"
+        android:layout_height="599dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -39,14 +39,13 @@
 
         <TextView
             android:id="@+id/arkanTextView"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_marginTop="16dp"
             android:text="ArkanMusic"
             android:textAlignment="center"
             android:textColor="#FFFFFF"
-            android:textSize="@dimen/font_size_Title_no_Tablet" />
+            android:textSize="@dimen/font_size_Title_Tablet" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -59,11 +58,13 @@
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/button_settings"
-                android:layout_width="389dp"
-                android:layout_height="55dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:fontFamily="@font/font"
                 android:src="@drawable/ic_baseline_settings_24"
                 android:text="@string/impostazioni"
+                app:fabCustomSize="@dimen/font_size_Title_Tablet"
+                app:fabSize="mini"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -75,6 +76,7 @@
                 android:contentDescription="TODO"
                 android:rotation="180"
                 android:src="@drawable/ic_baseline_login_24"
+                app:fabCustomSize="@dimen/font_size_Title_Tablet"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -107,14 +109,15 @@
 
         <TextView
             android:id="@+id/textView_menu"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginBottom="20dp"
             android:fontFamily="@font/font"
             android:text="@string/menu_principale"
             android:textAlignment="center"
             android:textColor="#FFFFFF"
-            android:textSize="@dimen/font_size_no_Tablet" />
+            android:textSize="@dimen/font_size_Tablet" />
 
         <Button
             android:id="@+id/button_arcade"
@@ -122,14 +125,14 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/font"
             android:text="@string/arcade"
-            android:textSize="@dimen/font_size_no_Tablet" />
+            android:textSize="@dimen/font_size_Tablet" />
 
         <Button
             android:id="@+id/button_multiplayer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/multiplayer"
-            android:textSize="@dimen/font_size_no_Tablet" />
+            android:textSize="@dimen/font_size_Tablet" />
 
         <Button
             android:id="@+id/button_editor"
@@ -137,7 +140,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/font"
             android:text="@string/editor_livelli"
-            android:textSize="@dimen/font_size_no_Tablet" />
+            android:textSize="@dimen/font_size_Tablet" />
 
         <Button
             android:id="@+id/button_leaderboard"
@@ -145,7 +148,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/font"
             android:text="@string/classifica"
-            android:textSize="@dimen/font_size_no_Tablet" />
+            android:textSize="@dimen/font_size_Tablet" />
 
     </LinearLayout>
 

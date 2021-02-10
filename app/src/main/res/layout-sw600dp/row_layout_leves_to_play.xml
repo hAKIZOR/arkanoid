@@ -1,0 +1,53 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="false"
+    android:focusable="false"
+    android:focusableInTouchMode="false"
+    android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:scrollbarSize="@dimen/font_size_Tablet"
+        android:src="@drawable/ic_brick2" />
+
+    <TextView
+        android:id="@+id/nicknamePlayer"
+        style="@style/TextAppearance.AppCompat.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="29dp"
+        android:layout_marginTop="15dp"
+        android:layout_toRightOf="@+id/image"
+        android:fontFamily="@font/font"
+        android:singleLine="true"
+        android:text="Level"
+        android:textSize="@dimen/font_size_Tablet" />
+
+    <TextView
+        android:id="@+id/textViewAuthor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/nicknamePlayer"
+        android:layout_marginStart="27dp"
+        android:layout_marginTop="4dp"
+        android:layout_toEndOf="@+id/image"
+        android:text="@string/author_level"
+        android:textSize="@dimen/font_size_no_Tablet" />
+
+    <ImageButton
+        android:id="@+id/playButton"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="0dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/ic_play" />
+
+</RelativeLayout>

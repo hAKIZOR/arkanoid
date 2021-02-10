@@ -29,8 +29,8 @@
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/sign_in_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="188dp"
+        android:layout_height="60dp"
         android:layout_marginTop="104dp"
         app:layout_constraintBottom_toTopOf="@+id/guest_button"
         app:layout_constraintEnd_toEndOf="parent"
@@ -45,7 +45,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/guest_button"
-        android:textSize="@dimen/font_size_no_Tablet"
+        android:textSize="@dimen/font_size_Tablet"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.499"
@@ -59,7 +59,7 @@
         android:layout_height="wrap_content"
         android:text="ArkanMusic"
         android:textColor="#FFFFFF"
-        android:textSize="@dimen/font_size_Title_no_Tablet"
+        android:textSize="@dimen/font_size_Title_Tablet"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
