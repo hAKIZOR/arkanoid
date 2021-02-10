@@ -12,7 +12,10 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.caserteam.arkanoid.audio.AudioUtils;
 import com.caserteam.arkanoid.audio.BackgroundSoundService;
+
+import java.io.IOException;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -45,8 +48,13 @@ public class SplashActivity extends AppCompatActivity {
         developed.setAnimation(bottomAnim);
         credits.setAnimation(bottomAnim);
 
-        Intent svc = new Intent(this, BackgroundSoundService.class);
-        startService(svc);
+        try {
+            AudioUtils.playBackgroundSound(this,R.raw.welcome_audio);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 
         new Handler().postDelayed(new Runnable() {
             @Override

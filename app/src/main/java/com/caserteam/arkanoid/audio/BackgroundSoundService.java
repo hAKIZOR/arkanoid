@@ -5,25 +5,33 @@ import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.IBinder;
+import android.util.Log;
+
 import com.caserteam.arkanoid.R;
+import static com.caserteam.arkanoid.AppContractClass.*;
 public class BackgroundSoundService extends Service {
-    private static final String TAG = null;
+    private static final String TAG = "ServiceAudio";
     MediaPlayer player;
-    public IBinder onBind(Intent arg0) {
+    int audioRaw;
+    public IBinder onBind(Intent arg) {
+
 
         return null;
     }
     @Override
     public void onCreate() {
         super.onCreate();
-        player = MediaPlayer.create(this, R.raw.welcome_audio);
-        player.setLooping(true); // Set looping
-        player.setVolume(100,100);
+
 
     }
 
     public int onStartCommand(Intent intent, int flags, int startId) {
-        player.start();
+            audioRaw = intent.getIntExtra(SOUND_EXTRA, -1);
+            player = MediaPlayer.create(this, audioRaw);
+            player.setLooping(true); // Set looping
+            player.setVolume(100,100);
+            player.start();
+
         return super.onStartCommand(intent, flags,startId);
     }
 

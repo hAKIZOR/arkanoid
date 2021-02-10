@@ -12,10 +12,12 @@ import android.widget.TextView;
 
 import com.caserteam.arkanoid.MenuActivity;
 import com.caserteam.arkanoid.R;
+import com.caserteam.arkanoid.audio.AudioUtils;
 import com.caserteam.arkanoid.audio.BackgroundSoundService;
 import com.caserteam.arkanoid.editor.ui_game.GameSearchedActivity;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
@@ -73,7 +75,13 @@ class AdapterLevelSearched extends ArrayAdapter<LevelSearchedModel> {
             @Override
             public void onClick(View view) {
                 //faccio partire il livello così da permettere al giocatore di giocarci
-                activity.stopService(new Intent(activity, BackgroundSoundService.class));
+                try {
+                    AudioUtils.stopBackgroundSound(activity);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
                 Intent intent = new Intent(activity, GameSearchedActivity.class);
                 intent.putExtra(STRUCTURE_GAME_EXTRA,structure);
                 activity.startActivity(intent);

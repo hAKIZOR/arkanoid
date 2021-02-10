@@ -2,14 +2,14 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="500dp"
+    android:layout_width="wrap_content"
 
     android:layout_height="500dp"
     android:layout_gravity="center"
     android:visibility="visible">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         app:cardBackgroundColor="@android:color/holo_orange_dark"
 
@@ -18,14 +18,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/shareButton"
+                android:layout_width="52dp"
+                android:layout_height="47dp"
+                android:layout_gravity="right"
+                android:background="@drawable/ic_baseline_share_24"
+                tools:layout_editor_absoluteX="18dp" />
 
             <ImageView
                 android:id="@+id/imageResultGame"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -34,9 +46,11 @@
 
             <TextView
                 android:id="@+id/resultGameTextView"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_marginBottom="128dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="50dp"
+                android:layout_marginBottom="50dp"
                 android:gravity="center"
                 android:text="resultGame"
                 android:textSize="24sp"
@@ -46,22 +60,11 @@
                 app:layout_constraintTop_toBottomOf="@+id/imageResultGame"
                 app:layout_constraintVertical_bias="0.264" />
 
-            <Button
-                android:id="@+id/buttonGoOn"
-                android:layout_width="117dp"
-                android:layout_height="61dp"
-                android:text="@string/avanti"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.501"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/resultGameTextView"
-                app:layout_constraintVertical_bias="0.807" />
-
             <TextView
                 android:id="@+id/textViewScore"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:gravity="center"
                 android:text="score"
                 android:textSize="18sp"
@@ -70,22 +73,31 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/resultGameTextView" />
 
-            <ImageButton
-                android:id="@+id/shareButton"
-                android:layout_width="52dp"
-                android:layout_height="47dp"
-                android:layout_marginStart="209dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="64dp"
-                android:layout_marginBottom="231dp"
-                android:background="@drawable/ic_baseline_share_24"
-                app:layout_constraintBottom_toBottomOf="@+id/resultGameTextView"
+            <TextView
+                android:id="@+id/textViewRecord"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="TextView"
+                android:textSize="@dimen/font_size_no_Tablet" />
+
+            <Button
+                android:id="@+id/buttonGoOn"
+                android:layout_width="117dp"
+                android:layout_height="61dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                android:text="@string/avanti"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/imageResultGame"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="1.0" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                app:layout_constraintHorizontal_bias="0.501"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/resultGameTextView"
+                app:layout_constraintVertical_bias="0.807" />
+
+        </LinearLayout>
 
 
     </androidx.cardview.widget.CardView>

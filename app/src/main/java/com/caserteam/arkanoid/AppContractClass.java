@@ -2,6 +2,8 @@ package com.caserteam.arkanoid;
 
 public final class AppContractClass {
 
+    public static final String SOUND_EXTRA = "sound";
+
     public static final String FILE_NAME ="config.txt";
     public static final String LANGUAGE_IT = "it";
     public static final String LANGUAGE_ESP = "es";

@@ -7,51 +7,26 @@
     android:layout_height="match_parent">
 
     <FrameLayout
+        android:id="@+id/frameLayout2"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <ImageView
             android:id="@+id/background_one"
             android:layout_width="match_parent"
-            android:scaleType="fitXY"
             android:layout_height="match_parent"
+            android:scaleType="fitXY"
             android:src="@drawable/sfondophone" />
 
         <ImageView
             android:id="@+id/background_two"
             android:layout_width="match_parent"
-            android:scaleType="fitXY"
             android:layout_height="match_parent"
+            android:scaleType="fitXY"
             android:src="@drawable/sfondophone" />
 
     </FrameLayout>
 
-
-    <com.google.android.gms.common.SignInButton
-        android:id="@+id/sign_in_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="104dp"
-        app:layout_constraintBottom_toTopOf="@+id/guest_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/arkanTextView"
-        app:layout_constraintVertical_bias="0.217"
-        tools:ignore="MissingConstraints" />
-
-    <Button
-        android:id="@+id/guest_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/guest_button"
-        android:textSize="@dimen/font_size_no_Tablet"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.499"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.76" />
 
     <TextView
         android:id="@+id/arkanTextView"
@@ -65,5 +40,35 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.112" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/guest_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="50dp"
+            android:text="@string/guest_button"
+            android:textSize="@dimen/font_size_no_Tablet" />
+
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/sign_in_button"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="104dp"
+            app:buttonSize="icon_only"
+            tools:ignore="MissingConstraints" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
@@ -24,6 +25,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.caserteam.arkanoid.audio.AudioUtils;
 import com.caserteam.arkanoid.audio.BackgroundSoundService;
 import com.caserteam.arkanoid.editor.EditorActivity;
 import com.caserteam.arkanoid.gameClasses.GameActivity;
@@ -46,7 +48,6 @@ public class MenuActivity extends AppCompatActivity {
 
     private GoogleSignInClient mGoogleSignInClient;
     SharedPreferences prefs = null;
-    MediaPlayer buttonSoundClick;
 
 
     @Override
@@ -92,9 +93,6 @@ public class MenuActivity extends AppCompatActivity {
         buttonMultiplayer.setAnimation(animationTop);
         buttonLeaderBoard.setAnimation(animationBottom);
         buttonEditor.setAnimation(animationBottom);
-        buttonSoundClick = MediaPlayer.create(this,R.raw.button_sound);
-        buttonSoundClick.setLooping(false);
-
 
         try {
             SharedPreferences preferences = getSharedPreferences(KEY_PREFERENCES_USER_INFORMATION,MODE_PRIVATE);
@@ -136,8 +134,13 @@ public class MenuActivity extends AppCompatActivity {
         buttonLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                buttonSoundClick.start();
-
+                try {
+                    AudioUtils.playEffectNoLoop(MenuActivity.this,R.raw.button_sound);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
                 Intent myIntent = new Intent(MenuActivity.this, LoginActivity.class);
                 myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 mGoogleSignInClient.signOut();
@@ -149,8 +152,15 @@ public class MenuActivity extends AppCompatActivity {
         buttonArcade.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                buttonSoundClick.start();
-                stopService(new Intent(MenuActivity.this, BackgroundSoundService.class));
+                try {
+                    AudioUtils.playEffectNoLoop(MenuActivity.this,R.raw.button_sound);
+                    AudioUtils.stopBackgroundSound(MenuActivity.this);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+
                 Intent myIntent = new Intent(MenuActivity.this, GameActivity.class);
                 startActivity(myIntent);
             }
@@ -158,7 +168,13 @@ public class MenuActivity extends AppCompatActivity {
          buttonLeaderBoard.setOnClickListener( new View.OnClickListener() {
              @Override
              public void onClick(View v) {
-                 buttonSoundClick.start();
+                 try {
+                     AudioUtils.playEffectNoLoop(MenuActivity.this,R.raw.button_sound);
+                 } catch (IOException e) {
+                     e.printStackTrace();
+                 } catch (ClassNotFoundException e) {
+                     e.printStackTrace();
+                 }
                  Intent myIntent = new Intent(MenuActivity.this, LeaderBoardActivity.class);
                  MenuActivity.this.startActivity(myIntent);
              }
@@ -167,7 +183,13 @@ public class MenuActivity extends AppCompatActivity {
         buttonSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                buttonSoundClick.start();
+                try {
+                    AudioUtils.playEffectNoLoop(MenuActivity.this,R.raw.button_sound);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
                 Intent myIntent = new Intent(MenuActivity.this, SettingsActivity.class);
                 MenuActivity.this.startActivity(myIntent);
             }
@@ -177,7 +199,13 @@ public class MenuActivity extends AppCompatActivity {
         buttonEditor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                buttonSoundClick.start();
+                try {
+                    AudioUtils.playEffectNoLoop(MenuActivity.this,R.raw.button_sound);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
                 if(account!=null){
 
                 Intent intent = new Intent(MenuActivity.this, EditorActivity.class);
@@ -194,7 +222,13 @@ public class MenuActivity extends AppCompatActivity {
         buttonMultiplayer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                buttonSoundClick.start();
+                try {
+                    AudioUtils.playEffectNoLoop(MenuActivity.this,R.raw.button_sound);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
                 if(account!=null){
                     Intent intent = new Intent(MenuActivity.this, MultiplayerActivity.class);
                     startActivity(intent);

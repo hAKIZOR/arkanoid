@@ -7,10 +7,11 @@
     <dimen name="appbar_padding_top">8dp</dimen>
     <dimen name="status_bar">21dp</dimen>
     <dimen name="text_row_leader_board">15dp</dimen>
+
     <dimen name="font_size_Tablet">40dp</dimen>
     <dimen name="font_size_no_Tablet">20dp</dimen>
 
-    <dimen name="font_size_Title_Tablet">100dp</dimen>
+    <dimen name="font_size_Title_Tablet">80dp</dimen>
     <dimen name="font_size_Title_no_Tablet">50dp</dimen>
 
 </resources>

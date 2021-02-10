@@ -97,10 +97,6 @@ public class GameActivity extends AppCompatActivity implements GameListener {
                         DialogResultGame dialogHighScore = new DialogResultGame(getResources().getString(R.string.success_record), GameActivity.this,"score: " + game.getScore());
                         dialogHighScore.show(getSupportFragmentManager(), "dialogNewScore");
                         break;
-                    case 3:
-                        DialogResultGame dialogLoseGame = new DialogResultGame(getResources().getString(R.string.lose_game), GameActivity.this,"score: " + game.getScore());
-                        dialogLoseGame.show(getSupportFragmentManager(),"dialogLoseGame");
-                        break;
                 }
             }
         };
@@ -156,7 +152,7 @@ public class GameActivity extends AppCompatActivity implements GameListener {
     @Override
     public void onGameOver() throws IOException {
         saveScore();
-        //updateHandler.sendEmptyMessage(3);
+
 
     }
     @Override
@@ -326,9 +322,9 @@ public class GameActivity extends AppCompatActivity implements GameListener {
                                                 finish();
                                             }
                                         });
-                            } else if ( record > finalScore){
+                            } else if ( record > finalScore) {
                                 //non aggiorna nulla nel leaderboard perchè il record non è stato battuto
-                                DialogResultGame dialogLowScore = new DialogResultGame(getResources().getString(R.string.failure_record) , GameActivity.this,"record: " + record);
+                                DialogResultGame dialogLowScore = new DialogResultGame(getResources().getString(R.string.failure_record) , GameActivity.this,"score: " + finalScore, "record: "+ record );
                                 dialogLowScore.show(getSupportFragmentManager(), "dialogNewScore");
                             }
 
