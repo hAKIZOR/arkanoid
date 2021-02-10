@@ -29,7 +29,9 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/font"
                 android:text="@string/imposta_lingua"
-                android:textAlignment="gravity" />
+                android:textAlignment="gravity"
+                android:textColor="#0066ff"
+                android:textSize="@dimen/font_size_no_Tablet" />
 
             <RadioGroup
                 android:id="@+id/groupLanguage"
@@ -69,7 +71,9 @@
             android:layout_height="29dp"
             android:fontFamily="@font/font"
             android:text="@string/imposta_sistema_di_controllo"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textColor="#0066ff"
+            android:textSize="@dimen/font_size_no_Tablet" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -83,7 +87,9 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/font"
                 android:text="@string/scorri_con_il_dito"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:textColor="@android:color/holo_orange_light"
+                android:textSize="18sp" />
 
             <Switch
                 android:id="@+id/switchControlGame"
@@ -100,7 +106,9 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/font"
                 android:text="@string/muovi_il_telefono"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:textColor="@android:color/holo_orange_light"
+                android:textSize="18sp" />
 
         </LinearLayout>
 
@@ -110,7 +118,9 @@
             android:layout_height="23dp"
             android:fontFamily="@font/font"
             android:text="@string/imposta_esistenza_audio"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textColor="#0066ff"
+            android:textSize="@dimen/font_size_no_Tablet" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -124,7 +134,9 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/font"
                 android:text="@string/audio_off"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:textColor="@android:color/holo_orange_light"
+                android:textSize="18sp" />
 
             <Switch
                 android:id="@+id/switchControlAudio"
@@ -141,7 +153,9 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/font"
                 android:text="@string/audio_on"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:textColor="@android:color/holo_orange_light"
+                android:textSize="18sp" />
 
         </LinearLayout>
 

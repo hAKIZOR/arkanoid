@@ -34,7 +34,7 @@
                 android:padding="@dimen/appbar_padding"
                 android:text="@string/title_activity_leader_board"
                 android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
-                android:textSize="@dimen/font_size_no_Tablet" />
+                android:textSize="@dimen/font_size_Tablet" />
 
         </com.google.android.material.appbar.AppBarLayout>
 

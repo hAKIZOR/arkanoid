@@ -35,10 +35,10 @@
             android:layout_gravity="center"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
-            android:layout_marginBottom="100dp"
+            android:layout_marginBottom="200dp"
             android:text="@string/inserisci_un_nickname"
             android:textColor="#0066ff"
-            android:textSize="@dimen/font_size_no_Tablet" />
+            android:textSize="@dimen/font_size_Title_no_Tablet" />
 
         <EditText
             android:id="@+id/editTextNickname"
@@ -52,14 +52,17 @@
             android:maxLength="20"
             android:text="@string/nickname"
             android:textAlignment="center"
-            android:textColorHint="@android:color/holo_orange_light" />
+            android:textColorHint="@android:color/holo_orange_light"
+            android:textSize="@dimen/font_size_Tablet" />
 
         <Button
             android:id="@+id/button_avanti"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center"
-            android:text="@string/avanti" />
+            android:layout_marginTop="100dp"
+            android:text="@string/avanti"
+            android:textSize="@dimen/font_size_Tablet" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

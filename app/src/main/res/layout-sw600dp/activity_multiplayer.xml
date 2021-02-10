@@ -26,8 +26,8 @@
     </FrameLayout>
 
     <LinearLayout
-        android:layout_width="371dp"
-        android:layout_height="409dp"
+        android:layout_width="609dp"
+        android:layout_height="577dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -43,20 +43,20 @@
             android:text="@string/seleziona_tipologia_partita"
             android:textAlignment="center"
             android:textColor="#0066FF"
-            android:textSize="36sp" />
+            android:textSize="@dimen/font_size_Title_no_Tablet" />
 
         <Button
             android:id="@+id/button_matchmaking"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/matchmaking"
-            android:textSize="@dimen/font_size_no_Tablet" />
+            android:textSize="@dimen/font_size_Tablet" />
 
         <Button
             android:id="@+id/button_private"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/privata"
-            android:textSize="@dimen/font_size_no_Tablet" />
+            android:textSize="@dimen/font_size_Tablet" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
