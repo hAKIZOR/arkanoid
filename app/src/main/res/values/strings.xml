@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">Arkanoid</string>
+    <string name="app_name" translatable="false">ArkanMusic</string>
     <string name="package_name" translatable="false">com.caserteam.arkanoid</string>
     <string name="sign_out_button" translatable="false">Log Out</string>
     <string name="firebase_root" translatable="false">https://arkanoid-d46b0-default-rtdb.europe-west1.firebasedatabase.app</string>
