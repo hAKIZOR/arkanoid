@@ -23,6 +23,15 @@ public class AudioUtils {
             song.start();
         }
     }
+    public static void enableTrackSoundService(Context context,int rawSong)  {
+            Intent serviceSound = new Intent(context, BackgroundSoundService.class);
+            serviceSound.putExtra(SOUND_EXTRA,rawSong);
+            context.startService(serviceSound);
+    }
+
+    public static  void disableTrackSoundService(Activity activity) {
+            activity.stopService(new Intent(activity,BackgroundSoundService.class));
+    }
 
     public static void playBackgroundSound(Context context,int rawSong) throws IOException, ClassNotFoundException {
         if(isEnabledGeneralAudioSettings(context)){

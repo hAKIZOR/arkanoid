@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.caserteam.arkanoid.R;
+import com.caserteam.arkanoid.audio.AudioUtils;
 import com.caserteam.arkanoid.editor.ui_search_check.LevelsSearchActivity;
 import com.caserteam.arkanoid.editor.ui_upload_check.LoadingDialog;
 import com.caserteam.arkanoid.gameClasses.Game;
@@ -21,6 +22,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -59,7 +61,13 @@ public class DialogPauseGame extends DialogFragment{
        buttonExitGame.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
-
+               try {
+                   AudioUtils.playBackgroundSound(activity,R.raw.welcome_audio);
+               } catch (IOException e) {
+                   e.printStackTrace();
+               } catch (ClassNotFoundException e) {
+                   e.printStackTrace();
+               }
                NavUtils.navigateUpFromSameTask(activity);
            }
        });

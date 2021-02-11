@@ -12,11 +12,14 @@ import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.Switch;
 
+import com.caserteam.arkanoid.audio.AudioUtils;
+
 import androidx.appcompat.app.AppCompatActivity;
 import static com.caserteam.arkanoid.AppContractClass.*;
 import java.util.Locale;
 
 import java.io.*;
+import java.util.Set;
 
 
 public class SettingsActivity extends AppCompatActivity {
@@ -140,10 +143,10 @@ public class SettingsActivity extends AppCompatActivity {
     }
     public int setAudioControl(boolean audioChecked) {
         if(audioChecked) {
-            //audio on
+            AudioUtils.enableTrackSoundService(this,R.raw.welcome_audio);
             return AUDIO_ON;
         } else {
-            //audio off
+            AudioUtils.disableTrackSoundService(this);
             return AUDIO_OFF;
         }
 
