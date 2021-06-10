@@ -67,6 +67,7 @@ public class GameViewPortrait extends Game {
         fieldStarted="started";
         fieldScore = "score";
         fieldLifes = "life";
+        fieldNumberLevel = "level";
         paddle.setWidth((int) (getSizeX()*0.1));
         paddle2.setWidth((int) (getSizeX()*0.1));
 

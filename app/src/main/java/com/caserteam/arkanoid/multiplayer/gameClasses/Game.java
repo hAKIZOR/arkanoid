@@ -96,6 +96,7 @@ public class Game extends View implements
     protected String fieldScore;
     protected String fieldLifes;
     protected String fieldStarted;
+    protected String fieldNumberLevel;
     protected float minPositionPaddle;
     protected float maxPositionPaddle;
     protected DatabaseReference roomRef;
@@ -293,8 +294,8 @@ public class Game extends View implements
         if (start) {
 
             //ball.hitPaddle(paddle.getX(), paddle.getY());
+            win();
             if(playerRole.equals(ROLE_PLAYER1)){
-                win();
                 checkBoards();
                 ball.move();
                 setValuesOtherDevice();
@@ -330,10 +331,12 @@ public class Game extends View implements
         float ballyOther = (ball.getY() - upBoard);
         roomRef.child(fieldScore).setValue(score);
         roomRef.child(fieldLifes).setValue(lifes);
+        roomRef.child(fieldNumberLevel).setValue(numberLevel);
         roomRef.child(fieldxBall).setValue(ballxOther);
         roomRef.child(fieldyBall).setValue(ballyOther);
         roomRef.child(fieldxSpeedBall).setValue(ball.getxSpeed());
         roomRef.child(fieldySpeedBall).setValue(ball.getySpeed());
+
     }
 
     //imposta il gioco per iniziare
@@ -691,6 +694,7 @@ public class Game extends View implements
             ball.setX((float) (ballX + leftBoard + 17.5));
             ball.setY((float) ((ballY + upBoard) - 17.5));
             ball.setSpeed(ballspeedX,ballspeedY);
+            numberLevel = Integer.parseInt(snapshot.child(fieldNumberLevel).getValue().toString());
             lifes = Integer.parseInt(snapshot.child(fieldLifes).getValue().toString());
             score = Integer.parseInt(snapshot.child(fieldScore).getValue().toString());
             start = startValue;
