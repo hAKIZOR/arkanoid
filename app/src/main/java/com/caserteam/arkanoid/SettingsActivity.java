@@ -34,7 +34,7 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
 
 
-        Button button = (Button) findViewById(R.id.button_save);
+        Button buttonSave = (Button) findViewById(R.id.button_save);
         RadioGroup groupLanguage = (RadioGroup) findViewById(R.id.groupLanguage);
         Switch switchGameControl = (Switch) findViewById(R.id.switchControlGame);
         Switch switchAudioControl = (Switch) findViewById(R.id.switchControlAudio);
@@ -46,7 +46,7 @@ public class SettingsActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        button.setOnClickListener(new Button.OnClickListener() {
+        buttonSave.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.e(DEBUG_STRING,"SONO DENTRO");
@@ -143,6 +143,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
     public int setAudioControl(boolean audioChecked) {
         if(audioChecked) {
+            AudioUtils.disableTrackSoundService(this);
             AudioUtils.enableTrackSoundService(this,R.raw.welcome_audio);
             return AUDIO_ON;
         } else {

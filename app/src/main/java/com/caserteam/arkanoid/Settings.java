@@ -11,9 +11,6 @@ public class Settings implements Serializable {
         es
     }
 
-
-
-
     private int controlMode;
     private int language;
     private int audio;

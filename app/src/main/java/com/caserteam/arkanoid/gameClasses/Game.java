@@ -6,6 +6,7 @@ import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.database.SQLException;
+import android.graphics.BitmapFactory;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -52,7 +53,7 @@ public class Game extends View implements
     private ArrayList<Level> levels;
 
 
-
+    protected CurrentPointScore curScore;
     private ButtonPause fabButtonPause;
 
 
@@ -303,6 +304,8 @@ public class Game extends View implements
                                     powerUps.add(this.powerUp);
                                 }
                                 soundPool.play(soundNote[b.getSoundName() - 1], 1, 1, 0, 0, 1);
+                                curScore = generateNotificationScore(b.getX(), b.getY());
+
                                 brickList.remove(i);
 
                         } else {
@@ -345,7 +348,7 @@ public class Game extends View implements
             for (int y= 0; y < powerUps.size(); y++) {
                 checkGetPowerUp(powerUps.get(y));
             }
-
+            if (curScore != null) curScore.move();
             ball.move();
             for (int j = 0; j < powerUps.size(); j++) {
                 powerUps.get(j).move();
@@ -370,6 +373,9 @@ public class Game extends View implements
         }
     }
 
+    public CurrentPointScore generateNotificationScore(float x, float y){
+        return new CurrentPointScore(context,x,y);
+    }
     // crea random powerUp dopo la rottura del mattone
     public PowerUp generatePowerUp(float x , float y){
         this.powerUp = new PowerUp(context,x,y);

@@ -156,6 +156,11 @@ public class GameViewPortrait extends Game {
             canvas.drawBitmap(p.getLaser(), p.getX(), p.getY(), paint);
         }
 
+        //disegna notifica score
+        if(curScore != null){
+            r = new RectF(curScore.getX(), curScore.getY(), curScore.getX() + size.x/15, curScore.getY() + size.y/25);
+            canvas.drawBitmap(curScore.getScoreImage(), null, r, paint);
+        }
         // disegna testo
         paint.setColor(Color.WHITE);
         paint.setTextSize(60);

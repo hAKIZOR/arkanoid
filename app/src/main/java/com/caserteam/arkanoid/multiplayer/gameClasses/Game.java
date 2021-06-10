@@ -93,6 +93,8 @@ public class Game extends View implements
     protected String fieldyBall;
     protected String fieldxSpeedBall;
     protected String fieldySpeedBall;
+    protected String fieldScore;
+    protected String fieldLifes;
     protected String fieldStarted;
     protected float minPositionPaddle;
     protected float maxPositionPaddle;
@@ -268,7 +270,7 @@ public class Game extends View implements
             invalidate();
         } else{
             lifes--;
-
+            roomRef.child(fieldLifes).setValue(lifes);
             ball.setX((sizeX / 2) + leftBoard);
             ball.setY(downBoard - 280);
             ball.createSpeed();
@@ -307,8 +309,9 @@ public class Game extends View implements
                             brickList.get(i).hittedOnce();
                             brickList.get(i).setSkinById(b.getSkin());
                         }
-
                         score = score + 80;
+
+
                         break;
 
                 }
@@ -325,6 +328,8 @@ public class Game extends View implements
     private void setValuesOtherDevice() {
         float ballxOther = (ball.getX() - leftBoard);
         float ballyOther = (ball.getY() - upBoard);
+        roomRef.child(fieldScore).setValue(score);
+        roomRef.child(fieldLifes).setValue(lifes);
         roomRef.child(fieldxBall).setValue(ballxOther);
         roomRef.child(fieldyBall).setValue(ballyOther);
         roomRef.child(fieldxSpeedBall).setValue(ball.getxSpeed());
@@ -682,9 +687,12 @@ public class Game extends View implements
             float ballspeedY = Integer.parseInt(snapshot.child(fieldySpeedBall).getValue().toString());
             boolean startValue = Boolean.parseBoolean(snapshot.child(fieldStarted).getValue().toString());
 
+
             ball.setX((float) (ballX + leftBoard + 17.5));
             ball.setY((float) ((ballY + upBoard) - 17.5));
             ball.setSpeed(ballspeedX,ballspeedY);
+            lifes = Integer.parseInt(snapshot.child(fieldLifes).getValue().toString());
+            score = Integer.parseInt(snapshot.child(fieldScore).getValue().toString());
             start = startValue;
         }
 
