@@ -95,7 +95,7 @@ public class GameViewPortrait extends Game {
 
             Log.d("Game", "valori " + String.valueOf(getBall().getX()) + " " + String.valueOf(getBall().getY()));
 
-            roomRef.child(fieldNumberLevel).setValue(getNumberLevel());
+            roomRef.child(fieldNumberLevel).setValue(getNumberLevel()-1);
             roomRef.child(fieldXPaddleOtherDevice).setValue(getSizeX()/2);
             roomRef.child(fieldxBall).setValue(getBall().getX());
             roomRef.child(fieldyBall).setValue(getBall().getY());
