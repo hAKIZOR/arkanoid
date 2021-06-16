@@ -73,5 +73,7 @@
         <item quantity="one">%d created level found</item>
         <item quantity="other">%d created levels found</item>
     </plurals>
+    <string name="offline_label_title">There is no connection</string>
+    <string name="offline_label_subtitle">Make sure you have an internet connection for the application to use them</string>
 
 </resources>

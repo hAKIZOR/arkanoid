@@ -118,5 +118,11 @@
         <item quantity="other">%d livelli creati trovati</item>
     </plurals>
 
+    <!-- label finestra di dialogo offline -->
+
+    <string name="offline_label_title">Non è presente una connessione</string>
+    <string name="offline_label_subtitle">Assicurati di avere una connessione ad internet per permettere
+        all\' applicazione sia in grado di funzionare</string>
+
 
 </resources>

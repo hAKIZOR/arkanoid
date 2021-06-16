@@ -1,9 +1,12 @@
 package com.caserteam.arkanoid;
 
 import android.animation.ValueAnimator;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -25,6 +28,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.caserteam.arkanoid.NetworkCheck.NetworkUtil;
+import com.caserteam.arkanoid.NetworkCheck.OfflineFragment;
 import com.caserteam.arkanoid.audio.AudioUtils;
 import com.caserteam.arkanoid.audio.BackgroundSoundService;
 import com.caserteam.arkanoid.editor.EditorActivity;
@@ -43,11 +48,12 @@ import java.util.Locale;
 import java.util.Map;
 import static com.caserteam.arkanoid.AppContractClass.*;
 
-public class MenuActivity extends AppCompatActivity {
+public class MenuActivity extends AppCompatActivity  {
     private static final String TAG = "MenuActivity = ";
 
     private GoogleSignInClient mGoogleSignInClient;
     SharedPreferences prefs = null;
+    OfflineFragment offlineFragment;
 
 
     @Override
@@ -64,6 +70,8 @@ public class MenuActivity extends AppCompatActivity {
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
+
+        NetworkUtil.checkDialogPresence(this,this);
 
         Button buttonArcade = findViewById(R.id.button_arcade);
         FloatingActionButton buttonSettings = findViewById(R.id.button_settings);
@@ -243,6 +251,7 @@ public class MenuActivity extends AppCompatActivity {
 
 
 
+
     private void setImageLoop(ImageView backgroundOne, ImageView backgroundTwo) {
 
         final ValueAnimator animator = ValueAnimator.ofFloat(0.0f, 1.0f);
@@ -298,6 +307,7 @@ public class MenuActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Log.d(TAG,"onResume()");
+        NetworkUtil.checkDialogPresence(this,this);
         if (prefs.getBoolean(FIRST_RUN_INSTALLATION_STATE, true)) {
             prefs.edit().putBoolean(FIRST_RUN_INSTALLATION_STATE, false).commit();
         }
@@ -309,7 +319,9 @@ public class MenuActivity extends AppCompatActivity {
         super.onWindowFocusChanged(hasFocus);
 
     }
-
+    public static boolean getStatusConnection(NetworkInfo networkInfo){
+        return networkInfo != null && networkInfo.isConnectedOrConnecting();
+    }
     private void hideSystemUI() {
         // Enables regular immersive mode.
         // For "lean back" mode, remove SYSTEM_UI_FLAG_IMMERSIVE.
@@ -356,5 +368,4 @@ public class MenuActivity extends AppCompatActivity {
         });
         view.setAnimation(mAnimation);
     }
-
 }

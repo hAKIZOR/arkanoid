@@ -331,7 +331,7 @@ public class Game extends View implements
         float ballyOther = (ball.getY() - upBoard);
         roomRef.child(fieldScore).setValue(score);
         roomRef.child(fieldLifes).setValue(lifes);
-        roomRef.child(fieldNumberLevel).setValue(numberLevel-1);
+        roomRef.child(fieldNumberLevel).setValue(numberLevel);
         roomRef.child(fieldxBall).setValue(ballxOther);
         roomRef.child(fieldyBall).setValue(ballyOther);
         roomRef.child(fieldxSpeedBall).setValue(ball.getxSpeed());

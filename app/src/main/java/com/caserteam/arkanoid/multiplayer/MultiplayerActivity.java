@@ -4,14 +4,19 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.caserteam.arkanoid.LoginActivity;
+import com.caserteam.arkanoid.NetworkCheck.NetworkUtil;
+import com.caserteam.arkanoid.NetworkCheck.OfflineFragment;
 import com.caserteam.arkanoid.R;
 import com.caserteam.arkanoid.editor.ui_upload_check.LoadingDialog;
 import com.caserteam.arkanoid.multiplayer.gameClasses.ActualGameActivity;
@@ -37,6 +42,7 @@ public class MultiplayerActivity extends AppCompatActivity implements
     SharedPreferences preferences;
     DialogCodeRoom dialogCodeRoom;
     LoadingDialog loadingDialog;
+    OfflineFragment offlineFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,11 +55,10 @@ public class MultiplayerActivity extends AppCompatActivity implements
 
         roomsRef = firebaseDatabase.getReference(ROOMS_NODE);
 
+        NetworkUtil.checkDialogPresence(this,this);
+
         Button matchMakingButton = findViewById(R.id.button_matchmaking);
         Button privateButton = findViewById(R.id.button_private);
-
-
-
 
         matchMakingButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,6 +77,15 @@ public class MultiplayerActivity extends AppCompatActivity implements
 
     }
 
+    private boolean getStatusConnection(NetworkInfo networkInfo) {
+        return networkInfo != null && networkInfo.isConnectedOrConnecting();
+    }
+
+    @Override
+    protected void onResume() {
+        NetworkUtil.checkDialogPresence(this,this);
+        super.onResume();
+    }
 
     @Override
     public void onClickJoinRoom(String code) {
@@ -268,4 +282,6 @@ public class MultiplayerActivity extends AppCompatActivity implements
                         | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
     }
+
+
 }
