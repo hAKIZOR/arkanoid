@@ -39,7 +39,7 @@ public class OfflineFragment extends DialogFragment implements NetworkUtil.OnCon
 
     @Override
     public void onChange(boolean type) {
-        if (!type) {
+        if (type) {
             this.dismissAllowingStateLoss();
         }
     }

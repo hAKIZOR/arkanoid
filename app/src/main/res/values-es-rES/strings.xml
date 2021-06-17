@@ -75,4 +75,5 @@
     </plurals>
     <string name="offline_label_title">no hay conexión</string>
     <string name="offline_label_subtitle">Asegúrese de tener una conexión a Internet para que la aplicación funcione</string>
+    <string name="loading_access">acceso en curso...</string>
 </resources>

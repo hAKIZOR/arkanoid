@@ -27,22 +27,17 @@
 
     </FrameLayout>
 
-
-    <TextView
-        android:id="@+id/arkanTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ArkanMusic"
-        android:textColor="#FFFFFF"
-        android:textSize="@dimen/font_size_Title_no_Tablet"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <ImageButton
+        android:background="@drawable/ic_info"
+        android:id="@+id/infoImageButton"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.112" />
+        app:layout_constraintTop_toTopOf="parent" />
+
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -50,6 +45,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_arkanmusic_foreground"
+            app:layout_constraintBottom_toTopOf="@+id/arkanTextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <TextView
+            android:id="@+id/arkanTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ArkanMusic"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:textSize="@dimen/font_size_Title_no_Tablet"
+            app:layout_constraintBottom_toBottomOf="@+id/frameLayout2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.112" />
         <Button
             android:id="@+id/guest_button"
             android:layout_width="wrap_content"
@@ -66,7 +85,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_gravity="center"
-            android:layout_marginTop="104dp"
+            android:layout_marginTop="50dp"
             app:buttonSize="icon_only"
             tools:ignore="MissingConstraints" />
     </LinearLayout>

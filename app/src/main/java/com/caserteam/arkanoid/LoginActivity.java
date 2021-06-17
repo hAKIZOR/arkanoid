@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.ScaleAnimation;
 import android.widget.Button;
@@ -41,7 +40,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import static com.caserteam.arkanoid.AppContractClass.*;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 public  class LoginActivity extends AppCompatActivity {
         private SignInButton signInButton;
@@ -49,6 +47,7 @@ public  class LoginActivity extends AppCompatActivity {
         private  String TAG = "LoginActivity";
         private FirebaseAuth mAuth;
         private Button guestButton;
+        ImageView buttonInfo;
         private int RC_SIGN_IN = 1;
         GoogleSignInAccount account;
         DatabaseReference roomRef;
@@ -65,7 +64,6 @@ public  class LoginActivity extends AppCompatActivity {
             preferences = getSharedPreferences(KEY_PREFERENCES_USER_INFORMATION,MODE_PRIVATE);
             TextView textArka =  findViewById(R.id.arkanTextView);
             animate(textArka);
-
             ImageView backgroundOne = (ImageView) findViewById(R.id.background_one);
             ImageView backgroundTwo = (ImageView) findViewById(R.id.background_two);
             setImageLoop(backgroundOne,backgroundTwo);
@@ -73,6 +71,7 @@ public  class LoginActivity extends AppCompatActivity {
             signInButton = findViewById(R.id.sign_in_button);
             mAuth = FirebaseAuth.getInstance();
             guestButton = findViewById(R.id.guest_button);
+            buttonInfo = (ImageView) findViewById(R.id.infoImageButton);
 
             GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                     .requestIdToken(getString(R.string.default_web_client_id))
@@ -96,6 +95,14 @@ public  class LoginActivity extends AppCompatActivity {
                     Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
                     preferences.edit().putString(KEY_NICKNAME_PREFERENCES,NICKNAME_GUEST_PLAYER).commit();
                     startActivity(intent);
+                }
+            });
+
+            buttonInfo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Log.e(TAG,"info_clicked");
+                    Toast.makeText(LoginActivity.this,"Informations",Toast.LENGTH_SHORT);
                 }
             });
         }

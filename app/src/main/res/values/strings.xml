@@ -124,5 +124,8 @@
     <string name="offline_label_subtitle">Assicurati di avere una connessione ad internet per permettere
         all\' applicazione sia in grado di funzionare</string>
 
+    <!-- label di accesso -->
+    <string name="loading_access">accesso in corso...</string>
+
 
 </resources>

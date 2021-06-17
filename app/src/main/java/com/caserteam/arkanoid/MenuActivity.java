@@ -72,7 +72,6 @@ public class MenuActivity extends AppCompatActivity  {
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
 
         NetworkUtil.checkDialogPresence(this,this);
-
         Button buttonArcade = findViewById(R.id.button_arcade);
         FloatingActionButton buttonSettings = findViewById(R.id.button_settings);
         Button buttonLeaderBoard = findViewById(R.id.button_leaderboard);
