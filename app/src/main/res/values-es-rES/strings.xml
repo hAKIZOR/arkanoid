@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="menu_principale" translatable="false">" Menu' principal"</string>
-    <string name="impostazioni" translatable="false">" Ajustes"</string>
     <string name="editor_livelli">" Editor de niveles"</string>
     <string name="classifica">" Clasificación"</string>
     <string name="imposta_lingua">" Elegir lenguaje"</string>
@@ -16,7 +15,6 @@
     <string name="tab_text_1">Local</string>
     <string name="tab_text_2">Global</string>
     <string name="title_activity_leader_board">Clasificación</string>
-    <string name="matchmaking">matchmaking</string>
     <string name="multiplayer">Multiplayer</string>
     <string name="delete_level">eliminación de nivel en curso</string>
     <string name="wait_access_room">esperando a otro jugador</string>
@@ -25,7 +23,6 @@
     <string name="error_room_already_taken">sala de juegos ocupada</string>
     <string name="error_room_already_created">habitación aún no creada</string>
     <string name="error_access_room_with_same_profile">incapaz de acceder a la habitación</string>
-    <string name="seleziona_tipologia_partita">Seleccione el tipo de coincidencia</string>
     <string name="privata">privado</string>
     <string name="cancel_button">cancelar</string>
     <string name="create_room_button">crear</string>
@@ -76,4 +73,6 @@
     <string name="offline_label_title">no hay conexión</string>
     <string name="offline_label_subtitle">Asegúrese de tener una conexión a Internet para que la aplicación funcione</string>
     <string name="loading_access">acceso en curso...</string>
+    <string name="multiplayer_mode">modo multijugador</string>
+    <string name="settings_title">Ajustes</string>
 </resources>

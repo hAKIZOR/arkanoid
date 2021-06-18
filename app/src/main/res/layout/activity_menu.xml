@@ -63,7 +63,6 @@
                 android:layout_height="55dp"
                 android:fontFamily="@font/font"
                 android:src="@drawable/ic_baseline_settings_24"
-                android:text="@string/impostazioni"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 

@@ -13,5 +13,16 @@
 
     <dimen name="font_size_Title_Tablet">80dp</dimen>
     <dimen name="font_size_Title_no_Tablet">50dp</dimen>
+    <dimen name="font_size_Title_no_Tablet2">30dp</dimen>
+
+    <dimen name ="height_square_button_Tablet">80dp</dimen>
+    <dimen name ="width_square_button_Tablet">80dp</dimen>
+
+    <dimen name ="height_logo_Tablet">150dp</dimen>
+    <dimen name ="height_logo">100dp</dimen>
+
+    <dimen name="font_size_Tablet_settings_title">40dp</dimen>
+    <dimen name="font_size_Tablet_settings_title_option">30dp</dimen>
+    <dimen name="font_size_Tablet_settings">18dp</dimen>
 
 </resources>

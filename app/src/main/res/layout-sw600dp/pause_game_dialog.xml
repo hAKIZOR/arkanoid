@@ -24,8 +24,8 @@
 
             <ImageButton
                 android:id="@+id/imageButtonResume"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="@dimen/width_square_button_Tablet"
+                android:layout_height="@dimen/height_square_button_Tablet"
                 android:background="@drawable/ic_play"
                 android:clickable="true"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -37,8 +37,8 @@
 
             <ImageButton
                 android:id="@+id/imageButtonExitGame"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="@dimen/width_square_button_Tablet"
+                android:layout_height="@dimen/height_square_button_Tablet"
                 android:layout_marginStart="44dp"
                 android:background="@drawable/ic_exit_game"
                 android:clickable="true"
@@ -58,11 +58,11 @@
                 android:layout_marginBottom="36dp"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
-
+                
                 android:gravity="center"
                 android:text="@string/menu_pause"
                 android:textColor="#0066ff"
-                android:textSize="@dimen/font_size_Title_no_Tablet2"
+                android:textSize="@dimen/font_size_Title_no_Tablet"
                 app:layout_constraintBottom_toTopOf="@+id/imageButtonExitGame"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.503"

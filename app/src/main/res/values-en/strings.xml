@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="menu_principale" translatable="false">Main Menu</string>
-    <string name="impostazioni" translatable="false">Settings</string>
     <string name="editor_livelli">Levels Editor</string>
     <string name="classifica">Leaderboard</string>
     <string name="imposta_lingua">Set language</string>
@@ -35,8 +34,6 @@
     <string name="wait_loading_game_room">loading game</string>
     <string name="wait_access_room">"waiting for another player "</string>
     <string name="privata">private</string>
-    <string name="matchmaking">matchmaking</string>
-    <string name="seleziona_tipologia_partita">Select match type</string>
     <string name="multiplayer">Multiplayer</string>
     <string name="save_level">saving in progress</string>
     <string name="load_levels_created">loading created levels</string>
@@ -76,5 +73,7 @@
     <string name="offline_label_title">There is no connection</string>
     <string name="offline_label_subtitle">Make sure you have an internet connection for the application to use them</string>
     <string name="loading_access">Access in progress...</string>
+    <string name="multiplayer_mode">Multiplayer Mode</string>
+    <string name="settings_title">Settings</string>
 
 </resources>

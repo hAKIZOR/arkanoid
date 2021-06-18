@@ -37,7 +37,6 @@
     <string name="classifica">Classifica</string>
     <string name="arcade" translatable="false">Arcade</string>
     <string name="multiplayer">Multiplayer</string>
-    <string name="impostazioni">Impostazioni</string>
     <string name="editor_livelli">Editor Livelli</string>
 
 
@@ -56,6 +55,7 @@
     <string name="audio_off">disattivato</string>
     <string name="scorri_con_il_dito">scorri con il dito</string>
     <string name="muovi_il_telefono">muovi il telefono</string>
+    <string name="settings_title">Impostazioni</string>
 
 
     <!-- label save level dialog -->
@@ -93,8 +93,7 @@
 
 
     <!-- label del multiplayer -->
-    <string name="seleziona_tipologia_partita">Seleziona tipologia partita</string>
-    <string name="matchmaking">matchmaking</string>
+    <string name="multiplayer_mode">Modalità Multigiocatore</string>
     <string name="privata">privata</string>
     <string name="insert_room">inserisci codice stanza </string>
     <string name="create_room_button">crea</string>
@@ -126,6 +125,8 @@
 
     <!-- label di accesso -->
     <string name="loading_access">accesso in corso...</string>
+
+
 
 
 </resources>

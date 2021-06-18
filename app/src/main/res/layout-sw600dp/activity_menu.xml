@@ -62,7 +62,6 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/font"
                 android:src="@drawable/ic_baseline_settings_24"
-                android:text="@string/impostazioni"
                 app:fabCustomSize="@dimen/font_size_Title_Tablet"
                 app:fabSize="mini"
                 app:layout_constraintEnd_toEndOf="parent"

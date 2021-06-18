@@ -4,58 +4,44 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ImageView
-            android:id="@+id/background_one"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="fitCenter"
-            android:src="@drawable/multiplayer_bis" />
-
-        <ImageView
-            android:id="@+id/background_two"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="fitXY"
-            android:src="@drawable/multiplayer_bis" />
-
-    </FrameLayout>
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    >
 
     <LinearLayout
-        android:layout_width="609dp"
-        android:layout_height="577dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.498">
-
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_logo_Tablet"
+            android:src="@drawable/ic_arkanmusic_foreground"
+            app:layout_constraintBottom_toTopOf="@+id/arkanTextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
         <TextView
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="200dp"
-            android:text="@string/seleziona_tipologia_partita"
+            android:layout_marginBottom="150dp"
+            android:text="@string/multiplayer_mode"
             android:textAlignment="center"
             android:textColor="#0066FF"
-            android:textSize="@dimen/font_size_Title_no_Tablet" />
-
-        <Button
-            android:id="@+id/button_matchmaking"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/matchmaking"
-            android:textSize="@dimen/font_size_Tablet" />
+            android:textSize="@dimen/font_size_Title_Tablet" />
 
         <Button
             android:id="@+id/button_private"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:text="@string/privata"
             android:textSize="@dimen/font_size_Tablet" />
     </LinearLayout>
