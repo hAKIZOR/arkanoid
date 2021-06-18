@@ -14,6 +14,7 @@ import android.graphics.Typeface;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
 import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
@@ -198,6 +199,7 @@ public class GameViewPortrait extends Game {
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            Log.e("Game", String.valueOf(event.values[0] * getSens()));
             getPaddle().setX(getPaddle().getX() - (event.values[0] * getSens()));
 
             if (getPaddle().getX() + event.values[0] > size.x - getPaddle().getWidthp()) {

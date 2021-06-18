@@ -433,7 +433,6 @@ public class Game extends View implements
                         roomRef.child(fieldXPaddleThisDevice).setValue((sizeX/2));
                     } else {
                         roomRef.child(fieldXPaddleThisDevice).setValue(0);
-
                     }
 
                     paddle.setX(minPositionPaddle);
@@ -694,7 +693,7 @@ public class Game extends View implements
             ball.setX((float) (ballX + leftBoard + 17.5));
             ball.setY((float) ((ballY + upBoard) - 17.5));
             ball.setSpeed(ballspeedX,ballspeedY);
-            numberLevel = Integer.parseInt(snapshot.child(fieldNumberLevel).getValue().toString());
+
             lifes = Integer.parseInt(snapshot.child(fieldLifes).getValue().toString());
             score = Integer.parseInt(snapshot.child(fieldScore).getValue().toString());
             start = startValue;

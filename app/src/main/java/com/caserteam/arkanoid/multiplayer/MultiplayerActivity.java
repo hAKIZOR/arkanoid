@@ -57,15 +57,8 @@ public class MultiplayerActivity extends AppCompatActivity implements
 
         NetworkUtil.checkDialogPresence(this,this);
 
-        Button matchMakingButton = findViewById(R.id.button_matchmaking);
+
         Button privateButton = findViewById(R.id.button_private);
-
-        matchMakingButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
 
         privateButton.setOnClickListener(new View.OnClickListener() {
             @Override

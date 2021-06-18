@@ -113,6 +113,7 @@ public class GameViewPortrait extends Game {
             fieldXPaddleThisDevice = "xPaddlePlayer2";
             fieldXPaddleOtherDevice = "xPaddlePlayer1";
 
+            roomRef.child(fieldNumberLevel).setValue(getNumberLevel());
             roomRef.child(fieldXPaddleOtherDevice).setValue((getSizeX()/2) - paddle.getWidthp());
 
         }
@@ -242,12 +243,28 @@ public class GameViewPortrait extends Game {
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            Log.e("Game", String.valueOf(event.values[0] * getSens()));
             getPaddle().setX(getPaddle().getX() - (event.values[0] * getSens()));
 
-            if (getPaddle().getX() + event.values[0] > size.x - getPaddle().getWidthp()) {
-                getPaddle().setX(size.x - getPaddle().getWidthp());
-            } else if (getPaddle().getX() - event.values[0] <= 20) {
-                getPaddle().setX(20);
+            float p = (paddle.getX() - getLeftBoard());
+            roomRef.child(fieldXPaddleThisDevice).setValue(p);
+
+            if(paddle.getX() >= maxPositionPaddle - paddle.getWidthp()){
+                if(playerRole.equals(ROLE_PLAYER1)){
+                    roomRef.child(fieldXPaddleThisDevice).setValue((float) ((getSizeX()/2)-(paddle.getWidthp())));
+                } else {
+                    roomRef.child(fieldXPaddleThisDevice).setValue((float) ((getSizeX())-(paddle.getWidthp())));
+                }
+                getPaddle().setX(maxPositionPaddle - getPaddle().getWidthp());
+            }
+
+            if(paddle.getX() <= minPositionPaddle){
+                if(playerRole.equals(ROLE_PLAYER2)){
+                    roomRef.child(fieldXPaddleThisDevice).setValue((getSizeX()/2));
+                } else {
+                    roomRef.child(fieldXPaddleThisDevice).setValue(0);
+                }
+                paddle.setX(minPositionPaddle);
             }
         }
     }
