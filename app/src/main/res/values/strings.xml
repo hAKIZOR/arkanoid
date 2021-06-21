@@ -126,6 +126,10 @@
     <!-- label di accesso -->
     <string name="loading_access">accesso in corso...</string>
 
+    <!-- prompt game multiplayer -->
+    <string name="player1_message">Tocca lo schermo per iniziare la partita</string>
+    <string name="player2_message">Aspetta che il tuo compagno inizi la partita</string>
+
 
 
 

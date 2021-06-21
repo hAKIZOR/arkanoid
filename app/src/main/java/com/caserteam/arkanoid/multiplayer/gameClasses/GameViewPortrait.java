@@ -22,8 +22,10 @@ import android.view.KeyEvent;
 import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 
+import com.caserteam.arkanoid.AppContractClass;
 import com.caserteam.arkanoid.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -185,9 +187,9 @@ public class GameViewPortrait extends Game {
         paint.setTextSize(30);
 
 
-        canvas.drawText(playerRole, (float) screen_width/2, (float) getUpBoard() - 100, paint);
-        canvas.drawText("width " + String.valueOf(screen_width) + "height " + String.valueOf(screen_height), (float) screen_width/2, (float) screen_height/2 - 100, paint);
-        canvas.drawText("xBall " + String.valueOf(getBall().getX()) + "yBall " + String.valueOf(getBall().getY()), (float) screen_width/2, (float) screen_height/2, paint);
+        //canvas.drawText(playerRole, (float) screen_width/2, (float) getUpBoard() - 100, paint);
+        //canvas.drawText("width " + String.valueOf(screen_width) + "height " + String.valueOf(screen_height), (float) screen_width/2, (float) screen_height/2 - 100, paint);
+        //canvas.drawText("xBall " + String.valueOf(getBall().getX()) + "yBall " + String.valueOf(getBall().getY()), (float) screen_width/2, (float) screen_height/2, paint);
         // disegna la pallina
         paint.setColor(Color.RED);
         paint.setAntiAlias(true);
@@ -221,6 +223,20 @@ public class GameViewPortrait extends Game {
         canvas.drawText("HP:" + getLifes(), 1, 100, paint);
         canvas.drawText("PT:" + getScore(), 200, 100, paint);
         canvas.drawText("Level: " + getNumberLevel(), (float) (screen_width-(screen_width*(0.60))), (float) (screen_width), paint);
+
+        paint.setTextSize(40);
+        paint.setTextAlign(Paint.Align.CENTER);
+        if(!isStart()){
+            paint.setColor(Color.WHITE);
+            if(playerRole.equals(ROLE_PLAYER1)){
+                canvas.drawText(getResources().getString(R.string.player1_message), (float) (screen_width * 0.5), (float) (screen_height * 0.6), paint);
+            } else {
+                canvas.drawText(getResources().getString(R.string.player2_message), (float) (screen_width * 0.5), (float) (screen_height * 0.6), paint);
+            }
+        }
+
+
+
 
 
         // in caso di sconfitta stampa "GameOver"

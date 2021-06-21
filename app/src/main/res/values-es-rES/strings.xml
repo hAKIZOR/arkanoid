@@ -75,4 +75,6 @@
     <string name="loading_access">acceso en curso...</string>
     <string name="multiplayer_mode">modo multijugador</string>
     <string name="settings_title">Ajustes</string>
+    <string name="player1_message">Toca la pantalla para iniciar el juego.</string>
+    <string name="player2_message">Espera a que tu compañero inicie el juego.</string>
 </resources>

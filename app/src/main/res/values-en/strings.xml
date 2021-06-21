@@ -75,5 +75,7 @@
     <string name="loading_access">Access in progress...</string>
     <string name="multiplayer_mode">Multiplayer Mode</string>
     <string name="settings_title">Settings</string>
+    <string name="player1_message">Tap the screen to start the game</string>
+    <string name="player2_message">Wait for your partner to start the game</string>
 
 </resources>
