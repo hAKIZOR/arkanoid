@@ -77,4 +77,8 @@
     <string name="settings_title">Ajustes</string>
     <string name="player1_message">Toca la pantalla para iniciar el juego.</string>
     <string name="player2_message">Espera a que tu compañero inicie el juego.</string>
+    <string name="confirm_exit_message">Do you really want to leave the game?</string>
+    <string name="confirm_yes">si</string>
+    <string name="confirm_no">no</string>
+    <string name="interrupt_message">juego detenido!</string>
 </resources>

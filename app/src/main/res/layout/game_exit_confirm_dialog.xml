@@ -22,12 +22,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-            <ImageButton
+            <Button
                 android:id="@+id/imageButtonResume"
-                android:layout_width="@dimen/width_square_button_Tablet"
-                android:layout_height="@dimen/height_square_button_Tablet"
-                android:background="@drawable/ic_play"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="70dp"
                 android:clickable="true"
+                android:text="@string/confirm_no"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.716"
@@ -35,14 +36,14 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.68" />
 
-            <ImageButton
+            <Button
                 android:id="@+id/imageButtonExitGame"
-                android:layout_width="@dimen/width_square_button_Tablet"
-                android:layout_height="@dimen/height_square_button_Tablet"
-                android:layout_marginStart="44dp"
-                android:background="@drawable/ic_exit_game_multiplayer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
                 android:clickable="true"
-                android:rotation="180"
+                android:rotation="0"
+                android:text="@string/confirm_yes"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/imageButtonResume"
                 app:layout_constraintHorizontal_bias="0.421"
@@ -52,17 +53,17 @@
 
             <TextView
                 android:id="@+id/textView4"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="36dp"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
-                
+
                 android:gravity="center"
-                android:text="@string/menu_pause"
+                android:text="@string/confirm_exit_message"
                 android:textColor="#0066ff"
-                android:textSize="@dimen/font_size_Title_no_Tablet"
+                android:textSize="@dimen/font_size_Title_no_Tablet2"
                 app:layout_constraintBottom_toTopOf="@+id/imageButtonExitGame"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.503"

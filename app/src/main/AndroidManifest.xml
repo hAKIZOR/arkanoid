@@ -14,7 +14,9 @@
 
         android:supportsRtl="true"
         android:theme="@style/Theme.Arkanoid">
+
         <service android:enabled="true" android:name="com.caserteam.arkanoid.audio.BackgroundSoundService" />
+
         <activity android:name=".editor.ui_search_check.LevelsSearchActivity"
             android:parentActivityName="com.caserteam.arkanoid.editor.EditorActivity">
             <meta-data
@@ -37,8 +39,23 @@
         </activity>
 
         <activity android:name=".ui.leaderboard.LeaderBoardActivity"></activity>
-        <activity android:name=".multiplayer.gameClasses.ActualGameActivity" />
-        <activity android:name=".multiplayer.MultiplayerActivity" />
+        <activity
+            android:name=".multiplayer.gameClasses.ActualGameActivity"
+            android:parentActivityName=".multiplayer.MultiplayerActivity">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".multiplayer.MultiplayerActivity" />
+        </activity>
+
+        <activity
+            android:name=".multiplayer.MultiplayerActivity"
+            android:parentActivityName="com.caserteam.arkanoid.MenuActivity">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.caserteam.arkanoid.MenuActivity" />
+        </activity>
 
 
         <activity android:name=".editor.EditorActivity"
@@ -59,6 +76,7 @@
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
+
         <activity android:name=".gameClasses.GameActivity"
                   android:parentActivityName="com.caserteam.arkanoid.MenuActivity">
             <meta-data
@@ -82,6 +100,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
     </application>
 
 </manifest>

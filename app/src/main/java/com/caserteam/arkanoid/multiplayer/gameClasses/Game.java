@@ -34,14 +34,14 @@ import com.google.firebase.database.ValueEventListener;
 import static com.caserteam.arkanoid.AppContractClass.*;
 import java.io.IOException;
 import java.util.ArrayList;
-import static com.caserteam.arkanoid.AppContractClass.*;
 
 
 public class Game extends View implements
         SensorEventListener,
         View.OnTouchListener,
         GestureDetector.OnGestureListener,
-        ValueEventListener{
+        ValueEventListener,
+        ButtonPause.ButtonPauseListener{
     private static final String DEBUG_STRING = "Game";
 
 
@@ -59,7 +59,7 @@ public class Game extends View implements
     private ButtonPause fabButtonPause;
 
     private boolean pause = false;
-
+    protected boolean exitGame = false;
     private boolean start;
     private boolean gameOver;
 
@@ -97,6 +97,7 @@ public class Game extends View implements
     protected String fieldStarted;
     protected String fieldNumberLevel;
     protected String fieldGameOver;
+    protected String fieldExitGame;
     protected float minPositionPaddle;
     protected float maxPositionPaddle;
     protected DatabaseReference roomRef;
@@ -598,6 +599,14 @@ public class Game extends View implements
         return completed;
     }
 
+    public boolean getExitGame(){
+        return exitGame;
+    }
+
+    public void setExitGame(boolean exitGame) {
+        this.exitGame = exitGame;
+    }
+
     public String getStructure() {
         return structure;
     }
@@ -661,6 +670,11 @@ public class Game extends View implements
     @Override
     public void onDataChange(@NonNull DataSnapshot snapshot) {
 
+        if(snapshot.child(fieldExitGame).getValue() != null) {
+            boolean exitGameValue = Boolean.parseBoolean(snapshot.child(fieldExitGame).getValue().toString());
+            exitGame = exitGameValue;
+        }
+
         float xPaddle = Float.parseFloat(snapshot.child(fieldXPaddleOtherDevice).getValue().toString());
         paddle2.setX((leftBoard + xPaddle));
 
@@ -694,5 +708,25 @@ public class Game extends View implements
 
     }
 
+
+    @Override
+    public void onButtonPauseClicked() {
+        if(pause){
+            pause = false;
+        } else {
+            pause = true;
+        }
+        gameListener.onPauseGame(pause,true);
+    }
+
+
+    public void initializeButtonExitGame(Activity activity){
+        fabButtonPause = new ButtonPause.Builder(activity)
+                .withDrawable(getResources().getDrawable(R.drawable.ic_exit_game_multiplayer,null))
+                .withGravity(Gravity.TOP | Gravity.RIGHT)
+                .withMargins(0, 0, 0, 0)
+                .create();
+        fabButtonPause.setButtonPauseListener(this);
+    }
 
 }

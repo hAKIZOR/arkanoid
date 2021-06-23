@@ -129,7 +129,10 @@
     <!-- prompt game multiplayer -->
     <string name="player1_message">Tocca lo schermo per iniziare la partita</string>
     <string name="player2_message">Aspetta che il tuo compagno inizi la partita</string>
-
+    <string name="confirm_exit_message">Vuoi davvero uscire dalla partita?</string>
+    <string name="confirm_yes">si</string>
+    <string name="confirm_no">no</string>
+    <string name="interrupt_message">partita interrotta!</string>
 
 
 

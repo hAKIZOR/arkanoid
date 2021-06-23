@@ -72,6 +72,8 @@ public class GameViewPortrait extends Game {
         fieldLifes = "life";
         fieldNumberLevel = "level";
         fieldGameOver = "gameOver";
+        fieldExitGame = "exitGame";
+
         paddle.setWidth((int) (getSizeX()*0.1));
         paddle2.setWidth((int) (getSizeX()*0.1));
 
@@ -234,7 +236,18 @@ public class GameViewPortrait extends Game {
             }
         }
 
-        Log.e("Game",String.valueOf(isGameOver()));
+        //controllo a run time del parametro pause
+        if(isPaused()) {
+            gameListener.onPauseGame(true,false);
+        }
+
+        //controllo a run time del paramentro exitGame
+        Log.e("Game",String.valueOf(exitGame));
+        if(exitGame){
+            gameListener.onExitGame(false);
+        }
+
+        //controllo a run time del parametro gameOver
         if (isGameOver()) {
             gameListener.onGameOver();
             if(levelCompleted()){
@@ -244,7 +257,7 @@ public class GameViewPortrait extends Game {
 
     }
 
-    /*
+    /**
     Nel momento in cui si verifica un evento SensorEvent nell'accellerometro si:
     - setta la posizione del paddle locale
     - setta la posizione del paddle del compagno tramite l'invio della posizione al RealTime Database
