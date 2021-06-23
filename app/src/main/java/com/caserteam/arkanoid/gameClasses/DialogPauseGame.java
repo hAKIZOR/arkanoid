@@ -38,6 +38,7 @@ public class DialogPauseGame extends DialogFragment{
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
        View v = inflater.inflate(R.layout.pause_game_dialog,container,false);
+       getDialog().setCanceledOnTouchOutside(false);
        buttonResume = v.findViewById(R.id.imageButtonResume);
        buttonExitGame = v.findViewById(R.id.imageButtonExitGame);
 

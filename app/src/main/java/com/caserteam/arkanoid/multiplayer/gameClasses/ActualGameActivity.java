@@ -14,7 +14,7 @@ import android.view.View;
 
 import com.caserteam.arkanoid.LoginActivity;
 import com.caserteam.arkanoid.R;
-import com.caserteam.arkanoid.editor.ui_game.DialogResultGame;
+import com.caserteam.arkanoid.gameClasses.DialogResultGame;
 import com.caserteam.arkanoid.gameClasses.GameActivity;
 import com.caserteam.arkanoid.multiplayer.MultiplayerActivity;
 import com.caserteam.arkanoid.multiplayer.Room;
@@ -65,9 +65,11 @@ public class ActualGameActivity extends AppCompatActivity implements GameListene
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         game = new GameViewPortrait(this, 3, 0, playerRole, roomRef);
+        game.setGameListener(this);
 
         float scale = getResources().getDisplayMetrics().density * 200;
         game.setCameraDistance(scale);
+
         gestureDetector = game.getGestureDetector();
         setContentView(game);
 
@@ -173,27 +175,15 @@ public class ActualGameActivity extends AppCompatActivity implements GameListene
 
 
     @Override
-    public void onGameOver() throws IOException {
-
-    }
-
-    @Override
-    public void onWinLevel() throws IOException {
-
+    public void onGameOver() {
+        DialogResultGame dialogGameOver = new DialogResultGame("Game Over!" , ActualGameActivity.this,"score: " + game.getScore());
+        dialogGameOver.show(getSupportFragmentManager(), "dialogNewScore");
     }
 
     @Override
     public void onWinGame() {
-
+        DialogResultGame dialogWinGame = new DialogResultGame(getResources().getString(R.string.win_game) , ActualGameActivity.this,"score: " + game.getScore());
+        dialogWinGame.show(getSupportFragmentManager(), "dialogNewScore");
     }
 
-    @Override
-    public void onPauseGame(boolean pause) {
-
-    }
-
-    @Override
-    public void onResumeGame() {
-
-    }
 }

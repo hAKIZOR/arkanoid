@@ -41,8 +41,7 @@ public class Game extends View implements
         SensorEventListener,
         View.OnTouchListener,
         GestureDetector.OnGestureListener,
-        ValueEventListener,
-        ButtonPause.ButtonPauseListener{
+        ValueEventListener{
     private static final String DEBUG_STRING = "Game";
 
 
@@ -97,6 +96,7 @@ public class Game extends View implements
     protected String fieldLifes;
     protected String fieldStarted;
     protected String fieldNumberLevel;
+    protected String fieldGameOver;
     protected float minPositionPaddle;
     protected float maxPositionPaddle;
     protected DatabaseReference roomRef;
@@ -267,6 +267,7 @@ public class Game extends View implements
 
         if (lifes == 1) {
             gameOver = true;
+            if(playerRole.equals(ROLE_PLAYER1)) {roomRef.child(fieldGameOver).setValue(true);}
             numberLevel=1;
             invalidate();
         } else{
@@ -392,6 +393,7 @@ public class Game extends View implements
             if(playerRole.equals(ROLE_PLAYER1)) {
                 setStart(true);
                 roomRef.child(fieldStarted).setValue(true);
+                roomRef.child(fieldGameOver).setValue(false);
             }
         }
         return false;
@@ -646,31 +648,11 @@ public class Game extends View implements
     public void setFabButtonPause(ButtonPause fabButtonPause) {
         this.fabButtonPause = fabButtonPause;
     }
-    public void initializeButtonPause(Activity activity){
-        fabButtonPause = new ButtonPause.Builder(activity)
-                .withDrawable(getResources().getDrawable(R.drawable.pause_on,null))
-                .withGravity(Gravity.BOTTOM | Gravity.LEFT)
-                .withMargins(0, 0, 0, 0)
-                .create();
-        fabButtonPause.setButtonPauseListener(this);
-    }
 
-    public void setGameSearchedListener(GameListener gameListener) {
+
+    public void setGameListener(GameListener gameListener) {
         this.gameListener = gameListener;
     }
-
-    @Override
-    public void onButtonPauseClicked() {
-        Log.d(TAG,"----------> cliccato pausa!");
-        if(pause){
-            pause= false;
-        } else {
-            pause = true;
-        }
-        gameListener.onPauseGame(pause);
-    }
-
-
 
     public ArrayList<Level> getLevels() {
         return levels;
@@ -697,6 +679,12 @@ public class Game extends View implements
             lifes = Integer.parseInt(snapshot.child(fieldLifes).getValue().toString());
             score = Integer.parseInt(snapshot.child(fieldScore).getValue().toString());
             start = startValue;
+
+            if(snapshot.child(fieldGameOver).getValue() != null) {
+                boolean gameOverValue = Boolean.parseBoolean(snapshot.child(fieldGameOver).getValue().toString());
+                gameOver = gameOverValue;
+            }
+
         }
 
     }

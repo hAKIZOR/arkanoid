@@ -199,8 +199,15 @@ public class Game extends View implements
 
     }
 
-    private void loadControlSystemFromFile() {
-        //crea un accelerometro e un SensorManager
+    private void loadControlSystemFromFile()
+        /*
+        si esegue una lettura del file config.txt contenente
+        le informazioni sul sistema di controllo settato per il gioco:
+        - se si tratta dell'accelerometro si istanzia l'oggetto SensorManager
+        - altrimenti si instanzia l'oggetto GestureDetectorCompat
+        */
+    {
+
 
         Settings settings = null;
         try {
@@ -414,15 +421,26 @@ public class Game extends View implements
     }
 
 
-
+    /**
+    metodo invocato nel momento in cui l'activity passa nello stato di onPause:
+    qualora ci fosse un'istanza di SensorManager ci si predispone nel "disattivare" il
+    sensore
+     */
     public void pauseGame() {
         if(sManager!= null){
             sManager.unregisterListener(this);
         }
     }
 
+    /**
+    metodo invocato nel momento in cui l'activity passa nello stato di onResume:
+    in tal caso essendo l'activity predisposta all'interazione, ci si adpoera nel registrare il
+    listener SensorEventListener della suddetta classe Game
+     */
     public void resumeGame() {
-        if(sManager!= null) sManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_GAME);
+        if(sManager!= null){
+            sManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_GAME);
+        }
     }
 
     //cambiare accelerometro
@@ -434,7 +452,7 @@ public class Game extends View implements
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
     }
 
-    //serve a sospendere il gioco in caso di un nuovo gioco
+    //metodo di callback che serve a sospendere il gioco in caso di un nuovo gioco
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         if (isGameOver() == true && isStart() == false) {
@@ -444,6 +462,12 @@ public class Game extends View implements
         }
         return false;
     }
+    /**
+    metodo di callback di onGestureListener che cattura un Tap sullo schermo:
+    - nel caso in cui vi sia un powerUp handsPiano ci si adopera nell'attivarlo
+    - nel caso in cui vi sia un powerUp laserSound ci si adopera nel mostrare
+    i laser che verrano sganciati al tocco dello schermo
+    */
     @Override
     public boolean onDown(MotionEvent e) {
 
@@ -486,18 +510,26 @@ public class Game extends View implements
         return gestureDetector;
     }
 
+    /**
+    metodo di callback di OnGestureListener che consente di sapere la corrente posizione del paddle
+    attraverso il parametro e2: abbiamo bisogno della coordinata x perchè si suppone che il paddle scorri
+    in maniera orizzontale in prossimità di uno scroll su di esso
+     */
     @Override
     public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
     if(accelerometer==null) {
         if ((e2.getX() - (paddle.getWidthp()/2)>=leftBoard && (e2.getX() - (paddle.getWidthp()/2)<= (rightBoard - paddle.getWidthp())))){
+            //la prosizione del paddle si trova nel range tra il bordo di gioco sinistro e destro
             if(e2.getY()>(sizeY*0.75)) {
                 paddle.setX(e2.getX() - (paddle.getWidthp()/2));
             }
         }else if ((e2.getX() - (paddle.getWidthp()/2) < leftBoard)){
+            //la prosizione del paddle sta oltrepassando la parte sinista del bordo di gioco
             if(e2.getY()>(sizeY*0.75)) {
                 paddle.setX(leftBoard);
             }
         }else if ((e2.getX() - (paddle.getWidthp()/2) > (rightBoard - paddle.getWidthp()))){
+            //la prosizione del paddle sta oltrepassando la parte destra del bordo di gioco
             if(e2.getY() > (sizeY*0.75)) {
                 paddle.setX(rightBoard-paddle.getWidthp());
             }
@@ -663,7 +695,10 @@ public class Game extends View implements
             lifes--;
         }
     }
-
+    /*
+    funzione richiamata nel metodo di callback onDown e che permette di calcolare la distanza tra
+    il mattone ed il tap: il power app consentirà, al tocco di un mattone , di eliminarlo.
+    */
     public void handsPianoPower(double xSelected, double ySelected) {
         int i, indexMin = 0;
         Brick brick;
@@ -787,6 +822,10 @@ public class Game extends View implements
     public void setFabButtonPause(ButtonPause fabButtonPause) {
         this.fabButtonPause = fabButtonPause;
     }
+
+    /**
+     Inizializzazione del bottone di pausa sfruttando il pattern Builder
+     */
     public void initializeButtonPause(Activity activity){
         fabButtonPause = new ButtonPause.Builder(activity)
                 .withDrawable(getResources().getDrawable(R.drawable.pause_on,null))
@@ -800,6 +839,12 @@ public class Game extends View implements
         this.gameListener = gameListener;
     }
 
+    /*
+     evento di click del button di pausa: esso consentirà di comunicare:
+     esso consentirà di richiamare il metodo onPauseGame che permetterà al
+     thread di gioco di fermarsi
+
+    */
     @Override
     public void onButtonPauseClicked() {
         Log.d(TAG,"----------> cliccato pausa!");

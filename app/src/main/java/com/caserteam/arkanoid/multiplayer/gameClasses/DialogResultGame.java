@@ -20,35 +20,42 @@ import com.caserteam.arkanoid.editor.ui_search_check.LevelsSearchActivity;
 public class DialogResultGame extends DialogFragment {
     private String textResult;
     private TextView textViewResult;
+    private TextView textViewRecord;
     private ImageView imageView;
     private Activity activity;
     private Button buttonGoOn;
-    public DialogResultGame(String textResult, Activity activity) {
+    private String scoreMessage;
+    private TextView textViewScore;
+
+    public DialogResultGame(String textResult, Activity activity, String score) {
         this.textResult = textResult;
         this.activity = activity;
+        this.scoreMessage = score;
     }
 
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.finish_game_dialog, container, false);
+        View v = inflater.inflate(R.layout.result_game_dialog, container, false);
+        getDialog().setCanceledOnTouchOutside(false);
         textViewResult = (TextView) v.findViewById(R.id.resultGameTextView);
+        textViewRecord = (TextView) v.findViewById(R.id.textViewRecord);
+        textViewScore = (TextView) v.findViewById(R.id.textViewScore);
         imageView =(ImageView) v.findViewById(R.id.imageResultGame);
         buttonGoOn = (Button) v.findViewById(R.id.buttonGoOn);
 
         textViewResult.setText(textResult);
+        textViewRecord.setVisibility(View.INVISIBLE);
+        textViewScore.setText(scoreMessage);
 
         if(textResult.equals(activity.getResources().getString(R.string.win_game))) {
             imageView.setBackground(activity.getResources().getDrawable(R.drawable.ic_win_multiplayer,null));
-        } else if(textResult.equals(activity.getResources().getString(R.string.win_game_arcade))) {
-            imageView.setBackground(activity.getResources().getDrawable(R.drawable.ic_win_arcade,null));
-        } else if(textResult.equals(activity.getResources().getString(R.string.lose_game))) {
-            imageView.setBackground(activity.getResources().getDrawable(R.drawable.ic_lose_multiplayer,null));
-        } else if(textResult.equals("Complimenti hai effettuato un nuovo Record")){
-            imageView.setBackground(activity.getResources().getDrawable(R.drawable.ic_win_multiplayer,null));
-
+        } else if(textResult.equals("Game Over!")) {
+            imageView.setVisibility(View.GONE);
+            //imageView.setBackground(activity.getResources().getDrawable(R.drawable.ic_lose_multiplayer,null));
         }
+
         buttonGoOn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -19,8 +19,6 @@ import androidx.fragment.app.DialogFragment;
 import com.caserteam.arkanoid.MenuActivity;
 import com.caserteam.arkanoid.R;
 import com.caserteam.arkanoid.audio.AudioUtils;
-import com.caserteam.arkanoid.audio.BackgroundSoundService;
-import com.caserteam.arkanoid.editor.ui_search_check.LevelsSearchActivity;
 
 import java.io.IOException;
 
@@ -53,7 +51,10 @@ public class DialogResultGame extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.finish_game_dialog, container, false);
+        View v = inflater.inflate(R.layout.result_game_dialog, container, false);
+
+        getDialog().setCanceledOnTouchOutside(false);
+
         textViewResult = (TextView) v.findViewById(R.id.resultGameTextView);
         textViewScore = (TextView) v.findViewById(R.id.textViewScore);
         imageView =(ImageView) v.findViewById(R.id.imageResultGame);

@@ -28,6 +28,7 @@ public class OfflineFragment extends DialogFragment implements NetworkUtil.OnCon
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         getDialog().setCanceledOnTouchOutside(false);
+        setRetainInstance(true);
         return inflater.inflate(R.layout.fragment_offline, container, false);
     }
 

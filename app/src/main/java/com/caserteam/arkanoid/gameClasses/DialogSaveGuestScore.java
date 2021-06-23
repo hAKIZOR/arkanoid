@@ -49,7 +49,7 @@ public class DialogSaveGuestScore extends DialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
        View v = inflater.inflate(R.layout.guest_score_fragment_dialog,container,false);
 
-
+       getDialog().setCanceledOnTouchOutside(false);
        buttonSave = v.findViewById(R.id.buttonCreateRoom);
        editTextPlayerName = v.findViewById(R.id.editTextNicknameInsert);
 

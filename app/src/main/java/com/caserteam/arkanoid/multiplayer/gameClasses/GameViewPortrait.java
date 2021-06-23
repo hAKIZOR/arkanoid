@@ -62,6 +62,7 @@ public class GameViewPortrait extends Game {
         setLeftBoard((screen_width - getSizeX())/2);
         setRightBoard(screen_width - getLeftBoard());
 
+        // nomi dei campi presenti in firebase di parametri condivisi tra i due giocatori
         fieldxBall="xBall";
         fieldyBall="yBall";
         fieldxSpeedBall="xSpeedBall";
@@ -70,12 +71,9 @@ public class GameViewPortrait extends Game {
         fieldScore = "score";
         fieldLifes = "life";
         fieldNumberLevel = "level";
+        fieldGameOver = "gameOver";
         paddle.setWidth((int) (getSizeX()*0.1));
         paddle2.setWidth((int) (getSizeX()*0.1));
-
-        //setta posizione della palla
-
-
 
 
         if(playerRole.equals(ROLE_PLAYER1)) {
@@ -101,6 +99,7 @@ public class GameViewPortrait extends Game {
             roomRef.child(fieldXPaddleOtherDevice).setValue(getSizeX()/2);
             roomRef.child(fieldxBall).setValue(getBall().getX());
             roomRef.child(fieldyBall).setValue(getBall().getY());
+
 
         }else {
 
@@ -141,7 +140,7 @@ public class GameViewPortrait extends Game {
         this.setOnTouchListener(this);
     }
 
-    // impostare lo sfondo
+    // impostazione dello sfondo
     private void setBackground(Context context) {
         int navBarHeight = 0;
         Resources resources = context.getResources();
@@ -235,27 +234,21 @@ public class GameViewPortrait extends Game {
             }
         }
 
-
-
-
-
-        // in caso di sconfitta stampa "GameOver"
-        /*if (isGameOver()) {
+        Log.e("Game",String.valueOf(isGameOver()));
+        if (isGameOver()) {
+            gameListener.onGameOver();
             if(levelCompleted()){
-                if(getNumberLevel()<=15) {
-                    try {
-                        gameListener.onWinLevel();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                } else { gameListener.onWinGame(); }
-
+                if(getNumberLevel() > 15) { gameListener.onWinGame(); }
             }
-        }*/
+        }
 
     }
 
-    //cambiare accelerometro
+    /*
+    Nel momento in cui si verifica un evento SensorEvent nell'accellerometro si:
+    - setta la posizione del paddle locale
+    - setta la posizione del paddle del compagno tramite l'invio della posizione al RealTime Database
+    */
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {

@@ -50,7 +50,7 @@ public class DialogPauseGame extends DialogFragment{
        View v = inflater.inflate(R.layout.pause_game_dialog,container,false);
        buttonResume = v.findViewById(R.id.imageButtonResume);
        buttonExitGame = v.findViewById(R.id.imageButtonExitGame);
-
+        getDialog().setCanceledOnTouchOutside(false);
        buttonResume.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {

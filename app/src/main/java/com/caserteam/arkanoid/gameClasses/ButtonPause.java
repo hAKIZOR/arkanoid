@@ -134,7 +134,7 @@ public class ButtonPause extends View{
         }
 
         /**
-         * Sets the gravity for the FAB
+         Settaggio del gravity del FAB
          */
         public Builder withGravity(int gravity) {
             this.gravity = gravity;
@@ -142,7 +142,7 @@ public class ButtonPause extends View{
         }
 
         /**
-         * Sets the margins for the FAB in dp
+         Settaggio dei margini del FAB in dp
          */
         public Builder withMargins(int left, int top, int right, int bottom) {
             params.setMargins(
@@ -155,7 +155,7 @@ public class ButtonPause extends View{
 
 
         /**
-         * Sets the FAB drawable
+         Settaggio dell'immagine del FAB
          */
         public Builder withDrawable(final Drawable drawable) {
             this.drawable = drawable;
@@ -163,7 +163,7 @@ public class ButtonPause extends View{
         }
 
         /**
-         * Sets the FAB color
+         Settaggio del colore del FAB
          */
         public Builder withButtonColor(final int color) {
             this.color = color;
@@ -171,7 +171,7 @@ public class ButtonPause extends View{
         }
 
         /**
-         * Sets the FAB size in dp
+         Settaggio della dimensione della dimensione del FAB in dp
          */
         public Builder withButtonSize(int size) {
             size = convertToPixels(size, scale);
@@ -190,9 +190,7 @@ public class ButtonPause extends View{
             return button;
         }
 
-        // The calculation (value * scale + 0.5f) is a widely used to convert to dps to pixel units
-        // based on density scale
-        // see developer.android.com (Supporting Multiple Screen Sizes)
+
         private int convertToPixels(int dp, float scale){
             return (int) (dp * scale + 0.5f) ;
         }

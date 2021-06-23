@@ -33,6 +33,7 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
+        getSupportActionBar().hide();
 
         Button buttonSave = (Button) findViewById(R.id.button_save);
         RadioGroup groupLanguage = (RadioGroup) findViewById(R.id.groupLanguage);
