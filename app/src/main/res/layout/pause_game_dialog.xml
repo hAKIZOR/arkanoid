@@ -40,7 +40,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginStart="44dp"
-                android:background="@drawable/ic_exit_game_multiplayer"
+                android:background="@drawable/ic_exit_game"
                 android:clickable="true"
                 android:rotation="180"
                 app:layout_constraintBottom_toBottomOf="parent"

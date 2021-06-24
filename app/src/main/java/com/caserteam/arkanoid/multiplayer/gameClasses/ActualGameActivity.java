@@ -93,7 +93,7 @@ public class ActualGameActivity extends AppCompatActivity implements GameListene
         updateHandler.post (new Runnable () {
             @Override
             public void run() {
-                while (endThreadCondition(game.isGameOver(),game.getExitGame())){
+                while (endThreadCondition(game.isGameOver(),game.getExitGame(),game.getWinGame())){
                     try {
                         thread.sleep(50);
 
@@ -137,8 +137,8 @@ public class ActualGameActivity extends AppCompatActivity implements GameListene
      se la partita non è in game Over ma l'uscita dal gioco è richiesta --> restituisce false
      negli altri due casi --> il gioco può continuare --> restituisce true
     */
-    public boolean endThreadCondition(boolean gameOver,boolean exitGame){
-        return !( ( gameOver || exitGame ) && ! ( gameOver && exitGame ) );
+    public boolean endThreadCondition(boolean gameOver,boolean exitGame,boolean winGame){
+        return !( ( gameOver || exitGame || winGame ) && ! ( gameOver && exitGame && winGame ) );
     }
 
     /**

@@ -134,7 +134,7 @@ public class GameViewPortrait extends Game {
         setPaddingTopGame((float) (((screen_height-getSizeY())/2) + (getSizeX()*0.16)));
 
         for(Level l: getLevels()) {
-            if(l.getNumberLevel()==getNumberLevel()) {
+            if(l.getNumberLevel() == getNumberLevel()) {
                 generateBricks(context, getLevels().get(getNumberLevel()-1),getColumns(),getRow(),getBrickBase(),getBrickHeight(),getPaddingLeftGame(),getPaddingTopGame());
             }
         }
@@ -250,10 +250,8 @@ public class GameViewPortrait extends Game {
         //controllo a run time del parametro gameOver
         if (isGameOver()) {
             gameListener.onGameOver();
-            if(levelCompleted()){
-                if(getNumberLevel() > 15) { gameListener.onWinGame(); }
-            }
         }
+
 
     }
 

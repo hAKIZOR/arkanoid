@@ -45,7 +45,7 @@ public class Game extends View implements
     private static final String TAG = "Game";
     private int lifes;
     private int score;
-    private int numberLevel = 1;
+    private int numberLevel = 5;
     private Level level;
     private ArrayList<Brick> brickList;
     private ArrayList<PowerUp> powerUps;

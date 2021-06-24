@@ -49,7 +49,7 @@ public class Game extends View implements
     private static final String TAG = "Game";
     private int lifes;
     private int score;
-    private int numberLevel = 1;
+    private int numberLevel = 7;
     private Level level;
     private ArrayList<Brick> brickList;
     private ArrayList<Level> levels;
@@ -60,6 +60,7 @@ public class Game extends View implements
 
     private boolean pause = false;
     protected boolean exitGame = false;
+    protected boolean winGame = false;
     private boolean start;
     private boolean gameOver;
 
@@ -355,12 +356,19 @@ public class Game extends View implements
     private void win() {
         if (levelCompleted()) {
             ++numberLevel;
-            resetLevel();
-            ball.increaseSpeed(numberLevel);
-            if(playerRole.equals(ROLE_PLAYER1)) {
-                start = false;
-                roomRef.child(fieldStarted).setValue(false);
+
+            if(numberLevel > 7) {
+                winGame = true;
+                gameListener.onWinGame();
+            } else {
+                resetLevel();
+                ball.increaseSpeed(numberLevel);
+                if(playerRole.equals(ROLE_PLAYER1)) {
+                    start = false;
+                    roomRef.child(fieldStarted).setValue(false);
+                }
             }
+
         }
     }
 
@@ -665,6 +673,9 @@ public class Game extends View implements
 
     public ArrayList<Level> getLevels() {
         return levels;
+    }
+    public boolean getWinGame(){
+        return winGame;
     }
 
     @Override
