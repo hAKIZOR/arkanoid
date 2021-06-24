@@ -52,7 +52,7 @@ public class GameSearched extends View implements
     private ButtonPause fabButtonPause;
 
 
-
+    private boolean winLevel = false;
     private boolean pause = false;
 
     //variabili di gestione loop
@@ -335,7 +335,8 @@ public class GameSearched extends View implements
     //scopri se il giocatore ha vinto o meno
     private void win() {
         if (levelCompleted()) {
-            gameOver = true;
+            winLevel = true;
+            gameSearchedListener.onWinGame();
         }
     }
 
@@ -725,4 +726,7 @@ public class GameSearched extends View implements
     }
 
 
+    public boolean getWinLevel() {
+        return winLevel;
+    }
 }

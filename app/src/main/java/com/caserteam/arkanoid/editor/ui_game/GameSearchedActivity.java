@@ -77,11 +77,11 @@ public class GameSearchedActivity extends AppCompatActivity implements GameListe
             public void handleMessage(Message msg) {
                 Log.d(TAG,"PASSO");
                 switch (msg.what){
-                    case 2:
+                    case 1:
                         DialogResultGame dialogWinGame = new DialogResultGame(getResources().getString(R.string.win_game),GameSearchedActivity.this,String.valueOf(game.getScore()));
                         dialogWinGame.show(getSupportFragmentManager(),"dialogWinGame");
                         break;
-                    case 3:
+                    case 2:
                         DialogResultGame dialogLoseGame = new DialogResultGame(getResources().getString(R.string.lose_game),GameSearchedActivity.this,String.valueOf(game.getScore()));
                         dialogLoseGame.show(getSupportFragmentManager(),"dialogLoseGame");
                         break;
@@ -93,7 +93,7 @@ public class GameSearchedActivity extends AppCompatActivity implements GameListe
         updateHandler.post (new Runnable () {
             @Override
             public void run() {
-                while (!game.isGameOver()){
+                while (endThreadCondition(game.isGameOver(),game.getWinLevel())){
                     try {
                         thread.sleep(30);
 
@@ -127,6 +127,10 @@ public class GameSearchedActivity extends AppCompatActivity implements GameListe
 
     }
 
+    private boolean endThreadCondition(boolean gameOver, boolean winGame) {
+        return !( ( gameOver || winGame ) && ! ( gameOver && winGame ) );
+    }
+
     private void initializeOrientation() {
         if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -140,14 +144,11 @@ public class GameSearchedActivity extends AppCompatActivity implements GameListe
     @Override
     public void onGameOver() {
 
-        updateHandler.sendEmptyMessage(3);
+        updateHandler.sendEmptyMessage(2);
 
     }
 
-    @Override
-    public void onWinLevel() {
 
-    }
 
     @Override
     public void onResumeGame() {
@@ -159,7 +160,7 @@ public class GameSearchedActivity extends AppCompatActivity implements GameListe
     @Override
     public void onWinGame() {
 
-        updateHandler.sendEmptyMessage(2);
+        updateHandler.sendEmptyMessage(1);
 
     }
 

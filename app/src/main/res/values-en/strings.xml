@@ -81,5 +81,6 @@
     <string name="confirm_yes">yes</string>
     <string name="confirm_no">no</string>
     <string name="interrupt_message">game stopped!</string>
+    <string name="level_completed_message">You have completed all levels in multiplayer!</string>
 
 </resources>

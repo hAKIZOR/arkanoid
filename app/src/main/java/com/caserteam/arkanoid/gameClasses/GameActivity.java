@@ -93,9 +93,18 @@ public class GameActivity extends AppCompatActivity implements GameListener {
             public void handleMessage(Message msg) {
                 Log.d(TAG,"PASSO");
                 switch (msg.what){
+                    case 1:
+                        Log.e(TAG,"low score message2 case1");
+                        DialogResultGame dialogScoreRecord = new DialogResultGame(getResources().getString(R.string.success_record), GameActivity.this,"score: " + game.getScore());
+                        dialogScoreRecord.show(getSupportFragmentManager(), "dialogNewScore");
+                        break;
                     case 2:
-                        DialogResultGame dialogHighScore = new DialogResultGame(getResources().getString(R.string.success_record), GameActivity.this,"score: " + game.getScore());
-                        dialogHighScore.show(getSupportFragmentManager(), "dialogNewScore");
+                        Log.e(TAG,"low score message2 case2");
+                        DialogResultGame dialogWinGame = new DialogResultGame(getResources().getString(R.string.win_game_arcade), GameActivity.this,"score: " + game.getScore());
+                        dialogWinGame.show(getSupportFragmentManager(), "dialogNewScore");
+                        break;
+                    default:
+                        Log.e(TAG,"low score message2 case default");
                         break;
                 }
             }
@@ -105,7 +114,7 @@ public class GameActivity extends AppCompatActivity implements GameListener {
         updateHandler.post (new Runnable () {
             @Override
             public void run() {
-                while (!game.isGameOver()){
+                while (endThreadCondition(game.isGameOver(),game.getWinGame())){
                     try {
                         thread.sleep(30);
 
@@ -115,6 +124,7 @@ public class GameActivity extends AppCompatActivity implements GameListener {
                     if(!game.isPaused()){
                         game.invalidate();
                         game.update();
+
                     } else {
                         try {
                             thread.sleep(30);
@@ -139,6 +149,10 @@ public class GameActivity extends AppCompatActivity implements GameListener {
 
     }
 
+    private boolean endThreadCondition(boolean gameOver, boolean winGame) {
+        return !( ( gameOver || winGame ) && ! ( gameOver && winGame ) );
+    }
+
     private void initializeOrientation() {
         if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -150,10 +164,8 @@ public class GameActivity extends AppCompatActivity implements GameListener {
 
 
     @Override
-    public void onGameOver() throws IOException {
-        saveScore();
-
-
+    public void onGameOver(){
+        saveScore(false);
     }
     @Override
     public void onResumeGame() {
@@ -163,16 +175,9 @@ public class GameActivity extends AppCompatActivity implements GameListener {
 
     }
     @Override
-    public void onWinGame() {
+    public void onWinGame(){
 
-        updateHandler.sendEmptyMessage(2);
-
-    }
-
-    @Override
-    public void onWinLevel() throws IOException {
-        saveScore();
-        //updateHandler.sendEmptyMessage(2);
+        saveScore(true);
 
     }
 
@@ -249,7 +254,7 @@ public class GameActivity extends AppCompatActivity implements GameListener {
 
     }
 
-    private void saveScore() throws IOException {
+    private void saveScore(boolean winGame){
         db = FirebaseFirestore.getInstance();
         SharedPreferences account = getSharedPreferences(KEY_PREFERENCES_USER_INFORMATION,MODE_PRIVATE);
         String accountName = account.getString(KEY_NICKNAME_PREFERENCES,"");
@@ -257,7 +262,7 @@ public class GameActivity extends AppCompatActivity implements GameListener {
         int finalScore = game.getScore();
 
         if(!accountName.equals(NICKNAME_GUEST_PLAYER)) {
-            updateRecordInRemoteDB(finalScore,accountName);
+            updateRecordInRemoteDB(finalScore,accountName,winGame);
         }else {
             updateRecordInLocalDB(finalScore);
         }
@@ -269,7 +274,7 @@ public class GameActivity extends AppCompatActivity implements GameListener {
         dialogSaveGuestScore.show(getSupportFragmentManager(),"dialogNewGuestScore");
     }
 
-    private void updateRecordInRemoteDB(int finalScore,String accountName) {
+    private void updateRecordInRemoteDB(int finalScore,String accountName,boolean winGame) {
         Map<String, Object> leaderboard = new HashMap<>();
         leaderboard.put(FIELD_NICKNAME,accountName);
         leaderboard.put(FIELD_SCORE,finalScore);
@@ -295,7 +300,13 @@ public class GameActivity extends AppCompatActivity implements GameListener {
                                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                             @Override
                                             public void onSuccess(DocumentReference documentReference) {
-                                                updateHandler.sendEmptyMessage(2);
+                                                if(winGame){
+                                                    Log.e(TAG,"sovrascrivi il record message2");
+                                                    updateHandler.sendEmptyMessage(2);
+                                                } else {
+                                                    Log.e(TAG,"sovrascrivi il record message1");
+                                                    updateHandler.sendEmptyMessage(1);
+                                                }
                                             }
                                         })
                                         .addOnFailureListener(new OnFailureListener() {
@@ -312,7 +323,14 @@ public class GameActivity extends AppCompatActivity implements GameListener {
                                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                             @Override
                                             public void onSuccess(DocumentReference documentReference) {
-                                                updateHandler.sendEmptyMessage(2);
+                                                if(winGame){
+                                                    Log.e(TAG,"crea un nuovo record message2");
+                                                    updateHandler.sendEmptyMessage(2);
+                                                } else {
+                                                    Log.e(TAG,"crea un nuovo record message1");
+                                                    updateHandler.sendEmptyMessage(1);
+                                                }
+
                                             }
                                         })
                                         .addOnFailureListener(new OnFailureListener() {
@@ -324,8 +342,15 @@ public class GameActivity extends AppCompatActivity implements GameListener {
                                         });
                             } else if ( record > finalScore) {
                                 //non aggiorna nulla nel leaderboard perchè il record non è stato battuto
-                                DialogResultGame dialogLowScore = new DialogResultGame(getResources().getString(R.string.failure_record) , GameActivity.this,"score: " + finalScore, "record: "+ record );
-                                dialogLowScore.show(getSupportFragmentManager(), "dialogNewScore");
+                                if(!winGame){
+                                    Log.e(TAG,"low score message1");
+                                    DialogResultGame dialogLowScore = new DialogResultGame(getResources().getString(R.string.failure_record) , GameActivity.this,"score: " + finalScore, "record: "+ record );
+                                    dialogLowScore.show(getSupportFragmentManager(), "dialogNewScore");
+                                }else {
+                                    Log.e(TAG,"low score message2");
+                                    updateHandler.sendEmptyMessage(2);
+                                }
+
                             }
 
                         }

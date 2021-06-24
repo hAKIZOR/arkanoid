@@ -149,15 +149,7 @@ public class GameViewLandscape extends Game {
 
         // in caso di sconfitta stampa "GameOver"
         if (isGameOver()) {
-            if(levelCompleted()){
-                gameListener.onWinGame();
-            } else {
-                try {
-                    gameListener.onGameOver();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+            gameListener.onGameOver();
         }
     }
 

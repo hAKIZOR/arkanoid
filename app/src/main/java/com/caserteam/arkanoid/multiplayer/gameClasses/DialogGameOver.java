@@ -12,22 +12,22 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.NavUtils;
 import androidx.fragment.app.DialogFragment;
 
+import com.caserteam.arkanoid.MenuActivity;
 import com.caserteam.arkanoid.R;
 import com.caserteam.arkanoid.editor.ui_search_check.LevelsSearchActivity;
 
-public class DialogResultGame extends DialogFragment {
+public class DialogGameOver extends DialogFragment {
     private String textResult;
     private TextView textViewResult;
-    private TextView textViewRecord;
-    private ImageView imageView;
     private Activity activity;
     private Button buttonGoOn;
     private String scoreMessage;
     private TextView textViewScore;
 
-    public DialogResultGame(String textResult, Activity activity, String score) {
+    public DialogGameOver(String textResult, Activity activity, String score) {
         this.textResult = textResult;
         this.activity = activity;
         this.scoreMessage = score;
@@ -37,29 +37,19 @@ public class DialogResultGame extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.result_game_dialog, container, false);
+        View v = inflater.inflate(R.layout.game_over_dialog, container, false);
         getDialog().setCanceledOnTouchOutside(false);
         textViewResult = (TextView) v.findViewById(R.id.resultGameTextView);
-        textViewRecord = (TextView) v.findViewById(R.id.textViewRecord);
         textViewScore = (TextView) v.findViewById(R.id.textViewScore);
-        imageView =(ImageView) v.findViewById(R.id.imageResultGame);
         buttonGoOn = (Button) v.findViewById(R.id.buttonGoOn);
 
         textViewResult.setText(textResult);
-        textViewRecord.setVisibility(View.INVISIBLE);
         textViewScore.setText(scoreMessage);
-
-        if(textResult.equals(activity.getResources().getString(R.string.win_game))) {
-            imageView.setBackground(activity.getResources().getDrawable(R.drawable.ic_win_multiplayer,null));
-        } else if(textResult.equals("Game Over!")) {
-            imageView.setVisibility(View.GONE);
-            //imageView.setBackground(activity.getResources().getDrawable(R.drawable.ic_lose_multiplayer,null));
-        }
 
         buttonGoOn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(activity, LevelsSearchActivity.class);
+                Intent intent = NavUtils.getParentActivityIntent (activity);
                 activity.startActivity(intent);
                 activity.finish();
             }

@@ -133,6 +133,8 @@
     <string name="confirm_yes">si</string>
     <string name="confirm_no">no</string>
     <string name="interrupt_message">partita interrotta!</string>
+    <string name="game_over_message" translatable="false">Game Over!</string>
+    <string name="level_completed_message">Hai completato tutti i livelli in multiplayer!</string>
 
 
 

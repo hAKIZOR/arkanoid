@@ -45,7 +45,7 @@ public class Game extends View implements
     private static final String TAG = "Game";
     private int lifes;
     private int score;
-    private int numberLevel = 5;
+    private int numberLevel = 1;
     private Level level;
     private ArrayList<Brick> brickList;
     private ArrayList<PowerUp> powerUps;
@@ -69,6 +69,7 @@ public class Game extends View implements
 
     private boolean start;
     private boolean gameOver;
+    private boolean winGame = false;
 
     //variabili per la gestione del powerUp handsPiano
     private boolean handsPianoPowerFlag = false;
@@ -297,7 +298,7 @@ public class Game extends View implements
 
 
     // ogni passaggio controlla se c'è una collisione, una perdita o una vittoria, ecc.
-    public void update() {
+    public void update()  {
         if (start) {
             win();
             checkBoards();
@@ -367,7 +368,7 @@ public class Game extends View implements
     }
 
     // controlla una vittoria automatica nel caso di loop per tot secondi e con un minimo di mattoni
-    public void checkWinForLoop(){
+    public void checkWinForLoop() {
         if(counterBrickTiming<=MINBRICKFORTIMING && counterBrickTiming == brickList.size()){
             timing++;
         }
@@ -409,13 +410,18 @@ public class Game extends View implements
     }
 
     //scopri se il giocatore ha vinto o meno
-    private void win() {
+    private void win(){
         if (levelCompleted()) {
             timing = 0;
             ++numberLevel;
+            if(numberLevel > 7){
+                winGame = true;
+                gameListener.onWinGame();
+            } else{
+                resetLevel();
+                ball.increaseSpeed(numberLevel);
+            }
 
-            resetLevel();
-            ball.increaseSpeed(numberLevel);
             start = false;
         }
     }
@@ -863,4 +869,7 @@ public class Game extends View implements
     }
 
 
+    public boolean getWinGame() {
+        return winGame;
+    }
 }

@@ -147,7 +147,7 @@ public class ActualGameActivity extends AppCompatActivity implements GameListene
      */
     @Override
     public void onGameOver() {
-        DialogResultGame dialogGameOver = new DialogResultGame("Game Over!" , ActualGameActivity.this,"score: " + game.getScore());
+        DialogGameOver dialogGameOver = new DialogGameOver(getResources().getString(R.string.game_over) , ActualGameActivity.this,"score: " + game.getScore());
         dialogGameOver.show(getSupportFragmentManager(), "dialogNewScore");
     }
 
@@ -157,7 +157,7 @@ public class ActualGameActivity extends AppCompatActivity implements GameListene
      */
     @Override
     public void onWinGame() {
-        DialogResultGame dialogWinGame = new DialogResultGame(getResources().getString(R.string.win_game) , ActualGameActivity.this,"score: " + game.getScore());
+        DialogGameOver dialogWinGame = new DialogGameOver(getResources().getString(R.string.level_completed_message) , ActualGameActivity.this,"score: " + game.getScore());
         dialogWinGame.show(getSupportFragmentManager(), "dialogNewScore");
     }
 

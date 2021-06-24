@@ -139,24 +139,8 @@ public class GameViewPortrait extends GameSearched {
 
         // in caso di sconfitta stampa "GameOver"
         if (isGameOver()) {
-            if(levelCompleted()){
-                gameSearchedListener.onWinGame();
-            } else {
-                try {
-                    gameSearchedListener.onGameOver();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+            gameSearchedListener.onGameOver();
         }
-        /*if(isPaused()){
-            Log.d("Game","----------> pause true");
-            getFabButtonPause().setButtonPauseDrawable(getResources().getDrawable(R.drawable.pause_off,null));
-            gameSearchedListener.onPauseGame();
-        } else {
-            getFabButtonPause().setButtonPauseDrawable(getResources().getDrawable(R.drawable.pause_on,null));
-            gameSearchedListener.onPauseGame();
-        }*/
     }
 
     //cambiare accelerometro

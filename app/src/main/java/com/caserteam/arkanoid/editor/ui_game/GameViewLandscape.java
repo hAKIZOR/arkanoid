@@ -145,15 +145,7 @@ public class GameViewLandscape extends GameSearched {
 
         // in caso di sconfitta stampa "GameOver"
         if (isGameOver()) {
-            if(levelCompleted()){
-                gameSearchedListener.onWinGame();
-            } else {
-                try {
-                    gameSearchedListener.onGameOver();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+            gameSearchedListener.onGameOver();
         }
     }
 

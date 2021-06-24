@@ -175,24 +175,8 @@ public class GameViewPortrait extends Game {
 
         // in caso di sconfitta stampa "GameOver"
         if (isGameOver()) {
-            if(levelCompleted()){
-                if(getNumberLevel()<=15) {
-                    try {
-                        gameListener.onWinLevel();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }else gameListener.onWinGame();
-
-            } else {
-                try {
-                    gameListener.onGameOver();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+            gameListener.onGameOver();
         }
-
     }
 
     //cambiare accelerometro
