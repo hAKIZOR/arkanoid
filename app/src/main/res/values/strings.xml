@@ -38,6 +38,7 @@
     <string name="arcade" translatable="false">Arcade</string>
     <string name="multiplayer">Multiplayer</string>
     <string name="editor_livelli">Editor Livelli</string>
+    <string name="exit_app">esci</string>
 
 
     <!-- label SplashScreen -->

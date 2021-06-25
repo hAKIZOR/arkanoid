@@ -82,4 +82,5 @@
     <string name="confirm_no">no</string>
     <string name="interrupt_message">juego detenido!</string>
     <string name="level_completed_message">Has completado todos los niveles en multijugador!</string>
+    <string name="exit_app">fuera</string>
 </resources>

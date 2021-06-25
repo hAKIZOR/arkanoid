@@ -95,7 +95,9 @@ class AdapterLevelCreated extends ArrayAdapter<LevelCreatedModel> {
                             for (DocumentSnapshot document : task.getResult()) {
                                 id = document.getId();
                             }
-                            db.collection(COLLECTION_SHARED_LEVELS).document(id).delete();
+                            if(id != null){
+                                db.collection(COLLECTION_SHARED_LEVELS).document(id).delete();
+                            }
 
                         } else {
                             Log.d(TAG,"upload non riuscito");
@@ -116,7 +118,9 @@ class AdapterLevelCreated extends ArrayAdapter<LevelCreatedModel> {
                                 id = document.getId();
                             }
 
-                            db.collection(pathCollection).document(id).delete();
+                            if(id != null){
+                                db.collection(pathCollection).document(id).delete();
+                            }
 
                         } else {
                             Log.d(TAG,"upload non riuscito");

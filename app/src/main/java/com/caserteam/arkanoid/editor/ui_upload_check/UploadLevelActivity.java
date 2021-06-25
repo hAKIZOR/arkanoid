@@ -80,10 +80,16 @@ public class UploadLevelActivity extends AppCompatActivity
         passando il modello di dati intrinseco alla variabile levelCreateds
          */
         int count = levelCreateds.size();
+
+
+
         String quantity = getResources().getQuantityString(R.plurals.numberOfLevelCreated,count,count);
         Toast.makeText(this, quantity ,Toast.LENGTH_LONG).show();
 
         this.levelCreateds = levelCreateds;
+
+        currentUser = getIntent().getStringExtra(CURRENT_USER_EMAIL_EXTRA);
+        pathOfCollection = COLLECTION_USERS + "/" + currentUser + "/" + COLLECTION_LEVELS;
 
         //aggiorno l'adapter per poi settare la listView che contiene i livelli
         adapterLevelCreated = new AdapterLevelCreated(
@@ -94,6 +100,9 @@ public class UploadLevelActivity extends AppCompatActivity
 
         listViewLevels.setAdapter(adapterLevelCreated);
         loadingDialog.dismissDialog();
+
+
+
 
 
     }

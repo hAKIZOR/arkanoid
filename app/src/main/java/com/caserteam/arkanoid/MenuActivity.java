@@ -81,6 +81,7 @@ public class MenuActivity extends AppCompatActivity  {
 
         Button buttonEditor = findViewById(R.id.button_editor);
         Button buttonMultiplayer = findViewById(R.id.button_multiplayer);
+        Button buttonExit = findViewById(R.id.button_exit);
 
         ImageView backgroundOne = (ImageView) findViewById(R.id.background_one);
         ImageView backgroundTwo = (ImageView) findViewById(R.id.background_two);
@@ -246,7 +247,15 @@ public class MenuActivity extends AppCompatActivity  {
                 }
             }
         });
+
+    buttonExit.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            finishAndRemoveTask();
+        }
+    });
     }
+
 
 
 

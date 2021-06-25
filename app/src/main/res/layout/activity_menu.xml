@@ -28,8 +28,8 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="412dp"
-        android:layout_height="451dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -146,6 +146,14 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/font"
             android:text="@string/classifica"
+            android:textSize="@dimen/font_size_no_Tablet" />
+
+        <Button
+            android:id="@+id/button_exit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/font"
+            android:text="@string/exit_app"
             android:textSize="@dimen/font_size_no_Tablet" />
 
     </LinearLayout>

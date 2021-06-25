@@ -71,7 +71,6 @@ public  class LoginActivity extends AppCompatActivity {
             signInButton = findViewById(R.id.sign_in_button);
             mAuth = FirebaseAuth.getInstance();
             guestButton = findViewById(R.id.guest_button);
-            buttonInfo = (ImageView) findViewById(R.id.infoImageButton);
 
             GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                     .requestIdToken(getString(R.string.default_web_client_id))
@@ -98,13 +97,7 @@ public  class LoginActivity extends AppCompatActivity {
                 }
             });
 
-            buttonInfo.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Log.e(TAG,"info_clicked");
-                    Toast.makeText(LoginActivity.this,"Informations",Toast.LENGTH_SHORT);
-                }
-            });
+
         }
 
 

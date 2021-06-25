@@ -65,9 +65,7 @@ public class LevelsSearchActivity extends AppCompatActivity {
                         // travaso le info dal database a levelsSearched
                         if (task.isSuccessful()) {
                             for (DocumentSnapshot levelShared : task.getResult()) {
-                                if(!levelShared.get(FIELD_NICKNAME).equals(nickname)){
-                                    levelsSearched.add(levelShared.toObject(LevelSearchedModel.class));
-                                }
+                                levelsSearched.add(levelShared.toObject(LevelSearchedModel.class));
                             }
                             int count = levelsSearched.size();
                             String quantity = getResources().getQuantityString(R.plurals.numberOfLevelSearched,count,count);

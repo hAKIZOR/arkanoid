@@ -27,13 +27,6 @@
 
     </FrameLayout>
 
-    <ImageButton
-        android:background="@drawable/ic_info"
-        android:id="@+id/infoImageButton"
-        android:layout_width="@dimen/height_square_button_Tablet"
-        android:layout_height="@dimen/height_square_button_Tablet"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 
     <LinearLayout
