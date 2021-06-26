@@ -7,6 +7,8 @@ import androidx.core.view.GestureDetectorCompat;
 
 import com.caserteam.arkanoid.LoginActivity;
 import com.caserteam.arkanoid.MenuActivity;
+import com.caserteam.arkanoid.NetworkCheck.NetworkUtil;
+import com.caserteam.arkanoid.NetworkCheck.OfflineFragment;
 import com.caserteam.arkanoid.R;
 import com.caserteam.arkanoid.editor.editor_module.Editor;
 import com.caserteam.arkanoid.editor.editor_module.EditorViewLandScape;
@@ -24,6 +26,11 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 import android.annotation.SuppressLint;
@@ -70,10 +77,26 @@ public class EditorActivity extends AppCompatActivity  implements
     private GoogleSignInClient mGoogleSignInClient;
     private GoogleSignInAccount account;
     private SharedPreferences preferences;
-
+    private NetworkUtil networkControl;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        DatabaseReference connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
+        connectedRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                boolean connected = snapshot.getValue(Boolean.class);
+                if (!connected) {
+                    OfflineFragment offlineFragment = new OfflineFragment();
+                    offlineFragment.show(getSupportFragmentManager(),"Dialog");
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
+
+        networkControl = new NetworkUtil();
 
         initializeSessionOption();
 
@@ -187,10 +210,12 @@ public class EditorActivity extends AppCompatActivity  implements
                 /*
                    Al click di questo tasto deve essere possibile il caricamento dei propri livelli mediante un'altra activity
                 */
-                Intent intent = new Intent(EditorActivity.this, UploadLevelActivity.class);
-                intent.putExtra(CURRENT_USER_EMAIL_EXTRA,account.getEmail());
-                intent.putExtra(CURRENT_USER_NICKNAME_EXTRA,nickname);
-                startActivity(intent);
+                if(networkControl.checkDialogPresence(getApplicationContext(),EditorActivity.this)) {
+                    Intent intent = new Intent(EditorActivity.this, UploadLevelActivity.class);
+                    intent.putExtra(CURRENT_USER_EMAIL_EXTRA, account.getEmail());
+                    intent.putExtra(CURRENT_USER_NICKNAME_EXTRA, nickname);
+                    startActivity(intent);
+                }
 
                 break;
             case R.id.menu_main_save:
@@ -198,15 +223,17 @@ public class EditorActivity extends AppCompatActivity  implements
                 Al click di questo tasto deve essere possibile l'inserimento del nome del livello attraverso una finestra di
                 dialogo con i bottoni "salva" e "annulla" oltre che la EditText del nome del livello
                 */
-
-                Log.d("EditorActivity----->", nickname);
-                structure = editor.convertListBrickToString();
-                if(structure != null){
+                if(networkControl.checkDialogPresence(getApplicationContext(),EditorActivity.this)){
+                    Log.d("EditorActivity----->", nickname);
+                    structure = editor.convertListBrickToString();
+                    if(structure != null){
                         DialogSaveLevel dialogSaveLevel = new DialogSaveLevel(structure,nameLevel,nickname,account.getEmail());
                         dialogSaveLevel.show(getSupportFragmentManager(),"DialogFragmentSave");
-                } else {
-                    editor.getPromptUtils().showMessage(getResources().getString(R.string.save_level_no_brick));
+                    } else {
+                        editor.getPromptUtils().showMessage(getResources().getString(R.string.save_level_no_brick));
+                    }
                 }
+
 
                 break;
 
@@ -232,9 +259,12 @@ public class EditorActivity extends AppCompatActivity  implements
                 /*
                    Al click di questo tasto deve essere possibile il caricamento di tutti livelli creati da altri utenti mediante un'altra activity
                 */
-                Intent intent2 = new Intent(EditorActivity.this, LevelsSearchActivity.class);
-                intent2.putExtra(CURRENT_USER_NICKNAME_EXTRA,nickname);
-                startActivity(intent2);
+                if(networkControl.checkDialogPresence(getApplicationContext(),EditorActivity.this)){
+                    Intent intent2 = new Intent(EditorActivity.this, LevelsSearchActivity.class);
+                    intent2.putExtra(CURRENT_USER_NICKNAME_EXTRA,nickname);
+                    startActivity(intent2);
+                }
+
 
                 return true;
 

@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.caserteam.arkanoid.MenuActivity;
+import com.caserteam.arkanoid.NetworkCheck.OfflineFragment;
 import com.caserteam.arkanoid.R;
 import com.caserteam.arkanoid.editor.EditorActivity;
 import com.caserteam.arkanoid.editor.editor_module.Editor;
@@ -78,10 +79,10 @@ public class LevelsSearchActivity extends AppCompatActivity {
                             loadingDialog.dismissDialog();
 
                         } else {
-
+                            loadingDialog.dismissDialog();
+                            OfflineFragment offlineFragment = new OfflineFragment();
+                            offlineFragment.show(getSupportFragmentManager(),"Dialog");
                         }
-
-
                     }
                 });
 

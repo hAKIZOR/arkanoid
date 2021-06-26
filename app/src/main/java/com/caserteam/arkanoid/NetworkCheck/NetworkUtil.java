@@ -27,69 +27,65 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class NetworkUtil {
     public static final String TAG = "NetworkStateInfo";
-    public static void checkNetworkInfo(Context context, OnConnectionStatusChange onConnectionStatusChange) {
+    private OnConnectionStatusChange onConnectionStatusChange;
+    public NetworkUtil(){}
 
-        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+    public void checkNetworkInfo(Context context, OnConnectionStatusChange listener) {
+
+        onConnectionStatusChange = listener;
+        if(onConnectionStatusChange != null) {
+            ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
 
-            NetworkCapabilities capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.getActiveNetwork());
-            if (capabilities == null){
-                onConnectionStatusChange.onChange(false);
+                NetworkCapabilities capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.getActiveNetwork());
+                if (capabilities == null){
+                    onConnectionStatusChange.onChange(false);
+                }
+                connectivityManager.registerDefaultNetworkCallback(new ConnectivityManager.NetworkCallback(){
+                    @Override
+                    public void onAvailable(@NonNull Network network) {
+                        super.onAvailable(network);
+                        Log.e(NetworkUtil.TAG,"onAvaible");
+                        IsInternetActiveTask task = new IsInternetActiveTask(onConnectionStatusChange);
+                        task.execute();
+
+                    }
+
+                    @Override
+                    public void onLost(@NonNull Network network) {
+                        Log.e(NetworkUtil.TAG,"onLost");
+                        onConnectionStatusChange.onChange(false);
+                    }
+                });
+
+            } else {
+
+                NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+                boolean status = getStatusConnection(networkInfo);
+                onConnectionStatusChange.onChange(status);
+
             }
-            connectivityManager.registerDefaultNetworkCallback(new ConnectivityManager.NetworkCallback(){
-
-                @Override
-                public void onLosing(@NonNull Network network, int maxMsToLive) {
-                    Log.e(NetworkUtil.TAG,"onLosing");
-                    onConnectionStatusChange.onChange(false);
-                }
-
-                @Override
-                public void onUnavailable() {
-                    Log.e(NetworkUtil.TAG,"onUnavaible");
-                    onConnectionStatusChange.onChange(false);
-                }
-
-                @Override
-                public void onAvailable(@NonNull Network network) {
-                    super.onAvailable(network);
-                    Log.e(NetworkUtil.TAG,"onAvaible");
-                    IsInternetActiveTask task = new IsInternetActiveTask(onConnectionStatusChange);
-                    task.execute();
-
-                }
-
-                @Override
-                public void onLost(@NonNull Network network) {
-                    Log.e(NetworkUtil.TAG,"onLost");
-                    onConnectionStatusChange.onChange(false);
-                }
-            });
-
-        } else {
-
-            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-            boolean status = getStatusConnection(networkInfo);
-            onConnectionStatusChange.onChange(status);
-
         }
+
     }
 
-    public static void checkDialogPresence(@NotNull Context context, AppCompatActivity activity) {
+    public boolean checkDialogPresence(@NotNull Context context, AppCompatActivity activity) {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         boolean status = getStatusConnection(networkInfo);
+
         if (status) {
             Toast.makeText(context,"Connected",Toast.LENGTH_SHORT);
         } else {
             OfflineFragment offlineFragment = new OfflineFragment();
             offlineFragment.show(activity.getSupportFragmentManager(),"Dialog");
         }
+        return status;
     }
 
-    public static boolean getStatusConnection(NetworkInfo networkInfo){
+    public boolean getStatusConnection(NetworkInfo networkInfo){
         return networkInfo != null && networkInfo.isConnectedOrConnecting();
     }
 
@@ -139,9 +135,13 @@ public class NetworkUtil {
 
 
     }
-    public interface OnConnectionStatusChange{
 
+    public void setOnConnectionStatusChange(OnConnectionStatusChange onConnectionStatusChange){
+        this.onConnectionStatusChange = onConnectionStatusChange;
+    }
+    public interface OnConnectionStatusChange{
         void onChange(boolean type);
     }
+
 }
 

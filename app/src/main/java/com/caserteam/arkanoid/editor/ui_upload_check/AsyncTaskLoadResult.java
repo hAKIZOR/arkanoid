@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
+import com.caserteam.arkanoid.NetworkCheck.OfflineFragment;
 import com.caserteam.arkanoid.R;
 import com.caserteam.arkanoid.editor.ui_search_check.LevelsSearchActivity;
 import com.google.android.gms.tasks.Task;
@@ -58,13 +59,14 @@ public class AsyncTaskLoadResult extends AsyncTask<Void, Void, ArrayList<LevelCr
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        if(task.isSuccessful()){
+        if(task.isSuccessful()) {
             levelCreateds = new ArrayList<>();
             for(DocumentSnapshot documentSnapshot : task.getResult()){
                 levelCreateds.add(documentSnapshot.toObject(LevelCreatedModel.class));
             }
-
-
+        } else {
+            OfflineFragment offlineFragment = new OfflineFragment();
+            offlineFragment.show(activity.getSupportFragmentManager(),"Dialog");
         }
 
         return levelCreateds;

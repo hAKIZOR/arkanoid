@@ -19,7 +19,7 @@ import com.caserteam.arkanoid.R;
 
 
 public class OfflineFragment extends DialogFragment implements NetworkUtil.OnConnectionStatusChange{
-
+    private NetworkUtil networkControl;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +35,8 @@ public class OfflineFragment extends DialogFragment implements NetworkUtil.OnCon
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        NetworkUtil.checkNetworkInfo(context,this);
+        networkControl = new NetworkUtil();
+        networkControl.checkNetworkInfo(context,this);
     }
 
     @Override

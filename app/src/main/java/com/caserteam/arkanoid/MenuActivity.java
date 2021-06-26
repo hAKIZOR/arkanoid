@@ -52,8 +52,10 @@ public class MenuActivity extends AppCompatActivity  {
     private static final String TAG = "MenuActivity = ";
 
     private GoogleSignInClient mGoogleSignInClient;
+    private NetworkUtil networkControl;
     SharedPreferences prefs = null;
     OfflineFragment offlineFragment;
+    GoogleSignInAccount account;
 
 
     @Override
@@ -69,9 +71,14 @@ public class MenuActivity extends AppCompatActivity  {
                 .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
+        account = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
 
-        NetworkUtil.checkDialogPresence(this,this);
+        if(isUserLogged()){
+            networkControl = new NetworkUtil();
+            networkControl.checkDialogPresence(this,this);
+        }
+
+
         Button buttonArcade = findViewById(R.id.button_arcade);
         FloatingActionButton buttonSettings = findViewById(R.id.button_settings);
         Button buttonLeaderBoard = findViewById(R.id.button_leaderboard);
@@ -149,11 +156,16 @@ public class MenuActivity extends AppCompatActivity  {
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }
-                Intent myIntent = new Intent(MenuActivity.this, LoginActivity.class);
-                myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                mGoogleSignInClient.signOut();
-                startActivity(myIntent);
-                finish();
+
+                boolean status = networkControl.checkDialogPresence(getApplicationContext(),MenuActivity.this);
+                if(status){
+                    Intent myIntent = new Intent(MenuActivity.this, LoginActivity.class);
+                    myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    mGoogleSignInClient.signOut();
+                    startActivity(myIntent);
+                    finish();
+                }
+
             }
         });
 
@@ -169,8 +181,17 @@ public class MenuActivity extends AppCompatActivity  {
                     e.printStackTrace();
                 }
 
-                Intent myIntent = new Intent(MenuActivity.this, GameActivity.class);
-                startActivity(myIntent);
+                if(isUserLogged()){
+                    boolean status = networkControl.checkDialogPresence(getApplicationContext(),MenuActivity.this);
+                    if(status) {
+                        Intent myIntent = new Intent(MenuActivity.this, GameActivity.class);
+                        startActivity(myIntent);
+                    }
+                } else {
+                    Intent myIntent = new Intent(MenuActivity.this, GameActivity.class);
+                    startActivity(myIntent);
+                }
+
             }
         });
          buttonLeaderBoard.setOnClickListener( new View.OnClickListener() {
@@ -214,11 +235,13 @@ public class MenuActivity extends AppCompatActivity  {
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }
-                if(account!=null){
-
-                Intent intent = new Intent(MenuActivity.this, EditorActivity.class);
-                startActivity(intent);
-                }else  {
+                if(isUserLogged()){
+                    boolean status = networkControl.checkDialogPresence(getApplicationContext(),MenuActivity.this);
+                    if(status) {
+                        Intent intent = new Intent(MenuActivity.this, EditorActivity.class);
+                        startActivity(intent);
+                    }
+                } else  {
                     Toast t =Toast.makeText(MenuActivity.this,R.string.need_login,Toast.LENGTH_SHORT);
                     centerText(t.getView());
                     t.show();
@@ -237,10 +260,13 @@ public class MenuActivity extends AppCompatActivity  {
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }
-                if(account!=null){
-                    Intent intent = new Intent(MenuActivity.this, MultiplayerActivity.class);
-                    startActivity(intent);
-                }else {
+                if(isUserLogged()) {
+                    boolean status = networkControl.checkDialogPresence(getApplicationContext(),MenuActivity.this);
+                    if(status) {
+                        Intent intent = new Intent(MenuActivity.this, MultiplayerActivity.class);
+                        startActivity(intent);
+                    }
+                } else {
                     Toast t =Toast.makeText(MenuActivity.this,R.string.need_login,Toast.LENGTH_SHORT);
                     centerText(t.getView());
                     t.show();
@@ -256,8 +282,9 @@ public class MenuActivity extends AppCompatActivity  {
     });
     }
 
-
-
+    private boolean isUserLogged() {
+        return account != null;
+    }
 
 
     private void setImageLoop(ImageView backgroundOne, ImageView backgroundTwo) {
@@ -315,7 +342,7 @@ public class MenuActivity extends AppCompatActivity  {
     protected void onResume() {
         super.onResume();
         Log.d(TAG,"onResume()");
-        NetworkUtil.checkDialogPresence(this,this);
+        networkControl.checkDialogPresence(this,this);
         if (prefs.getBoolean(FIRST_RUN_INSTALLATION_STATE, true)) {
             prefs.edit().putBoolean(FIRST_RUN_INSTALLATION_STATE, false).commit();
         }
@@ -327,9 +354,7 @@ public class MenuActivity extends AppCompatActivity  {
         super.onWindowFocusChanged(hasFocus);
 
     }
-    public static boolean getStatusConnection(NetworkInfo networkInfo){
-        return networkInfo != null && networkInfo.isConnectedOrConnecting();
-    }
+
     private void hideSystemUI() {
         // Enables regular immersive mode.
         // For "lean back" mode, remove SYSTEM_UI_FLAG_IMMERSIVE.
