@@ -4,17 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NavUtils;
 
-import com.caserteam.arkanoid.MenuActivity;
-import com.caserteam.arkanoid.editor.EditorActivity;
 import com.caserteam.arkanoid.R;
-import com.caserteam.arkanoid.editor.editor_module.Editor;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 import static com.caserteam.arkanoid.AppContractClass.*;

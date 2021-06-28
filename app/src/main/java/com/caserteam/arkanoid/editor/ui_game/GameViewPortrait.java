@@ -1,6 +1,5 @@
 package com.caserteam.arkanoid.editor.ui_game;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,17 +11,12 @@ import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
-import android.util.Log;
 import android.view.Display;
-import android.view.Gravity;
 import android.view.WindowManager;
 
 import com.caserteam.arkanoid.R;
-import com.caserteam.arkanoid.editor.FloatingActionButtonPlus;
 
 import androidx.core.content.res.ResourcesCompat;
-
-import java.io.IOException;
 
 
 public class GameViewPortrait extends GameSearched {

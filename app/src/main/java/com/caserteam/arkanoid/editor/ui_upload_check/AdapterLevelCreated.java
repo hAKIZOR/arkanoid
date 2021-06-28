@@ -25,7 +25,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.NavUtils;
 
-import com.caserteam.arkanoid.editor.EditorActivity;
 import com.caserteam.arkanoid.R;
 import static com.caserteam.arkanoid.AppContractClass.*;
 

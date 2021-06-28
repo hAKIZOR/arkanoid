@@ -19,8 +19,6 @@ import androidx.core.content.res.ResourcesCompat;
 
 import com.caserteam.arkanoid.R;
 
-import java.io.IOException;
-
 
 public class GameViewLandscape extends Game {
 

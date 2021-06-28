@@ -1,7 +1,6 @@
 package com.caserteam.arkanoid.editor.ui_game;
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
+
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -14,8 +13,6 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.caserteam.arkanoid.R;
-import com.caserteam.arkanoid.editor.ui_search_check.LevelsSearchActivity;
-import com.caserteam.arkanoid.gameClasses.Game;
 import com.caserteam.arkanoid.gameClasses.GameListener;
 
 import androidx.appcompat.app.AppCompatActivity;

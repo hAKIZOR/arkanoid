@@ -5,6 +5,7 @@ import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.util.HashMap;
 import java.util.Map;
+
 @IgnoreExtraProperties
 public class Room {
     public String player1;

@@ -15,12 +15,8 @@ import androidx.fragment.app.DialogFragment;
 import com.caserteam.arkanoid.MenuActivity;
 import com.caserteam.arkanoid.R;
 import com.caserteam.arkanoid.audio.AudioUtils;
-import com.caserteam.arkanoid.audio.BackgroundSoundService;
-import com.caserteam.arkanoid.editor.ui_search_check.LevelsSearchActivity;
 
 import java.io.IOException;
-
-import static com.caserteam.arkanoid.AppContractClass.*;
 
 public class DialogPauseGame extends DialogFragment{
 

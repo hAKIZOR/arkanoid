@@ -19,7 +19,6 @@ import static com.caserteam.arkanoid.AppContractClass.*;
 import java.util.Locale;
 
 import java.io.*;
-import java.util.Set;
 
 
 public class SettingsActivity extends AppCompatActivity {

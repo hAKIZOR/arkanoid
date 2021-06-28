@@ -17,9 +17,6 @@ import android.view.WindowManager;
 
 import com.caserteam.arkanoid.R;
 
-import java.io.IOException;
-import java.util.ArrayList;
-
 import androidx.core.content.res.ResourcesCompat;
 
 

@@ -4,22 +4,16 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NavUtils;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.caserteam.arkanoid.MenuActivity;
+
 import com.caserteam.arkanoid.NetworkCheck.OfflineFragment;
 import com.caserteam.arkanoid.R;
-import com.caserteam.arkanoid.editor.EditorActivity;
-import com.caserteam.arkanoid.editor.editor_module.Editor;
 import com.caserteam.arkanoid.editor.ui_upload_check.LoadingDialog;
-import com.caserteam.arkanoid.editor.ui_upload_check.UploadLevelActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;

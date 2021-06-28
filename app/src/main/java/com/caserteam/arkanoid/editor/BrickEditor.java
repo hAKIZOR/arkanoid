@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.View;
 import com.caserteam.arkanoid.R;
-import com.caserteam.arkanoid.AppContractClass;
 
 import static com.caserteam.arkanoid.AppContractClass.*;
 

@@ -2,7 +2,6 @@ package com.caserteam.arkanoid.editor.ui_upload_check;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;

@@ -19,8 +19,6 @@ import android.view.View;
 import com.caserteam.arkanoid.IOUtils;
 import com.caserteam.arkanoid.R;
 import com.caserteam.arkanoid.Settings;
-import com.caserteam.arkanoid.editor.BrickEditor;
-import com.caserteam.arkanoid.editor.ui_search_check.LevelsSearchActivity;
 import com.caserteam.arkanoid.gameClasses.GameListener;
 
 import java.io.IOException;

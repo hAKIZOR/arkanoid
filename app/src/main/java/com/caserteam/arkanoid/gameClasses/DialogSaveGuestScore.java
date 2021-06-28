@@ -3,7 +3,6 @@ package com.caserteam.arkanoid.gameClasses;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -22,7 +21,6 @@ import androidx.fragment.app.DialogFragment;
 import com.caserteam.arkanoid.DatabaseHelper;
 import com.caserteam.arkanoid.R;
 import com.caserteam.arkanoid.audio.AudioUtils;
-import com.caserteam.arkanoid.audio.BackgroundSoundService;
 
 import java.io.IOException;
 

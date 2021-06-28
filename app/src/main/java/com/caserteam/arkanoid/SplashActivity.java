@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.caserteam.arkanoid.audio.AudioUtils;
-import com.caserteam.arkanoid.audio.BackgroundSoundService;
 
 import java.io.IOException;
 

@@ -13,7 +13,6 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
-import com.caserteam.arkanoid.editor.BrickEditor;
 import com.caserteam.arkanoid.R;
 import static com.caserteam.arkanoid.AppContractClass.*;
 

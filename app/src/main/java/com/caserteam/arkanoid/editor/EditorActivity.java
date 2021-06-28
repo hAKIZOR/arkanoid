@@ -5,8 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NavUtils;
 import androidx.core.view.GestureDetectorCompat;
 
-import com.caserteam.arkanoid.LoginActivity;
-import com.caserteam.arkanoid.MenuActivity;
 import com.caserteam.arkanoid.NetworkCheck.NetworkUtil;
 import com.caserteam.arkanoid.NetworkCheck.OfflineFragment;
 import com.caserteam.arkanoid.R;
@@ -18,9 +16,7 @@ import com.caserteam.arkanoid.editor.ui_plus_check.FragmentDetailBricks;
 import com.caserteam.arkanoid.editor.ui_plus_check.FragmentDetailsObstacles;
 import com.caserteam.arkanoid.editor.ui_save_check.DialogSaveLevel;
 import com.caserteam.arkanoid.editor.ui_search_check.LevelsSearchActivity;
-import com.caserteam.arkanoid.editor.ui_upload_check.LoadingDialog;
 import com.caserteam.arkanoid.editor.ui_upload_check.UploadLevelActivity;
-import com.caserteam.arkanoid.editor.PromptUtils;
 import com.caserteam.arkanoid.gameClasses.UpdateThread;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -39,23 +35,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.PersistableBundle;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import static  com.caserteam.arkanoid.AppContractClass.*;
-import android.view.View;
-import android.view.WindowManager;
-
-import java.util.HashMap;
-import java.util.Map;
 
 
 

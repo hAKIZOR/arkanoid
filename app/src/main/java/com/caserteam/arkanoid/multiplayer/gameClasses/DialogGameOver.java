@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,9 +14,8 @@ import androidx.annotation.Nullable;
 import androidx.core.app.NavUtils;
 import androidx.fragment.app.DialogFragment;
 
-import com.caserteam.arkanoid.MenuActivity;
 import com.caserteam.arkanoid.R;
-import com.caserteam.arkanoid.editor.ui_search_check.LevelsSearchActivity;
+
 
 public class DialogGameOver extends DialogFragment {
     private String textResult;

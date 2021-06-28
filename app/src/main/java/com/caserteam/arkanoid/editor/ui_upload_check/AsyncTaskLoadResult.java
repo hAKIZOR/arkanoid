@@ -2,11 +2,8 @@ package com.caserteam.arkanoid.editor.ui_upload_check;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.widget.Toast;
 
 import com.caserteam.arkanoid.NetworkCheck.OfflineFragment;
-import com.caserteam.arkanoid.R;
-import com.caserteam.arkanoid.editor.ui_search_check.LevelsSearchActivity;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.DocumentSnapshot;

@@ -7,16 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
-
-import com.caserteam.arkanoid.MenuActivity;
 import com.caserteam.arkanoid.R;
-import com.caserteam.arkanoid.audio.AudioUtils;
-import com.caserteam.arkanoid.multiplayer.gameClasses.GameListener;
-import com.caserteam.arkanoid.multiplayer.MultiplayerActivity;
-
-import java.io.IOException;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.NavUtils;

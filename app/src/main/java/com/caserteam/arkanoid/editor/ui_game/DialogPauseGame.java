@@ -1,30 +1,17 @@
 package com.caserteam.arkanoid.editor.ui_game;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.caserteam.arkanoid.R;
 import com.caserteam.arkanoid.audio.AudioUtils;
-import com.caserteam.arkanoid.editor.ui_search_check.LevelsSearchActivity;
-import com.caserteam.arkanoid.editor.ui_upload_check.LoadingDialog;
-import com.caserteam.arkanoid.gameClasses.Game;
 import com.caserteam.arkanoid.gameClasses.GameListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

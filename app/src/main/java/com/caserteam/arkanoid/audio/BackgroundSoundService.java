@@ -1,13 +1,10 @@
 package com.caserteam.arkanoid.audio;
 
-import android.annotation.SuppressLint;
 import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.IBinder;
-import android.util.Log;
 
-import com.caserteam.arkanoid.R;
 import static com.caserteam.arkanoid.AppContractClass.*;
 public class BackgroundSoundService extends Service {
     private static final String TAG = "ServiceAudio";
