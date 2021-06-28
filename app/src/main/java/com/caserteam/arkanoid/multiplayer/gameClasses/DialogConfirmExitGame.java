@@ -52,10 +52,11 @@ public class DialogConfirmExitGame extends DialogFragment {
         buttonYes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                listener.onExitGame(true);
                 Intent intent = NavUtils.getParentActivityIntent (activity);
                 activity.startActivity(intent);
                 activity.finish();
-                listener.onExitGame(true);
+
             }
         });
         return v;

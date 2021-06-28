@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.caserteam.arkanoid.R;
 
@@ -19,9 +20,12 @@ public class DialogInterruptGame extends DialogFragment {
 
     Activity activity;
     Button buttonConfirm;
+    TextView textViewMessage;
+    String message;
 
-    public DialogInterruptGame(Activity activity) {
+    public DialogInterruptGame(Activity activity,String message) {
         this.activity = activity;
+        this.message = message;
     }
 
 
@@ -30,6 +34,9 @@ public class DialogInterruptGame extends DialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.game_interrupt_dialog,container,false);
         getDialog().setCanceledOnTouchOutside(false);
+
+        textViewMessage = v.findViewById(R.id.textViewMessage);
+        textViewMessage.setText(message);
 
         buttonConfirm = v.findViewById(R.id.imageButtonExitGame);
 

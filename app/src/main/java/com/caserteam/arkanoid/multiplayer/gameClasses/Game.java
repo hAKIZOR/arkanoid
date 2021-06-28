@@ -24,6 +24,7 @@ import androidx.core.view.GestureDetectorCompat;
 
 import com.caserteam.arkanoid.DatabaseHelper;
 import com.caserteam.arkanoid.IOUtils;
+import com.caserteam.arkanoid.NetworkCheck.NetworkUtil;
 import com.caserteam.arkanoid.R;
 import com.caserteam.arkanoid.Settings;
 import com.caserteam.arkanoid.editor.ui_game.ButtonPause;
@@ -49,7 +50,7 @@ public class Game extends View implements
     private static final String TAG = "Game";
     private int lifes;
     private int score;
-    private int numberLevel = 7;
+    private int numberLevel = 1;
     private Level level;
     private ArrayList<Brick> brickList;
     private ArrayList<Level> levels;
@@ -61,6 +62,7 @@ public class Game extends View implements
     private boolean pause = false;
     protected boolean exitGame = false;
     protected boolean winGame = false;
+    protected boolean role_close = false;
     private boolean start;
     private boolean gameOver;
 
@@ -103,7 +105,7 @@ public class Game extends View implements
     protected float maxPositionPaddle;
     protected DatabaseReference roomRef;
     protected String playerRole;
-
+    protected NetworkUtil networkControl;
 
     private int upBoard;
     private int downBoard;
@@ -116,6 +118,7 @@ public class Game extends View implements
     private float paddingTopGame;
 
     private ButtonPause buttonPause;
+    private boolean sender = false;
 
     private int nS=1; //variabile usata per completare il nome del sound nel caricamento
     SoundPool soundPool;
@@ -143,6 +146,7 @@ public class Game extends View implements
         this.playerRole=playerRole;
         this.roomRef=roomRef;
         roomRef.addValueEventListener(this);
+
 
         //avviare un GameOver per scoprire se la partita è in piedi e se il giocatore non l'ha persa
         start = false;
@@ -295,8 +299,6 @@ public class Game extends View implements
     // ogni passaggio controlla se c'è una collisione, una perdita o una vittoria, ecc.
     public void update() {
         if (start) {
-
-            //ball.hitPaddle(paddle.getX(), paddle.getY());
             win();
             if(playerRole.equals(ROLE_PLAYER1)){
                 checkBoards();
@@ -323,7 +325,7 @@ public class Game extends View implements
 
             }
         }else {
-            if(playerRole.equals(ROLE_PLAYER1)){
+            if(playerRole.equals(ROLE_PLAYER1)) {
                 setValuesOtherDevice();
             }
         }
@@ -339,7 +341,6 @@ public class Game extends View implements
         roomRef.child(fieldyBall).setValue(ballyOther);
         roomRef.child(fieldxSpeedBall).setValue(ball.getxSpeed());
         roomRef.child(fieldySpeedBall).setValue(ball.getySpeed());
-
     }
 
     //imposta il gioco per iniziare
@@ -681,13 +682,20 @@ public class Game extends View implements
     @Override
     public void onDataChange(@NonNull DataSnapshot snapshot) {
 
+        float xPaddle = Float.parseFloat(snapshot.child(fieldXPaddleOtherDevice).getValue().toString());
+        paddle2.setX((leftBoard + xPaddle));
+
         if(snapshot.child(fieldExitGame).getValue() != null) {
             boolean exitGameValue = Boolean.parseBoolean(snapshot.child(fieldExitGame).getValue().toString());
             exitGame = exitGameValue;
         }
 
-        float xPaddle = Float.parseFloat(snapshot.child(fieldXPaddleOtherDevice).getValue().toString());
-        paddle2.setX((leftBoard + xPaddle));
+
+        if(snapshot.child(fieldGameOver).getValue() != null) {
+            boolean gameOverValue = Boolean.parseBoolean(snapshot.child(fieldGameOver).getValue().toString());
+            gameOver = gameOverValue;
+        }
+
 
         if(playerRole.equals(ROLE_PLAYER2)) {
             float ballX = Float.parseFloat(snapshot.child(fieldxBall).getValue().toString());
@@ -705,10 +713,7 @@ public class Game extends View implements
             score = Integer.parseInt(snapshot.child(fieldScore).getValue().toString());
             start = startValue;
 
-            if(snapshot.child(fieldGameOver).getValue() != null) {
-                boolean gameOverValue = Boolean.parseBoolean(snapshot.child(fieldGameOver).getValue().toString());
-                gameOver = gameOverValue;
-            }
+
 
         }
 
@@ -726,8 +731,10 @@ public class Game extends View implements
             pause = false;
         } else {
             pause = true;
+            role_close = true;
+            gameListener.onPauseGame(role_close);
         }
-        gameListener.onPauseGame(pause,true);
+
     }
 
 
@@ -739,5 +746,6 @@ public class Game extends View implements
                 .create();
         fabButtonPause.setButtonPauseListener(this);
     }
+
 
 }

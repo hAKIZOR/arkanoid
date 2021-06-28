@@ -89,6 +89,12 @@ public class NetworkUtil {
         return networkInfo != null && networkInfo.isConnectedOrConnecting();
     }
 
+    /**
+     AsyncTask che permette di sapere se la connessione è limitata o
+     che a seguito di una richiesta, essa non venga soddisfatta.
+     il terzo parametro è un oggetto String che
+     indica il successo o il fallimento della richiesta
+     */
     static class IsInternetActiveTask extends AsyncTask<Void, Void, String>
     {
         InputStream is = null;
@@ -101,11 +107,8 @@ public class NetworkUtil {
 
         @Override
         protected String doInBackground(Void... voids) {
-
             try {
                 URL strUrl = new URL("https://google.com");
-                //Here I have taken one android small icon from server, you can put your own icon on server and access your URL, otherwise icon may removed from another server.
-
                 HttpURLConnection connection = (HttpURLConnection) strUrl.openConnection();
                 connection.setDoOutput(true);
                 Log.e(NetworkUtil.TAG,String.valueOf(connection.getResponseCode()));
@@ -121,11 +124,11 @@ public class NetworkUtil {
 
         @Override
         protected void onPostExecute(String result) {
-            if (result != null)
-            {
+            if (result != null) {
                 if(result.equals("Fail")) { mlistener.onChange(false); } else { mlistener.onChange(true); }
+            } else {
+                mlistener.onChange(false);
             }
-            else { mlistener.onChange(false); }
         }
 
         @Override

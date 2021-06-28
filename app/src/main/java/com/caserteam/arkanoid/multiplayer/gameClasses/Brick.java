@@ -33,7 +33,7 @@ public class Brick extends View {
         hit = 0;
         skin = a;
         skin(a);
-        points = new ArrayList<PointBrick>();
+        points = new ArrayList<>();
         generatePoints(x, y, base, height);
 
 
@@ -260,9 +260,6 @@ public class Brick extends View {
         return skin;
     }
 
-    public void setHitted(int hitted) {
-        this.hitted = hitted;
-    }
     public void hittedOnce() {
         this.hitted++;
     }

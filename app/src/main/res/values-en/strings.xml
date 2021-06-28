@@ -83,5 +83,6 @@
     <string name="interrupt_message">game stopped!</string>
     <string name="level_completed_message">You have completed all levels in multiplayer!</string>
     <string name="exit_app">exit</string>
+    <string name="interrupt_message_connection">game interrupted due to connection problems</string>
 
 </resources>

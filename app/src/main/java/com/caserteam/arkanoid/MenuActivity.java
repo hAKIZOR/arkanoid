@@ -343,6 +343,9 @@ public class MenuActivity extends AppCompatActivity  {
         super.onResume();
         Log.d(TAG,"onResume()");
         networkControl.checkDialogPresence(this,this);
+        if(prefs.getBoolean(FIRST_RUN_STATE,true)){
+            prefs.edit().putBoolean(FIRST_RUN_STATE,false).commit();
+        }
         if (prefs.getBoolean(FIRST_RUN_INSTALLATION_STATE, true)) {
             prefs.edit().putBoolean(FIRST_RUN_INSTALLATION_STATE, false).commit();
         }

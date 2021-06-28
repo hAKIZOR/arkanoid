@@ -4,17 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.caserteam.arkanoid.LoginActivity;
 import com.caserteam.arkanoid.NetworkCheck.NetworkUtil;
 import com.caserteam.arkanoid.NetworkCheck.OfflineFragment;
 import com.caserteam.arkanoid.R;
@@ -33,8 +30,6 @@ import static com.caserteam.arkanoid.AppContractClass.*;
 public class MultiplayerActivity extends AppCompatActivity implements
         DialogCodeRoom.DialogCodeRoomListener,
         LoadingDialog.LoadingDialogClickListener {
-    private static final String TAG = "MultiplayerActivity";
-
 
     DatabaseReference roomsRef;
     FirebaseDatabase firebaseDatabase;
@@ -42,44 +37,46 @@ public class MultiplayerActivity extends AppCompatActivity implements
     SharedPreferences preferences;
     DialogCodeRoom dialogCodeRoom;
     LoadingDialog loadingDialog;
-    OfflineFragment offlineFragment;
+    NetworkUtil networkControl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_multiplayer);
-
+        getSupportActionBar().show();
         preferences = getSharedPreferences(KEY_PREFERENCES_USER_INFORMATION,MODE_PRIVATE);
 
         firebaseDatabase = FirebaseDatabase.getInstance(ROOT_DB_REALTIME_DATABASE);
 
         roomsRef = firebaseDatabase.getReference(ROOMS_NODE);
 
-        NetworkUtil.checkDialogPresence(this,this);
-
-
         Button privateButton = findViewById(R.id.button_private);
+
+        networkControl = new NetworkUtil();
+        networkControl.checkDialogPresence(this,MultiplayerActivity.this);
 
         privateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialogCodeRoom = new DialogCodeRoom();
-                dialogCodeRoom.show(getSupportFragmentManager(),"DialogFragmentCodeRoom");
+                boolean status = networkControl.checkDialogPresence(getApplicationContext(),MultiplayerActivity.this);
+                if(status){
+                    dialogCodeRoom = new DialogCodeRoom();
+                    dialogCodeRoom.show(getSupportFragmentManager(),"DialogFragmentCodeRoom");
+                }
+
             }
         });
 
     }
 
-    private boolean getStatusConnection(NetworkInfo networkInfo) {
-        return networkInfo != null && networkInfo.isConnectedOrConnecting();
-    }
-
     @Override
     protected void onResume() {
-        NetworkUtil.checkDialogPresence(this,this);
+
+        networkControl.checkDialogPresence(this,this);
         super.onResume();
     }
 
+    /**metodo di Callback chiamato da DialogCodeRoom non appena si clicca il bottone accedi*/
     @Override
     public void onClickJoinRoom(String code) {
         loadingDialog = new LoadingDialog(MultiplayerActivity.this);
@@ -131,26 +128,31 @@ public class MultiplayerActivity extends AppCompatActivity implements
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                OfflineFragment offlineFragment = new OfflineFragment();
+                offlineFragment.show(getSupportFragmentManager(),"Dialog");
             }
         });
 
     }
 
-
+    /**metodo di Callback chiamato da DialogCodeRoom non appena si clicca il bottone crea*/
     @Override
     public void onClickCreateRoom(String code) {
 
-        loadingDialog = new LoadingDialog(MultiplayerActivity.this);
-        loadingDialog.startDialog(getResources().getString(R.string.wait_access_room));
-        loadingDialog.setDataToCancel(code);
-        loadingDialog.setVisibleClick(true);
+        boolean status = networkControl.checkDialogPresence(getApplicationContext(),MultiplayerActivity.this);
+        if(status){
+            loadingDialog = new LoadingDialog(MultiplayerActivity.this);
+            loadingDialog.startDialog(getResources().getString(R.string.wait_access_room));
+            loadingDialog.setDataToCancel(code);
+            loadingDialog.setVisibleClick(true);
 
-        HashMap<String,String> data = new HashMap<>();
-        data.putAll((Map<String,String>) preferences.getAll());
-        String nickname = data.get(KEY_NICKNAME_PREFERENCES);
+            HashMap<String,String> data = new HashMap<>();
+            data.putAll((Map<String,String>) preferences.getAll());
+            String nickname = data.get(KEY_NICKNAME_PREFERENCES);
 
-        addRoomsEventListener(loadingDialog,code,nickname);
+            addRoomsEventListener(loadingDialog,code,nickname);
+        }
+
 
     }
 
@@ -175,7 +177,8 @@ public class MultiplayerActivity extends AppCompatActivity implements
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                OfflineFragment offlineFragment = new OfflineFragment();
+                offlineFragment.show(getSupportFragmentManager(),"Dialog");
             }
 
 
@@ -185,6 +188,7 @@ public class MultiplayerActivity extends AppCompatActivity implements
     }
 
     public void createRoom(LoadingDialog load, String code, String nickname, DataSnapshot roomToHaveAccess) {
+
         // creazione della stanza con i relativi controlli
         DatabaseReference roomRef = firebaseDatabase.getReference(ROOMS_NODE + "/" + code);
         room = new Room(nickname,EMPTY_STRING,0,0,0,0,0,0,false,0,0,0,0,0,3);
@@ -213,7 +217,8 @@ public class MultiplayerActivity extends AppCompatActivity implements
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-
+                        OfflineFragment offlineFragment = new OfflineFragment();
+                        offlineFragment.show(getSupportFragmentManager(),"Dialog");
                     }
                 });
 
@@ -224,13 +229,14 @@ public class MultiplayerActivity extends AppCompatActivity implements
 
     }
 
-
+    /**metodo di Callback chiamato da DialogCodeRoom non appena si clicca il bottone annulla durante la creazione della stanza*/
     @Override
     public void onClickButtonCancel(Object roomToCancel) {
         // durante il caricamento della stanza il giocatore annulla il tentativo di creazione stanza
         String room =(String) roomToCancel;
 
         DatabaseReference roomToDelete = firebaseDatabase.getReference(ROOMS_NODE).child(room);
+
         roomToDelete.removeValue( new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
@@ -267,13 +273,6 @@ public class MultiplayerActivity extends AppCompatActivity implements
                         // Hide the nav bar and status bar
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_FULLSCREEN);
-    }
-    private void showSystemUI() {
-        View decorView = getWindow().getDecorView();
-        decorView.setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
     }
 
 

@@ -1,7 +1,6 @@
 package com.caserteam.arkanoid.multiplayer.gameClasses;
 
 import android.content.Context;
-import android.content.SearchRecentSuggestionsProvider;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -21,18 +20,11 @@ import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
 import android.view.WindowManager;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 
-import com.caserteam.arkanoid.AppContractClass;
 import com.caserteam.arkanoid.R;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
 
-import java.io.IOException;
 import static com.caserteam.arkanoid.AppContractClass.*;
 
 
@@ -74,6 +66,7 @@ public class GameViewPortrait extends Game {
         fieldGameOver = "gameOver";
         fieldExitGame = "exitGame";
 
+
         paddle.setWidth((int) (getSizeX()*0.1));
         paddle2.setWidth((int) (getSizeX()*0.1));
 
@@ -103,8 +96,8 @@ public class GameViewPortrait extends Game {
             roomRef.child(fieldyBall).setValue(getBall().getY());
 
 
-        }else {
 
+        }else {
             paddle.setX((screen_width/2));
             paddle.setY((float) (getDownBoard() - (getSizeY()/20)));
             paddle2.setX((screen_width/2) - (paddle.getWidthp()));
@@ -236,15 +229,17 @@ public class GameViewPortrait extends Game {
             }
         }
 
-        //controllo a run time del parametro pause
+        //controllo a run time il parametro pause
+
         if(isPaused()) {
-            gameListener.onPauseGame(true,false);
+            gameListener.onPauseGame(role_close);
         }
 
+
         //controllo a run time del paramentro exitGame
-        Log.e("Game",String.valueOf(exitGame));
+
         if(exitGame){
-            gameListener.onExitGame(false);
+            gameListener.onExitGame(role_close);
         }
 
         //controllo a run time del parametro gameOver
@@ -263,7 +258,7 @@ public class GameViewPortrait extends Game {
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-            Log.e("Game", String.valueOf(event.values[0] * getSens()));
+
             getPaddle().setX(getPaddle().getX() - (event.values[0] * getSens()));
 
             float p = (paddle.getX() - getLeftBoard());

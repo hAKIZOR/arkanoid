@@ -131,7 +131,6 @@ public class SettingsActivity extends AppCompatActivity {
             case R.id.radioIta:
                 setAppLocale("");
                 language = Settings.lang.valueOf(LANGUAGE_IT).ordinal();
-
                 System.out.println("IT");
                 break;
             case R.id.radioEsp:
@@ -174,6 +173,9 @@ public class SettingsActivity extends AppCompatActivity {
             conf.locale = new Locale(localeCode.toLowerCase());
         }
         res.updateConfiguration(conf, dm);
+        Intent refresh = new Intent(this, SettingsActivity.class);
+        finish();
+        startActivity(refresh);
     }
 
 }

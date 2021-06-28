@@ -1,7 +1,5 @@
 package com.caserteam.arkanoid.multiplayer.gameClasses;
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -9,45 +7,31 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Toast;
 
-import com.caserteam.arkanoid.LoginActivity;
 import com.caserteam.arkanoid.R;
-import com.caserteam.arkanoid.gameClasses.DialogPauseGame;
-import com.caserteam.arkanoid.gameClasses.DialogResultGame;
-import com.caserteam.arkanoid.gameClasses.GameActivity;
-import com.caserteam.arkanoid.multiplayer.MultiplayerActivity;
-import com.caserteam.arkanoid.multiplayer.Room;
-import com.caserteam.arkanoid.multiplayer.gameClasses.Game;
-import com.caserteam.arkanoid.multiplayer.gameClasses.GameViewPortrait;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GestureDetectorCompat;
 import static com.caserteam.arkanoid.AppContractClass.*;
-public class ActualGameActivity extends AppCompatActivity implements GameListener {
-
+public class   ActualGameActivity extends AppCompatActivity implements GameListener {
 
     private Game game;
     private HandlerThread thread;
     private Handler updateHandler;
     private GestureDetectorCompat gestureDetector;
     private DialogConfirmExitGame dialogConfirmExitGame;
-    private Room room;
-    private int counter;
-    SharedPreferences preferences;
-    private String nickname;
-    DatabaseReference roomRef;
+    private SharedPreferences preferences;
+    String nickname;
+    private DatabaseReference roomRef;
     private String playerRole;
-    String code;
+    private String code;
 
 
     @Override
@@ -58,8 +42,6 @@ public class ActualGameActivity extends AppCompatActivity implements GameListene
         HashMap<String,String> data = new HashMap<>();
         data.putAll((Map<String,String>) preferences.getAll());
         nickname = data.get(KEY_NICKNAME_PREFERENCES);
-
-        counter=0;
 
         code = getIntent().getStringExtra(CODE_ROOM_EXTRA);
         playerRole = getIntent().getStringExtra(CODE_PLAYER_EXTRA);
@@ -93,21 +75,17 @@ public class ActualGameActivity extends AppCompatActivity implements GameListene
         updateHandler.post (new Runnable () {
             @Override
             public void run() {
-                while (endThreadCondition(game.isGameOver(),game.getExitGame(),game.getWinGame())){
+                while (endThreadCondition(game.isGameOver(),game.getExitGame(),game.getWinGame())) {
                     try {
-                        thread.sleep(50);
+                        thread.sleep(30);
 
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
 
-                    if(!game.isPaused()){
-                        game.invalidate();
-                        game.update();
-                    } else {
+                    while (game.isPaused()){
                         try {
-                            thread.sleep(50);
-
+                            thread.sleep(1000);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -115,7 +93,6 @@ public class ActualGameActivity extends AppCompatActivity implements GameListene
 
                     game.invalidate();
                     game.update();
-
                 }
             }
 
@@ -131,11 +108,12 @@ public class ActualGameActivity extends AppCompatActivity implements GameListene
         getSupportActionBar().hide();
     }
 
+
     /**
      condizione di fine gioco:
-     se la partita è in game Over ma l'uscita dal gioco non è richiesta --> restituisce false
-     se la partita non è in game Over ma l'uscita dal gioco è richiesta --> restituisce false
-     negli altri due casi --> il gioco può continuare --> restituisce true
+     - se uno dei tre flag (fine gioco, uscita dal gioco, vincita del gioco)
+     è vero --> restituisce false --> il gioco si ferma
+     - negli altri due casi --> restituisce true --> il gioco può continuare
     */
     public boolean endThreadCondition(boolean gameOver,boolean exitGame,boolean winGame){
         return !( ( gameOver || exitGame || winGame ) && ! ( gameOver && exitGame && winGame ) );
@@ -171,7 +149,7 @@ public class ActualGameActivity extends AppCompatActivity implements GameListene
         if(role_close){
             roomRef.child(game.fieldExitGame).setValue(true);
         } else {//notifica con un Dialog che la partita è stata interrotta
-            DialogInterruptGame dialogInterruptGame = new DialogInterruptGame(ActualGameActivity.this);
+            DialogInterruptGame dialogInterruptGame = new DialogInterruptGame(ActualGameActivity.this,getResources().getString(R.string.interrupt_message));
             dialogInterruptGame.show(getSupportFragmentManager(),"dialogInterruptGame");
         }
     }
@@ -180,13 +158,10 @@ public class ActualGameActivity extends AppCompatActivity implements GameListene
      metodo di interfaccia GameListener che consente di mettere il gioco in pausa
      */
     @Override
-    public void onPauseGame(boolean pause,boolean role_pause) {
-        if(pause){
-            if(role_pause){
+    public void onPauseGame(boolean role_close) {
+        if(role_close) {
                 dialogConfirmExitGame = new DialogConfirmExitGame(ActualGameActivity.this,this);
                 dialogConfirmExitGame.show(getSupportFragmentManager(),"dialogEexitGame");
-            }
-
         }
 
     }
@@ -198,12 +173,15 @@ public class ActualGameActivity extends AppCompatActivity implements GameListene
     @Override
     public void onResumeGame() {
         dialogConfirmExitGame.dismiss();
+        game.role_close = false;
         game.setPause(false);
     }
+
 
     protected void onPause() {
         super.onPause();
         game.pauseGame();
+        roomRef.child(game.fieldExitGame).setValue(true);
         thread.quit(); // kill del Thread di gioco
     }
 
@@ -257,12 +235,6 @@ public class ActualGameActivity extends AppCompatActivity implements GameListene
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_FULLSCREEN);
     }
-    private void showSystemUI() {
-        View decorView = getWindow().getDecorView();
-        decorView.setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-    }
+
 
 }
