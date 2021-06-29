@@ -69,21 +69,8 @@ public class EditorActivity extends AppCompatActivity  implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        DatabaseReference connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
-        connectedRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                boolean connected = snapshot.getValue(Boolean.class);
-                if (!connected) {
-                    OfflineFragment offlineFragment = new OfflineFragment();
-                    offlineFragment.show(getSupportFragmentManager(),"Dialog");
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {}
-        });
-
         networkControl = new NetworkUtil();
+        networkControl.checkDialogPresence(this,EditorActivity.this);
 
         initializeSessionOption();
 

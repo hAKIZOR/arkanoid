@@ -147,15 +147,24 @@ public class MenuActivity extends AppCompatActivity  {
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }
-
-                boolean status = networkControl.checkDialogPresence(getApplicationContext(),MenuActivity.this);
-                if(status){
-                    Intent myIntent = new Intent(MenuActivity.this, LoginActivity.class);
-                    myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    mGoogleSignInClient.signOut();
-                    startActivity(myIntent);
-                    finish();
+                if(isUserLogged()){
+                    boolean status = networkControl.checkDialogPresence(getApplicationContext(),MenuActivity.this);
+                    if(status){
+                        Intent myIntent = new Intent(MenuActivity.this, LoginActivity.class);
+                        myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        mGoogleSignInClient.signOut();
+                        startActivity(myIntent);
+                        finish();
+                    }
+                } else {
+                        Intent myIntent = new Intent(MenuActivity.this, LoginActivity.class);
+                        myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        mGoogleSignInClient.signOut();
+                        startActivity(myIntent);
+                        finish();
                 }
+
+
 
             }
         });
@@ -333,7 +342,10 @@ public class MenuActivity extends AppCompatActivity  {
     protected void onResume() {
         super.onResume();
         Log.d(TAG,"onResume()");
-        networkControl.checkDialogPresence(this,this);
+        if(isUserLogged()){
+            networkControl.checkDialogPresence(this,this);
+        }
+
         if(prefs.getBoolean(FIRST_RUN_STATE,true)){
             prefs.edit().putBoolean(FIRST_RUN_STATE,false).commit();
         }
